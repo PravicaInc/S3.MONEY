@@ -5,10 +5,11 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
-import { Button } from '../Form/Button';
-import { Input } from '../Form/Input';
-import { Select } from '../Form/Select';
-import { ConnectWalletData, suiNetworkList, useWallet } from '@/app/hooks/useWallet';
+import { Button } from '@/Components/Form/Button';
+import { Input } from '@/Components/Form/Input';
+import { Select } from '@/Components/Form/Select';
+
+import { ConnectWalletData, suiNetworkList, useWallet } from '@/hooks/useWallet';
 
 const networkOptions = [
   {

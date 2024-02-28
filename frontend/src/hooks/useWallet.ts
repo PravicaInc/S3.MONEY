@@ -2,7 +2,7 @@ import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
-import { ApiManager } from '../services/api';
+import { ApiManager } from '@/services/api';
 
 const createApi = new ApiManager(
   process.env.NEXT_PUBLIC_API_DOMAIN as string,

@@ -1,18 +1,12 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
+// Added this so that `/` and `/home` work correctly with the same content.
+// Cannot use NextJS rewrites with output='export'
 
-export const metadata: Metadata = {
-  title: 'S3 - HOME',
-};
+import HomePage from './home/page';
+
+export { metadata } from './home/layout';
 
 export default function Home() {
   return (
-    <p>
-      home
-      <br />
-      <Link href="/add-wallet">
-        Add wallet →
-      </Link>
-    </p>
+    <HomePage />
   );
 }
