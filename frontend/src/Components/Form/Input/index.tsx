@@ -1,8 +1,8 @@
-import { InputHTMLAttributes } from "react";
-import { useFormContext } from "react-hook-form";
+import { InputHTMLAttributes } from 'react';
+import { useFormContext } from 'react-hook-form';
+import { twMerge } from 'tailwind-merge';
 
-import { FormError } from "../../FormError";
-import { twMerge } from "tailwind-merge";
+import { FormError } from '@/Components/Form/FormError';
 
 export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;

@@ -254,7 +254,8 @@ module.exports = {
       'error',
       {
         'allowSameFolder': true,
-        'rootDir': 'src',
+        'rootDir': 'frontend/src',
+        'prefix': '@',
       },
     ],
     'import/newline-after-import': 'error',
@@ -265,30 +266,25 @@ module.exports = {
           // Packages
           [
             '^react',
-            '^prop-types',
-            '^react-redux',
-            '^react-router-dom',
             '^@?\\w',
-            '^classnames',
           ],
 
           // Packages's or global style imports.
           ['^.*dist.*'],
           ['^'],
 
-          ['^\\u0000assets', '^assets'],
-          ['^\\u0000Components', '^Components'],
-          ['^\\u0000services', '^services'],
-          ['^\\u0000interfaces', '^interfaces'],
-          ['^\\u0000StaticPages', '^StaticPages'],
-          ['^\\u0000styles', '^styles'],
-          ['^\\u0000utils', '^utils'],
-          ['^\\u0000hooks', '^hooks'],
+          ['^\\u0000@/Components', '^@/Components'],
+          ['^\\u0000@/services', '^@/services'],
+          ['^\\u0000@/interfaces', '^@/interfaces'],
+          ['^\\u0000@/styles', '^@/styles'],
+          ['^\\u0000@/utils', '^@/utils'],
+          ['^\\u0000@/hooks', '^@/hooks'],
 
-          ['^\\u0000\\./components/.*', '^\\./\\w+.jsx', '^\\./.+.js', '^\\./components/.*', '^\\./\\w+'],
+          ['^\\u0000\\./Components/.*', '^\\./Components/.*'],
+          ['^\\./\\w+.[jt]sx', '^\\./.+.[jt]s', '^\\./\\w+'],
 
           // Project's style imports.
-          ['^Components/.*.scss', '^Components/.*.css'],
+          ['^@/Components/.*.scss', '^@/Components/.*.css'],
           ['^./.*.scss', '^./.*.css'],
         ],
       },

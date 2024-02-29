@@ -2,7 +2,7 @@ import { ReactNode, SelectHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-import { FormError } from '../../FormError';
+import { FormError } from '@/Components/Form/FormError';
 
 export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   name: string;
