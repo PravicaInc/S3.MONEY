@@ -1,5 +1,8 @@
 'use client';
 
+import { faSpinner } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import { WalletConnectButton } from '@/Components/WalletConnectButton';
 
 import { useWallet } from '@/hooks/useWallet';
@@ -10,9 +13,10 @@ export default function HomePage() {
   return (
     <div className="flex items-center justify-center h-full">
       {wallet.connecting && (
-        <div>
-          Loading ...
-        </div>
+        <FontAwesomeIcon
+          className="text-9xl animate-spin max-h-16"
+          icon={faSpinner}
+        />
       )}
       {wallet.connected && (
         <>
