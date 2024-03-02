@@ -7,13 +7,17 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 import '@suiet/wallet-kit/style.css';
 
+import { WalletWithCorrectStatusProvider } from '@/Components/WalletWithCorrectStatusProvider';
+
 export function Providers({ children }: PropsWithChildren) {
   const [client] = useState(new QueryClient());
 
   return (
     <QueryClientProvider client={client}>
       <WalletProvider>
-        {children}
+        <WalletWithCorrectStatusProvider>
+          {children}
+        </WalletWithCorrectStatusProvider>
       </WalletProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
