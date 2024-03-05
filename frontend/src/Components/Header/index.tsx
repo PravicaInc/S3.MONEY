@@ -1,7 +1,6 @@
 'use client';
 
 import { HTMLAttributes } from 'react';
-import { useWallet } from '@suiet/wallet-kit';
 import { Menu, MenuButton, MenuItem } from '@szhsin/react-menu';
 import NextImage from 'next/image';
 import { twMerge } from 'tailwind-merge';
@@ -10,6 +9,8 @@ import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
 
 import LogoIcon from '@/../public/images/logo.svg?jsx';
+
+import { useWallet } from '@/hooks/useWallet';
 
 export function Header({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
   const wallet = useWallet();
@@ -25,7 +26,7 @@ export function Header({ className, ...props }: HTMLAttributes<HTMLDivElement>) 
       <LogoIcon />
       {
         wallet.connected && wallet.account?.address && (
-          <div className="border-2 rounded-lg p-3 flex items-center gap-6">
+          <div className="border-2 rounded-lg p-2 flex items-center gap-6">
             {
               wallet.adapter?.icon && (
                 <NextImage
