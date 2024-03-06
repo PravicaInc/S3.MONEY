@@ -5,9 +5,10 @@ on:
     branches:
       - main
       - develop
+  workflow_call:
 
 jobs:
-  build:
+  test:
     name: Tests
     runs-on: ubuntu-latest
 

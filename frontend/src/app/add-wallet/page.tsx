@@ -6,6 +6,6 @@ export const metadata: Metadata = {
 
 export default function AddWalletPage() {
   return (
-    'AddWalletForm'
+    `AddWalletForm ${process.env.NEXT_PUBLIC_API_DOMAIN ?? 'undefined'}`
   );
 }

@@ -1,0 +1,43 @@
+name: Deploy Prod
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy_prod:
+    name: Deploy Prod
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Install Dependencies
+        run: cd frontend && npm i && cd ../
+
+      - name: Build
+        run: cd frontend && npm run build && cd ../
+        env:
+          NEXT_PUBLIC_API_DOMAIN: ${{ vars.PROD__NEXT_PUBLIC_API_DOMAIN }}
+
+      - name: Deploy
+        uses: reggionick/s3-deploy@v4
+        with:
+          folder: frontend/out
+          bucket: ${{ secrets.PROD_S3_BUCKET }}
+          bucket-region: ${{ secrets.PROD_S3_BUCKET_REGION }}
+          dist-id: ${{ secrets.PROD_CLOUDFRONT_DISTRIBUTION_ID }}
+          invalidation: /*.html
+          delete-removed: true
+          no-cache: true
+          private: true
+          files-to-include: '{.*/**,**}'
