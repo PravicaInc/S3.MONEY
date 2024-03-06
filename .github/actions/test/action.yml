@@ -1,0 +1,22 @@
+name: Test
+
+description: Run tests
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Dependencies
+      run: cd frontend && npm i && cd ../
+      shell: bash
+
+    - name: Run Tests
+      run: cd frontend && npm test -- --reporters="jest-junit" && cd ../
+      shell: bash
+
+    - name: Test Report
+      uses: dorny/test-reporter@v1
+      if: success() || failure()
+      with:
+        name: JEST Tests Report     # Name of the check run which will be created
+        path: frontend/junit.xml    # Path to test results
+        reporter: jest-junit        # Format of test results
