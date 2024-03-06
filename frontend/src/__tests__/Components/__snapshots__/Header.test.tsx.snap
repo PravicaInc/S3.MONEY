@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header renders a Header 1`] = `
+<div>
+  <div
+    class="max-w-screen-2xl mx-auto py-4 flex justify-between items-center h-32"
+  >
+    <svg />
+  </div>
+</div>
+`;

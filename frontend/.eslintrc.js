@@ -274,6 +274,7 @@ module.exports = {
           ['^'],
 
           ['^\\u0000@/Components', '^@/Components'],
+          ['^\\u0000@/app', '^@/app'],
           ['^\\u0000@/services', '^@/services'],
           ['^\\u0000@/interfaces', '^@/interfaces'],
           ['^\\u0000@/styles', '^@/styles'],

@@ -1,4 +1,7 @@
 {
+  "name": "s3.money",
+  "version": "0.1.0",
+  "private": true,
   "devDependencies": {
     "husky": "^9.0.11"
   },
