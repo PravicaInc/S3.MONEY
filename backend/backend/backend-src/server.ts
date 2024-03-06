@@ -7,15 +7,13 @@ import ejs from 'ejs'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
-const SIMPLE_COIN = `${CWD}/coin_template/simple_coin`
+const TOKEN1_COIN = `${CWD}/coin_template/token1`
 
 // templates
-const TMoveToml = fs.readFileSync(`${SIMPLE_COIN}/Move.toml`, {
+const TMoveToml = fs.readFileSync(`${TOKEN1_COIN}/Move.toml`, {
   encoding: 'utf-8',
 })
-const TCoin = fs.readFileSync(`${SIMPLE_COIN}/sources/simplecoin.move`, {
-  encoding: 'utf-8',
-})
+const TFiles = fs.readdirSync(`${TOKEN1_COIN}/sources/`).filter(name => name.endsWith('.move'))
 
 const port = process.env.PORT || 3000
 const app: Express = express()
@@ -79,6 +77,9 @@ function valid(data: ICreatePackageRequest): boolean {
     }
   }
 
+  // downcase the package name
+  data.packageName = data.packageName.toLowerCase()
+
   if (data.decimals < 0 || data.decimals > 6) {
     console.log(`wrong number of decimals: ${data.decimals}`)
     return false
@@ -112,10 +113,25 @@ function createPackage(data: ICreatePackageRequest) {
   fs.writeFileSync(path, move)
   console.log(`wrote to ${path}`)
 
-  path = `${packagePath}/sources/${data.packageName}.move`
-  const coin = ejs.render(TCoin, data)
-  fs.writeFileSync(path, coin)
-  console.log(`wrote to ${path}`)
+  for (const fname of TFiles) {
+    const TIn = fs.readFileSync(`${TOKEN1_COIN}/sources/${fname}`, {
+      encoding: 'utf-8',
+    })
+
+    let TOut = `${packagePath}/sources/${fname}`
+
+    // special case: token1.move -> <packageName>.move
+    // same with test
+    if (fname === 'token1.move') {
+      TOut = `${packagePath}/sources/${data.packageName}.move`
+    } else if (fname === 'token1_test.move') {
+      TOut = `${packagePath}/sources/${data.packageName}_test.move`
+    }
+
+    const merged = ejs.render(TIn, data)
+    fs.writeFileSync(TOut, merged)
+    console.log(`wrote to ${TOut}`)
+  }
 
   // FIXME: this should be serialized
   const ret = child.execSync(`sui move build --dump-bytecode-as-base64`, {
