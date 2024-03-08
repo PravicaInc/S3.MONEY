@@ -130,7 +130,7 @@ module <%- packageName %>::<%- packageName %>_tests {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::check_frozen(&policy, ALICE, ctx(&mut scenario));
+            <%- packageName %>::check_frozen(&policy, ALICE);
             <%- packageName %>::mint(&mut treasurycap, &policy, MINT_AMOUNT, BOB, ctx(&mut scenario));
             test_scenario::return_shared(policy);
             test_scenario::return_to_address(DEPLOYER, treasurycap);
@@ -311,7 +311,6 @@ module <%- packageName %>::<%- packageName %>_tests {
         test_scenario::end(scenario);
     }
 
-    // FIXME: broken check
     #[test]
     fun check_if_frozen() {
         let scenario = test_scenario::begin(DEPLOYER);
@@ -334,7 +333,7 @@ module <%- packageName %>::<%- packageName %>_tests {
         next_tx(&mut scenario, DEPLOYER);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
-            // let val = <%- packageName %>::check_frozen(&policy, ALICE, ctx(&mut scenario));
+            assert!(<%- packageName %>::check_frozen(&policy, ALICE), 0);
             test_scenario::return_shared(policy);
         };
 
@@ -343,7 +342,7 @@ module <%- packageName %>::<%- packageName %>_tests {
         next_tx(&mut scenario, ALICE);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
-            // let val = <%- packageName %>::check_frozen(&policy, ALICE, ctx(&mut scenario));
+            assert!(<%- packageName %>::check_frozen(&policy, ALICE), 0);
             test_scenario::return_shared(policy);
         };
 
@@ -351,7 +350,7 @@ module <%- packageName %>::<%- packageName %>_tests {
         next_tx(&mut scenario, BOB);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
-            // assert!(<%- packageName %>::check_frozen(&policy, ALICE, ctx(&mut scenario)), 0);
+            assert!(<%- packageName %>::check_frozen(&policy, ALICE), 0);
             test_scenario::return_shared(policy);
         };
 
@@ -359,7 +358,7 @@ module <%- packageName %>::<%- packageName %>_tests {
         next_tx(&mut scenario, CHARLIE);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
-            // assert!(!<%- packageName %>::check_frozen(&policy, , ctx(&mut scenario)), 0);
+            assert!(!<%- packageName %>::check_frozen(&policy, CHARLIE), 0);
             test_scenario::return_shared(policy);
         };
 

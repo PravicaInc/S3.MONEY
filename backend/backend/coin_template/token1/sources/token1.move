@@ -38,12 +38,8 @@ module <%- packageName %>::<%- packageName %> {
     }
 
     // Public functions
-    public fun check_frozen<T>(_policy: &TokenPolicy<T>, _recipient: address, _ctx: &TxContext): bool {
-
-        // let request = token::new_request<T>(token::transfer_action(), 1, option::some(recipient), option::none(), ctx);
-        // denylist::verifyp<T>(policy, request)
-
-        false
+    public fun check_frozen<T>(policy: &TokenPolicy<T>, recipient: address): bool {
+        denylist::verifyp<T>(policy, recipient)
     }
 
     public fun transfer<T>(policy: &TokenPolicy<T>, token: Token<T>, recipient: address, ctx: &mut TxContext) {
