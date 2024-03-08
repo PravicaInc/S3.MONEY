@@ -44,6 +44,12 @@ module <%- packageName %>::denylist_rule {
         token::add_approval(Denylist {}, request, ctx);
     }
 
+    public fun verifyp<T>(policy: &TokenPolicy<T>, recipient: address): bool {
+        let config = config(policy);
+
+        bag::contains(config, recipient)
+    }
+
     // === Protected: List Management ===
 
     /// Adds records to the `denylist_rule` for a given action. The Policy
