@@ -10,14 +10,12 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
       data-testid="header"
     >
       <svg />
-      <div
-        class=" border border-primaryBorder rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium "
+      <button
+        class=" border border-primaryBorder rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium transition hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary "
       >
         0x11...1111
-        <button>
-          <svg />
-        </button>
-      </div>
+        <svg />
+      </button>
     </div>
     <dialog
       class="backdrop:bg-modalBackdropColor rounded-xl p-6"

@@ -50,12 +50,17 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
         }
         {
           wallet.connected && wallet.shortWalletAddress && (
-            <div
+            <button
               className="
                 border border-primaryBorder rounded-[10px]
                 h-10 px-4 flex items-center justify-between gap-2
                 text-secondary font-medium
+                transition
+                hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary
               "
+              onClick={() => {
+                setShowLogoutModal(true);
+              }}
             >
               {
                 wallet.adapter?.icon && (
@@ -69,14 +74,8 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
                 )
               }
               {wallet.shortWalletAddress}
-              <button
-                onClick={() => {
-                  setShowLogoutModal(true);
-                }}
-              >
-                <LogoutIcon />
-              </button>
-            </div>
+              <LogoutIcon />
+            </button>
           )
         }
       </div>
