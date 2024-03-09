@@ -7,6 +7,7 @@ export const Loader: FC<Omit<FontAwesomeIconProps, 'icon'>> = ({ className, ...p
   <FontAwesomeIcon
     className={twMerge('animate-spin text-actionPrimary', className)}
     icon={faSpinner}
+    data-testid="loader"
 
     {...props}
   />

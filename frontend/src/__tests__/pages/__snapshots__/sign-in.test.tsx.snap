@@ -1,0 +1,89 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Sign-in page: Sign-in page with disconnected state: Snapshot 1`] = `
+<div>
+  <div
+    class="flex flex-col h-screen"
+  >
+    <div
+      class="grid md:grid-cols-2 h-full"
+    >
+      <div
+        class="bg-white h-full flex items-center justify-center py-5"
+      >
+        <div
+          class="flex flex-col items-center mx-20 max-w-4xl text-center"
+        >
+          <svg />
+          <p
+            class="mt-4 text-primary text-[32px] leading-[40px]"
+          >
+            StableCoin Studio on Sui
+          </p>
+          <div
+            class="mt-5 w-full"
+          >
+            <div
+              aria-controls="radix-:r6:"
+              aria-expanded="false"
+              aria-haspopup="dialog"
+              data-state="closed"
+              type="button"
+            >
+              <button
+                class="wkit-button bg-actionPrimary text-white p-4 rounded-xl shadow-button border-actionSecondary border-solid border font-semibold hover:bg-white hover:text-actionPrimary transition disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white py-[14px] w-full"
+              >
+                Sign In with Sui Wallet
+              </button>
+            </div>
+          </div>
+          <p
+            class="mt-5 text-primary lett"
+          >
+            Don’t have Sui Wallet extension installed?
+             
+            <a
+              class="text-actionPrimary font-semibold"
+              href="https://chromewebstore.google.com/detail/sui-wallet/opcgpfmipidbgpenhmajoajpbobppdil"
+              rel="noreferrer"
+              target="_blank"
+            >
+              Install Extension
+            </a>
+          </p>
+        </div>
+      </div>
+      <div
+        class="bg-[#FFCDA8] h-full border-[10px] border-white flex items-center justify-center py-5"
+      >
+        <div
+          class="text-center mx-5 md:mx-10 lg:mx-20 max-w-4xl"
+        >
+          <p
+            class="text-[40px] leading-[44px] font-semibold text-primary"
+          >
+            Gateway to Code-Free StableCoin Creation
+          </p>
+          <p
+            class="mt-5 text-[#353849] text-opacity-70"
+          >
+            Just connect your Sui wallet and step into the wonderfully simple world of StableCoin Studio on the Sui Blockchain. You'll be able to create and manage your own stable coins with just a few clicks. And the best part? No coding is required! It's a platform designed just for you.
+          </p>
+          <img
+            alt="Sui wallet login screen"
+            class="mx-auto mt-14"
+            data-nimg="1"
+            decoding="async"
+            height="525"
+            loading="lazy"
+            src="/_next/image?url=%2Fimages%2Fsui_wallet_login_screen.png&w=640&q=75"
+            srcset="/_next/image?url=%2Fimages%2Fsui_wallet_login_screen.png&w=384&q=75 1x, /_next/image?url=%2Fimages%2Fsui_wallet_login_screen.png&w=640&q=75 2x"
+            style="color: transparent;"
+            width="290"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

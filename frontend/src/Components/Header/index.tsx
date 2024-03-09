@@ -38,7 +38,10 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
       )}
       {...props}
     >
-      <div className="flex items-center justify-between max-w-screen-2xl mx-auto h-full">
+      <div
+        data-testid="header"
+        className="flex items-center justify-between max-w-screen-2xl mx-auto h-full"
+      >
         <LogoIcon />
         {
           (wallet.connecting || wallet.disconnected) && (

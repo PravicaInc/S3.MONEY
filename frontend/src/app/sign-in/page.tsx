@@ -82,7 +82,7 @@ export default function SignInPage() {
             </p>
             <NextImage
               className="mx-auto mt-14"
-              src="images/sui_wallet_login_screen.png"
+              src="/images/sui_wallet_login_screen.png"
               alt="Sui wallet login screen"
               width="290"
               height="525"

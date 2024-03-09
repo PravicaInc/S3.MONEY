@@ -27,7 +27,7 @@ export function Modal({
     () => {
       lastActiveElement.current = document.activeElement;
 
-      if (dialogRef.current) {
+      if (dialogRef.current?.showModal) {
         dialogRef.current.showModal();
       }
 
@@ -42,7 +42,7 @@ export function Modal({
         event.preventDefault();
       }
 
-      if (dialogRef.current) {
+      if (dialogRef.current?.close) {
         dialogRef.current.close();
       }
 
