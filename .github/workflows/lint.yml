@@ -1,0 +1,32 @@
+name: Lint
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_call:
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      packages: read
+      # To report GitHub Actions status checks
+      statuses: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          # super-linter needs the full git history to get the
+          # list of files that changed across commits
+          fetch-depth: 0
+
+      - name: Lint
+        uses: ./.github/actions/lint
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

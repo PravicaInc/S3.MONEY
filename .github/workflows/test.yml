@@ -1,0 +1,27 @@
+name: Test
+
+on:
+  pull_request:
+    branches:
+      - main
+      - develop
+  workflow_call:
+
+jobs:
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Test
+        uses: ./.github/actions/test
