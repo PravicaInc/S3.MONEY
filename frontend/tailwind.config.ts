@@ -6,10 +6,17 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        primary: '#0D0D12',
+        secondary: '#808897',
+        actionPrimary: '#FE6321',
+        actionSecondary: '#FFAA71',
+        primaryPageBG: 'rgb(248, 249, 251)',
+        secondaryPageBG: 'rgb(253, 241, 238)',
+        primaryBorder: '#DFE1E6',
+      },
+      boxShadow: {
+        button: '1px 2px 4px 0px rgba(13, 13, 18, 0.12)',
       },
     },
   },

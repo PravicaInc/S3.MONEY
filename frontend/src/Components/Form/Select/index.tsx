@@ -1,4 +1,4 @@
-import { ReactNode, SelectHTMLAttributes } from 'react';
+import { FC, ReactNode, SelectHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -15,7 +15,7 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   className?: string;
 }
 
-export function Select({ name, options, isRequired, className, ...props }: SelectProps) {
+export const Select: FC<SelectProps> = ({ name, options, isRequired, className, ...props }) => {
   const { register, formState: { errors } } = useFormContext();
 
   return (
@@ -49,4 +49,4 @@ export function Select({ name, options, isRequired, className, ...props }: Selec
       )}
     </>
   );
-}
+};

@@ -1,27 +1,33 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
-import { faSpinner } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
+
+import { Loader } from '@/Components/Loader';
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   text?: ReactNode;
   isLoading?: boolean;
 }
 
-export function Button({ className, text, children, isLoading, ...props }: ButtonProps) {
-  return (
-    <button
-      className={twMerge(
-        'border-2 rounded-lg border-slate-400 bg-slate-300 hover:bg-slate-400 p-4 text-xl transition-all',
-        className
-      )}
-      {...props}
-    >
-      {
-        isLoading
-          ? <FontAwesomeIcon icon={faSpinner} className="animate-spin text-gray-600" />
-          : text || children
-      }
-    </button>
-  );
-}
+export const defaultButtonClasses = `
+  bg-actionPrimary text-white p-4 rounded-xl shadow-button border-actionSecondary border-solid border font-semibold
+  hover:bg-white hover:text-actionPrimary
+  transition
+
+`;
+
+export const Button: FC<ButtonProps> = ({ className, text, children, isLoading, ...props }) => (
+  <button
+    className={twMerge(
+      defaultButtonClasses,
+      className,
+      'disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white'
+    )}
+    {...props}
+  >
+    {
+      isLoading
+        ? <Loader className="text-inherit" />
+        : text || children
+    }
+  </button>
+);

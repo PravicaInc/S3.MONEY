@@ -1,59 +1,77 @@
 'use client';
 
-import { HTMLAttributes } from 'react';
-import { Menu, MenuButton, MenuItem } from '@szhsin/react-menu';
+import { FC, HTMLAttributes, useCallback } from 'react';
 import NextImage from 'next/image';
+import { usePathname, useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
-import '@szhsin/react-menu/dist/index.css';
-import '@szhsin/react-menu/dist/transitions/slide.css';
-
 import LogoIcon from '@/../public/images/logo.svg?jsx';
+import LogoutIcon from '@/../public/images/logout.svg?jsx';
+
+import { Loader } from '@/Components/Loader';
+
+import { PAGES_URLS } from '@/utils/const';
 
 import { useWallet } from '@/hooks/useWallet';
 
-export function Header({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
   const wallet = useWallet();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const disconnect = useCallback(
+    () => {
+      wallet.disconnect();
+      router.replace(`${PAGES_URLS.signIn}?next=${encodeURIComponent(pathname)}`);
+    },
+    [wallet, router, pathname]
+  );
 
   return (
     <div
       className={twMerge(
-        'max-w-screen-2xl mx-auto py-4 flex justify-between items-center h-32',
+        'min-h-20 px-8 border-b border-primaryBorder bg-white',
         className
       )}
       {...props}
     >
-      <LogoIcon />
-      {
-        wallet.connected && wallet.account?.address && (
-          <div className="border-2 rounded-lg p-2 flex items-center gap-6">
-            {
-              wallet.adapter?.icon && (
-                <NextImage
-                  className="rounded-full"
-                  src={wallet.adapter?.icon}
-                  alt="Wallet Icon"
-                  width={62}
-                  height={62}
-                />
-              )
-            }
-            {`${wallet.account?.address.substring(0, 4)}...${wallet.account?.address.substring(wallet.account?.address.length - 4)}`}
-            <Menu
-              menuButton={
-                <MenuButton className="text-5xl font-bold">
-                  ⋮
-                </MenuButton>
-              }
-              align="end"
+      <div className="flex items-center justify-between max-w-screen-2xl mx-auto h-full">
+        <LogoIcon />
+        {
+          (wallet.connecting || wallet.disconnected) && (
+            <Loader className="h-8" />
+          )
+        }
+        {
+          wallet.connected && wallet.shortWalletAddress && (
+            <div
+              className="
+                border border-primaryBorder rounded-[10px]
+                h-10 px-4 flex items-center justify-between gap-2
+                text-secondary font-medium
+              "
             >
-              <MenuItem onClick={wallet.disconnect}>
-                Disconnect
-              </MenuItem>
-            </Menu>
-          </div>
-        )
-      }
+              {
+                wallet.adapter?.icon && (
+                  <NextImage
+                    className="rounded-full"
+                    src={wallet.adapter?.icon}
+                    alt="Wallet Icon"
+                    width={24}
+                    height={24}
+                  />
+                )
+              }
+              {wallet.shortWalletAddress}
+              <button
+                onClick={disconnect}
+              >
+                <LogoutIcon />
+              </button>
+            </div>
+          )
+        }
+      </div>
     </div>
   );
-}
+};

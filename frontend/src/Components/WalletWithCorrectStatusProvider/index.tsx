@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
+import { FC, PropsWithChildren, useCallback, useEffect, useMemo, useState } from 'react';
 import { ConnectionStatus, useWallet as useSuietWallet, WalletContextState } from '@suiet/wallet-kit';
 
 import { IS_WALLET_CONNECTED_KEY, WalletWithCorrectStatusContext } from '@/hooks/useWallet';
@@ -9,7 +9,7 @@ import { IS_WALLET_CONNECTED_KEY, WalletWithCorrectStatusContext } from '@/hooks
  * `useSuietWallet` creates a `wallet` object that contains "status === 'disconnected'" - https://kit.suiet.app/docs/Hooks/useWallet#connection-status
  * This creates a problem for the correct display of the wallet's connecting status
  */
-export function WalletWithCorrectStatusProvider({ children }: PropsWithChildren) {
+export const WalletWithCorrectStatusProvider: FC<PropsWithChildren> = ({ children }) => {
   const [isWalletConnectedBefore, setIsWalletConnectedBefore] = useState<boolean>(
     typeof localStorage !== 'undefined'
       ? JSON.parse(localStorage.getItem(IS_WALLET_CONNECTED_KEY) ?? 'false')
@@ -20,6 +20,19 @@ export function WalletWithCorrectStatusProvider({ children }: PropsWithChildren)
   const [walletConnected, setWalletConnected] = useState<boolean>(false);
 
   const wallet = useSuietWallet();
+
+  const shortWalletAddress = useMemo(
+    () => {
+      const walletAddress = wallet.account?.address;
+
+      return (
+        walletAddress
+          ? `${walletAddress.substring(0, 4)}...${walletAddress.substring(walletAddress.length - 4)}`
+          : ''
+      );
+    },
+    [wallet]
+  );
 
   const disconnectWallet = useCallback(
     async (): Promise<void> => {
@@ -65,6 +78,7 @@ export function WalletWithCorrectStatusProvider({ children }: PropsWithChildren)
     <WalletWithCorrectStatusContext.Provider
       value={{
         ...wallet,
+        shortWalletAddress,
         status: walletStatus,
         connecting: walletConnecting,
         connected: walletConnected,
@@ -81,4 +95,4 @@ export function WalletWithCorrectStatusProvider({ children }: PropsWithChildren)
     setIsWalletConnectedBefore(true);
     localStorage.setItem(IS_WALLET_CONNECTED_KEY, 'true');
   }
-}
+};

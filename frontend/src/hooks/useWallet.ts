@@ -8,6 +8,7 @@ export const IS_WALLET_CONNECTED_KEY = 'isWalletConnected';
 export interface WalletWithCorrectStatusContextProps extends WalletContextState {
   disconnected: boolean,
   onWalletConnected: () => void,
+  shortWalletAddress: string,
 }
 
 export const WalletWithCorrectStatusContext = createContext<WalletWithCorrectStatusContextProps>({
@@ -53,6 +54,7 @@ export const WalletWithCorrectStatusContext = createContext<WalletWithCorrectSta
   connected: false,
   disconnected: false,
   onWalletConnected: () => {},
+  shortWalletAddress: '',
 });
 
 export function useWallet() {
