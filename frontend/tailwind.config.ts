@@ -14,6 +14,7 @@ const config: Config = {
         primaryPageBG: 'rgb(248, 249, 251)',
         secondaryPageBG: 'rgb(253, 241, 238)',
         primaryBorder: '#DFE1E6',
+        modalBackdropColor: '#00000088',
       },
       boxShadow: {
         button: '1px 2px 4px 0px rgba(13, 13, 18, 0.12)',

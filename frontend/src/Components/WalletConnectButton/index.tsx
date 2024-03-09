@@ -4,7 +4,7 @@ import { FC } from 'react';
 import { ConnectButton, ConnectButtonProps } from '@suiet/wallet-kit';
 import { twMerge } from 'tailwind-merge';
 
-import { defaultButtonClasses } from '@/Components/Form/Button';
+import { primaryButtonClasses } from '@/Components/Form/Button';
 
 import { useWallet } from '@/hooks/useWallet';
 
@@ -18,7 +18,7 @@ export const WalletConnectButton: FC<WalletConnectButton> = ({ onConnectSuccess,
   return (
     <ConnectButton
       className={twMerge(
-        defaultButtonClasses,
+        primaryButtonClasses,
         className,
         disabled && 'pointer-events-none bg-slate-300 border-slate-400 text-white'
       )}

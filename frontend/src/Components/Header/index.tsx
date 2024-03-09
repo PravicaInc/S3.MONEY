@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, HTMLAttributes, useCallback } from 'react';
+import { FC, HTMLAttributes, useCallback, useState } from 'react';
 import NextImage from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
@@ -9,6 +9,7 @@ import LogoIcon from '@/../public/images/logo.svg?jsx';
 import LogoutIcon from '@/../public/images/logout.svg?jsx';
 
 import { Loader } from '@/Components/Loader';
+import { LogoutModal } from '@/Components/LogoutModal';
 
 import { PAGES_URLS } from '@/utils/const';
 
@@ -18,6 +19,8 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
   const wallet = useWallet();
   const router = useRouter();
   const pathname = usePathname();
+
+  const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
 
   const disconnect = useCallback(
     () => {
@@ -64,7 +67,9 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
               }
               {wallet.shortWalletAddress}
               <button
-                onClick={disconnect}
+                onClick={() => {
+                  setShowLogoutModal(true);
+                }}
               >
                 <LogoutIcon />
               </button>
@@ -72,6 +77,12 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
           )
         }
       </div>
+      <LogoutModal
+        visible={showLogoutModal}
+        onClose={() => setShowLogoutModal(false)}
+        inProcess={wallet.connecting || wallet.disconnected}
+        onProceed={disconnect}
+      />
     </div>
   );
 };
