@@ -1,4 +1,4 @@
-import { cleanup, render, RenderResult } from '@testing-library/react';
+import { act, cleanup, render, RenderResult, screen as testScreen } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
@@ -78,6 +78,16 @@ describe('Sign-in page:', () => {
 
     it('Snapshot', () => {
       expect(renderResult.container).toMatchSnapshot();
+    });
+
+    it('Don`t show connect modal', () => {
+      const connectButton = renderResult.queryByText('Sign In with Sui Wallet');
+
+      act(() => {
+        connectButton?.click();
+      });
+
+      expect(testScreen.queryByText('Connect Wallet')).toBeNull();
     });
   });
 

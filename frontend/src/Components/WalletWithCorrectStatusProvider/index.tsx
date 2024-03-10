@@ -78,6 +78,7 @@ export const WalletWithCorrectStatusProvider: FC<PropsWithChildren> = ({ childre
     <WalletWithCorrectStatusContext.Provider
       value={{
         ...wallet,
+        isWalletConnectedBefore,
         shortWalletAddress,
         status: walletStatus,
         connecting: walletConnecting,

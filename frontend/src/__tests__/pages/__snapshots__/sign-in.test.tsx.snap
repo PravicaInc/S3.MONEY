@@ -23,19 +23,11 @@ exports[`Sign-in page: Sign-in page with disconnected state: Snapshot 1`] = `
           <div
             class="mt-5 w-full"
           >
-            <div
-              aria-controls="radix-:r6:"
-              aria-expanded="false"
-              aria-haspopup="dialog"
-              data-state="closed"
-              type="button"
+            <button
+              class="bg-actionPrimary text-white rounded-xl shadow-button border-actionSecondary border-solid border hover:bg-white hover:text-actionPrimary transition disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-[48px] p-0 w-full text-sm font-semibold flex items-center justify-center"
             >
-              <button
-                class="wkit-button bg-actionPrimary text-white p-4 rounded-xl shadow-button border-actionSecondary border-solid border font-semibold hover:bg-white hover:text-actionPrimary transition disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white py-[14px] w-full"
-              >
-                Sign In with Sui Wallet
-              </button>
-            </div>
+              Sign In with Sui Wallet
+            </button>
           </div>
           <p
             class="mt-5 text-primary lett"

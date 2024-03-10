@@ -6,6 +6,7 @@ import { ConnectionStatus, KitError, WalletContextState } from '@suiet/wallet-ki
 export const IS_WALLET_CONNECTED_KEY = 'isWalletConnected';
 
 export interface WalletWithCorrectStatusContextProps extends WalletContextState {
+  isWalletConnectedBefore: boolean,
   disconnected: boolean,
   onWalletConnected: () => void,
   shortWalletAddress: string,
@@ -55,6 +56,7 @@ export const DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE = {
   disconnected: false,
   onWalletConnected: () => {},
   shortWalletAddress: '',
+  isWalletConnectedBefore: false,
 };
 
 export const WalletWithCorrectStatusContext = createContext<WalletWithCorrectStatusContextProps>(

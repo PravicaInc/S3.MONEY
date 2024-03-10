@@ -2,6 +2,7 @@
 
 import { PropsWithChildren, useState } from 'react';
 import { WalletProvider } from '@suiet/wallet-kit';
+import { SuiWallet } from '@suiet/wallet-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
@@ -14,7 +15,7 @@ export function Providers({ children }: PropsWithChildren) {
 
   return (
     <QueryClientProvider client={client}>
-      <WalletProvider>
+      <WalletProvider defaultWallets={[SuiWallet]}>
         <WalletWithCorrectStatusProvider>
           {children}
         </WalletWithCorrectStatusProvider>

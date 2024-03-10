@@ -5,8 +5,6 @@ import { useRouter, useSearchParams } from 'next/navigation';
 
 import LogoSVG from '@/../public/images/logo.svg?jsx';
 
-import { Button } from '@/Components/Form/Button';
-import { Loader } from '@/Components/Loader';
 import { WalletConnectButton } from '@/Components/WalletConnectButton';
 
 import { PAGES_URLS } from '@/utils/const';
@@ -28,33 +26,20 @@ export default function SignInPage() {
               StableCoin Studio on Sui
             </p>
             <div className="mt-5 w-full">
-              {
-                wallet.connecting || wallet.connected
-                  ? (
-                    <Button className="h-[50px] w-full flex items-center justify-center" disabled>
-                      {
-                        wallet.connected
-                          ? 'Redirecting ...'
-                          : <Loader className="text-inherit h-5" />
-                      }
-                    </Button>
-                  )
-                  : (
-                    <WalletConnectButton
-                      className="py-[14px] w-full"
-                      onConnectSuccess={() => {
-                        router.replace(searchParams.get('next') || PAGES_URLS.home);
-                      }}
-                      disabled={wallet.connecting}
-                    >
-                      {
-                        wallet.connecting
-                          ? <Loader className="h-4 text-inherit" />
-                          : 'Sign In with Sui Wallet'
-                      }
-                    </WalletConnectButton>
-                  )
-              }
+              <WalletConnectButton
+                className="h-[48px] p-0 w-full text-sm font-semibold flex items-center justify-center"
+                onConnectSuccess={() => {
+                  router.replace(searchParams.get('next') || PAGES_URLS.home);
+                }}
+                disabled={wallet.connecting || wallet.connected}
+                isLoading={wallet.connecting}
+              >
+                {
+                  wallet.connected
+                    ? 'Redirecting ...'
+                    : 'Sign In with Sui Wallet'
+                }
+              </WalletConnectButton>
             </div>
             <p className="mt-5 text-primary lett">
               Don’t have Sui Wallet extension installed?
