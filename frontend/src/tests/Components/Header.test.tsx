@@ -1,46 +1,30 @@
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
-import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
-import type { WalletAccount } from '@mysten/wallet-standard';
-import { ReadonlyWalletAccount } from '@mysten/wallet-standard';
-import { act, cleanup, getQueriesForElement, render, RenderResult } from '@testing-library/react';
+import { act, cleanup, getQueriesForElement, RenderResult } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
 import { Header } from '@/Components/Header';
 
-import { Providers } from '@/app/providers';
+import { createMockAccount, TEST_SHORT_WALLET_ACCOUNT_ADDRESS } from '@/tests/utils/create_mock_wallet_account';
+import { renderWithProviders } from '@/tests/utils/render_with_providers';
 
-export function createMockAccount(accountOverrides: Partial<WalletAccount> = {}) {
-  const keypair = new Ed25519Keypair();
+const renderHeaderWithProviders = () => renderWithProviders(<Header />);
 
-  return new ReadonlyWalletAccount({
-    address: '0x11...1111',
-    publicKey: keypair.getPublicKey().toSuiBytes(),
-    chains: ['sui:unknown'],
-    features: ['sui:signAndExecuteTransactionBlock', 'sui:signTransactionBlock'],
-    ...accountOverrides,
-  });
-}
-
-const renderHeaderWithWalletProps = () => render(
-  <Providers>
-    <Header />
-  </Providers>
-);
+let renderResult: RenderResult;
 
 describe('Header:', () => {
   afterAll(cleanup);
 
   describe('Header with loading state:', () => {
-    let renderResult: RenderResult;
-
     beforeEach(() => {
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
+
       jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
 
-      renderResult = renderHeaderWithWalletProps();
+      renderResult = renderHeaderWithProviders();
     });
-
-    afterEach(() => renderResult.unmount);
 
     it('Show loader', () => {
       expect(getQueriesForElement(renderResult.getByTestId('header')).queryByTestId('loader')).toBeVisible();
@@ -48,15 +32,15 @@ describe('Header:', () => {
   });
 
   describe('Header with disconnected state:', () => {
-    let renderResult: RenderResult;
-
     beforeEach(() => {
-      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
 
-      renderResult = renderHeaderWithWalletProps();
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+
+      renderResult = renderHeaderWithProviders();
     });
-
-    afterEach(() => renderResult.unmount);
 
     it('Show loader', () => {
       expect(getQueriesForElement(renderResult.getByTestId('header')).queryByTestId('loader')).toBeVisible();
@@ -64,24 +48,23 @@ describe('Header:', () => {
   });
 
   describe('Header with connected state:', () => {
-    let renderResult: RenderResult;
-    const shortWalletAddress = '0x11...1111';
-
     beforeEach(() => {
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
+
       jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
       jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
 
-      renderResult = renderHeaderWithWalletProps();
+      renderResult = renderHeaderWithProviders();
     });
-
-    afterEach(() => renderResult.unmount);
 
     it('Don`t show loader', () => {
       expect(getQueriesForElement(renderResult.getByTestId('header')).queryByTestId('loader')).toBeNull();
     });
 
     it('Show account info', () => {
-      expect(renderResult.queryByText(new RegExp(shortWalletAddress))).toBeVisible();
+      expect(renderResult.queryByText(new RegExp(TEST_SHORT_WALLET_ACCOUNT_ADDRESS))).toBeVisible();
     });
 
     it('Show modal', () => {

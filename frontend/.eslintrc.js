@@ -280,6 +280,7 @@ module.exports = {
           ['^\\u0000@/styles', '^@/styles'],
           ['^\\u0000@/utils', '^@/utils'],
           ['^\\u0000@/hooks', '^@/hooks'],
+          ['^\\u0000@/tests', '^@/tests'],
 
           ['^\\u0000\\./Components/.*', '^\\./Components/.*'],
           ['^\\./\\w+.[jt]sx', '^\\./.+.[jt]s', '^\\./\\w+'],

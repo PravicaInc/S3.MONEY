@@ -1,46 +1,29 @@
-import { act, cleanup, render, RenderResult, screen as testScreen } from '@testing-library/react';
+import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
+import { act, cleanup, RenderResult, screen as testScreen } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
 import SignInPage from '@/app/sign-in/page';
 
-import {
-  DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
-  WalletWithCorrectStatusContext,
-  WalletWithCorrectStatusContextProps,
-} from '@/hooks/useWallet';
+import { createMockAccount } from '@/tests/utils/create_mock_wallet_account';
+import { renderWithProviders } from '@/tests/utils/render_with_providers';
 
-const renderSignInPageWithWalletProps = (
-  { walletProps, ...renderOptions }: { walletProps: Partial<WalletWithCorrectStatusContextProps> }
-) => render(
-  <WalletWithCorrectStatusContext.Provider
-    value={{
-      ...DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
-      ...walletProps,
-    }}
-  >
-    <SignInPage />
-  </WalletWithCorrectStatusContext.Provider>,
-  renderOptions
-);
+const renderSignInPageWithProviders = () => renderWithProviders(<SignInPage />);
+
+let renderResult: RenderResult;
 
 describe('Sign-in page:', () => {
   afterAll(cleanup);
 
   describe('Sign-in page with loading state:', () => {
-    let renderResult: RenderResult;
-
     beforeEach(() => {
-      renderResult = renderSignInPageWithWalletProps(
-        {
-          walletProps: {
-            status: 'connecting',
-            connecting: true,
-            connected: false,
-            disconnected: false,
-          },
-        }
-      );
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
+
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
+
+      renderResult = renderSignInPageWithProviders();
     });
 
     afterEach(() => renderResult.unmount);
@@ -51,22 +34,15 @@ describe('Sign-in page:', () => {
   });
 
   describe('Sign-in page with disconnected state:', () => {
-    let renderResult: RenderResult;
-
     beforeEach(() => {
-      renderResult = renderSignInPageWithWalletProps(
-        {
-          walletProps: {
-            status: 'disconnected',
-            connecting: false,
-            connected: false,
-            disconnected: true,
-          },
-        }
-      );
-    });
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
 
-    afterEach(() => renderResult.unmount);
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+
+      renderResult = renderSignInPageWithProviders();
+    });
 
     it('Don`t show loader', () => {
       expect(renderResult.queryByTestId('loader')).toBeNull();
@@ -92,24 +68,16 @@ describe('Sign-in page:', () => {
   });
 
   describe('Sign-in page with connected state:', () => {
-    let renderResult: RenderResult;
-    const shortWalletAddress = '0x11...1111';
-
     beforeEach(() => {
-      renderResult = renderSignInPageWithWalletProps(
-        {
-          walletProps: {
-            shortWalletAddress,
-            status: 'connected',
-            connecting: false,
-            connected: true,
-            disconnected: false,
-          },
-        }
-      );
-    });
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
 
-    afterEach(() => renderResult.unmount);
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+      jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
+
+      renderResult = renderSignInPageWithProviders();
+    });
 
     it('Show redirect', () => {
       expect(renderResult.queryByText('Redirecting ...')).toBeVisible();

@@ -1,49 +1,30 @@
-import { cleanup, render, RenderResult } from '@testing-library/react';
+import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
+import { cleanup, RenderResult } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
 import HomePage from '@/app/home/page';
 
-import {
-  DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
-  WalletWithCorrectStatusContext,
-  WalletWithCorrectStatusContextProps,
-} from '@/hooks/useWallet';
+import { createMockAccount } from '@/tests/utils/create_mock_wallet_account';
+import { renderWithProviders } from '@/tests/utils/render_with_providers';
 
-const renderHomePageWithWalletProps = (
-  { walletProps, ...renderOptions }: { walletProps: Partial<WalletWithCorrectStatusContextProps> }
-) => render(
-  <WalletWithCorrectStatusContext.Provider
-    value={{
-      ...DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
-      ...walletProps,
-    }}
-  >
-    <HomePage />
-  </WalletWithCorrectStatusContext.Provider>,
-  renderOptions
-);
+const renderHomePageWithProviders = () => renderWithProviders(<HomePage />);
+
+let renderResult: RenderResult;
 
 describe('Home page:', () => {
   afterAll(cleanup);
 
   describe('Home page with loading state:', () => {
-    let renderResult: RenderResult;
-
     beforeEach(() => {
-      renderResult = renderHomePageWithWalletProps(
-        {
-          walletProps: {
-            status: 'connecting',
-            connecting: true,
-            connected: false,
-            disconnected: false,
-          },
-        }
-      );
-    });
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
 
-    afterEach(() => renderResult.unmount);
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
+
+      renderResult = renderHomePageWithProviders();
+    });
 
     it('Show loader', () => {
       expect(renderResult.queryByTestId('loader')).toBeVisible();
@@ -51,22 +32,15 @@ describe('Home page:', () => {
   });
 
   describe('Home page with disconnected state:', () => {
-    let renderResult: RenderResult;
-
     beforeEach(() => {
-      renderResult = renderHomePageWithWalletProps(
-        {
-          walletProps: {
-            status: 'disconnected',
-            connecting: false,
-            connected: false,
-            disconnected: true,
-          },
-        }
-      );
-    });
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
 
-    afterEach(() => renderResult.unmount);
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+
+      renderResult = renderHomePageWithProviders();
+    });
 
     it('Show loader', () => {
       expect(renderResult.queryByTestId('loader')).toBeVisible();
@@ -74,24 +48,16 @@ describe('Home page:', () => {
   });
 
   describe('Home page with connected state:', () => {
-    let renderResult: RenderResult;
-    const shortWalletAddress = '0x11...1111';
-
     beforeEach(() => {
-      renderResult = renderHomePageWithWalletProps(
-        {
-          walletProps: {
-            shortWalletAddress,
-            status: 'connected',
-            connecting: false,
-            connected: true,
-            disconnected: false,
-          },
-        }
-      );
-    });
+      if (renderResult?.unmount) {
+        renderResult.unmount();
+      }
 
-    afterEach(() => renderResult.unmount);
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+      jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
+
+      renderResult = renderHomePageWithProviders();
+    });
 
     it('Don`t show loader', () => {
       expect(renderResult.queryByTestId('loader')).toBeNull();
