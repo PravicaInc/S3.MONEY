@@ -1,5 +1,7 @@
 'use client';
 
+import { useMemo } from 'react';
+import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import NextImage from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 
@@ -9,12 +11,21 @@ import { WalletConnectButton } from '@/Components/WalletConnectButton';
 
 import { PAGES_URLS } from '@/utils/const';
 
-import { useWallet } from '@/hooks/useWallet';
-
 export default function SignInPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const wallet = useWallet();
+
+  const autoConnectionStatus = useAutoConnectWallet();
+  const account = useCurrentAccount();
+
+  const isLoading = useMemo(
+    () => autoConnectionStatus === 'idle',
+    [autoConnectionStatus]
+  );
+  const isRedirecting = useMemo(
+    () => autoConnectionStatus === 'attempted' && !!account?.address,
+    [autoConnectionStatus, account?.address]
+  );
 
   return (
     <div className="flex flex-col h-screen">
@@ -31,11 +42,11 @@ export default function SignInPage() {
                 onConnectSuccess={() => {
                   router.replace(searchParams.get('next') || PAGES_URLS.home);
                 }}
-                disabled={wallet.connecting || wallet.connected}
-                isLoading={wallet.connecting}
+                disabled={isLoading || isRedirecting}
+                isLoading={isLoading}
               >
                 {
-                  wallet.connected
+                  isRedirecting
                     ? 'Redirecting ...'
                     : 'Sign In with Sui Wallet'
                 }

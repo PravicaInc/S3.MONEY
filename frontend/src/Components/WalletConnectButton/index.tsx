@@ -1,16 +1,16 @@
 'use client';
 
 import { FC, useCallback } from 'react';
-import { BaseError, SuiWallet } from '@suiet/wallet-kit';
+import { useConnectWallet, useWallets } from '@mysten/dapp-kit';
 import { twMerge } from 'tailwind-merge';
 
 import { Button, ButtonProps, primaryButtonClasses } from '@/Components/Form/Button';
 
-import { useWallet } from '@/hooks/useWallet';
+import { WALLETS } from '@/utils/const';
 
 export interface WalletConnectButton extends ButtonProps {
   onConnectSuccess?: (walletName: string) => void;
-  onConnectError?: (error: BaseError) => void;
+  onConnectError?: (error: unknown) => void;
 }
 
 export const WalletConnectButton: FC<WalletConnectButton> = ({
@@ -20,26 +20,31 @@ export const WalletConnectButton: FC<WalletConnectButton> = ({
   disabled,
   ...props
 }) => {
-  const wallet = useWallet();
+  const wallets = useWallets();
+  const connectWallet = useConnectWallet();
 
   const onConnect = useCallback(
     async () => {
       try {
-        await wallet.select(SuiWallet.name);
+        const suiWallet = wallets.find(({ name }) => name === WALLETS.SuiWallet);
 
-        wallet.onWalletConnected();
+        if (suiWallet) {
+          await connectWallet.mutateAsync({
+            wallet: suiWallet,
+          });
 
-        if (onConnectSuccess) {
-          onConnectSuccess(SuiWallet.name);
+          if (onConnectSuccess) {
+            onConnectSuccess(suiWallet?.name);
+          }
         }
       }
       catch (err) {
         if (onConnectError) {
-          onConnectError(err as BaseError);
+          onConnectError(err);
         }
       }
     },
-    [wallet, onConnectSuccess, onConnectError]
+    [connectWallet, wallets, onConnectSuccess, onConnectError]
   );
 
   return (

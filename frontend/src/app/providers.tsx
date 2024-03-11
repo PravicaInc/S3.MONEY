@@ -1,25 +1,22 @@
 'use client';
 
 import { PropsWithChildren, useState } from 'react';
-import { WalletProvider } from '@suiet/wallet-kit';
-import { SuiWallet } from '@suiet/wallet-kit';
+import { SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
-import '@suiet/wallet-kit/style.css';
-
-import { WalletWithCorrectStatusProvider } from '@/Components/WalletWithCorrectStatusProvider';
+import '@mysten/dapp-kit/dist/index.css';
 
 export function Providers({ children }: PropsWithChildren) {
   const [client] = useState(new QueryClient());
 
   return (
     <QueryClientProvider client={client}>
-      <WalletProvider defaultWallets={[SuiWallet]}>
-        <WalletWithCorrectStatusProvider>
+      <SuiClientProvider>
+        <WalletProvider autoConnect>
           {children}
-        </WalletWithCorrectStatusProvider>
-      </WalletProvider>
+        </WalletProvider>
+      </SuiClientProvider>
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
