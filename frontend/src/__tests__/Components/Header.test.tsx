@@ -1,27 +1,31 @@
+import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
+import { Ed25519Keypair } from '@mysten/sui.js/keypairs/ed25519';
+import type { WalletAccount } from '@mysten/wallet-standard';
+import { ReadonlyWalletAccount } from '@mysten/wallet-standard';
 import { act, cleanup, getQueriesForElement, render, RenderResult } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
 import { Header } from '@/Components/Header';
 
-import {
-  DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
-  WalletWithCorrectStatusContext,
-  WalletWithCorrectStatusContextProps,
-} from '@/hooks/useWallet';
+import { Providers } from '@/app/providers';
 
-const renderHeaderWithWalletProps = (
-  { walletProps, ...renderOptions }: { walletProps: Partial<WalletWithCorrectStatusContextProps> }
-) => render(
-  <WalletWithCorrectStatusContext.Provider
-    value={{
-      ...DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
-      ...walletProps,
-    }}
-  >
+export function createMockAccount(accountOverrides: Partial<WalletAccount> = {}) {
+  const keypair = new Ed25519Keypair();
+
+  return new ReadonlyWalletAccount({
+    address: '0x11...1111',
+    publicKey: keypair.getPublicKey().toSuiBytes(),
+    chains: ['sui:unknown'],
+    features: ['sui:signAndExecuteTransactionBlock', 'sui:signTransactionBlock'],
+    ...accountOverrides,
+  });
+}
+
+const renderHeaderWithWalletProps = () => render(
+  <Providers>
     <Header />
-  </WalletWithCorrectStatusContext.Provider>,
-  renderOptions
+  </Providers>
 );
 
 describe('Header:', () => {
@@ -31,16 +35,9 @@ describe('Header:', () => {
     let renderResult: RenderResult;
 
     beforeEach(() => {
-      renderResult = renderHeaderWithWalletProps(
-        {
-          walletProps: {
-            status: 'connecting',
-            connecting: true,
-            connected: false,
-            disconnected: false,
-          },
-        }
-      );
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
+
+      renderResult = renderHeaderWithWalletProps();
     });
 
     afterEach(() => renderResult.unmount);
@@ -54,16 +51,9 @@ describe('Header:', () => {
     let renderResult: RenderResult;
 
     beforeEach(() => {
-      renderResult = renderHeaderWithWalletProps(
-        {
-          walletProps: {
-            status: 'disconnected',
-            connecting: false,
-            connected: false,
-            disconnected: true,
-          },
-        }
-      );
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
+
+      renderResult = renderHeaderWithWalletProps();
     });
 
     afterEach(() => renderResult.unmount);
@@ -78,17 +68,10 @@ describe('Header:', () => {
     const shortWalletAddress = '0x11...1111';
 
     beforeEach(() => {
-      renderResult = renderHeaderWithWalletProps(
-        {
-          walletProps: {
-            shortWalletAddress,
-            status: 'connected',
-            connecting: false,
-            connected: true,
-            disconnected: false,
-          },
-        }
-      );
+      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+      jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
+
+      renderResult = renderHeaderWithWalletProps();
     });
 
     afterEach(() => renderResult.unmount);
