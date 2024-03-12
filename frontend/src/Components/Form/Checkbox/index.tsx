@@ -33,24 +33,3 @@ export const SimpleCheckbox: FC<SimpleCheckboxProps> = ({
     </div>
   </div>
 );
-
-// export interface CheckboxProps extends SimpleCheckboxProps {
-//   name: string;
-// }
-
-// export const Checkbox: FC<CheckboxProps> = ({ name, ...props }) => {
-//   const { register, formState: { errors } } = useFormContext() || {};
-
-//   return (
-//     <>
-//       <Checkbox
-//         id={name}
-//         {...register(name)}
-//         {...props}
-//       />
-//       {errors?.[name]?.message && (
-//         <FormError text={errors?.[name]?.message as string} />
-//       )}
-//     </>
-//   );
-// };
