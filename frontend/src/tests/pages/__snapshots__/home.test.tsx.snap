@@ -19,22 +19,16 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
         >
           Select Stablecoin
         </span>
-        <svg
-          aria-hidden="true"
-          class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-5"
-          data-icon="spinner"
-          data-prefix="fas"
-          data-testid="loader"
-          focusable="false"
-          role="img"
-          viewBox="0 0 512 512"
-          xmlns="http://www.w3.org/2000/svg"
+        <a
+          class="rounded-xl"
+          href="#"
         >
-          <path
-            d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
-            fill="currentColor"
-          />
-        </svg>
+          <button
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-sm font-semibold h-[37px] w-[153px]"
+          >
+            + New Stablecoin
+          </button>
+        </a>
       </div>
       <div
         class="flex h-40 items-center justify-center"
