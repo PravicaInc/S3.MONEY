@@ -1,6 +1,7 @@
+'use client';
+
 import React, { ChangeEvent, FC, HTMLAttributes, useCallback, useMemo, useState } from 'react';
-import { faCoins } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
@@ -9,31 +10,35 @@ import SearchIcon from '@/../public/images/search.svg?jsx';
 import { Delimiter } from '@/Components/Delimiter';
 import { Button } from '@/Components/Form/Button';
 import { SimpleInput } from '@/Components/Form/Input';
+import { Loader } from '@/Components/Loader';
+
+import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 import { StableCoinItem } from './components/StableCoinItem';
 
 export interface SelectStableCoinFormProps extends HTMLAttributes<HTMLDivElement> {}
 
 export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className, ...props }) => {
+  const autoConnectionStatus = useAutoConnectWallet();
+  const account = useCurrentAccount();
+  const { data, isLoading: isStableCoinsListLoading } = useStableCoinsList(account?.address);
+
   const [searchValue, setSearchValue] = useState<string>('');
-  const [selectedStableCoin, setSelectedStableCoin] = useState<StableCoinItem | null>();
-  const [stableCoins, setStableCoins] = useState<StableCoinItem[]>([
-    {
-      name: '$PRV',
-      tokenName: 'Pravica Token',
-      icon: <FontAwesomeIcon icon={faCoins} />,
-      selected: false,
-    },
-    {
-      name: 'SSS',
-      tokenName: 'S3 Money Token',
-      selected: false,
-    },
-  ]);
+  const [selectedStableCoin, setSelectedStableCoin] = useState<StableCoin | null>();
+
+  const { coins: stableCoins = [] } = data || {};
 
   const filteredStableCoins = useMemo(
     () => stableCoins.filter(coin => stableCoinMatchesSearch(coin, searchValue)),
     [stableCoins, searchValue]
+  );
+  const isLoading = useMemo(
+    () => autoConnectionStatus === 'idle',
+    [autoConnectionStatus]
+  );
+  const isRedirecting = useMemo(
+    () => autoConnectionStatus === 'attempted' && !account?.address,
+    [autoConnectionStatus, account?.address]
   );
 
   const changeSearchValue = useCallback(
@@ -43,7 +48,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
       setSearchValue(newValue);
 
       if (selectedStableCoin && !stableCoinMatchesSearch(selectedStableCoin, newValue)) {
-        selectStableCoin(null);
+        setSelectedStableCoin(null);
       }
     },
     [selectedStableCoin]
@@ -58,51 +63,62 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
         <span className="text-lg font-semibold text-primary">
           Select Stablecoin
         </span>
-        <Link href="#" className="rounded-xl">
-          <Button className="text-sm font-semibold h-[37px] w-[153px]">
-            + New Stablecoin
-          </Button>
-        </Link>
+        {
+          isLoading || isRedirecting || isStableCoinsListLoading
+            ? (
+              <Loader className="h-5" />
+            )
+            : (
+              <Link href="#" className="rounded-xl">
+                <Button className="text-sm font-semibold h-[37px] w-[153px]">
+                  + New Stablecoin
+                </Button>
+              </Link>
+            )
+        }
       </div>
-      <div className="p-6 space-y-6">
-        <SimpleInput
-          className="w-full"
-          value={searchValue}
-          onChange={changeSearchValue}
-          placeholder="Search..."
-          icon={<SearchIcon />}
-        />
-        <Delimiter />
-        <div className="space-y-3">
-          {
-            filteredStableCoins.map(item => (
-              <StableCoinItem
-                key={item.name}
-                stableCoinItem={item}
-                onClick={() => selectStableCoin(item)}
+      {
+        isLoading || isRedirecting || isStableCoinsListLoading
+          ? (
+            <div className="flex h-40 items-center justify-center">
+              <Loader className="h-10" />
+            </div>
+          )
+          : (
+            <div className="p-6 space-y-6">
+              <SimpleInput
+                className="w-full"
+                value={searchValue}
+                onChange={changeSearchValue}
+                placeholder="Search..."
+                icon={<SearchIcon />}
               />
-            ))
-          }
-        </div>
-        <Button
-          className="w-full h-[37px] text-sm font-semibold"
-          disabled={!selectedStableCoin}
-        >
-          Manage Stablecoin
-        </Button>
-      </div>
+              <Delimiter />
+              <div className="space-y-3">
+                {
+                  filteredStableCoins.map(coin => (
+                    <StableCoinItem
+                      key={coin.name}
+                      stableCoinItem={coin}
+                      onClick={() => setSelectedStableCoin(coin)}
+                      isSelected={selectedStableCoin?.id === coin.id}
+                    />
+                  ))
+                }
+              </div>
+              <Button
+                className="w-full h-[37px] text-sm font-semibold"
+                disabled={!selectedStableCoin}
+              >
+                Manage Stablecoin
+              </Button>
+            </div>
+          )
+      }
     </div>
   );
 
-  function selectStableCoin(stableCoin: StableCoinItem | null) {
-    setSelectedStableCoin(stableCoin);
-    setStableCoins(currentValue => currentValue.map(coin => ({
-      ...coin,
-      selected: coin.name === stableCoin?.name,
-    })));
-  }
-
-  function stableCoinMatchesSearch(stableCoin: StableCoinItem, search: string) {
+  function stableCoinMatchesSearch(stableCoin: StableCoin, search: string) {
     return stableCoin.name.toLowerCase().includes(search)
       || stableCoin.tokenName.toLowerCase().includes(search);
   }
