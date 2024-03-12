@@ -18,6 +18,8 @@ export const SimpleCheckbox: FC<SimpleCheckboxProps> = ({
     <input
       type="checkbox"
       className="invisible absolute inset-1/2"
+      checked={checked}
+      readOnly
       {...props}
     />
     <div

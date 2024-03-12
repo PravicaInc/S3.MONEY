@@ -64,7 +64,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
           Select Stablecoin
         </span>
         {
-          isLoading || isRedirecting || isStableCoinsListLoading
+          isLoading || isRedirecting
             ? (
               <Loader className="h-5" />
             )
@@ -98,7 +98,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
                 {
                   filteredStableCoins.map(coin => (
                     <StableCoinItem
-                      key={coin.name}
+                      key={coin.id}
                       stableCoinItem={coin}
                       onClick={() => setSelectedStableCoin(coin)}
                       isSelected={selectedStableCoin?.id === coin.id}
@@ -119,7 +119,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
   );
 
   function stableCoinMatchesSearch(stableCoin: StableCoin, search: string) {
-    return stableCoin.name.toLowerCase().includes(search)
-      || stableCoin.tokenName.toLowerCase().includes(search);
+    return stableCoin.name.toLowerCase().includes(search.toLowerCase())
+      || stableCoin.tokenName.toLowerCase().includes(search.toLowerCase());
   }
 };

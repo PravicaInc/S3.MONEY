@@ -19,12 +19,24 @@ HTMLDialogElement.prototype.close = jest.fn(function mock(
 jest.mock('@mysten/dapp-kit', () => {
   const originalModule = jest.requireActual('@mysten/dapp-kit');
 
-  //Mock the default export and named export 'foo'
   return {
     __esModule: true,
     ...originalModule,
     useAutoConnectWallet: jest.fn(() => ({})),
     useCurrentAccount: jest.fn(() => ({})),
     useCurrentWallet: jest.fn(() => ({})),
+  };
+});
+
+jest.mock('../hooks/useStableCoinsList', () => {
+  const originalModule = jest.requireActual('../hooks/useStableCoinsList');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useStableCoinsList: jest.fn(() => ({
+      data: {},
+      isLoading: true,
+    })),
   };
 });
