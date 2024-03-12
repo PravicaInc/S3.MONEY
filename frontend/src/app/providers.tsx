@@ -1,6 +1,6 @@
 'use client';
 
-import { PropsWithChildren, useState } from 'react';
+import { PropsWithChildren, Suspense, useState } from 'react';
 import { SuiClientProvider, WalletProvider } from '@mysten/dapp-kit';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
@@ -14,7 +14,9 @@ export function Providers({ children }: PropsWithChildren) {
     <QueryClientProvider client={client}>
       <SuiClientProvider>
         <WalletProvider autoConnect>
-          {children}
+          <Suspense>
+            {children}
+          </Suspense>
         </WalletProvider>
       </SuiClientProvider>
       <ReactQueryDevtools initialIsOpen={false} />
