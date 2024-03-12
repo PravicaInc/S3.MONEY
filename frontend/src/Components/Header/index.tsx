@@ -1,6 +1,7 @@
 'use client';
 
-import { FC, HTMLAttributes, useCallback, useState } from 'react';
+import { FC, HTMLAttributes, useCallback, useMemo, useState } from 'react';
+import { useAutoConnectWallet, useCurrentAccount, useCurrentWallet, useDisconnectWallet } from '@mysten/dapp-kit';
 import NextImage from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
@@ -13,21 +14,36 @@ import { LogoutModal } from '@/Components/LogoutModal';
 
 import { PAGES_URLS } from '@/utils/const';
 
-import { useWallet } from '@/hooks/useWallet';
+import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 
 export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
-  const wallet = useWallet();
   const router = useRouter();
   const pathname = usePathname();
+
+  const autoConnectionStatus = useAutoConnectWallet();
+  const account = useCurrentAccount();
+  const { currentWallet, connectionStatus } = useCurrentWallet();
+  const shortAccountAddress = useShortAccountAddress();
+  const disconnectWallet = useDisconnectWallet();
+
+  const isLoading = useMemo(
+    () => autoConnectionStatus === 'idle',
+    [autoConnectionStatus]
+  );
+  const isRedirecting = useMemo(
+    () => autoConnectionStatus === 'attempted' && !account?.address,
+    [autoConnectionStatus, account?.address]
+  );
 
   const [showLogoutModal, setShowLogoutModal] = useState<boolean>(false);
 
   const disconnect = useCallback(
-    () => {
-      wallet.disconnect();
+    async () => {
+      await disconnectWallet.mutateAsync();
+
       router.replace(`${PAGES_URLS.signIn}?next=${encodeURIComponent(pathname)}`);
     },
-    [wallet, router, pathname]
+    [disconnectWallet, router, pathname]
   );
 
   return (
@@ -44,12 +60,12 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
       >
         <LogoIcon />
         {
-          (wallet.connecting || wallet.disconnected) && (
+          (isLoading || isRedirecting) && (
             <Loader className="h-8" />
           )
         }
         {
-          wallet.connected && wallet.shortWalletAddress && (
+          shortAccountAddress && (
             <button
               className="
                 border border-primaryBorder rounded-[10px]
@@ -63,17 +79,17 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
               }}
             >
               {
-                wallet.adapter?.icon && (
+                (account?.icon || currentWallet?.icon) && (
                   <NextImage
                     className="rounded-full"
-                    src={wallet.adapter?.icon}
+                    src={(account?.icon || currentWallet?.icon) as string}
                     alt="Wallet Icon"
                     width={24}
                     height={24}
                   />
                 )
               }
-              {wallet.shortWalletAddress}
+              {shortAccountAddress}
               <LogoutIcon />
             </button>
           )
@@ -82,7 +98,7 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
       <LogoutModal
         visible={showLogoutModal}
         onClose={() => setShowLogoutModal(false)}
-        inProcess={wallet.connecting || wallet.disconnected}
+        inProcess={connectionStatus === 'disconnected'}
         onProceed={disconnect}
       />
     </div>

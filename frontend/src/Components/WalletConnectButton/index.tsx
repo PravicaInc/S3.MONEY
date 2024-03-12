@@ -1,34 +1,60 @@
 'use client';
 
-import { FC } from 'react';
-import { ConnectButton, ConnectButtonProps } from '@suiet/wallet-kit';
+import { FC, useCallback } from 'react';
+import { useConnectWallet, useWallets } from '@mysten/dapp-kit';
 import { twMerge } from 'tailwind-merge';
 
-import { primaryButtonClasses } from '@/Components/Form/Button';
+import { Button, ButtonProps, primaryButtonClasses } from '@/Components/Form/Button';
 
-import { useWallet } from '@/hooks/useWallet';
+import { WALLETS } from '@/utils/const';
 
-export type WalletConnectButton = ConnectButtonProps & {
-  disabled?: boolean;
+export interface WalletConnectButton extends ButtonProps {
+  onConnectSuccess?: (walletName: string) => void;
+  onConnectError?: (error: unknown) => void;
 }
 
-export const WalletConnectButton: FC<WalletConnectButton> = ({ onConnectSuccess, className, disabled, ...props }) => {
-  const wallet = useWallet();
+export const WalletConnectButton: FC<WalletConnectButton> = ({
+  onConnectSuccess,
+  onConnectError,
+  className,
+  disabled,
+  ...props
+}) => {
+  const wallets = useWallets();
+  const connectWallet = useConnectWallet();
+
+  const onConnect = useCallback(
+    async () => {
+      try {
+        const suiWallet = wallets.find(({ name }) => name === WALLETS.SuiWallet);
+
+        if (suiWallet) {
+          await connectWallet.mutateAsync({
+            wallet: suiWallet,
+          });
+
+          if (onConnectSuccess) {
+            onConnectSuccess(suiWallet?.name);
+          }
+        }
+      }
+      catch (err) {
+        if (onConnectError) {
+          onConnectError(err);
+        }
+      }
+    },
+    [connectWallet, wallets, onConnectSuccess, onConnectError]
+  );
 
   return (
-    <ConnectButton
+    <Button
       className={twMerge(
         primaryButtonClasses,
         className,
         disabled && 'pointer-events-none bg-slate-300 border-slate-400 text-white'
       )}
-      onConnectSuccess={(...args) => {
-        wallet.onWalletConnected();
-
-        if (onConnectSuccess) {
-          onConnectSuccess(...args);
-        }
-      }}
+      onClick={onConnect}
 
       {...props}
     />

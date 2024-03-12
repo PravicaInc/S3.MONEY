@@ -50,7 +50,7 @@ export const Button: FC<ButtonProps> = ({
   >
     {
       isLoading
-        ? <Loader className="text-inherit" />
+        ? <Loader className="text-inherit h-5" />
         : text || children
     }
   </button>
