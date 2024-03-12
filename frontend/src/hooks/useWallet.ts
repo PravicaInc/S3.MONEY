@@ -8,9 +8,10 @@ export const IS_WALLET_CONNECTED_KEY = 'isWalletConnected';
 export interface WalletWithCorrectStatusContextProps extends WalletContextState {
   disconnected: boolean,
   onWalletConnected: () => void,
+  shortWalletAddress: string,
 }
 
-export const WalletWithCorrectStatusContext = createContext<WalletWithCorrectStatusContextProps>({
+export const DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE = {
   // @suiet/wallet-kit does not provide default values for WalletContextState here https://github.com/suiet/wallet-kit/blob/main/packages/kit/src/hooks/useWallet.ts#L74
   configuredWallets: [],
   detectedWallets: [],
@@ -53,7 +54,12 @@ export const WalletWithCorrectStatusContext = createContext<WalletWithCorrectSta
   connected: false,
   disconnected: false,
   onWalletConnected: () => {},
-});
+  shortWalletAddress: '',
+};
+
+export const WalletWithCorrectStatusContext = createContext<WalletWithCorrectStatusContextProps>(
+  DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE
+);
 
 export function useWallet() {
   return useContext(WalletWithCorrectStatusContext);

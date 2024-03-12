@@ -2,7 +2,7 @@ import { cleanup, render, RenderResult } from '@testing-library/react';
 
 import '@testing-library/jest-dom';
 
-import HomePage from '@/app/home/page';
+import SignInPage from '@/app/sign-in/page';
 
 import {
   DEFAULT_WALLET_WITH_CORRECT_STATUS_VALUE,
@@ -10,7 +10,7 @@ import {
   WalletWithCorrectStatusContextProps,
 } from '@/hooks/useWallet';
 
-const renderHomePageWithWalletProps = (
+const renderSignInPageWithWalletProps = (
   { walletProps, ...renderOptions }: { walletProps: Partial<WalletWithCorrectStatusContextProps> }
 ) => render(
   <WalletWithCorrectStatusContext.Provider
@@ -19,19 +19,19 @@ const renderHomePageWithWalletProps = (
       ...walletProps,
     }}
   >
-    <HomePage />
+    <SignInPage />
   </WalletWithCorrectStatusContext.Provider>,
   renderOptions
 );
 
-describe('Home page:', () => {
+describe('Sign-in page:', () => {
   afterAll(cleanup);
 
-  describe('Home page with loading state:', () => {
+  describe('Sign-in page with loading state:', () => {
     let renderResult: RenderResult;
 
     beforeEach(() => {
-      renderResult = renderHomePageWithWalletProps(
+      renderResult = renderSignInPageWithWalletProps(
         {
           walletProps: {
             status: 'connecting',
@@ -50,11 +50,11 @@ describe('Home page:', () => {
     });
   });
 
-  describe('Home page with disconnected state:', () => {
+  describe('Sign-in page with disconnected state:', () => {
     let renderResult: RenderResult;
 
     beforeEach(() => {
-      renderResult = renderHomePageWithWalletProps(
+      renderResult = renderSignInPageWithWalletProps(
         {
           walletProps: {
             status: 'disconnected',
@@ -68,17 +68,25 @@ describe('Home page:', () => {
 
     afterEach(() => renderResult.unmount);
 
-    it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
+    it('Don`t show loader', () => {
+      expect(renderResult.queryByTestId('loader')).toBeNull();
+    });
+
+    it('Show wallet connect button', () => {
+      expect(renderResult.queryByText('Sign In with Sui Wallet')).toBeVisible();
+    });
+
+    it('Snapshot', () => {
+      expect(renderResult.container).toMatchSnapshot();
     });
   });
 
-  describe('Home page with connected state:', () => {
+  describe('Sign-in page with connected state:', () => {
     let renderResult: RenderResult;
     const shortWalletAddress = '0x11...1111';
 
     beforeEach(() => {
-      renderResult = renderHomePageWithWalletProps(
+      renderResult = renderSignInPageWithWalletProps(
         {
           walletProps: {
             shortWalletAddress,
@@ -93,16 +101,8 @@ describe('Home page:', () => {
 
     afterEach(() => renderResult.unmount);
 
-    it('Don`t show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeNull();
-    });
-
-    it('Show stablecoin form', () => {
-      expect(renderResult.queryByText('Select Stablecoin')).toBeVisible();
-    });
-
-    it('Snapshot', () => {
-      expect(renderResult.container).toMatchSnapshot();
+    it('Show redirect', () => {
+      expect(renderResult.queryByText('Redirecting ...')).toBeVisible();
     });
   });
 });

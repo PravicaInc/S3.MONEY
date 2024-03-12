@@ -1,11 +1,49 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Header renders a Header 1`] = `
+exports[`Header: Header with connected state: Snapshot 1`] = `
 <div>
   <div
-    class="max-w-screen-2xl mx-auto py-4 flex justify-between items-center h-32"
+    class="min-h-20 px-8 border-b border-primaryBorder bg-white"
   >
-    <svg />
+    <div
+      class="flex items-center justify-between max-w-screen-2xl mx-auto h-full"
+      data-testid="header"
+    >
+      <svg />
+      <button
+        class=" border border-primaryBorder rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium transition hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary "
+      >
+        0x11...1111
+        <svg />
+      </button>
+    </div>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Confirm Logout?
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <button
+            class="bg-white text-primary p-4 rounded-xl shadow-button border-primaryBorder border-solid border font-semibold transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56"
+          >
+            Cancel
+          </button>
+          <button
+            class="bg-actionPrimary text-white p-4 rounded-xl shadow-button border-actionSecondary border-solid border font-semibold hover:bg-white hover:text-actionPrimary transition disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56"
+          >
+            Proceed
+          </button>
+        </div>
+      </div>
+    </dialog>
   </div>
 </div>
 `;

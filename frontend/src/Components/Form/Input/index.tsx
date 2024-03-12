@@ -1,4 +1,4 @@
-import { InputHTMLAttributes } from 'react';
+import { FC, InputHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -10,7 +10,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   className?: string;
 }
 
-export function Input({ name, className, ...props }: InputProps) {
+export const Input: FC<InputProps> = ({ name, className, ...props }) => {
   const { register, formState: { errors } } = useFormContext();
 
   return (
@@ -26,4 +26,4 @@ export function Input({ name, className, ...props }: InputProps) {
       )}
     </>
   );
-}
+};

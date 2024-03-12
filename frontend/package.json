@@ -18,7 +18,6 @@
     "@hookform/resolvers": "^3.3.4",
     "@mysten/sui.js": "^0.50.1",
     "@suiet/wallet-kit": "~0.2.22",
-    "@szhsin/react-menu": "^4.1.0",
     "@tanstack/react-query": "^5.22.2",
     "axios": "^1.6.7",
     "axios-cache-interceptor": "^1.5.1",

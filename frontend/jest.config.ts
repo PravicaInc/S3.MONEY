@@ -98,10 +98,11 @@ const config: Config = {
   // A map from regular expressions to module names or to arrays of module names that allow to stub out resources with a single module
   moduleNameMapper: {
     '^.+\\.svg\\?jsx$': '<rootDir>/src/__mocks__/svg_to_tsx.ts',
+    'next/navigation': '<rootDir>/src/__mocks__/next_navigation.ts',
   },
 
   // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
-  // modulePathIgnorePatterns: [],
+  modulePathIgnorePatterns: ['setup.ts'],
 
   // Activates notifications for test results
   // notify: false,
@@ -142,7 +143,7 @@ const config: Config = {
   // runner: "jest-runner",
 
   // The paths to modules that run some code to configure or set up the testing environment before each test
-  // setupFiles: [],
+  setupFiles: ['<rootDir>/src/__tests__/setup.ts'],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
   // setupFilesAfterEnv: [],
@@ -206,18 +207,3 @@ const config: Config = {
 
 // createJestConfig is exported this way to ensure that next/jest can load the Next.js config which is async
 export default createJestConfig(config);
-
-// export default async function jestConfig() {
-//   const nextJestConfig = await createJestConfig(config)();
-
-//   console.log(nextJestConfig)
-
-//   return {
-//     ...nextJestConfig,
-//     moduleNameMapper: {
-//       ...nextJestConfig.moduleNameMapper,
-//       // Workaround to put our SVG mock first
-//       '^.+\\.(svg)$': '<rootDir>/src/__mocks__/fileMock.ts',
-//     },
-//   };
-// }
