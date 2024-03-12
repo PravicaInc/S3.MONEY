@@ -8,5 +8,11 @@ export const metadata: Metadata = {
 };
 
 export default function HomeLayout({ className, ...props }: PageLayoutProps) {
-  return <PageLayout className={twMerge('bg-secondaryPageBG', className)} {...props} />;
+  return (
+    <PageLayout
+      className={twMerge('bg-pageBgSecondary', className)}
+      contentClassName="flex"
+      {...props}
+    />
+  );
 }

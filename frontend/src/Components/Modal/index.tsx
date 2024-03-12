@@ -1,4 +1,4 @@
-import React, { HTMLAttributes, MouseEventHandler, ReactNode, useCallback, useEffect, useRef } from 'react';
+import React, { FC, HTMLAttributes, MouseEventHandler, ReactNode, useCallback, useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export interface ModalProps extends HTMLAttributes<HTMLDialogElement> {
@@ -10,7 +10,7 @@ export interface ModalProps extends HTMLAttributes<HTMLDialogElement> {
   contentClassName?: string;
 }
 
-export function Modal({
+export const Modal: FC<ModalProps> = ({
   visible,
   onClose,
 
@@ -19,7 +19,7 @@ export function Modal({
   contentClassName,
   children,
   ...props
-}: ModalProps) {
+}) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const lastActiveElement = useRef<Element | HTMLInputElement | null>(null);
 
@@ -98,4 +98,4 @@ export function Modal({
       </div>
     </dialog>
   );
-}
+};

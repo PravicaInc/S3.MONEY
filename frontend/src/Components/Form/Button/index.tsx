@@ -15,14 +15,18 @@ export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 export const primaryButtonClasses = `
-  bg-actionPrimary text-white p-4 rounded-xl shadow-button border-actionSecondary border-solid border font-semibold
-  hover:bg-white hover:text-actionPrimary
+  text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold
+  flex items-center justify-center
+  bg-buttonBgMain relative overflow-hidden
+  after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute
+  hover:bg-buttonBgAfter hover:text-actionPrimary
   transition
-  disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white
+  disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white
 `;
 
 export const secondaryButtonClasses = `
-  bg-white text-primary p-4 rounded-xl shadow-button border-primaryBorder border-solid border font-semibold
+  bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold
+  flex items-center justify-center
   transition
   hover:border-actionSecondary hover:text-actionPrimary
   disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white
@@ -50,7 +54,7 @@ export const Button: FC<ButtonProps> = ({
   >
     {
       isLoading
-        ? <Loader className="text-inherit h-5" />
+        ? <Loader className="text-inherit h-5 bg-" />
         : text || children
     }
   </button>

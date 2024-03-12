@@ -49,14 +49,14 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
   return (
     <div
       className={twMerge(
-        'min-h-20 px-8 border-b border-primaryBorder bg-white',
+        'min-h-20 px-8 border-b border-borderPrimary bg-white flex items-center justify-center',
         className
       )}
       {...props}
     >
       <div
         data-testid="header"
-        className="flex items-center justify-between max-w-screen-2xl mx-auto h-full"
+        className="flex items-center justify-between max-w-screen-2xl mx-auto h-full w-full"
       >
         <LogoIcon />
         {
@@ -68,7 +68,7 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
           shortAccountAddress && (
             <button
               className="
-                border border-primaryBorder rounded-[10px]
+                border border-borderPrimary rounded-[10px]
                 h-10 px-4 flex items-center justify-between gap-2
                 text-secondary font-medium
                 transition

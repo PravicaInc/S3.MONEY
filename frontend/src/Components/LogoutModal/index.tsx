@@ -1,5 +1,3 @@
-'use client';
-
 import { FC } from 'react';
 
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
@@ -21,14 +19,14 @@ export const LogoutModal: FC<LogoutModalProps> = ({ onProceed, onClose, inProces
     </p>
     <div className="flex items-center justify-center gap-4 mt-8">
       <Button
-        className="w-56"
+        className="w-56 h-[56px]"
         view={BUTTON_VIEWS.secondary}
         onClick={onClose}
       >
         Cancel
       </Button>
       <Button
-        className="w-56"
+        className="w-56 h-[56px]"
         onClick={onProceed}
         isLoading={inProcess}
       >

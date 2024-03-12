@@ -6,9 +6,148 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
     [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
   </style>
   <div
-    class="flex items-center justify-center h-full"
+    class="flex items-center justify-center w-full grow p-5"
   >
-    Select Stablecoin
+    <div
+      class="bg-white shadow-stableCoinForm rounded-xl w-[450px]"
+    >
+      <div
+        class="px-6 py-5 flex items-center justify-between border-b border-borderPrimary"
+      >
+        <span
+          class="text-lg font-semibold text-primary"
+        >
+          Select Stablecoin
+        </span>
+        <a
+          class="rounded-xl"
+          href="#"
+        >
+          <button
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-sm font-semibold h-[37px] w-[153px]"
+          >
+            + New Stablecoin
+          </button>
+        </a>
+      </div>
+      <div
+        class="p-6 space-y-6"
+      >
+        <div
+          class="relative"
+        >
+          <input
+            class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none pl-11 w-full"
+            placeholder="Search..."
+            value=""
+          />
+          <svg
+            class="absolute top-1/2 left-3 -translate-y-1/2"
+          />
+        </div>
+        <div
+          class="bg-borderPrimary h-[1px]"
+        />
+        <div
+          class="space-y-3"
+        >
+          <button
+            class="border rounded-[10px] px-4 py-3 flex items-center justify-between w-full text-left border-borderPrimary"
+          >
+            <div
+              class="flex gap-4 items-center"
+            >
+              <div
+                class="flex items-center justify-center w-8 h-8"
+              >
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-coins "
+                  data-icon="coins"
+                  data-prefix="fas"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M512 80c0 18-14.3 34.6-38.4 48c-29.1 16.1-72.5 27.5-122.3 30.9c-3.7-1.8-7.4-3.5-11.3-5C300.6 137.4 248.2 128 192 128c-8.3 0-16.4 .2-24.5 .6l-1.1-.6C142.3 114.6 128 98 128 80c0-44.2 86-80 192-80S512 35.8 512 80zM160.7 161.1c10.2-.7 20.7-1.1 31.3-1.1c62.2 0 117.4 12.3 152.5 31.4C369.3 204.9 384 221.7 384 240c0 4-.7 7.9-2.1 11.7c-4.6 13.2-17 25.3-35 35.5c0 0 0 0 0 0c-.1 .1-.3 .1-.4 .2l0 0 0 0c-.3 .2-.6 .3-.9 .5c-35 19.4-90.8 32-153.6 32c-59.6 0-112.9-11.3-148.2-29.1c-1.9-.9-3.7-1.9-5.5-2.9C14.3 274.6 0 258 0 240c0-34.8 53.4-64.5 128-75.4c10.5-1.5 21.4-2.7 32.7-3.5zM416 240c0-21.9-10.6-39.9-24.1-53.4c28.3-4.4 54.2-11.4 76.2-20.5c16.3-6.8 31.5-15.2 43.9-25.5V176c0 19.3-16.5 37.1-43.8 50.9c-14.6 7.4-32.4 13.7-52.4 18.5c.1-1.8 .2-3.5 .2-5.3zm-32 96c0 18-14.3 34.6-38.4 48c-1.8 1-3.6 1.9-5.5 2.9C304.9 404.7 251.6 416 192 416c-62.8 0-118.6-12.6-153.6-32C14.3 370.6 0 354 0 336V300.6c12.5 10.3 27.6 18.7 43.9 25.5C83.4 342.6 135.8 352 192 352s108.6-9.4 148.1-25.9c7.8-3.2 15.3-6.9 22.4-10.9c6.1-3.4 11.8-7.2 17.2-11.2c1.5-1.1 2.9-2.3 4.3-3.4V304v5.7V336zm32 0V304 278.1c19-4.2 36.5-9.5 52.1-16c16.3-6.8 31.5-15.2 43.9-25.5V272c0 10.5-5 21-14.9 30.9c-16.3 16.3-45 29.7-81.3 38.4c.1-1.7 .2-3.5 .2-5.3zM192 448c56.2 0 108.6-9.4 148.1-25.9c16.3-6.8 31.5-15.2 43.9-25.5V432c0 44.2-86 80-192 80S0 476.2 0 432V396.6c12.5 10.3 27.6 18.7 43.9 25.5C83.4 438.6 135.8 448 192 448z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </div>
+              <div>
+                <p
+                  class="font-semibold text-primary"
+                >
+                  $PRV
+                </p>
+                <p
+                  class="text-sm text-[#666D80] mt-[2px]"
+                >
+                  Pravica Token
+                </p>
+              </div>
+            </div>
+            <div
+              class="relative"
+            >
+              <input
+                class="invisible absolute inset-1/2"
+                type="checkbox"
+              />
+              <div
+                class="w-5 h-5 border border-borderPrimary flex items-center justify-center rounded-md transition"
+              />
+            </div>
+          </button>
+          <button
+            class="border rounded-[10px] px-4 py-3 flex items-center justify-between w-full text-left border-borderPrimary"
+          >
+            <div
+              class="flex gap-4 items-center"
+            >
+              <div
+                class="flex items-center justify-center w-8 h-8"
+              >
+                <div
+                  class="w-full h-full bg-[#F0F0F0] rounded-full"
+                />
+              </div>
+              <div>
+                <p
+                  class="font-semibold text-primary"
+                >
+                  SSS
+                </p>
+                <p
+                  class="text-sm text-[#666D80] mt-[2px]"
+                >
+                  S3 Money Token
+                </p>
+              </div>
+            </div>
+            <div
+              class="relative"
+            >
+              <input
+                class="invisible absolute inset-1/2"
+                type="checkbox"
+              />
+              <div
+                class="w-5 h-5 border border-borderPrimary flex items-center justify-center rounded-md transition"
+              />
+            </div>
+          </button>
+        </div>
+        <button
+          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-full h-[37px] text-sm font-semibold"
+          disabled=""
+        >
+          Manage Stablecoin
+        </button>
+      </div>
+    </div>
   </div>
 </div>
 `;

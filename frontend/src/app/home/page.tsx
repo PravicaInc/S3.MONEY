@@ -4,6 +4,7 @@ import { useMemo } from 'react';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 
 import { Loader } from '@/Components/Loader';
+import { SelectStableCoinForm } from '@/Components/SelectStableCoinForm';
 
 export default function HomePage() {
   const autoConnectionStatus = useAutoConnectWallet();
@@ -19,14 +20,12 @@ export default function HomePage() {
   );
 
   return (
-    <div className="flex items-center justify-center h-full">
+    <div className="flex items-center justify-center w-full grow p-5">
       {(isLoading || isRedirecting) && (
         <Loader className="h-20" />
       )}
       {!!account?.address && (
-        <>
-          Select Stablecoin
-        </>
+        <SelectStableCoinForm className="w-[450px]" />
       )}
     </div>
   );
