@@ -38,8 +38,12 @@ module <%- packageName %>::<%- packageName %> {
     }
 
     // Public functions
-    public fun check_frozen<T>(policy: &TokenPolicy<T>, recipient: address): bool {
+    public fun is_frozen<T>(policy: &TokenPolicy<T>, recipient: address): bool {
         denylist::verifyp<T>(policy, recipient)
+    }
+
+    public fun is_paused<T>(policy: &TokenPolicy<T>): bool {
+        pauser::paused<T>(policy)
     }
 
     public fun transfer<T>(policy: &TokenPolicy<T>, token: Token<T>, recipient: address, ctx: &mut TxContext) {
@@ -106,7 +110,8 @@ module <%- packageName %>::<%- packageName %> {
 
     fun create_currency<T: drop>(otw: T, ctx: &mut TxContext): TreasuryCap<T> {
         let (treasury_cap, metadata) = coin::create_currency(
-            otw, <%- decimals %> /* decimals */,
+            otw,
+            <%- decimals %> /* decimals */,
             b"<%- packageName.toUpperCase() %>" /* symbol */,
             b"<%- name %>" /* name */,
             b"<%- description %>" /* description */,
@@ -125,18 +130,21 @@ module <%- packageName %>::<%- packageName %> {
         pauser::set_config<T>(policy, cap, false, ctx);
 
         // At the moment, transfer is only operation we really check against.
-        token::add_rule_for_action<T, Denylist>(policy, cap, token::transfer_action(), ctx);
         token::add_rule_for_action<T, Pauser>(policy, cap, token::transfer_action(), ctx);
+        token::add_rule_for_action<T, Denylist>(policy, cap, token::transfer_action(), ctx);
 
         // Unsupported operations: spend; to_coin, from_coin (sui coin <-> token).
-        token::add_rule_for_action<T, Denylist>(policy, cap, token::spend_action(), ctx);
         token::add_rule_for_action<T, Pauser>(policy, cap, token::spend_action(), ctx);
-        token::add_rule_for_action<T, Denylist>(policy, cap, token::to_coin_action(), ctx);
+        token::add_rule_for_action<T, Denylist>(policy, cap, token::spend_action(), ctx);
+
         token::add_rule_for_action<T, Pauser>(policy, cap, token::to_coin_action(), ctx);
-        token::add_rule_for_action<T, Denylist>(policy, cap, token::from_coin_action(), ctx);
+        token::add_rule_for_action<T, Denylist>(policy, cap, token::to_coin_action(), ctx);
+
         token::add_rule_for_action<T, Pauser>(policy, cap, token::from_coin_action(), ctx);
+        token::add_rule_for_action<T, Denylist>(policy, cap, token::from_coin_action(), ctx);
     }
 
     #[test_only] friend <%- packageName %>::<%- packageName %>_tests;
+    #[test_only] friend <%- packageName %>::mint_tests;
     #[test_only] public fun init_for_testing(ctx: &mut TxContext) { init(<%- packageName.toUpperCase() %> {}, ctx) }
 }
