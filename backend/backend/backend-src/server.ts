@@ -85,7 +85,7 @@ function valid(data: ICreatePackageRequest): boolean {
     return false
   }
 
-  if (data.symbol == '' || data.symbol.length > 5) {
+  if (data.symbol == '' || data.symbol.length > 10) {
     console.log(`invalid symbol name: ${data.symbol}`)
     return false
   }
