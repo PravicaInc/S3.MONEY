@@ -28,8 +28,8 @@ export default function SignInPage() {
   );
 
   return (
-    <div className="flex flex-col h-screen">
-      <div className="grid md:grid-cols-2 h-full">
+    <div className="flex flex-col min-h-screen">
+      <div className="grid md:grid-cols-2 h-full grow">
         <div className="bg-white h-full flex items-center justify-center py-5">
           <div className="flex flex-col items-center mx-20 max-w-4xl text-center">
             <LogoSVG />

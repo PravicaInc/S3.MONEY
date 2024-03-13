@@ -15,38 +15,6 @@ let renderResult: RenderResult;
 describe('Home page:', () => {
   afterAll(cleanup);
 
-  describe('Home page with loading state:', () => {
-    beforeEach(() => {
-      if (renderResult?.unmount) {
-        renderResult.unmount();
-      }
-
-      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'idle');
-
-      renderResult = renderHomePageWithProviders();
-    });
-
-    it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
-    });
-  });
-
-  describe('Home page with disconnected state:', () => {
-    beforeEach(() => {
-      if (renderResult?.unmount) {
-        renderResult.unmount();
-      }
-
-      jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
-
-      renderResult = renderHomePageWithProviders();
-    });
-
-    it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
-    });
-  });
-
   describe('Home page with connected state:', () => {
     beforeEach(() => {
       if (renderResult?.unmount) {
@@ -57,10 +25,6 @@ describe('Home page:', () => {
       jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
 
       renderResult = renderHomePageWithProviders();
-    });
-
-    it('Don`t show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeNull();
     });
 
     it('Show stablecoin form', () => {

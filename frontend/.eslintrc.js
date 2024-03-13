@@ -241,7 +241,7 @@ module.exports = {
       },
     ],
     'react/require-render-return': 'error',
-    'react/no-multi-comp': ['error', { 'ignoreStateless': false }],
+    'react/no-multi-comp': ['error', { 'ignoreStateless': true }],
     'react/jsx-closing-tag-location': 'error',
     'react/jsx-curly-newline': ['error', { multiline: 'consistent', singleline: 'consistent' }],
     'react/jsx-equals-spacing': ['error', 'never'],
