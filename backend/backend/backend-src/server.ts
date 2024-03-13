@@ -7,13 +7,11 @@ import ejs from 'ejs'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
-const TOKEN1_COIN = `${CWD}/coin_template/token1`
 
-// templates
-const TMoveToml = fs.readFileSync(`${TOKEN1_COIN}/Move.toml`, {
-  encoding: 'utf-8',
-})
-const TFiles = fs.readdirSync(`${TOKEN1_COIN}/sources/`).filter(name => name.endsWith('.move'))
+// simple token template
+const TOKEN_SIMPLE = `${CWD}/coin_template/token1`
+// supply-constrained token template
+const TOKEN_SUPPLY = `${CWD}/coin_template/token2`
 
 const port = process.env.PORT || 3000
 const app: Express = express()
@@ -38,6 +36,9 @@ interface ICreatePackageRequest {
   description: string
   decimals: number
   icon_url?: string
+  // for supply-constrainted contracts
+  initialSupply?: string
+  maxSupply?: string
 }
 
 app.post('/create', async (req: Request<{}, {}, ICreatePackageRequest>, res) => {
@@ -102,29 +103,42 @@ function valid(data: ICreatePackageRequest): boolean {
 }
 
 function createPackage(data: ICreatePackageRequest) {
+  let token: string
+
+  if (data.initialSupply && data.maxSupply) {
+    token = TOKEN_SUPPLY
+  } else {
+    token = TOKEN_SIMPLE
+  }
+
   const packagePath = `${WORK_DIR}/${data.packageName}`
+  const TMoveToml = fs.readFileSync(`${token}/Move.toml`, {
+    encoding: 'utf-8',
+  })
+  const TFiles = fs.readdirSync(`${token}/sources/`).filter(name => name.endsWith('.move'))
 
   let path = `${packagePath}/sources`
   fs.mkdirSync(path, {recursive: true})
   console.log(`created ${path}`)
 
   path = `${packagePath}/Move.toml`
+
   const move = ejs.render(TMoveToml, data)
   fs.writeFileSync(path, move)
   console.log(`wrote to ${path}`)
 
   for (const fname of TFiles) {
-    const TIn = fs.readFileSync(`${TOKEN1_COIN}/sources/${fname}`, {
+    const TIn = fs.readFileSync(`${token}/sources/${fname}`, {
       encoding: 'utf-8',
     })
 
     let TOut = `${packagePath}/sources/${fname}`
 
-    // special case: token1.move -> <packageName>.move
+    // special case: token.move -> <packageName>.move
     // same with test
-    if (fname === 'token1.move') {
+    if (fname === 'token.move') {
       TOut = `${packagePath}/sources/${data.packageName}.move`
-    } else if (fname === 'token1_test.move') {
+    } else if (fname === 'token_test.move') {
       TOut = `${packagePath}/sources/${data.packageName}_test.move`
     }
 
