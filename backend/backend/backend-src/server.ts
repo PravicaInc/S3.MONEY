@@ -28,17 +28,17 @@ app.get('/', (req, res) => {
 interface ICreatePackageRequest {
   // creator's address
   address: string
-  // package metadata
-  packageName: string
   // coin metadata
   symbol: string // short name, usually five or fewer characters (uppercase)
-  name?: string // longer name, optional, set to short name if not present
-  description: string
   decimals: number
+  name: string
   icon_url?: string
   // for supply-constrainted contracts
-  initialSupply?: string
-  maxSupply?: string
+  initialSupply?: string // can be "0"
+  maxSupply?: string // can be "0"
+  // set internally
+  packageName?: string
+  description?: string
 }
 
 app.post('/create', async (req: Request<{}, {}, ICreatePackageRequest>, res) => {
@@ -69,7 +69,7 @@ app.listen(port, () => {
 })
 
 function valid(data: ICreatePackageRequest): boolean {
-  const stringFields = ['packageName', 'symbol', 'description']
+  const stringFields = ['symbol', 'name', 'decimals'] // , "address"];
 
   for (const field of stringFields) {
     if (!(field in data)) {
@@ -78,18 +78,30 @@ function valid(data: ICreatePackageRequest): boolean {
     }
   }
 
-  // downcase the package name
-  data.packageName = data.packageName.toLowerCase()
-
-  if (data.decimals < 0 || data.decimals > 6) {
+  if (data.decimals < 0 || data.decimals > 8) {
     console.log(`wrong number of decimals: ${data.decimals}`)
     return false
   }
 
-  if (data.symbol == '' || data.symbol.length > 10) {
+  // upcase the symbol
+  data.symbol = data.symbol.toUpperCase().trim()
+
+  if (data.symbol == '' || data.symbol == '$' || data.symbol.length > 6) {
     console.log(`invalid symbol name: ${data.symbol}`)
     return false
   }
+
+  if (!data.symbol.startsWith('$')) {
+    console.log(`symbol must start with $: ${data.symbol}`)
+    return false
+  }
+
+  // downcase the package name and remove $
+  data.packageName = data.symbol.toLowerCase().trim().substring(1)
+  data.description = data.name
+
+  data.initialSupply = data.initialSupply || '0'
+  data.maxSupply = data.maxSupply || '0'
 
   const path = `${WORK_DIR}/${data.packageName}`
   if (fs.existsSync(path)) {
@@ -103,13 +115,7 @@ function valid(data: ICreatePackageRequest): boolean {
 }
 
 function createPackage(data: ICreatePackageRequest) {
-  let token: string
-
-  if (data.initialSupply && data.maxSupply) {
-    token = TOKEN_SUPPLY
-  } else {
-    token = TOKEN_SIMPLE
-  }
+  let token: string = TOKEN_SUPPLY
 
   const packagePath = `${WORK_DIR}/${data.packageName}`
   const TMoveToml = fs.readFileSync(`${token}/Move.toml`, {
