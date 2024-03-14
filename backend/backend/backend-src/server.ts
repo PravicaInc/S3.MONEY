@@ -144,8 +144,8 @@ function createPackage(data: ICreatePackageRequest) {
     // same with test
     if (fname === 'token.move') {
       TOut = `${packagePath}/sources/${data.packageName}.move`
-    } else if (fname === 'token_test.move') {
-      TOut = `${packagePath}/sources/${data.packageName}_test.move`
+    } else if (fname === 'token_tests.move') {
+      TOut = `${packagePath}/sources/${data.packageName}_tests.move`
     }
 
     const merged = ejs.render(TIn, data)
