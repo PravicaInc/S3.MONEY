@@ -138,10 +138,10 @@ module <%- packageName %>::<%- packageName %> {
     fun create_currency<T: drop>(otw: T, ctx: &mut TxContext): TreasuryCap<T> {
         let (treasury_cap, metadata) = coin::create_currency(
             otw,
-            2 /* decimals */,
-            b"T2" /* symbol */,
-            b"Simple Token" /* name */,
-            b"Token that showcases denylist + max supply" /* description */,
+            <%- decimals %> /* decimals */,
+            b"<%- ticker %>" /* symbol */,
+            b"<%- name %>" /* name */,
+            b"<%- description %>" /* description */,
             option::none() /* optional icon url */,
             ctx
         );
