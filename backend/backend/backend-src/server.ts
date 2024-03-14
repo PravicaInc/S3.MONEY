@@ -29,7 +29,7 @@ interface ICreatePackageRequest {
   // creator's address
   address: string
   // coin metadata
-  symbol: string // short name, usually five or fewer characters (uppercase)
+  ticker: string // short name, usually five or fewer characters (uppercase)
   decimals: number
   name: string
   icon_url?: string
@@ -69,7 +69,7 @@ app.listen(port, () => {
 })
 
 function valid(data: ICreatePackageRequest): boolean {
-  const stringFields = ['symbol', 'name', 'decimals'] // , "address"];
+  const stringFields = ['ticker', 'name', 'decimals'] // , "address"];
 
   for (const field of stringFields) {
     if (!(field in data)) {
@@ -83,21 +83,21 @@ function valid(data: ICreatePackageRequest): boolean {
     return false
   }
 
-  // upcase the symbol
-  data.symbol = data.symbol.toUpperCase().trim()
+  // upcase the ticker
+  data.ticker = data.ticker.toUpperCase().trim()
 
-  if (data.symbol == '' || data.symbol == '$' || data.symbol.length > 6) {
-    console.log(`invalid symbol name: ${data.symbol}`)
+  if (data.ticker == '' || data.ticker == '$' || data.ticker.length > 6) {
+    console.log(`invalid ticker name: ${data.ticker}`)
     return false
   }
 
-  if (!data.symbol.startsWith('$')) {
-    console.log(`symbol must start with $: ${data.symbol}`)
+  if (!data.ticker.startsWith('$')) {
+    console.log(`ticker must start with $: ${data.ticker}`)
     return false
   }
 
   // downcase the package name and remove $
-  data.packageName = data.symbol.toLowerCase().trim().substring(1)
+  data.packageName = data.ticker.toLowerCase().trim().substring(1)
   data.description = data.name
 
   data.initialSupply = data.initialSupply || '0'
