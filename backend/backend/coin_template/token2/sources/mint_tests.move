@@ -156,6 +156,7 @@ module <%- packageName %>::mint_tests {
         test_scenario::end(scenario);
     }
 
+    // this test will fail if max supply is 0
     #[test]
     fun mint_max_supply() {
         let scenario = test_scenario::begin(DEPLOYER);
@@ -195,6 +196,7 @@ module <%- packageName %>::mint_tests {
         test_scenario::end(scenario);
     }
 
+    // this test is expected to fail only when max supply greater than initial supply
     #[test, expected_failure(abort_code = <%- packageName %>::<%- packageName %>::EWouldExceedMaxSupply)]
     fun mint_greater_than_max_supply_fail() {
         let scenario = test_scenario::begin(DEPLOYER);
