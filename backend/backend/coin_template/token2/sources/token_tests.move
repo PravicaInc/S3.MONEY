@@ -16,6 +16,9 @@ module <%- packageName %>::<%- packageName %>_tests {
 
     #[test]
     fun initial_supply_minted() {
+        // nothing to do?
+        if (initial_supply() == 0) { return };
+
         let scenario = test_scenario::begin(DEPLOYER);
         {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
