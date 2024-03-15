@@ -1,11 +1,13 @@
-import { FC, ReactNode, SelectHTMLAttributes } from 'react';
+import { FC, forwardRef, ReactNode, SelectHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
-import { FormError } from '@/Components/Form/FormError';
+import ChevronIcon from '@/../public/images/chevron.svg?jsx';
 
-export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
-  name: string;
+import { FormError } from '@/Components/Form/FormError';
+import { Label } from '@/Components/Form/Label';
+
+export interface SimpleSelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
   options: {
     value: string | number,
     label: ReactNode,
@@ -13,37 +15,80 @@ export interface SelectProps extends SelectHTMLAttributes<HTMLSelectElement> {
 
   isRequired?: boolean;
   className?: string;
+  placeholder?: string;
+  wrapperClassName?: string;
 }
 
-export const Select: FC<SelectProps> = ({ name, options, isRequired, className, ...props }) => {
+export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(({
+  options,
+  isRequired,
+  className,
+  wrapperClassName,
+  placeholder = 'Select ...',
+  ...props
+}, ref) => (
+  <div className={twMerge('relative', wrapperClassName)}>
+    <select
+      ref={ref}
+      className={twMerge(
+        'text-primary p-3 rounded-xl border border-borderPrimary',
+        'outline-none appearance-none',
+        'text-secondary has-[>option:checked:not([value=""])]:text-primary',
+        className
+      )}
+      required={isRequired}
+      {...props}
+    >
+      <option
+        value=""
+        selected
+        disabled={isRequired}
+        className="text-[#A4ABB8]"
+      >
+        {placeholder}
+      </option>
+      {
+        options.map(({ value, label }) => (
+          <option
+            key={value}
+            value={value}
+          >
+            {label}
+          </option>
+        ))
+      }
+    </select>
+    <ChevronIcon
+      className="absolute right-4 top-1/2 -translate-y-1/2"
+    />
+  </div>
+));
+
+export interface SelectProps extends SimpleSelectProps {
+  name: string;
+
+  label?: string;
+}
+
+export const Select: FC<SelectProps> = ({ name, label, isRequired, ...props }) => {
   const { register, formState: { errors } } = useFormContext();
 
   return (
     <>
-      <select
-        id={name}
-        className={twMerge('p-4 border border-blue-200 rounded-lg', className)}
+      {
+        label && (
+          <Label
+            label={label}
+            isRequired={isRequired}
+            className="mb-2"
+          />
+        )
+      }
+      <SimpleSelect
         {...register(name)}
         {...props}
-      >
-        <option
-          value=""
-          selected
-          disabled={isRequired}
-        >
-          Select ...
-        </option>
-        {
-          options.map(({ value, label }) => (
-            <option
-              key={value}
-              value={value}
-            >
-              {label}
-            </option>
-          ))
-        }
-      </select>
+        isRequired={isRequired}
+      />
       {errors?.[name]?.message && (
         <FormError text={errors?.[name]?.message as string} />
       )}

@@ -28,7 +28,27 @@ const getStableCoinsList = async (accountAddress: string): Promise<StableCoinsLi
           },
           {
             id: '2',
-            name: 'SSS',
+            name: 'SSS 2',
+            tokenName: 'S3 Money Token',
+          },
+          {
+            id: '3',
+            name: 'SSS 3',
+            tokenName: 'S3 Money Token',
+          },
+          {
+            id: '4',
+            name: 'SSS 4',
+            tokenName: 'S3 Money Token',
+          },
+          {
+            id: '5',
+            name: 'SSS 5',
+            tokenName: 'S3 Money Token',
+          },
+          {
+            id: '6',
+            name: 'SSS 6',
             tokenName: 'S3 Money Token',
           },
         ],

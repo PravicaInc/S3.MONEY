@@ -6,7 +6,7 @@ export interface FormErrorProps extends HTMLAttributes<HTMLParagraphElement> {
 }
 
 export const FormError: FC<FormErrorProps> = ({ text, className, ...props }) => (
-  <p className={twMerge('text-red-600', className)} {...props}>
+  <p className={twMerge('text-error text-sm', className)} {...props}>
     {text}
   </p>
 );

@@ -12,6 +12,8 @@ import { Button } from '@/Components/Form/Button';
 import { SimpleInput } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
 
+import { PAGES_URLS } from '@/utils/const';
+
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 import { StableCoinItem } from './components/StableCoinItem';
@@ -69,7 +71,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
               <Loader className="h-5" />
             )
             : (
-              <Link href="#" className="rounded-xl">
+              <Link href={PAGES_URLS.createStableCoin} className="rounded-xl">
                 <Button className="text-sm font-semibold h-[37px] w-[153px]">
                   + New Stablecoin
                 </Button>
@@ -94,7 +96,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
                 icon={<SearchIcon />}
               />
               <Delimiter />
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-[410px] overflow-auto">
                 {
                   filteredStableCoins.map(coin => (
                     <StableCoinItem

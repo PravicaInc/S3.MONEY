@@ -42,7 +42,7 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({ stableCoinItem, isSele
         <p className="font-semibold text-primary">
           {stableCoinItem.name}
         </p>
-        <p className="text-sm text-[#666D80] mt-[2px]">
+        <p className="text-sm text-[grayText] mt-[2px]">
           {stableCoinItem.tokenName}
         </p>
       </div>

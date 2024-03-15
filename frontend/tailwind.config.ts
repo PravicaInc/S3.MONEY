@@ -7,8 +7,10 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        error: '#DC2626',
         primary: '#0D0D12',
         secondary: '#808897',
+        grayText: 'grayText',
         actionPrimary: '#FE6321',
         actionSecondary: '#FFAA71',
         pageBgPrimary: 'rgb(248, 249, 251)',
