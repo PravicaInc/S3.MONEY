@@ -151,6 +151,7 @@ function createPackage(data: IFace.ICreatePackageRequest) {
     })
   } catch (e: any) {
     console.log(e)
+    fs.rmSync(packagePath, {recursive: true})
     return {modules: '', dependencies: '', error: e.toString()}
   }
 
