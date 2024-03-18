@@ -38,7 +38,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, ...
       .required('Initial Supply is required.'),
     maxSupply: yup
       .number()
-      .typeError('Max supply is required.')
+      .typeError('Max Supply is required.')
       .moreThan(yup.ref('initialSupply'), 'The maximum supply should be more than the initial supply.'),
     supplyType: yup.string().oneOf(
       [SupplyTypes.Infinite, SupplyTypes.Finite],

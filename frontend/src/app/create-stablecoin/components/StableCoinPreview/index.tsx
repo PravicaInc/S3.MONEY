@@ -22,9 +22,8 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
   className,
   icon,
   supplyType = SupplyTypes.Infinite,
-  ...props
 }) => (
-  <div className={twMerge('bg-white border rounded-xl text-primary border-borderPrimary', className)} {...props}>
+  <div className={twMerge('bg-white border rounded-xl text-primary border-borderPrimary', className)}>
     <p className="text-lg font-semibold p-5 border-b border-borderPrimary">
       Preview Details
     </p>

@@ -36,6 +36,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
         <input
           class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none pl-11 w-full"
           placeholder="Search..."
+          type="text"
           value=""
         />
         <svg
@@ -68,14 +69,14 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
                 PRV
               </p>
               <p
-                class="text-sm text-[grayText] mt-[2px]"
+                class="text-sm text-grayText mt-[2px]"
               >
                 Pravica Token
               </p>
             </div>
           </div>
           <label
-            class="relative cursor-pointer transi"
+            class="relative transition cursor-pointer"
           >
             <input
               class="
@@ -115,14 +116,14 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
                 SSS
               </p>
               <p
-                class="text-sm text-[grayText] mt-[2px]"
+                class="text-sm text-grayText mt-[2px]"
               >
                 S3 Money Token
               </p>
             </div>
           </div>
           <label
-            class="relative cursor-pointer transi"
+            class="relative transition cursor-pointer"
           >
             <input
               class="

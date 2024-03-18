@@ -1,0 +1,943 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Create stablecoin page: Create stablecoin page with connected state: "Initial Details" step: Snapshot 1`] = `
+<div>
+  <style>
+    [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
+  </style>
+  <div
+    class="flex flex-col items-center justify-center w-full grow"
+  >
+    <div
+      class="h-full w-full items-center justify-center hidden"
+    >
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-10"
+        data-icon="spinner"
+        data-prefix="fas"
+        data-testid="loader"
+        focusable="false"
+        role="img"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+    <div
+      class="h-full w-full p-10"
+    >
+      <p
+        class="font-semibold text-2xl text-primary"
+      >
+        Create New Stablecoin
+      </p>
+      <div
+        class="flex items-center gap-10 mt-8"
+      >
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+          >
+            1
+          </div>
+          <p
+            class="text-primary"
+          >
+            Initial Details
+          </p>
+        </div>
+        <div
+          class="bg-borderPrimary w-16 h-[2px]"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-[#F8F9FB] border-borderPrimary after:content-none"
+          >
+            2
+          </div>
+          <p
+            class="text-[#C1C7CF]"
+          >
+            Supply Details
+          </p>
+        </div>
+        <div
+          class="bg-borderPrimary w-16 h-[2px]"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-[#F8F9FB] border-borderPrimary after:content-none"
+          >
+            3
+          </div>
+          <p
+            class="text-[#C1C7CF]"
+          >
+            Permissions
+          </p>
+        </div>
+      </div>
+      <div
+        class="mt-16 grid grid-cols-10 gap-6"
+      >
+        <div
+          class="bg-white border border-borderPrimary rounded-xl p-10 col-span-7 h-fit"
+        >
+          <form
+            class=""
+          >
+            <p
+              class="text-primary text-lg font-semibold"
+            >
+              Initial Details
+            </p>
+            <div
+              class="mt-10 space-y-4"
+            >
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Stablecoin Name
+                  *
+                </p>
+                <div
+                  class="relative"
+                >
+                  <input
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
+                    id="name"
+                    maxlength="28"
+                    name="name"
+                    placeholder="Stablecoin Name"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Stablecoin Ticker
+                  *
+                </p>
+                <div
+                  class="relative"
+                >
+                  <input
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
+                    id="ticker"
+                    maxlength="6"
+                    name="ticker"
+                    placeholder="Stablecoin Ticker"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Stablecoin Symbol
+                </p>
+                <div
+                  class="flex items-center gap-3"
+                >
+                  <label
+                    class="cursor-pointer h-10 w-20 text-xs bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white"
+                  >
+                    Choose
+                    <input
+                      class="hidden"
+                      id="icon"
+                      name="icon"
+                      type="file"
+                    />
+                  </label>
+                  <span
+                    class="text-secondary text-sm"
+                  >
+                    JPG or PNG. 1MB max
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between gap-6 mt-10"
+            >
+              <a
+                class="w-full rounded-xl"
+                href="/"
+              >
+                <button
+                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
+                >
+                  Cancel
+                </button>
+              </a>
+              <button
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                type="submit"
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div
+      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+    >
+      <p>
+        Powered By
+         
+        <a
+          href="https://pravica.io/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Pravica
+        </a>
+      </p>
+      <p>
+        Copyright
+         
+        2024
+      </p>
+    </div>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Token Details Review Confirmation
+        </p>
+        <p
+          class="text-sm text-grayText mt-3 text-center"
+        >
+          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          >
+            Cancel
+          </button>
+          <button
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          >
+            Proceed
+          </button>
+        </div>
+      </div>
+    </dialog>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Token was successfully created
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <a
+            href="/"
+          >
+            <button
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            >
+              GO TO DASHBOARD
+            </button>
+          </a>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</div>
+`;
+
+exports[`Create stablecoin page: Create stablecoin page with connected state: "Permissions" step: Snapshot 1`] = `
+<div>
+  <style>
+    [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
+  </style>
+  <div
+    class="flex flex-col items-center justify-center w-full grow"
+  >
+    <div
+      class="h-full w-full items-center justify-center hidden"
+    >
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-10"
+        data-icon="spinner"
+        data-prefix="fas"
+        data-testid="loader"
+        focusable="false"
+        role="img"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+    <div
+      class="h-full w-full p-10"
+    >
+      <p
+        class="font-semibold text-2xl text-primary"
+      >
+        Create New Stablecoin
+      </p>
+      <div
+        class="flex items-center gap-10 mt-8"
+      >
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+          >
+            1
+          </div>
+          <p
+            class="text-primary"
+          >
+            Initial Details
+          </p>
+        </div>
+        <div
+          class="w-16 h-[2px] bg-actionSecondary"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+          >
+            2
+          </div>
+          <p
+            class="text-primary"
+          >
+            Supply Details
+          </p>
+        </div>
+        <div
+          class="w-16 h-[2px] bg-actionSecondary"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+          >
+            3
+          </div>
+          <p
+            class="text-primary"
+          >
+            Permissions
+          </p>
+        </div>
+      </div>
+      <div
+        class="mt-16 grid grid-cols-10 gap-6"
+      >
+        <div
+          class="bg-white border border-borderPrimary rounded-xl p-10 col-span-7 h-fit"
+        >
+          <form
+            class=""
+          >
+            <div
+              class="text-primary text-lg font-semibold flex items-center justify-between"
+            >
+              Assign Default Permissions
+              <div>
+                <label
+                  class="relative transition"
+                >
+                  <input
+                    class="
+  invisible absolute inset-1/2
+  [&+div]:checked:bg-actionPrimary [&+div]:checked:after:left-[calc(100%-18px)]
+"
+                    disabled=""
+                    name="defaultPermissions"
+                    readonly=""
+                    type="checkbox"
+                  />
+                  <div
+                    class="w-8 h-5 bg-slate-300 rounded-[833.33px] relative transition duration-500 after:content-[''] after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-all after:absolute after:top-[2px] after:left-[2px]"
+                  >
+                    <svg
+                      class="hidden duration-1000"
+                    />
+                  </div>
+                </label>
+              </div>
+            </div>
+            <div
+              class="mt-10 space-y-4"
+            >
+              <div
+                class="flex items-center gap-[10px] text-primary"
+              >
+                <div
+                  class="w-6 h-6 flex items-center justify-center rounded-full bg-[#EFFEFA]"
+                >
+                  <svg
+                    class="[&>path]:stroke-[#287F6E]"
+                  />
+                </div>
+                Freeze - S3-Token-Manager Smart Contract
+              </div>
+              <div
+                class="flex items-center gap-[10px] text-primary"
+              >
+                <div
+                  class="w-6 h-6 flex items-center justify-center rounded-full bg-[#EFFEFA]"
+                >
+                  <svg
+                    class="[&>path]:stroke-[#287F6E]"
+                  />
+                </div>
+                Pause - S3-Token-Manager Smart Contract
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between gap-6 mt-10"
+            >
+              <a
+                class="w-full rounded-xl"
+                href="/"
+              >
+                <button
+                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
+                >
+                  Cancel
+                </button>
+              </a>
+              <button
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                type="submit"
+              >
+                Create
+              </button>
+            </div>
+          </form>
+        </div>
+        <div
+          class="bg-white border rounded-xl text-primary border-borderPrimary col-span-3 h-fit"
+        >
+          <p
+            class="text-lg font-semibold p-5 border-b border-borderPrimary"
+          >
+            Preview Details
+          </p>
+          <div
+            class="p-6 pt-5"
+          >
+            <img
+              alt="New StableCoin icon"
+              class="rounded-full"
+              data-nimg="1"
+              decoding="async"
+              height="48"
+              loading="lazy"
+              src="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75"
+              srcset="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75 2x"
+              style="color: transparent;"
+              width="48"
+            />
+            <p
+              class="text-lg font-semibold mt-3"
+            >
+              TEST COIN
+               
+              (
+              $TS
+              )
+            </p>
+            <p
+              class="font-semibold mt-5"
+            >
+              Supply details
+            </p>
+            <div
+              class="bg-borderPrimary h-[1px] mt-3 mb-4"
+            />
+            <div
+              class="flex items-center justify-between text-secondary text-sm"
+            >
+              <span>
+                Factory Contract ID
+              </span>
+              <span>
+                0.1525e49 (Default)
+              </span>
+            </div>
+            <div
+              class="flex items-center justify-between text-secondary text-sm"
+            >
+              <span>
+                Initial Supply
+              </span>
+              <span>
+                987
+              </span>
+            </div>
+            <div
+              class="flex items-center justify-between text-secondary text-sm"
+            >
+              <span>
+                Supply Type
+              </span>
+              <span
+                class="capitalize"
+              >
+                infinite
+              </span>
+            </div>
+            <div
+              class="flex items-center justify-between text-secondary text-sm"
+            >
+              <span>
+                Decimals
+              </span>
+              <span>
+                7
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+    >
+      <p>
+        Powered By
+         
+        <a
+          href="https://pravica.io/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Pravica
+        </a>
+      </p>
+      <p>
+        Copyright
+         
+        2024
+      </p>
+    </div>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Token Details Review Confirmation
+        </p>
+        <p
+          class="text-sm text-grayText mt-3 text-center"
+        >
+          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          >
+            Cancel
+          </button>
+          <button
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          >
+            Proceed
+          </button>
+        </div>
+      </div>
+    </dialog>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Token was successfully created
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <a
+            href="/"
+          >
+            <button
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            >
+              GO TO DASHBOARD
+            </button>
+          </a>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</div>
+`;
+
+exports[`Create stablecoin page: Create stablecoin page with connected state: "Supply Details" step: Snapshot 1`] = `
+<div>
+  <style>
+    [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
+  </style>
+  <div
+    class="flex flex-col items-center justify-center w-full grow"
+  >
+    <div
+      class="h-full w-full items-center justify-center hidden"
+    >
+      <svg
+        aria-hidden="true"
+        class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-10"
+        data-icon="spinner"
+        data-prefix="fas"
+        data-testid="loader"
+        focusable="false"
+        role="img"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+    <div
+      class="h-full w-full p-10"
+    >
+      <p
+        class="font-semibold text-2xl text-primary"
+      >
+        Create New Stablecoin
+      </p>
+      <div
+        class="flex items-center gap-10 mt-8"
+      >
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+          >
+            1
+          </div>
+          <p
+            class="text-primary"
+          >
+            Initial Details
+          </p>
+        </div>
+        <div
+          class="w-16 h-[2px] bg-actionSecondary"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+          >
+            2
+          </div>
+          <p
+            class="text-primary"
+          >
+            Supply Details
+          </p>
+        </div>
+        <div
+          class="bg-borderPrimary w-16 h-[2px]"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-[#F8F9FB] border-borderPrimary after:content-none"
+          >
+            3
+          </div>
+          <p
+            class="text-[#C1C7CF]"
+          >
+            Permissions
+          </p>
+        </div>
+      </div>
+      <div
+        class="mt-16 grid grid-cols-10 gap-6"
+      >
+        <div
+          class="bg-white border border-borderPrimary rounded-xl p-10 col-span-7 h-fit"
+        >
+          <form
+            class=""
+          >
+            <p
+              class="text-primary text-lg font-semibold"
+            >
+              Supply Details
+            </p>
+            <div
+              class="mt-10 space-y-4"
+            >
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Initial Supply
+                  *
+                </p>
+                <div
+                  class="relative"
+                >
+                  <input
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
+                    id="initialSupply"
+                    name="initialSupply"
+                    placeholder="Initial Supply"
+                    type="text"
+                  />
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Supply Type
+                </p>
+                <div
+                  class="relative"
+                >
+                  <select
+                    class="p-3 rounded-xl border border-borderPrimary outline-none appearance-none text-secondary has-[>option:checked:not([value=""])]:text-primary w-full"
+                    name="supplyType"
+                  >
+                    <option
+                      class="text-[#A4ABB8]"
+                      selected=""
+                      value=""
+                    >
+                      Infinite/Finite
+                    </option>
+                    <option
+                      value="infinite"
+                    >
+                      Infinite
+                    </option>
+                    <option
+                      value="finite"
+                    >
+                      Finite
+                    </option>
+                  </select>
+                  <svg
+                    class="absolute right-4 top-1/2 -translate-y-1/2"
+                  />
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Decimals
+                  *
+                </p>
+                <div
+                  class="relative"
+                >
+                  <input
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
+                    id="decimals"
+                    name="decimals"
+                    placeholder="Decimals"
+                    type="text"
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="flex items-center justify-between gap-6 mt-10"
+            >
+              <a
+                class="w-full rounded-xl"
+                href="/"
+              >
+                <button
+                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
+                >
+                  Cancel
+                </button>
+              </a>
+              <button
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                type="submit"
+              >
+                Next
+              </button>
+            </div>
+          </form>
+        </div>
+        <div
+          class="bg-white border rounded-xl text-primary border-borderPrimary col-span-3 h-fit"
+        >
+          <p
+            class="text-lg font-semibold p-5 border-b border-borderPrimary"
+          >
+            Preview Details
+          </p>
+          <div
+            class="p-6 pt-5"
+          >
+            <img
+              alt="New StableCoin icon"
+              class="rounded-full"
+              data-nimg="1"
+              decoding="async"
+              height="48"
+              loading="lazy"
+              src="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75"
+              srcset="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75 2x"
+              style="color: transparent;"
+              width="48"
+            />
+            <p
+              class="text-lg font-semibold mt-3"
+            >
+              TEST COIN
+               
+              (
+              $TS
+              )
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div
+      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+    >
+      <p>
+        Powered By
+         
+        <a
+          href="https://pravica.io/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Pravica
+        </a>
+      </p>
+      <p>
+        Copyright
+         
+        2024
+      </p>
+    </div>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Token Details Review Confirmation
+        </p>
+        <p
+          class="text-sm text-grayText mt-3 text-center"
+        >
+          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          >
+            Cancel
+          </button>
+          <button
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          >
+            Proceed
+          </button>
+        </div>
+      </div>
+    </dialog>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    >
+      <div
+        class=""
+      >
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
+        >
+          Token was successfully created
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
+        >
+          <a
+            href="/"
+          >
+            <button
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            >
+              GO TO DASHBOARD
+            </button>
+          </a>
+        </div>
+      </div>
+    </dialog>
+  </div>
+</div>
+`;

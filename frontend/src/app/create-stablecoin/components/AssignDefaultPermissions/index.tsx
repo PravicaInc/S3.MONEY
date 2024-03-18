@@ -107,7 +107,7 @@ export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, o
             disabled={formMethods.formState.isSubmitting}
             isLoading={formMethods.formState.isSubmitting}
           >
-            Create StableCoin
+            Create
           </Button>
         </div>
       </form>
