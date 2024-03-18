@@ -1,9 +1,11 @@
 import * as child from 'child_process'
 import fs from 'fs'
-import path from 'path'
 import express, {Express, Request} from 'express'
 import cors from 'cors'
 import ejs from 'ejs'
+
+import * as IFace from './lib/interfaces'
+import * as Checks from './lib/checks'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
@@ -24,34 +26,65 @@ app.get('/', (req, res) => {
   return res.send({status: 'ok'}).json()
 })
 
-// TODO: use this properly, for type checking
-interface ICreatePackageRequest {
-  // creator's address
-  address: string
-  // coin metadata
-  ticker: string // short name, usually five or fewer characters (uppercase)
-  decimals: number
-  name: string
-  icon_url?: string
-  // for supply-constrainted contracts
-  initialSupply?: string // can be "0"
-  maxSupply?: string // can be "0"
-  // set internally
-  packageName?: string
-  description?: string
-}
-
-app.post('/create', async (req: Request<{}, {}, ICreatePackageRequest>, res) => {
-  if (valid(req.body)) {
-    let r = createPackage(req.body)
-    res.status(200).json({
-      status: 'ok',
-      ...r,
-    })
+app.post('/create', async (req: Request<{}, {}, IFace.ICreatePackageRequest>, res) => {
+  const v = Checks.validCreate(req.body)
+  if (v.error === '') {
+    let r = createPackage(v.data! as IFace.ICreatePackageRequest)
+    if (r.error === '') {
+      res.status(200).json({
+        status: 'ok',
+        ...r,
+      })
+    } else {
+      res.status(400).json({
+        status: 'error',
+        message: r.error,
+      })
+    }
   } else {
     res.status(400).json({
       error: 400,
-      message: 'Missing data to create coin',
+      message: v.error, // 'Missing data to create coin',
+    })
+  }
+})
+
+app.post('/cancel', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => {
+  const v = Checks.validCancel(req.body)
+  if (v.error === '') {
+    deletePackage(v.data! as IFace.IPackageCreated)
+    res.status(200).json({status: 'ok', message: 'deleted'})
+  } else {
+    res.status(400).json({
+      status: 'error',
+      message: v.error,
+    })
+  }
+})
+
+app.post('/published', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => {
+  const v = Checks.validPublish(req.body)
+  if (v.error === '') {
+    savePackage(v.data! as IFace.IPackageCreated)
+    res.status(200).json({status: 'ok', message: 'saved'})
+  } else {
+    res.status(400).json({
+      error: 400,
+      message: v.error,
+    })
+  }
+})
+
+app.get('/packages/:address', async (req, res) => {
+  const {address} = req.params
+
+  const v = Checks.validAddress(address)
+  if (v.error === '') {
+    res.status(200).json({status: 'ok', packages: packageData(address)})
+  } else {
+    res.status(400).json({
+      error: 400,
+      message: v.error,
     })
   }
 })
@@ -68,56 +101,12 @@ app.listen(port, () => {
   console.log(`[server]: Server is running at port ${port}`)
 })
 
-function valid(data: ICreatePackageRequest): boolean {
-  const stringFields = ['ticker', 'name', 'decimals'] // , "address"];
+/* Operations */
 
-  for (const field of stringFields) {
-    if (!(field in data)) {
-      console.log(`missing field: ${field}`)
-      return false
-    }
-  }
-
-  if (data.decimals < 0 || data.decimals > 8) {
-    console.log(`wrong number of decimals: ${data.decimals}`)
-    return false
-  }
-
-  // upcase the ticker
-  data.ticker = data.ticker.toUpperCase().trim()
-
-  if (data.ticker == '' || data.ticker == '$' || data.ticker.length > 6) {
-    console.log(`invalid ticker name: ${data.ticker}`)
-    return false
-  }
-
-  if (!data.ticker.startsWith('$')) {
-    console.log(`ticker must start with $: ${data.ticker}`)
-    return false
-  }
-
-  // downcase the package name and remove $
-  data.packageName = data.ticker.toLowerCase().trim().substring(1)
-  data.description = data.name
-
-  data.initialSupply = data.initialSupply || '0'
-  data.maxSupply = data.maxSupply || '0'
-
-  const path = `${WORK_DIR}/${data.packageName}`
-  if (fs.existsSync(path)) {
-    console.log(`package directory already exists: ${data.packageName}`)
-    return false
-  }
-
-  // TODO: add more checks
-
-  return true
-}
-
-function createPackage(data: ICreatePackageRequest) {
+function createPackage(data: IFace.ICreatePackageRequest) {
   let token: string = TOKEN_SUPPLY
 
-  const packagePath = `${WORK_DIR}/${data.packageName}`
+  const packagePath = `${WORK_DIR}/${data.address}/${data.packageName}`
   const TMoveToml = fs.readFileSync(`${token}/Move.toml`, {
     encoding: 'utf-8',
   })
@@ -154,12 +143,44 @@ function createPackage(data: ICreatePackageRequest) {
   }
 
   // FIXME: this should be serialized
-  const ret = child.execSync(`sui move build --dump-bytecode-as-base64`, {
-    cwd: packagePath,
-    encoding: 'utf-8',
-  })
+  let ret
+  try {
+    ret = child.execSync(`sui move build --dump-bytecode-as-base64`, {
+      cwd: packagePath,
+      encoding: 'utf-8',
+    })
+  } catch (e: any) {
+    console.log(e)
+    return {modules: '', dependencies: '', error: e.toString()}
+  }
 
   const {modules, dependencies} = JSON.parse(ret)
 
-  return {modules, dependencies}
+  return {modules, dependencies, error: ''}
+}
+
+function deletePackage(data: IFace.IPackageCreated) {
+  const path = `${WORK_DIR}/${data.address}/${data.packageName}`
+  fs.rmSync(path, {recursive: true})
+}
+
+function savePackage(data: IFace.IPackageCreated) {
+  const path = `${WORK_DIR}/${data.address}/${data.packageName}.json`
+  fs.writeFileSync(path, JSON.stringify(data.data!, null, 2), {encoding: 'utf-8'})
+}
+
+function packageData(address: string) {
+  const path = `${WORK_DIR}/${address}/`
+  const PFiles = fs
+    .readdirSync(path)
+    .filter(name => name.endsWith('.json'))
+    .sort()
+  const packages = PFiles.map(fname => {
+    const contents = fs.readFileSync(`${path}/${fname}`, {
+      encoding: 'utf-8',
+    })
+    return JSON.parse(contents)
+  })
+
+  return packages
 }
