@@ -48,7 +48,7 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
         )
       </p>
       {
-        (initialSupply || maxSupply || decimals) && (
+        (initialSupply != undefined || maxSupply != undefined || decimals != undefined) && (
           <>
             <p className="font-semibold mt-5">
               Supply details
@@ -63,7 +63,7 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
               </span>
             </div>
             {
-              initialSupply && (
+              initialSupply != undefined && (
                 <div className="flex items-center justify-between text-secondary text-sm">
                   <span>
                     Initial Supply
@@ -75,7 +75,7 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
               )
             }
             {
-              maxSupply && (
+              maxSupply != undefined && (
                 <div className="flex items-center justify-between text-secondary text-sm">
                   <span>
                     Max Supply
@@ -95,7 +95,7 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
               </span>
             </div>
             {
-              typeof decimals != 'undefined' && (
+              decimals != undefined && (
                 <div className="flex items-center justify-between text-secondary text-sm">
                   <span>
                     Decimals

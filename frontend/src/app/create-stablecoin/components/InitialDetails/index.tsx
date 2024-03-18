@@ -31,15 +31,26 @@ export const InitialDetails: FC<InitialDetailsProps> = ({ className, onSubmit, .
     ticker: yup
       .string()
       .trim()
-      .required('Stablecoin ticker is required.'),
+      .required('Stablecoin ticker is required.')
+      .test(
+        'is-required',
+        'Stablecoin ticker is required.',
+        value => value
+          ? !!value.replace(/^\$/, '').length
+          : false
+      ),
     icon: yup
       .string(),
   });
 
   const formMethods = useForm({
     resolver: yupResolver(initialDetailsFormSchema),
-    defaultValues: {},
+    defaultValues: {
+      icon: '',
+    },
   });
+
+  const icon = formMethods.watch('icon');
 
   return (
     <FormProvider {...formMethods}>
@@ -80,6 +91,37 @@ export const InitialDetails: FC<InitialDetailsProps> = ({ className, onSubmit, .
               maxLength={6}
             />
           </div>
+          <div>
+            {
+              icon
+                ? (
+                  <div className="flex items-center gap-5">
+                    <div
+                      className="w-[100px] h-[100px] rounded-xl bg-no-repeat bg-center bg-cover"
+                      style={{
+                        backgroundImage: `url(${icon})`,
+                      }}
+                    />
+                    <button type="button" className="text-error text-sm" onClick={removeIcon}>
+                      Remove
+                    </button>
+                  </div>
+                )
+                : (
+                  <Input
+                    name="icon"
+                    type="file"
+                    label="Stablecoin Symbol"
+                    description="JPG or PNG. 1MB max"
+                    onChange={({ target: { files } }) => {
+                      if (files?.[0]) {
+                        readImage(files[0]);
+                      }
+                    }}
+                  />
+                )
+            }
+          </div>
         </div>
         <div className="flex items-center justify-between gap-6 mt-10">
           <Link href={PAGES_URLS.home} className="w-full rounded-xl">
@@ -100,4 +142,18 @@ export const InitialDetails: FC<InitialDetailsProps> = ({ className, onSubmit, .
       </form>
     </FormProvider>
   );
+
+  function readImage(file: File) {
+    const reader = new FileReader();
+
+    reader.onload = function() {
+      formMethods.setValue('icon', reader.result as string);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
+  function removeIcon() {
+    formMethods.setValue('icon', '');
+  }
 };

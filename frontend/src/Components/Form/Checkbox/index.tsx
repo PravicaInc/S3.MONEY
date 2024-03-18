@@ -1,4 +1,4 @@
-import { FC, forwardRef, HTMLAttributes } from 'react';
+import { FC, forwardRef, InputHTMLAttributes } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -30,7 +30,7 @@ export const switchCheckboxClassName = `
   after:absolute after:top-[2px] after:left-[2px]
 `;
 
-export interface SimpleCheckboxProps extends HTMLAttributes<HTMLInputElement> {
+export interface SimpleCheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   checked?: boolean;
   wrapperClassName?: string;
   view?: CHECKBOX_VIEWS;
@@ -52,15 +52,23 @@ export const SimpleCheckbox = forwardRef<HTMLInputElement, SimpleCheckboxProps>(
   wrapperClassName,
   checked,
   view = CHECKBOX_VIEWS.default,
+  disabled,
   ...props
 }, ref) => (
-  <label className={twMerge('relative cursor-pointer transi', wrapperClassName)}>
+  <label
+    className={twMerge(
+      'relative transition',
+      !disabled && 'cursor-pointer',
+      wrapperClassName
+    )}
+  >
     <input
       ref={ref}
       type="checkbox"
       className={checkboxViewsClassNames[view].input}
       checked={checked}
       readOnly
+      disabled={disabled}
       {...props}
     />
     <div

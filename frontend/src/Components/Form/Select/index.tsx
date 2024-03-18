@@ -37,11 +37,11 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(({
         className
       )}
       required={isRequired}
+      defaultValue=""
       {...props}
     >
       <option
         value=""
-        selected
         disabled={isRequired}
         className="text-[#A4ABB8]"
       >

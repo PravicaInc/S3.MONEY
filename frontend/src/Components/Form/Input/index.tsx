@@ -5,18 +5,24 @@ import { twMerge } from 'tailwind-merge';
 
 import { StaticImageData } from 'next/dist/shared/lib/get-img-props';
 
+import { secondaryButtonClasses } from '@/Components/Form/Button';
 import { FormError } from '@/Components/Form/FormError';
 import { Label } from '@/Components/Form/Label';
 
 export interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactElement | StaticImageData | string;
   wrapperClassName?: string;
+  fileButtonText?: string;
+  description?: string;
 }
 
 export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
   className,
   wrapperClassName,
   icon,
+  type = 'text',
+  fileButtonText = 'Choose',
+  description,
   ...props
 }, ref) => {
   const iconWithClass = useMemo(
@@ -36,21 +42,47 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
     [icon]
   );
 
-  return (
-    <div className={twMerge('relative', wrapperClassName)}>
-      <input
-        ref={ref}
-        className={twMerge(
-          'text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary',
-          'focus:border-actionPrimary outline-none',
-          icon && 'pl-11',
-          className
-        )}
-        {...props}
-      />
-      {iconWithClass}
-    </div>
-  );
+  switch (type) {
+    case 'file':
+      return (
+        <div className={twMerge('flex items-center gap-3', wrapperClassName)}>
+          <label
+            className={twMerge(
+              'cursor-pointer h-10 w-20 text-xs',
+              secondaryButtonClasses
+            )}
+          >
+            {fileButtonText}
+            <input
+              ref={ref}
+              type={type}
+              className="hidden"
+              {...props}
+            />
+          </label>
+          <span className="text-secondary text-sm">
+            {description}
+          </span>
+        </div>
+      );
+    default:
+      return (
+        <div className={twMerge('relative', wrapperClassName)}>
+          <input
+            ref={ref}
+            type={type}
+            className={twMerge(
+              'text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary',
+              'focus:border-actionPrimary outline-none',
+              icon && 'pl-11',
+              className
+            )}
+            {...props}
+          />
+          {iconWithClass}
+        </div>
+      );
+  }
 });
 
 export interface InputProps extends SimpleInputProps {
@@ -73,6 +105,8 @@ export const Input: FC<InputProps> = ({
   ...props
 }) => {
   const { register, formState: { errors } } = useFormContext() || {};
+
+  // console.log({ errors })
 
   return (
     <>

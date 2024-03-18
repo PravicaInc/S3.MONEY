@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
+import 'rc-tooltip/assets/bootstrap_white.css';
+
 import '@/styles/globals.css';
 
 import { ClientLayout } from './client_layout';

@@ -11,6 +11,7 @@ import CheckedIcon from '@/../public/images/checked.svg?jsx';
 
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Checkbox, CHECKBOX_VIEWS } from '@/Components/Form/Checkbox';
+import { Tooltip } from '@/Components/Tooltip';
 
 import { PAGES_URLS } from '@/utils/const';
 
@@ -49,15 +50,24 @@ export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, o
       >
         <div className="text-primary text-lg font-semibold flex items-center justify-between">
           Assign Default Permissions
-          <Checkbox
-            name="defaultPermissions"
-            view={CHECKBOX_VIEWS.switch}
-          />
+          <Tooltip
+            placement="top"
+            trigger={['hover']}
+            overlay="Editing to permissions will be available soon."
+          >
+            <div>
+              <Checkbox
+                name="defaultPermissions"
+                view={CHECKBOX_VIEWS.switch}
+                disabled
+              />
+            </div>
+          </Tooltip>
         </div>
         <div className="mt-10 space-y-4">
           {
             [
-              'Wipe - S3-Token-Manager Smart Contract',
+              // 'Wipe - S3-Token-Manager Smart Contract',
               'Freeze - S3-Token-Manager Smart Contract',
               'Pause - S3-Token-Manager Smart Contract',
             ].map(permission => (
@@ -94,6 +104,8 @@ export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, o
           <Button
             className="h-14 w-full"
             type="submit"
+            disabled={formMethods.formState.isSubmitting}
+            isLoading={formMethods.formState.isSubmitting}
           >
             Create StableCoin
           </Button>

@@ -10,7 +10,7 @@ const config: Config = {
         error: '#DC2626',
         primary: '#0D0D12',
         secondary: '#808897',
-        grayText: 'grayText',
+        grayText: '#666D80',
         actionPrimary: '#FE6321',
         actionSecondary: '#FFAA71',
         pageBgPrimary: 'rgb(248, 249, 251)',

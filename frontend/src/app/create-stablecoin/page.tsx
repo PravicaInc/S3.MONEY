@@ -2,30 +2,36 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
+import { useAutoConnectWallet, useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
+import { getFullnodeUrl } from '@mysten/sui.js/client';
+import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { twMerge } from 'tailwind-merge';
+
+import defaultStablecoinIconURI from '@/../public/images/default_stablecoin_icon.png';
 
 import { Footer } from '@/Components/Footer';
 import { Loader } from '@/Components/Loader';
 import { ProgressSteps } from '@/Components/ProgressSteps';
 import { ProgressStepItem } from '@/Components/ProgressSteps/components/ProgressStep';
 
+import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
+
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
+import { StableCoinPreview } from './components/StableCoinPreview';
+import { SuccessCreatedStableCoinModal } from './components/SuccessCreatedStableCoinModal';
 import { SupplyDetails, SupplyStableCoinData, SupplyTypes } from './components/SupplyDetails';
-import { StableCoinPreview } from './StableCoinPreview';
+import { TokenDetailsReviewConfirm } from './components/TokenDetailsReviewConfirm';
 
 interface CreateStableCoinData extends InitialStableCoinData, SupplyStableCoinData {}
 
 export default function CreateStableCoinPage() {
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
+  const createStableCoin = useCreateStableCoin();
+  const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
 
-  const [data, setData] = useState<Partial<CreateStableCoinData>>({
-    icon: `
-      data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzIiIGhlaWdodD0iNzIiIHZpZXdCb3g9IjAgMCA3MiA3MiIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHJlY3Qgd2lkdGg9IjcyIiBoZWlnaHQ9IjcyIiByeD0iMTYiIGZpbGw9IiM2RkJDRjAiLz4KPHBhdGggZmlsbC1ydWxlPSJldmVub2RkIiBjbGlwLXJ1bGU9ImV2ZW5vZGQiIGQ9Ik0yMC40MjEzIDUyLjc4MzhDMjMuNjQ5NiA1OC4zNzYgMjkuNDMyMSA2MS43MTQyIDM1Ljg4ODggNjEuNzE0MkM0Mi4zNDU1IDYxLjcxNDIgNDguMTI3IDU4LjM3NiA1MS4zNTY0IDUyLjc4MzhDNTQuNTg0OCA0Ny4xOTI2IDU0LjU4NDggNDAuNTE2MyA1MS4zNTY0IDM0LjkyNEwzNy43NTI0IDExLjM2MTVDMzYuOTI0MSA5LjkyNzAxIDM0Ljg1MzUgOS45MjcwMSAzNC4wMjUzIDExLjM2MTVMMjAuNDIxMyAzNC45MjRDMTcuMTkyOSA0MC41MTUyIDE3LjE5MjkgNDcuMTkxNSAyMC40MjEzIDUyLjc4MzhaTTMyLjA1NjYgMjIuNTcxM0wzNC45NTcxIDE3LjU0NzRDMzUuMzcxMiAxNi44MzAxIDM2LjQwNjUgMTYuODMwMSAzNi44MjA2IDE3LjU0NzRMNDcuOTc5MSAzNi44NzQ4QzUwLjAyOTEgNDAuNDI1NCA1MC40MTM5IDQ0LjUzNSA0OS4xMzM1IDQ4LjI5NTRDNDkuMDAwMiA0Ny42ODE5IDQ4LjgxMzggNDcuMDU0MiA0OC41NjI2IDQ2LjQyMDFDNDcuMDIxMyA0Mi41MzA0IDQzLjUzNjMgMzkuNTI4OSAzOC4yMDIzIDM3LjQ5ODJDMzQuNTM1MSAzNi4xMDcxIDMyLjE5NDMgMzQuMDYxMyAzMS4yNDMxIDMxLjQxNzFDMzAuMDE4IDI4LjAwODkgMzEuMjk3NiAyNC4yOTI0IDMyLjA1NjYgMjIuNTcxM1pNMjcuMTEwNyAzMS4xMzc5TDIzLjc5ODYgMzYuODc0OEMyMS4yNzQ4IDQxLjI0NTkgMjEuMjc0OCA0Ni40NjQxIDIzLjc5ODYgNTAuODM1M0MyNi4zMjIzIDU1LjIwNjQgMzAuODQxMyA1Ny44MTUgMzUuODg4OCA1Ny44MTVDMzkuMjQxMyA1Ny44MTUgNDIuMzYxNSA1Ni42NjMzIDQ0LjgxODQgNTQuNjA4OEM0NS4xMzg4IDUzLjgwMjEgNDYuMTMxIDUwLjg0OTIgNDQuOTA1MiA0Ny44MDU4QzQzLjc3MyA0NC45OTU0IDQxLjA0ODIgNDIuNzUxOSAzNi44MDYxIDQxLjEzNkMzMi4wMTEgMzkuMzE3MSAyOC44OTU4IDM2LjQ3NzQgMjcuNTQ4NiAzMi42OTg0QzI3LjM2MzEgMzIuMTc4MSAyNy4yMTg5IDMxLjY1NjggMjcuMTEwNyAzMS4xMzc5WiIgZmlsbD0id2hpdGUiLz4KPC9zdmc+
-    `,
-  });
+  const [data, setData] = useState<Partial<CreateStableCoinData>>({});
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [progressSteps, setProgressSteps] = useState<Omit<ProgressStepItem, 'number'>[]>([
     {
@@ -41,6 +47,8 @@ export default function CreateStableCoinPage() {
       isActive: false,
     },
   ]);
+  const [showCreateStableCoinConfirm, setShowCreateStableCoinConfirm] = useState<boolean>(false);
+  const [showSuccessCreatedStableCoinModal, setShowSuccessCreatedStableCoinModal] = useState<boolean>(false);
 
   const isLoading = useMemo(
     () => autoConnectionStatus === 'idle',
@@ -66,11 +74,9 @@ export default function CreateStableCoinPage() {
     setData(currentValue => ({
       ...currentValue,
       ...initialStableCoinData,
+      icon: initialStableCoinData.icon || `${location.origin}${defaultStablecoinIconURI.src}`,
     }));
     goToNextStep();
-
-    // eslint-disable-next-line no-console
-    console.log(initialStableCoinData);
   };
 
   const onSupplyDetailsSubmit: SubmitHandler<SupplyStableCoinData> = async supplyStableCoinData => {
@@ -80,21 +86,56 @@ export default function CreateStableCoinPage() {
       supplyType: supplyStableCoinData.supplyType || SupplyTypes.Infinite,
     }));
     goToNextStep();
-
-    // eslint-disable-next-line no-console
-    console.log(supplyStableCoinData);
   };
 
-  const onPermissionsSubmit: SubmitHandler<PermissionsStableCoinData> = async permissionsStableCoinData => {
+  const onPermissionsSubmit: SubmitHandler<PermissionsStableCoinData> = permissionsStableCoinData => {
     setData(currentValue => ({
       ...currentValue,
       ...permissionsStableCoinData,
     }));
-    // goToNextStep();
-
-    // eslint-disable-next-line no-console
-    console.log(permissionsStableCoinData);
+    setShowCreateStableCoinConfirm(true);
   };
+
+  const runCreateStableCoin = useCallback(
+    async () => {
+      if (account?.address && data.name && data.ticker && data.decimals) {
+        const { dependencies, modules } = await createStableCoin.mutateAsync({
+          walletAddress: account?.address,
+          packageName: data.name,
+          ticker: data.ticker,
+          decimals: data.decimals,
+          icon: data.icon,
+          name: data.name,
+          description: 'Created via S3.MONEY',
+          maxSupply: data.maxSupply,
+          initialSupply: data.initialSupply,
+        });
+        const txb = new TransactionBlock();
+
+        const upgradeCapPolicy = txb.publish({ dependencies, modules });
+
+        txb.transferObjects([upgradeCapPolicy], txb.pure(account?.address));
+
+        await signAndExecuteTransactionBlock.mutateAsync({
+          transactionBlock: txb,
+          chain: getFullnodeUrl('testnet'),
+          requestType: 'WaitForLocalExecution',
+          options: {
+            showBalanceChanges: true,
+            showEffects: true,
+            showEvents: true,
+            showInput: true,
+            showObjectChanges: true,
+            showRawInput: true,
+          },
+        });
+
+        setShowCreateStableCoinConfirm(false);
+        setShowSuccessCreatedStableCoinModal(true);
+      }
+    },
+    [data, account?.address, createStableCoin, signAndExecuteTransactionBlock]
+  );
 
   return (
     <div className="flex flex-col items-center justify-center w-full grow">
@@ -108,7 +149,7 @@ export default function CreateStableCoinPage() {
       </div>
       <div
         className={twMerge(
-          'h-full w-full px-10 py-20',
+          'h-full w-full p-10',
           (isLoading || isRedirecting) && 'hidden'
         )}
       >
@@ -153,7 +194,17 @@ export default function CreateStableCoinPage() {
           }
         </div>
       </div>
-      <Footer className="w-full px-6 pb-12" />
+      <Footer className="w-full px-6 pb-6" />
+      <TokenDetailsReviewConfirm
+        visible={showCreateStableCoinConfirm}
+        onClose={() => setShowCreateStableCoinConfirm(false)}
+        onProceed={runCreateStableCoin}
+        inProcess={createStableCoin.isPending || signAndExecuteTransactionBlock.isPending}
+      />
+      <SuccessCreatedStableCoinModal
+        visible={showSuccessCreatedStableCoinModal}
+        onClose={() => {}}
+      />
     </div>
   );
 }
