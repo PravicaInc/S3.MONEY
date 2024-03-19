@@ -251,6 +251,61 @@ describe('Create stablecoin page:', () => {
         expect(renderResult.queryByText(/Editing to permissions will be available soon/)).toBeVisible();
       });
 
+      it('Go to "Roles Assignment"', async () => {
+        await goToRolesAssignmentStep();
+
+        expect(renderResult.queryAllByText(/Roles Assignment/).length).toBe(2);
+      });
+    });
+
+    describe('"Roles Assignment" step:', () => {
+      beforeEach(async () => {
+        if (renderResult?.unmount) {
+          renderResult.unmount();
+        }
+
+        jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
+        jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
+
+        renderResult = renderCreateStablecoinPageWithProviders();
+
+        await goToSupplyDetailsStep();
+        await goToPermissionsStep();
+        await goToRolesAssignmentStep();
+      });
+
+      it('Snapshot', () => {
+        expect(renderResult.container).toMatchSnapshot();
+      });
+
+      it('Check wallet address validation', async () => {
+        const user = userEvent.setup();
+        const otherAccountButton = renderResult.queryAllByText(/Other Account/)[0];
+        const createButton = renderResult.getByRole('button', {
+          name: /Create/i,
+        });
+
+        await user.click(otherAccountButton);
+        await user.click(createButton);
+
+        expect(renderResult.queryByText(/Wallet address is required/)).toBeVisible();
+
+        const otherAccountInput = renderResult.getAllByPlaceholderText(/Other Account/)[0];
+
+        await user.type(otherAccountInput, 'test');
+
+        expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeVisible();
+
+        const currentAccountButton = renderResult.queryAllByText(/Current Account/)[0];
+
+        await user.click(currentAccountButton);
+        await user.click(createButton);
+
+        expect(renderResult.queryByText(/Token Details Review Confirmation/)).toBeVisible();
+        expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeNull();
+        expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeNull();
+      });
+
       it('Show Token Details Review Confirmation', async () => {
         const user = userEvent.setup();
         const createButton = renderResult.getByRole('button', {
@@ -297,5 +352,14 @@ async function goToPermissionsStep(withMaxSupply: boolean = false) {
 
   await user.type(initialSupplyField, '987');
   await user.type(decimalsField, '7');
+  await user.click(nextButton);
+}
+
+async function goToRolesAssignmentStep() {
+  const user = userEvent.setup();
+  const nextButton = renderResult.getByRole('button', {
+    name: /Next/i,
+  });
+
   await user.click(nextButton);
 }

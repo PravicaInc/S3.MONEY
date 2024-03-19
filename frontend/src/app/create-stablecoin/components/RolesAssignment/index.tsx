@@ -128,7 +128,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                       <SimpleCheckbox
                         view={CHECKBOX_VIEWS.rounded}
                         checked
-                        wrapperClassName="absolute top-1/2 -translate-y-1/2 right-4"
+                        wrapperClassName="absolute top-4 right-4"
                       />
                     </div>
                   </div>
