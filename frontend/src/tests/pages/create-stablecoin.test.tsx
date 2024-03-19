@@ -302,7 +302,7 @@ describe('Create stablecoin page:', () => {
         await user.click(createButton);
 
         expect(renderResult.queryByText(/Token Details Review Confirmation/)).toBeVisible();
-        expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeNull();
+        expect(renderResult.queryByText(/Wallet address is required/)).toBeNull();
         expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeNull();
       });
 

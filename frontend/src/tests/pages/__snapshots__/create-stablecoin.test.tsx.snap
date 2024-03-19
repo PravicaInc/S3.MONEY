@@ -840,6 +840,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       <input
                         class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
                         id="cashIn"
+                        maxlength="66"
                         name="cashIn"
                         placeholder="Other Account"
                         type="text"
@@ -938,6 +939,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       <input
                         class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
                         id="burn"
+                        maxlength="66"
                         name="burn"
                         placeholder="Other Account"
                         type="text"
@@ -1036,6 +1038,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       <input
                         class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
                         id="pause"
+                        maxlength="66"
                         name="pause"
                         placeholder="Other Account"
                         type="text"
@@ -1134,6 +1137,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       <input
                         class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
                         id="freeze"
+                        maxlength="66"
                         name="freeze"
                         placeholder="Other Account"
                         type="text"
@@ -1232,6 +1236,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       <input
                         class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
                         id="cashOut"
+                        maxlength="66"
                         name="cashOut"
                         placeholder="Other Account"
                         type="text"

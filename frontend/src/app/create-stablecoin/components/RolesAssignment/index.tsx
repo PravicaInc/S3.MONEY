@@ -124,6 +124,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                           placeholder:text-primary placeholder:font-semibold
                         "
                         placeholder="Other Account"
+                        maxLength={66}
                       />
                       <SimpleCheckbox
                         view={CHECKBOX_VIEWS.rounded}
