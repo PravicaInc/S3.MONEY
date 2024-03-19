@@ -1,6 +1,7 @@
 import fs from 'fs'
 
 import * as IFace from './interfaces'
+import {getPackageDB} from './aws'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
@@ -8,8 +9,8 @@ const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
 const TICKER_REGEX = new RegExp(/^[-+_$\w\d]+$/)
 const ADDRESS_REGEX = new RegExp(/0x[a-f0-9]{64}$/)
 
-export function validCreate(data: IFace.ICreatePackageRequest): IFace.IValid {
-  const stringFields = ['ticker', 'name', 'decimals'] // , "address"];
+export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IFace.IValid> {
+  const stringFields = ['ticker', 'name', 'decimals', 'address']
 
   for (const field of stringFields) {
     if (!(field in data)) {
@@ -26,22 +27,10 @@ export function validCreate(data: IFace.ICreatePackageRequest): IFace.IValid {
   // upcase the ticker
   data.ticker = data.ticker.toUpperCase().trim()
 
-  if (data.ticker == '' || data.ticker == '$' || data.ticker.length > 6) {
-    console.log(`invalid ticker name: ${data.ticker}`)
-    return {error: `invalid ticker name: ${data.ticker}`}
-  }
-
-  if (!data.ticker.startsWith('$')) {
-    console.log(`ticker must start with $: ${data.ticker}`)
-    return {error: `ticker must start with $: ${data.ticker}`}
-  }
-
-  // check for invalid characters
-  if (!TICKER_REGEX.test(data.ticker.substring(1))) {
-    console.log(`ticker must be alphanumeric with no special characters: ${data.ticker}`)
-    return {
-      error: `ticker must be alphanumeric with no special characters: ${data.ticker}`,
-    }
+  const v = validTicker(data.ticker)
+  if (v !== '') {
+    console.log(v)
+    return {error: v}
   }
 
   // downcase the package name and remove $
@@ -53,9 +42,15 @@ export function validCreate(data: IFace.ICreatePackageRequest): IFace.IValid {
 
   const path = `${WORK_DIR}/${data.address}/${data.packageName}`
   if (fs.existsSync(path)) {
-    console.log(`package directory already exists: ${data.address}/${data.packageName}`)
+    fs.rmSync(path, {recursive: true})
+  }
+
+  // FIXME: can only deploy one package for each ticker
+  const pkg = await getPackageDB(data.address, data.packageName)
+  if (pkg !== null && pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
+    console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
-      error: `package directory already exists: ${data.address}/${data.packageName}`,
+      error: `package already published: ${data.address}/${data.packageName}`,
     }
   }
 
@@ -77,7 +72,7 @@ export function validCreate(data: IFace.ICreatePackageRequest): IFace.IValid {
   return {error: '', data: data}
 }
 
-export function validCancel(data: IFace.IPackageCreated): IFace.IValid {
+export async function validCancel(data: IFace.IPackageCreated): Promise<IFace.IValid> {
   const stringFields = ['address', 'ticker']
 
   for (const field of stringFields) {
@@ -97,27 +92,18 @@ export function validCancel(data: IFace.IPackageCreated): IFace.IValid {
     return {error: 'created should be false'}
   }
 
-  if (!TICKER_REGEX.test(data.ticker.substring(1))) {
-    console.log(`ticker must be alphanumeric with no special characters: ${data.ticker}`)
-    return {
-      error: `ticker must be alphanumeric with no special characters: ${data.ticker}`,
-    }
+  const v = validTicker(data.ticker)
+  if (v !== '') {
+    console.log(v)
+    return {error: v}
   }
 
   // downcase the package name and remove $
   data.packageName = data.ticker.toLowerCase().trim().substring(1)
 
-  let path = `${WORK_DIR}/${data.address}/${data.packageName}`
-  if (!fs.existsSync(path)) {
-    console.log(`package directory does not exist: ${data.address}/${data.packageName}`)
-    return {
-      error: `package directory does not exist: ${data.address}/${data.packageName}`,
-    }
-  }
-
   // cannot cancel a published package
-  path = `${WORK_DIR}/${data.address}/${data.packageName}.json`
-  if (fs.existsSync(path)) {
+  const pkg = await getPackageDB(data.address, data.packageName)
+  if (pkg !== null && pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
       error: `package already published: ${data.address}/${data.packageName}`,
@@ -127,7 +113,7 @@ export function validCancel(data: IFace.IPackageCreated): IFace.IValid {
   return {error: '', data: data}
 }
 
-export function validPublish(data: IFace.IPackageCreated): IFace.IValid {
+export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.IValid> {
   const stringFields = ['address', 'ticker', 'txid', 'data']
 
   for (const field of stringFields) {
@@ -147,16 +133,17 @@ export function validPublish(data: IFace.IPackageCreated): IFace.IValid {
     return {error: 'created should be true'}
   }
 
-  if (!TICKER_REGEX.test(data.ticker.substring(1))) {
-    console.log(`ticker must be alphanumeric with no special characters: ${data.ticker}`)
-    return {
-      error: `ticker must be alphanumeric with no special characters: ${data.ticker}`,
-    }
+  const v = validTicker(data.ticker)
+  if (v !== '') {
+    console.log(v)
+    return {error: v}
   }
 
   // downcase the package name and remove $
   data.packageName = data.ticker.toLowerCase().trim().substring(1)
 
+  // FIXME: replace this with a better check
+  /*
   let path = `${WORK_DIR}/${data.address}/${data.packageName}`
   if (!fs.existsSync(path)) {
     console.log(`package directory does not exist: ${data.address}/${data.packageName}`)
@@ -164,15 +151,15 @@ export function validPublish(data: IFace.IPackageCreated): IFace.IValid {
       error: `package directory does not exist: ${data.address}/${data.packageName}`,
     }
   }
+  */
 
-  path = `${WORK_DIR}/${data.address}/${data.packageName}.json`
-  if (fs.existsSync(path)) {
+  const pkg = await getPackageDB(data.address, data.packageName)
+  if (pkg !== null && pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
       error: `package already published: ${data.address}/${data.packageName}`,
     }
   }
-
   return {error: '', data: data}
 }
 
@@ -183,4 +170,21 @@ export function validAddress(address: string): IFace.IValid {
   }
 
   return {error: ''}
+}
+
+function validTicker(ticker: string): string {
+  if (ticker == '' || ticker == '$' || ticker.length > 6) {
+    return `invalid ticker name: ${ticker}`
+  }
+
+  if (!ticker.startsWith('$')) {
+    return `ticker must start with $: ${ticker}`
+  }
+
+  // check for invalid characters
+  if (!TICKER_REGEX.test(ticker.substring(1))) {
+    return `ticker must be alphanumeric with no special characters: ${ticker}`
+  }
+
+  return ''
 }
