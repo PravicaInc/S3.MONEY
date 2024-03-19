@@ -172,6 +172,7 @@ function savePackage(data: IFace.IPackageCreated) {
 
 function packageData(address: string) {
   const path = `${WORK_DIR}/${address}/`
+  if (!fs.existsSync(path)) return []
   const PFiles = fs
     .readdirSync(path)
     .filter(name => name.endsWith('.json'))
