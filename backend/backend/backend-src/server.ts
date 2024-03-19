@@ -76,6 +76,21 @@ app.post('/published', async (req: Request<{}, {}, IFace.IPackageCreated>, res) 
   }
 })
 
+app.post('/generateIconURL', async (req: Request<{}, {}, IFace.IPackageIcon>, res) => {
+  const v = Checks.validIconRequest(req.body)
+  if (v.error === '') {
+    const data = v.data! as IFace.IPackageIcon
+    const key = `${data.address}/${data.packageName}-${data.fileName}`
+    let url = await AWS.createPresignedUrlForIcon(key, data.mimeType)
+    res.status(200).json({status: 'ok', url: url})
+  } else {
+    res.status(400).json({
+      error: 400,
+      message: v.error,
+    })
+  }
+})
+
 app.get('/packages/:address', async (req, res) => {
   const {address} = req.params
   const summary = 'summary' in req.query

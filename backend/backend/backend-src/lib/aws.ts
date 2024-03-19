@@ -7,14 +7,21 @@ import {
   PutItemInput,
 } from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
-import {S3Client} from '@aws-sdk/client-s3'
+import {S3Client, PutObjectCommand} from '@aws-sdk/client-s3'
+import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 
 import * as IFace from './interfaces'
 
+const BUCKET = 's3.money-contracts-dev'
 const DEPLOYED_TABLE = 's3money-deployed-contracts-dev'
 
 const s3client = new S3Client()
 const dbclient = new DynamoDBClient()
+
+export async function createPresignedUrlForIcon(key: string, mimeType: string) {
+  const command = new PutObjectCommand({Bucket: BUCKET, Key: key, ContentType: mimeType, ACL: 'public-read'})
+  return getSignedUrl(s3client, command, {expiresIn: 3600})
+}
 
 export async function getPackageDB(address: string, package_name: string) {
   const command = new GetItemCommand({
