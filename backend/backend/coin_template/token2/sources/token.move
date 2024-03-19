@@ -6,6 +6,9 @@ module <%- packageName %>::<%- packageName %> {
     use sui::coin::{Self, TreasuryCap};
     use sui::token::{Self, Token, TokenPolicy, TokenPolicyCap};
     use sui::transfer;
+    <% if (!icon_url.includes('none()')) { %>
+    use sui::url;
+    <% } %>
     use sui::tx_context::{sender, TxContext};
 
     use <%- packageName %>::denylist_rule::{Self as denylist, Denylist};
@@ -142,7 +145,7 @@ module <%- packageName %>::<%- packageName %> {
             b"<%- ticker %>" /* symbol */,
             b"<%- name %>" /* name */,
             b"<%- description %>" /* description */,
-            option::none() /* optional icon url */,
+            <%- icon_url %> /* optional icon url */,
             ctx
         );
 
