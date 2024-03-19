@@ -23,7 +23,11 @@ export interface SelectStableCoinFormProps extends HTMLAttributes<HTMLDivElement
 export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className, ...props }) => {
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
-  const { data, isLoading: isStableCoinsListLoading } = useStableCoinsList(account?.address);
+  const {
+    data,
+    isLoading: isStableCoinsListLoading,
+    isFetching: isStableCoinsListFetching,
+  } = useStableCoinsList(account?.address);
 
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedStableCoin, setSelectedStableCoin] = useState<StableCoin | null>();
@@ -80,7 +84,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
         }
       </div>
       {
-        isLoading || isRedirecting || isStableCoinsListLoading
+        isLoading || isRedirecting || isStableCoinsListLoading || isStableCoinsListFetching
           ? (
             <div className="flex h-40 items-center justify-center">
               <Loader className="h-10" />

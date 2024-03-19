@@ -1,3 +1,4 @@
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
@@ -55,12 +56,12 @@ export interface savePublishedStableCoinData {
   walletAddress: string;
   ticker: string;
   transactionID: string;
-  data: object;
+  data: SuiSignAndExecuteTransactionBlockOutput;
 }
 
 export interface savePublishedStableCoinApiPostResponse {
   status: string;
-  packages: object[];
+  packages: SuiSignAndExecuteTransactionBlockOutput[];
 }
 
 export const useCreateStableCoin = () => ({
