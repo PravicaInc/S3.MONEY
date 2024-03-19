@@ -39,7 +39,9 @@ export function validCreate(data: IFace.ICreatePackageRequest): IFace.IValid {
   // check for invalid characters
   if (!TICKER_REGEX.test(data.ticker.substring(1))) {
     console.log(`ticker must be alphanumeric with no special characters: ${data.ticker}`)
-    return {error: `ticker must be alphanumeric with no special characters: ${data.ticker}`}
+    return {
+      error: `ticker must be alphanumeric with no special characters: ${data.ticker}`,
+    }
   }
 
   // downcase the package name and remove $
@@ -52,7 +54,22 @@ export function validCreate(data: IFace.ICreatePackageRequest): IFace.IValid {
   const path = `${WORK_DIR}/${data.address}/${data.packageName}`
   if (fs.existsSync(path)) {
     console.log(`package directory already exists: ${data.address}/${data.packageName}`)
-    return {error: `package directory already exists: ${data.address}/${data.packageName}`}
+    return {
+      error: `package directory already exists: ${data.address}/${data.packageName}`,
+    }
+  }
+
+  if (data.icon_url !== undefined) {
+    data.icon_url = data.icon_url.trim()
+    try {
+      new URL(data.icon_url)
+    } catch (e) {
+      console.log(`invalid icon_url: ${data.icon_url}`)
+      return {error: `invalid icon_url: ${data.icon_url}`}
+    }
+    data.icon_url = `option::some(url::new_unsafe_from_bytes(b"${data.icon_url}"))`
+  } else {
+    data.icon_url = 'option::none()'
   }
 
   // TODO: add more checks
@@ -82,7 +99,9 @@ export function validCancel(data: IFace.IPackageCreated): IFace.IValid {
 
   if (!TICKER_REGEX.test(data.ticker.substring(1))) {
     console.log(`ticker must be alphanumeric with no special characters: ${data.ticker}`)
-    return {error: `ticker must be alphanumeric with no special characters: ${data.ticker}`}
+    return {
+      error: `ticker must be alphanumeric with no special characters: ${data.ticker}`,
+    }
   }
 
   // downcase the package name and remove $
@@ -91,14 +110,18 @@ export function validCancel(data: IFace.IPackageCreated): IFace.IValid {
   let path = `${WORK_DIR}/${data.address}/${data.packageName}`
   if (!fs.existsSync(path)) {
     console.log(`package directory does not exist: ${data.address}/${data.packageName}`)
-    return {error: `package directory does not exist: ${data.address}/${data.packageName}`}
+    return {
+      error: `package directory does not exist: ${data.address}/${data.packageName}`,
+    }
   }
 
   // cannot cancel a published package
   path = `${WORK_DIR}/${data.address}/${data.packageName}.json`
   if (fs.existsSync(path)) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
-    return {error: `package already published: ${data.address}/${data.packageName}`}
+    return {
+      error: `package already published: ${data.address}/${data.packageName}`,
+    }
   }
 
   return {error: '', data: data}
@@ -126,7 +149,9 @@ export function validPublish(data: IFace.IPackageCreated): IFace.IValid {
 
   if (!TICKER_REGEX.test(data.ticker.substring(1))) {
     console.log(`ticker must be alphanumeric with no special characters: ${data.ticker}`)
-    return {error: `ticker must be alphanumeric with no special characters: ${data.ticker}`}
+    return {
+      error: `ticker must be alphanumeric with no special characters: ${data.ticker}`,
+    }
   }
 
   // downcase the package name and remove $
@@ -135,13 +160,17 @@ export function validPublish(data: IFace.IPackageCreated): IFace.IValid {
   let path = `${WORK_DIR}/${data.address}/${data.packageName}`
   if (!fs.existsSync(path)) {
     console.log(`package directory does not exist: ${data.address}/${data.packageName}`)
-    return {error: `package directory does not exist: ${data.address}/${data.packageName}`}
+    return {
+      error: `package directory does not exist: ${data.address}/${data.packageName}`,
+    }
   }
 
   path = `${WORK_DIR}/${data.address}/${data.packageName}.json`
   if (fs.existsSync(path)) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
-    return {error: `package already published: ${data.address}/${data.packageName}`}
+    return {
+      error: `package already published: ${data.address}/${data.packageName}`,
+    }
   }
 
   return {error: '', data: data}
