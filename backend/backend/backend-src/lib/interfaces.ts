@@ -45,3 +45,12 @@ export enum PackageStatus {
   CREATED = 'created',
   PUBLISHED = 'published',
 }
+
+export interface IPackageIcon {
+  address: string
+  ticker: string
+  fileName: string
+  mimeType: string
+  // set internally
+  packageName?: string
+}

@@ -172,6 +172,28 @@ export function validAddress(address: string): IFace.IValid {
   return {error: ''}
 }
 
+export function validIconRequest(data: IFace.IPackageIcon): IFace.IValid {
+  const stringFields = ['address', 'ticker', 'fileName', 'mimeType']
+
+  for (const field of stringFields) {
+    if (!(field in data)) {
+      console.log(`missing field: ${field}`)
+      return {error: `missing field: ${field}`}
+    }
+  }
+
+  const v = validTicker(data.ticker)
+  if (v !== '') {
+    console.log(v)
+    return {error: v}
+  }
+
+  // downcase the package name and remove $
+  data.packageName = data.ticker.toLowerCase().trim().substring(1)
+
+  return {error: '', data: data}
+}
+
 function validTicker(ticker: string): string {
   if (ticker == '' || ticker == '$' || ticker.length > 6) {
     return `invalid ticker name: ${ticker}`
