@@ -89,6 +89,11 @@ app.get('/packages/:address', async (req, res) => {
   }
 })
 
+// for dev/testing
+app.get('/t/env', async (req, res) => {
+  res.status(200).json({status: 'ok', env: JSON.stringify(process.env, null, 2)})
+})
+
 // 404 in json
 app.use((_, res) => {
   res.status(404).json({
