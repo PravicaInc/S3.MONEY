@@ -7,9 +7,10 @@ import { ProgressStep, ProgressStepItem } from './components/ProgressStep';
 
 export interface ProgressStepsProps extends HTMLAttributes<HTMLDivElement> {
   steps: Omit<ProgressStepItem, 'number'>[];
+  onStepClick?: (step: ProgressStepItem) => void;
 }
 
-export const ProgressSteps: FC<ProgressStepsProps> = ({ steps, className, ...props }) => (
+export const ProgressSteps: FC<ProgressStepsProps> = ({ steps, className, onStepClick, ...props }) => (
   <div
     className={twMerge('flex items-center gap-10', className)}
 
@@ -29,6 +30,14 @@ export const ProgressSteps: FC<ProgressStepsProps> = ({ steps, className, ...pro
             number={idx + 1}
             text={text}
             isActive={isActive}
+            className={twMerge(
+              onStepClick && isActive && 'cursor-pointer'
+            )}
+            onClick={() => onStepClick && onStepClick({
+              number: idx,
+              text,
+              isActive,
+            })}
           />
         </Fragment>
       ))

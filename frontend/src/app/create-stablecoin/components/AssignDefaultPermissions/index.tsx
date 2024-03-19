@@ -25,12 +25,14 @@ interface PermissionsStableCoinFormData {
 
 export interface InitialDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: PermissionsStableCoinData) => unknown;
+  defaultValues?: Partial<PermissionsStableCoinFormData>;
 }
 
-export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, onSubmit, ...props }) => {
+export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, onSubmit, defaultValues, ...props }) => {
   const formMethods = useForm({
     defaultValues: {
       defaultPermissions: ['on'],
+      ...defaultValues,
     },
   });
 

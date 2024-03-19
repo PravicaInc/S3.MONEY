@@ -34,7 +34,7 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({ stableCoinItem, isSele
               />
             )
             : (
-              <div className="w-full h-full bg-[#F0F0F0] rounded-full" />
+              <div className="w-full h-full bg-seashell rounded-full" />
             )
         }
       </div>

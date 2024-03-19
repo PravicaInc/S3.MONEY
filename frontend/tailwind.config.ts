@@ -10,13 +10,16 @@ const config: Config = {
         error: '#DC2626',
         primary: '#0D0D12',
         secondary: '#808897',
-        grayText: '#666D80',
         actionPrimary: '#FE6321',
         actionSecondary: '#FFAA71',
         pageBgPrimary: 'rgb(248, 249, 251)',
         pageBgSecondary: 'rgb(253, 241, 238)',
         borderPrimary: '#DFE1E6',
         modalBackdropColor: '#00000088',
+
+        // custom colors
+        seashell: '#F0F0F0',
+        grayText: '#666D80',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',

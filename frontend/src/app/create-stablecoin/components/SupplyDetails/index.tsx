@@ -28,9 +28,10 @@ export interface SupplyStableCoinData {
 
 export interface SupplyDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: SupplyStableCoinData) => unknown;
+  defaultValues?: Partial<SupplyStableCoinData>;
 }
 
-export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, ...props }) => {
+export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, defaultValues, ...props }) => {
   const supplyDetailsFormSchema = yup.object().shape({
     initialSupply: yup
       .number()
@@ -55,6 +56,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, ...
     resolver: yupResolver(supplyDetailsFormSchema),
     defaultValues: {
       supplyType: SupplyTypes.Infinite,
+      ...defaultValues,
     },
   });
   const supplyType = useWatch({

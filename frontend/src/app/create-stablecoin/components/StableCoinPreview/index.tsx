@@ -29,15 +29,19 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
     </p>
     <div className="p-6 pt-5">
       {
-        icon && (
-          <NextImage
-            className="rounded-full"
-            src={icon}
-            width={48}
-            height={48}
-            alt="New StableCoin icon"
-          />
-        )
+        icon
+          ? (
+            <NextImage
+              className="rounded-full"
+              src={icon}
+              width={48}
+              height={48}
+              alt="New StableCoin icon"
+            />
+          )
+          : (
+            <div className="w-12 h-12 bg-seashell rounded-full" />
+          )
       }
       <p className="text-lg font-semibold mt-3">
         {name}

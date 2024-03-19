@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Link from 'next/link';
@@ -20,9 +20,17 @@ export interface InitialStableCoinData {
 
 export interface InitialDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: InitialStableCoinData) => unknown;
+  defaultValues?: Partial<InitialStableCoinData>;
+  excludeTickerNames?: string[];
 }
 
-export const InitialDetails: FC<InitialDetailsProps> = ({ className, onSubmit, ...props }) => {
+export const InitialDetails: FC<InitialDetailsProps> = ({
+  className,
+  onSubmit,
+  defaultValues,
+  excludeTickerNames,
+  ...props
+}) => {
   const initialDetailsFormSchema = yup.object().shape({
     name: yup
       .string()
@@ -37,7 +45,14 @@ export const InitialDetails: FC<InitialDetailsProps> = ({ className, onSubmit, .
         'Stablecoin ticker is required.',
         value => value
           ? !!value.replace(/^\$/, '').length
-          : false
+          : true
+      )
+      .test(
+        'is-exist',
+        'A stablecoin with such a ticker has already been created.',
+        value => value && excludeTickerNames
+          ? !excludeTickerNames.includes(value)
+          : true
       ),
     icon: yup
       .string(),
@@ -45,12 +60,29 @@ export const InitialDetails: FC<InitialDetailsProps> = ({ className, onSubmit, .
 
   const formMethods = useForm({
     resolver: yupResolver(initialDetailsFormSchema),
+    mode: defaultValues ? 'all' : 'onChange',
     defaultValues: {
       icon: '',
+      ...defaultValues,
     },
   });
 
   const icon = formMethods.watch('icon');
+
+  useEffect(
+    () => {
+      if (defaultValues && excludeTickerNames?.includes(formMethods.getValues().ticker)) {
+        formMethods.setError(
+          'ticker',
+          {
+            message: 'A stablecoin with such a ticker has already been created.',
+            type: 'is-exist',
+          }
+        );
+      }
+    },
+    [defaultValues, excludeTickerNames, formMethods]
+  );
 
   return (
     <FormProvider {...formMethods}>

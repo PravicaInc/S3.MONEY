@@ -5,9 +5,8 @@ import { SubmitHandler } from 'react-hook-form';
 import { useAutoConnectWallet, useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
 import { getFullnodeUrl } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { AxiosError } from 'axios';
 import { twMerge } from 'tailwind-merge';
-
-import defaultStablecoinIconURI from '@/../public/images/default_stablecoin_icon.png';
 
 import { Footer } from '@/Components/Footer';
 import { Loader } from '@/Components/Loader';
@@ -49,6 +48,7 @@ export default function CreateStableCoinPage() {
   ]);
   const [showCreateStableCoinConfirm, setShowCreateStableCoinConfirm] = useState<boolean>(false);
   const [showSuccessCreatedStableCoinModal, setShowSuccessCreatedStableCoinModal] = useState<boolean>(false);
+  const [excludeTickerNames, setExcludeTickerNames] = useState<string[]>([]);
 
   const isLoading = useMemo(
     () => autoConnectionStatus === 'idle',
@@ -64,7 +64,7 @@ export default function CreateStableCoinPage() {
       setCurrentStep(currentStep + 1);
       setProgressSteps(progressSteps.map((step, idx) => ({
         ...step,
-        isActive: idx <= currentStep + 1,
+        isActive: step.isActive || idx <= currentStep + 1,
       })));
     },
     [currentStep, progressSteps]
@@ -74,7 +74,6 @@ export default function CreateStableCoinPage() {
     setData(currentValue => ({
       ...currentValue,
       ...initialStableCoinData,
-      icon: initialStableCoinData.icon || `${location.origin}${defaultStablecoinIconURI.src}`,
     }));
     goToNextStep();
   };
@@ -99,39 +98,69 @@ export default function CreateStableCoinPage() {
   const runCreateStableCoin = useCallback(
     async () => {
       if (account?.address && data.name && data.ticker && data.decimals) {
-        const { dependencies, modules } = await createStableCoin.mutateAsync({
-          walletAddress: account?.address,
-          packageName: data.name,
-          ticker: data.ticker,
-          decimals: data.decimals,
-          icon: data.icon,
-          name: data.name,
-          description: 'Created via S3.MONEY',
-          maxSupply: data.maxSupply,
-          initialSupply: data.initialSupply,
-        });
-        const txb = new TransactionBlock();
+        try {
+          const { dependencies, modules } = await createStableCoin.create.mutateAsync({
+            walletAddress: account?.address,
+            packageName: data.name,
+            ticker: data.ticker,
+            decimals: data.decimals,
+            icon: data.icon || undefined,
+            name: data.name,
+            description: 'Created via S3.MONEY',
+            maxSupply: data.maxSupply,
+            initialSupply: data.initialSupply,
+          });
+          const txb = new TransactionBlock();
 
-        const upgradeCapPolicy = txb.publish({ dependencies, modules });
+          const upgradeCapPolicy = txb.publish({ dependencies, modules });
 
-        txb.transferObjects([upgradeCapPolicy], txb.pure(account?.address));
+          txb.transferObjects([upgradeCapPolicy], txb.pure(account?.address));
 
-        await signAndExecuteTransactionBlock.mutateAsync({
-          transactionBlock: txb,
-          chain: getFullnodeUrl('testnet'),
-          requestType: 'WaitForLocalExecution',
-          options: {
-            showBalanceChanges: true,
-            showEffects: true,
-            showEvents: true,
-            showInput: true,
-            showObjectChanges: true,
-            showRawInput: true,
-          },
-        });
+          const transactionData = await signAndExecuteTransactionBlock.mutateAsync({
+            transactionBlock: txb,
+            chain: getFullnodeUrl('testnet'),
+            requestType: 'WaitForLocalExecution',
+            options: {
+              showBalanceChanges: true,
+              showEffects: true,
+              showEvents: true,
+              showInput: true,
+              showObjectChanges: true,
+              showRawInput: true,
+            },
+          });
 
-        setShowCreateStableCoinConfirm(false);
-        setShowSuccessCreatedStableCoinModal(true);
+          await createStableCoin.savePublishedStableCoin.mutateAsync({
+            walletAddress: account?.address,
+            ticker: data.ticker,
+            transactionID: transactionData.digest,
+            data: transactionData,
+          });
+
+          setShowCreateStableCoinConfirm(false);
+          setShowSuccessCreatedStableCoinModal(true);
+        }
+        catch (error) {
+          if (error instanceof AxiosError) {
+            if (
+              error.response?.status === 400
+                && error.response?.data?.message.includes('package directory already exists')
+            ) {
+              setCurrentStep(0);
+              setShowCreateStableCoinConfirm(false);
+              setExcludeTickerNames(currentValue => [...currentValue, data.ticker as string]);
+            }
+          }
+          else if (error instanceof Error && error.message.includes('Rejected from user')) {
+            await createStableCoin.removeNotPublishedStableCoin.mutateAsync({
+              walletAddress: account?.address,
+              ticker: data.ticker,
+            });
+          }
+          else {
+            throw error;
+          }
+        }
       }
     },
     [data, account?.address, createStableCoin, signAndExecuteTransactionBlock]
@@ -166,6 +195,8 @@ export default function CreateStableCoinPage() {
               currentStep === 0 && (
                 <InitialDetails
                   onSubmit={onInitialDetailsSubmit}
+                  defaultValues={data}
+                  excludeTickerNames={excludeTickerNames}
                 />
               )
             }
@@ -173,6 +204,7 @@ export default function CreateStableCoinPage() {
               currentStep === 1 && (
                 <SupplyDetails
                   onSubmit={onSupplyDetailsSubmit}
+                  defaultValues={data}
                 />
               )
             }
@@ -199,7 +231,12 @@ export default function CreateStableCoinPage() {
         visible={showCreateStableCoinConfirm}
         onClose={() => setShowCreateStableCoinConfirm(false)}
         onProceed={runCreateStableCoin}
-        inProcess={createStableCoin.isPending || signAndExecuteTransactionBlock.isPending}
+        inProcess={
+          createStableCoin.create.isPending
+            || createStableCoin.removeNotPublishedStableCoin.isPending
+            || createStableCoin.savePublishedStableCoin.isPending
+            || signAndExecuteTransactionBlock.isPending
+        }
       />
       <SuccessCreatedStableCoinModal
         visible={showSuccessCreatedStableCoinModal}

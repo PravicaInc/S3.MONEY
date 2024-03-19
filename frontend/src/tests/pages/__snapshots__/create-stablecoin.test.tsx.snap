@@ -465,17 +465,8 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           <div
             class="p-6 pt-5"
           >
-            <img
-              alt="New StableCoin icon"
-              class="rounded-full"
-              data-nimg="1"
-              decoding="async"
-              height="48"
-              loading="lazy"
-              src="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75"
-              srcset="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75 2x"
-              style="color: transparent;"
-              width="48"
+            <div
+              class="w-12 h-12 bg-seashell rounded-full"
             />
             <p
               class="text-lg font-semibold mt-3"
@@ -835,17 +826,8 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           <div
             class="p-6 pt-5"
           >
-            <img
-              alt="New StableCoin icon"
-              class="rounded-full"
-              data-nimg="1"
-              decoding="async"
-              height="48"
-              loading="lazy"
-              src="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75"
-              srcset="/_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=48&q=75 1x, /_next/image?url=http%3A%2F%2Flocalhost%2Fimg.jpg&w=96&q=75 2x"
-              style="color: transparent;"
-              width="48"
+            <div
+              class="w-12 h-12 bg-seashell rounded-full"
             />
             <p
               class="text-lg font-semibold mt-3"
