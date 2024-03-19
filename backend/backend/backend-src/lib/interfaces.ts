@@ -15,6 +15,7 @@ export interface ICreatePackageRequest {
   description?: string
 }
 
+// TODO: rename this to something more appropriate
 export interface IPackageCreated {
   address: string
   ticker: string
@@ -22,11 +23,25 @@ export interface IPackageCreated {
   // sent if created is true
   txid?: string
   data?: object
-  // set internally for cancel case
+  // set internally
   packageName?: string
+}
+
+export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
+  return {
+    address: data.address,
+    ticker: data.ticker,
+    created: true,
+    packageName: data.packageName,
+  }
 }
 
 export interface IValid {
   error: string
   data?: object
+}
+
+export enum PackageStatus {
+  CREATED = 'created',
+  PUBLISHED = 'published',
 }
