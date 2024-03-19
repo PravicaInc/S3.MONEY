@@ -20,6 +20,7 @@ const config: Config = {
         // custom colors
         seashell: '#F0F0F0',
         grayText: '#666D80',
+        lavenderGrey: '#C1C7CF',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',

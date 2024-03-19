@@ -6,6 +6,7 @@ import CheckedIcon from '@/../public/images/checked.svg?jsx';
 
 export enum CHECKBOX_VIEWS {
   default = 'default',
+  rounded = 'rounded',
   switch = 'switch',
 }
 
@@ -18,6 +19,8 @@ export const defaultInputClassName = `
 export const defaultCheckboxClassName = `
   w-5 h-5 border border-borderPrimary flex items-center justify-center rounded-md transition
 `;
+
+export const roundedCheckboxClassName = 'rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2';
 
 export const switchInputClassName = `
   invisible absolute inset-1/2
@@ -40,6 +43,10 @@ const checkboxViewsClassNames = {
   [CHECKBOX_VIEWS.default]: {
     input: defaultInputClassName,
     checkbox: defaultCheckboxClassName,
+  },
+  [CHECKBOX_VIEWS.rounded]: {
+    input: defaultInputClassName,
+    checkbox: twMerge(defaultCheckboxClassName, roundedCheckboxClassName),
   },
   [CHECKBOX_VIEWS.switch]: {
     input: switchInputClassName,

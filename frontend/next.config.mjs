@@ -22,7 +22,21 @@ const nextConfig = {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
         resourceQuery: /jsx/, // *.svg?jsx
-        use: ['@svgr/webpack'],
+        use: {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              plugins: [{
+                name: 'preset-default',
+                params: {
+                  overrides: {
+                    removeViewBox: false,
+                  },
+                },
+              }],
+            },
+          },
+        },
       }
     );
 

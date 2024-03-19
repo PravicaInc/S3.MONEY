@@ -106,8 +106,6 @@ export const Input: FC<InputProps> = ({
 }) => {
   const { register, formState: { errors } } = useFormContext() || {};
 
-  // console.log({ errors })
-
   return (
     <>
       {

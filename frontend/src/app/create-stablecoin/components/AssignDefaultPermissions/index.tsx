@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, HTMLAttributes } from 'react';
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -16,38 +16,55 @@ import { Tooltip } from '@/Components/Tooltip';
 import { PAGES_URLS } from '@/utils/const';
 
 export interface PermissionsStableCoinData {
-  defaultPermissions: boolean;
+  permissions: {
+    value: string;
+    label: string;
+    isActive: boolean;
+  }[];
 }
 
-interface PermissionsStableCoinFormData {
-  defaultPermissions: string[];
-}
-
-export interface InitialDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
+export interface AssignDefaultPermissionsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: PermissionsStableCoinData) => unknown;
-  defaultValues?: Partial<PermissionsStableCoinFormData>;
+  defaultValues?: Partial<PermissionsStableCoinData>;
 }
 
-export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, onSubmit, defaultValues, ...props }) => {
+export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
+  className,
+  onSubmit,
+  defaultValues,
+  ...props
+}) => {
   const formMethods = useForm({
     defaultValues: {
       defaultPermissions: ['on'],
+      permissions: [
+        {
+          value: 'wipe',
+          label: 'Wipe - S3-Token-Manager Smart Contract',
+          isActive: true,
+        },
+        {
+          value: 'freeze',
+          label: 'Freeze - S3-Token-Manager Smart Contract',
+          isActive: true,
+        },
+        {
+          value: 'pause',
+          label: 'Pause - S3-Token-Manager Smart Contract',
+          isActive: true,
+        },
+      ],
       ...defaultValues,
     },
   });
 
-  const hasDefaultPermissions = !!formMethods.watch('defaultPermissions').length;
-
-  const onFormSubmit: SubmitHandler<PermissionsStableCoinFormData> = async permissionsStableCoinData => onSubmit({
-    ...permissionsStableCoinData,
-    defaultPermissions: !!permissionsStableCoinData.defaultPermissions.length,
-  });
+  const permissions = formMethods.watch('permissions');
 
   return (
     <FormProvider {...formMethods}>
       <form
         className={twMerge('', className)}
-        onSubmit={formMethods.handleSubmit(onFormSubmit)}
+        onSubmit={formMethods.handleSubmit(onSubmit)}
         {...props}
       >
         <div className="text-primary text-lg font-semibold flex items-center justify-between">
@@ -68,28 +85,24 @@ export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, o
         </div>
         <div className="mt-10 space-y-4">
           {
-            [
-              // 'Wipe - S3-Token-Manager Smart Contract',
-              'Freeze - S3-Token-Manager Smart Contract',
-              'Pause - S3-Token-Manager Smart Contract',
-            ].map(permission => (
+            permissions.map(({ value, label, isActive }) => (
               <div
-                key={permission}
+                key={value}
                 className="flex items-center gap-[10px] text-primary"
               >
                 <div
                   className={twMerge(
                     'w-6 h-6 flex items-center justify-center rounded-full',
-                    hasDefaultPermissions ? 'bg-[#EFFEFA]' : 'bg-red-100'
+                    isActive ? 'bg-[#EFFEFA]' : 'bg-red-100'
                   )}
                 >
                   {
-                    hasDefaultPermissions
+                    isActive
                       ? <CheckedIcon className="[&>path]:stroke-[#287F6E]" />
                       : <FontAwesomeIcon icon={faXmark} className="text-red-400" />
                   }
                 </div>
-                {permission}
+                {label}
               </div>
             ))
           }
@@ -109,7 +122,7 @@ export const AssignDefaultPermissions: FC<InitialDetailsProps> = ({ className, o
             disabled={formMethods.formState.isSubmitting}
             isLoading={formMethods.formState.isSubmitting}
           >
-            Create
+            Next
           </Button>
         </div>
       </form>

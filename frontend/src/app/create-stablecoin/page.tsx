@@ -17,12 +17,14 @@ import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
+import { RolesAssignment, RolesStableCoinData } from './components/RolesAssignment';
 import { StableCoinPreview } from './components/StableCoinPreview';
 import { SuccessCreatedStableCoinModal } from './components/SuccessCreatedStableCoinModal';
 import { SupplyDetails, SupplyStableCoinData, SupplyTypes } from './components/SupplyDetails';
 import { TokenDetailsReviewConfirm } from './components/TokenDetailsReviewConfirm';
 
-interface CreateStableCoinData extends InitialStableCoinData, SupplyStableCoinData {}
+interface CreateStableCoinData
+  extends InitialStableCoinData, SupplyStableCoinData, PermissionsStableCoinData, RolesStableCoinData {}
 
 export default function CreateStableCoinPage() {
   const autoConnectionStatus = useAutoConnectWallet();
@@ -39,11 +41,12 @@ export default function CreateStableCoinPage() {
     },
     {
       text: 'Supply Details',
-      isActive: false,
     },
     {
       text: 'Permissions',
-      isActive: false,
+    },
+    {
+      text: 'Roles Assignment',
     },
   ]);
   const [showCreateStableCoinConfirm, setShowCreateStableCoinConfirm] = useState<boolean>(false);
@@ -91,6 +94,14 @@ export default function CreateStableCoinPage() {
     setData(currentValue => ({
       ...currentValue,
       ...permissionsStableCoinData,
+    }));
+    goToNextStep();
+  };
+
+  const onRolesSubmit: SubmitHandler<RolesStableCoinData> = rolesStableCoinData => {
+    setData(currentValue => ({
+      ...currentValue,
+      ...rolesStableCoinData,
     }));
     setShowCreateStableCoinConfirm(true);
   };
@@ -212,6 +223,13 @@ export default function CreateStableCoinPage() {
               currentStep === 2 && (
                 <AssignDefaultPermissions
                   onSubmit={onPermissionsSubmit}
+                />
+              )
+            }
+            {
+              currentStep === 3 && (
+                <RolesAssignment
+                  onSubmit={onRolesSubmit}
                 />
               )
             }

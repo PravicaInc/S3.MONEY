@@ -65,7 +65,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             2
           </div>
           <p
-            class="text-[#C1C7CF]"
+            class="text-lavenderGrey"
           >
             Supply Details
           </p>
@@ -82,9 +82,26 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             3
           </div>
           <p
-            class="text-[#C1C7CF]"
+            class="text-lavenderGrey"
           >
             Permissions
+          </p>
+        </div>
+        <div
+          class="bg-borderPrimary w-16 h-[2px]"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-[#F8F9FB] border-borderPrimary after:content-none"
+          >
+            4
+          </div>
+          <p
+            class="text-lavenderGrey"
+          >
+            Roles Assignment
           </p>
         </div>
       </div>
@@ -366,6 +383,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             Permissions
           </p>
         </div>
+        <div
+          class="bg-borderPrimary w-16 h-[2px]"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-[#F8F9FB] border-borderPrimary after:content-none"
+          >
+            4
+          </div>
+          <p
+            class="text-lavenderGrey"
+          >
+            Roles Assignment
+          </p>
+        </div>
       </div>
       <div
         class="mt-16 grid grid-cols-10 gap-6"
@@ -417,6 +451,18 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                     class="[&>path]:stroke-[#287F6E]"
                   />
                 </div>
+                Wipe - S3-Token-Manager Smart Contract
+              </div>
+              <div
+                class="flex items-center gap-[10px] text-primary"
+              >
+                <div
+                  class="w-6 h-6 flex items-center justify-center rounded-full bg-[#EFFEFA]"
+                >
+                  <svg
+                    class="[&>path]:stroke-[#287F6E]"
+                  />
+                </div>
                 Freeze - S3-Token-Manager Smart Contract
               </div>
               <div
@@ -449,7 +495,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                 class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
                 type="submit"
               >
-                Create
+                Next
               </button>
             </div>
           </form>
@@ -485,16 +531,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             <div
               class="bg-borderPrimary h-[1px] mt-3 mb-4"
             />
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Factory Contract ID
-              </span>
-              <span>
-                0.1525e49 (Default)
-              </span>
-            </div>
             <div
               class="flex items-center justify-between text-secondary text-sm"
             >
@@ -695,9 +731,26 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             3
           </div>
           <p
-            class="text-[#C1C7CF]"
+            class="text-lavenderGrey"
           >
             Permissions
+          </p>
+        </div>
+        <div
+          class="bg-borderPrimary w-16 h-[2px]"
+        />
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-[#F8F9FB] border-borderPrimary after:content-none"
+          >
+            4
+          </div>
+          <p
+            class="text-lavenderGrey"
+          >
+            Roles Assignment
           </p>
         </div>
       </div>

@@ -29,7 +29,7 @@ export const ProgressStep: FC<ProgressStepProps> = ({ number, text, isActive, cl
     </div>
     <p
       className={twMerge(
-        isActive ? 'text-primary' : 'text-[#C1C7CF]'
+        isActive ? 'text-primary' : 'text-lavenderGrey'
       )}
     >
       {text}
