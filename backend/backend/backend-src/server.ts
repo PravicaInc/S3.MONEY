@@ -6,6 +6,7 @@ import ejs from 'ejs'
 
 import * as IFace from './lib/interfaces'
 import * as Checks from './lib/checks'
+import * as AWS from './lib/aws'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
@@ -27,9 +28,9 @@ app.get('/', (req, res) => {
 })
 
 app.post('/create', async (req: Request<{}, {}, IFace.ICreatePackageRequest>, res) => {
-  const v = Checks.validCreate(req.body)
+  const v = await Checks.validCreate(req.body)
   if (v.error === '') {
-    let r = createPackage(v.data! as IFace.ICreatePackageRequest)
+    let r = await createPackage(v.data! as IFace.ICreatePackageRequest)
     if (r.error === '') {
       res.status(200).json({
         status: 'ok',
@@ -50,9 +51,9 @@ app.post('/create', async (req: Request<{}, {}, IFace.ICreatePackageRequest>, re
 })
 
 app.post('/cancel', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => {
-  const v = Checks.validCancel(req.body)
+  const v = await Checks.validCancel(req.body)
   if (v.error === '') {
-    deletePackage(v.data! as IFace.IPackageCreated)
+    await deletePackage(v.data! as IFace.IPackageCreated)
     res.status(200).json({status: 'ok', message: 'deleted'})
   } else {
     res.status(400).json({
@@ -63,9 +64,9 @@ app.post('/cancel', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => 
 })
 
 app.post('/published', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => {
-  const v = Checks.validPublish(req.body)
+  const v = await Checks.validPublish(req.body)
   if (v.error === '') {
-    savePackage(v.data! as IFace.IPackageCreated)
+    await savePackage(v.data! as IFace.IPackageCreated)
     res.status(200).json({status: 'ok', message: 'saved'})
   } else {
     res.status(400).json({
@@ -77,10 +78,11 @@ app.post('/published', async (req: Request<{}, {}, IFace.IPackageCreated>, res) 
 
 app.get('/packages/:address', async (req, res) => {
   const {address} = req.params
+  const summary = 'summary' in req.query
 
   const v = Checks.validAddress(address)
   if (v.error === '') {
-    res.status(200).json({status: 'ok', packages: packageData(address)})
+    res.status(200).json({status: 'ok', packages: await packageData(address, summary)})
   } else {
     res.status(400).json({
       error: 400,
@@ -108,7 +110,7 @@ app.listen(port, () => {
 
 /* Operations */
 
-function createPackage(data: IFace.ICreatePackageRequest) {
+async function createPackage(data: IFace.ICreatePackageRequest) {
   let token: string = TOKEN_SUPPLY
 
   const packagePath = `${WORK_DIR}/${data.address}/${data.packageName}`
@@ -162,32 +164,23 @@ function createPackage(data: IFace.ICreatePackageRequest) {
 
   const {modules, dependencies} = JSON.parse(ret)
 
+  console.log('about to save to db')
+
+  await AWS.savePackageDB(IFace.reqToCreated(data), IFace.PackageStatus.CREATED)
+
   return {modules, dependencies, error: ''}
 }
 
-function deletePackage(data: IFace.IPackageCreated) {
+async function deletePackage(data: IFace.IPackageCreated) {
   const path = `${WORK_DIR}/${data.address}/${data.packageName}`
-  fs.rmSync(path, {recursive: true})
+  await fs.rmSync(path, {recursive: true})
+  await AWS.deletePackageDB(data.address, data.packageName!)
 }
 
-function savePackage(data: IFace.IPackageCreated) {
-  const path = `${WORK_DIR}/${data.address}/${data.packageName}.json`
-  fs.writeFileSync(path, JSON.stringify(data.data!, null, 2), {encoding: 'utf-8'})
+async function savePackage(data: IFace.IPackageCreated) {
+  await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
-function packageData(address: string) {
-  const path = `${WORK_DIR}/${address}/`
-  if (!fs.existsSync(path)) return []
-  const PFiles = fs
-    .readdirSync(path)
-    .filter(name => name.endsWith('.json'))
-    .sort()
-  const packages = PFiles.map(fname => {
-    const contents = fs.readFileSync(`${path}/${fname}`, {
-      encoding: 'utf-8',
-    })
-    return JSON.parse(contents)
-  })
-
-  return packages
+async function packageData(address: string, summary: boolean) {
+  return await AWS.listPackagesDB(address, summary)
 }
