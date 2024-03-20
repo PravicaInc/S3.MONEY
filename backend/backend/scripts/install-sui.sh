@@ -21,10 +21,11 @@ fi
 
 set -x
 
-curl -s -C - -L -O https://github.com/MystenLabs/sui/releases/download/$RELEASE/$RELEASE_ARCHIVE
+# curl -s -C - -L -O https://github.com/MystenLabs/sui/releases/download/$RELEASE/$RELEASE_ARCHIVE
+wget -q https://github.com/MystenLabs/sui/releases/download/$RELEASE/$RELEASE_ARCHIVE
 tar xzf $RELEASE_ARCHIVE ./target/release/sui-ubuntu-x86_64
+rm $RELEASE_ARCHIVE
 mv target/release/sui-ubuntu-x86_64 /usr/local/bin/sui
 rmdir target/release target
-rm $RELEASE_ARCHIVE
 
 exit 0
