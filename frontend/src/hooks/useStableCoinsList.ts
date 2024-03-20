@@ -24,15 +24,23 @@ const packagesListApi = new ApiManager(
 
 export interface packagesListApiGetByKeyResponse {
   status: 'ok',
-  packages: SuiSignAndExecuteTransactionBlockOutput[],
+  packages: {
+    deploy_data: SuiSignAndExecuteTransactionBlockOutput,
+    deploy_date: string,
+    deploy_status: 'created' | 'published',
+    package_name: string,
+    ticker: string,
+    txid: string,
+  }[],
 }
 
 const getStableCoinsList = async (accountAddress: string): Promise<StableCoinsListResponse> => {
   const { packages } = await packagesListApi.getByKey(accountAddress)
     .then((response: AxiosResponse<packagesListApiGetByKeyResponse>) => response.data);
+  const transactions = packages.map(({ deploy_data }) => deploy_data);
 
   const coinMetadataTransactions = await Promise.all(
-    packages
+    transactions
       .map(({ objectChanges }) => {
         const coinMetadataTransaction = objectChanges
           ?.find(objectChange => objectChange.type === 'created' && objectChange.objectType?.includes('CoinMetadata'));
@@ -68,7 +76,7 @@ const getStableCoinsList = async (accountAddress: string): Promise<StableCoinsLi
         };
 
         return {
-          id: packages[idx].digest,
+          id: transactions[idx].digest,
           name: fields?.symbol,
           tokenName: fields?.name,
           icon: fields?.icon_url,

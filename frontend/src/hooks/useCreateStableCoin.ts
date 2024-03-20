@@ -37,29 +37,29 @@ export interface CreateStableCoinData {
   icon?: string;
 }
 
-export interface createStableCoinApiPostResponse {
+export interface CreateStableCoinApiPostResponse {
   modules: number[][] | string[];
   dependencies: string[];
 }
 
-export interface removeNotPublishedStableCoinData {
+export interface RemoveNotPublishedStableCoinData {
   walletAddress: string;
   ticker: string;
 }
 
-export interface removeNotPublishedStableCoinApiPostResponse {
+export interface RemoveNotPublishedStableCoinApiPostResponse {
   status: string;
   message: string;
 }
 
-export interface savePublishedStableCoinData {
+export interface SavePublishedStableCoinData {
   walletAddress: string;
   ticker: string;
   transactionID: string;
   data: SuiSignAndExecuteTransactionBlockOutput;
 }
 
-export interface savePublishedStableCoinApiPostResponse {
+export interface SavePublishedStableCoinApiPostResponse {
   status: string;
   packages: SuiSignAndExecuteTransactionBlockOutput[];
 }
@@ -89,18 +89,18 @@ export const useCreateStableCoin = () => ({
       network,
       icon_url: icon,
     })
-      .then((response: AxiosResponse<createStableCoinApiPostResponse>) => response.data),
+      .then((response: AxiosResponse<CreateStableCoinApiPostResponse>) => response.data),
   }),
   removeNotPublishedStableCoin: useMutation({
     mutationFn: async ({
       walletAddress,
       ticker,
-    }: removeNotPublishedStableCoinData) => cancelApi.post({
+    }: RemoveNotPublishedStableCoinData) => cancelApi.post({
       address: walletAddress,
       ticker,
       created: false,
     })
-      .then((response: AxiosResponse<removeNotPublishedStableCoinApiPostResponse>) => response.data),
+      .then((response: AxiosResponse<RemoveNotPublishedStableCoinApiPostResponse>) => response.data),
   }),
   savePublishedStableCoin: useMutation({
     mutationFn: async ({
@@ -108,13 +108,13 @@ export const useCreateStableCoin = () => ({
       ticker,
       transactionID,
       data,
-    }: savePublishedStableCoinData) => publishedApi.post({
+    }: SavePublishedStableCoinData) => publishedApi.post({
       address: walletAddress,
       ticker,
       txid: transactionID,
       created: true,
       data,
     })
-      .then((response: AxiosResponse<savePublishedStableCoinApiPostResponse>) => response.data),
+      .then((response: AxiosResponse<SavePublishedStableCoinApiPostResponse>) => response.data),
   }),
 });

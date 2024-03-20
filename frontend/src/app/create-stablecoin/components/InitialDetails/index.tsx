@@ -3,14 +3,18 @@
 import { FC, HTMLAttributes, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
+import { Loader } from '@/Components/Loader';
 
 import { PAGES_URLS } from '@/utils/const';
+
+import { useUploadImage } from '@/hooks/useUploadImage';
 
 export interface InitialStableCoinData {
   name: string;
@@ -31,6 +35,10 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
   excludeTickerNames,
   ...props
 }) => {
+  const account = useCurrentAccount();
+
+  const uploadImage = useUploadImage(account?.address);
+
   const initialDetailsFormSchema = yup.object().shape({
     name: yup
       .string()
@@ -125,18 +133,38 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
           </div>
           <div>
             {
-              icon
+              icon || uploadImage.isPending
                 ? (
                   <div className="flex items-center gap-5">
-                    <div
-                      className="w-[100px] h-[100px] rounded-xl bg-no-repeat bg-center bg-cover"
-                      style={{
-                        backgroundImage: `url(${icon})`,
-                      }}
-                    />
-                    <button type="button" className="text-error text-sm" onClick={removeIcon}>
-                      Remove
-                    </button>
+                    {
+                      uploadImage.isPending
+                        ? (
+                          <div
+                            className="
+                              w-[100px] h-[100px] flex items-center justify-center
+                              border border-borderPrimary rounded-xl
+                            "
+                          >
+                            <Loader className="h-5 w-5" />
+                          </div>
+                        )
+                        : (
+                          <>
+                            <div
+                              className="
+                                w-[100px] h-[100px] border border-borderPrimary rounded-xl
+                                bg-no-repeat bg-center bg-cover
+                              "
+                              style={{
+                                backgroundImage: `url(${icon})`,
+                              }}
+                            />
+                            <button type="button" className="text-error text-sm" onClick={removeIcon}>
+                              Remove
+                            </button>
+                          </>
+                        )
+                    }
                   </div>
                 )
                 : (
@@ -147,7 +175,7 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
                     description="JPG or PNG. 1MB max"
                     onChange={({ target: { files } }) => {
                       if (files?.[0]) {
-                        readImage(files[0]);
+                        uploadIcon(files[0]);
                       }
                     }}
                   />
@@ -175,14 +203,8 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
     </FormProvider>
   );
 
-  function readImage(file: File) {
-    const reader = new FileReader();
-
-    reader.onload = function() {
-      formMethods.setValue('icon', reader.result as string);
-    };
-
-    reader.readAsDataURL(file);
+  async function uploadIcon(file: File) {
+    formMethods.setValue('icon', await uploadImage.mutateAsync(file));
   }
 
   function removeIcon() {
