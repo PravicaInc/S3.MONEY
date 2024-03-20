@@ -10,7 +10,7 @@ VOLUME $WORK_DIR
 # for dependencies
 VOLUME $HOME/.move
 
-RUN apt-get update && apt-get -y install wget
+RUN apt-get update && apt-get -y install wget git
 RUN mkdir -p $HOME/app/node_modules $HOME/.move $WORK_DIR && chown -R node:node $HOME $WORK_DIR
 WORKDIR $HOME/app
 COPY --chown=node:node backend/ ./
