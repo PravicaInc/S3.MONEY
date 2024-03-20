@@ -4,8 +4,7 @@ import { twMerge } from 'tailwind-merge';
 import { Header } from '@/Components/Header';
 
 export interface PageLayoutProps {
-  children: ReactNode;
-
+  children?: ReactNode;
   className?: string;
   contentClassName?: string;
 }
