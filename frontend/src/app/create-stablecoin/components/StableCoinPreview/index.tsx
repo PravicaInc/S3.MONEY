@@ -3,7 +3,6 @@
 import { FC, HTMLAttributes } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import NextImage from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
 import CheckedIcon from '@/../public/images/checked.svg?jsx';
@@ -35,21 +34,12 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
       Preview Details
     </p>
     <div className="p-6 pt-5">
-      {
-        icon
-          ? (
-            <NextImage
-              className="rounded-full"
-              src={icon}
-              width={48}
-              height={48}
-              alt="New StableCoin icon"
-            />
-          )
-          : (
-            <div className="w-12 h-12 bg-seashell rounded-full" />
-          )
-      }
+      <div
+        className="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${icon})`,
+        }}
+      />
       <p className="text-lg font-semibold mt-3">
         {name}
         {' '}

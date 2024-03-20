@@ -217,7 +217,7 @@ describe('Create stablecoin page:', () => {
       });
 
       it('Go to "Permissions" step', async () => {
-        await goToPermissionsStep(true);
+        await goToPermissionsStep();
 
         expect(renderResult.queryByText(/Assign Default Permissions/)).toBeVisible();
       });
@@ -333,7 +333,7 @@ async function goToSupplyDetailsStep() {
   await user.click(nextButton);
 }
 
-async function goToPermissionsStep(withMaxSupply: boolean = false) {
+async function goToPermissionsStep() {
   const user = userEvent.setup();
   const nextButton = renderResult.getByRole('button', {
     name: /Next/i,
@@ -342,14 +342,11 @@ async function goToPermissionsStep(withMaxSupply: boolean = false) {
   const supplySelect = renderResult.getByRole('combobox');
   const decimalsField = renderResult.getByPlaceholderText('Decimals');
 
-  if (withMaxSupply) {
-    await user.selectOptions(supplySelect, SupplyTypes.Finite);
+  await user.selectOptions(supplySelect, SupplyTypes.Finite);
 
-    const maxSupplyField = renderResult.getByPlaceholderText('Max Supply');
+  const maxSupplyField = renderResult.getByPlaceholderText('Max Supply');
 
-    await user.type(maxSupplyField, '123456789');
-  }
-
+  await user.type(maxSupplyField, '123456789');
   await user.type(initialSupplyField, '987');
   await user.type(decimalsField, '7');
   await user.click(nextButton);

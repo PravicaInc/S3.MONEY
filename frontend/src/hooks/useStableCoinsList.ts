@@ -36,7 +36,13 @@ export interface packagesListApiGetByKeyResponse {
 
 const getStableCoinsList = async (accountAddress: string): Promise<StableCoinsListResponse> => {
   const { packages } = await packagesListApi.getByKey(accountAddress)
-    .then((response: AxiosResponse<packagesListApiGetByKeyResponse>) => response.data);
+    .then((response: AxiosResponse<packagesListApiGetByKeyResponse>) => response.data)
+    .then(data => ({
+      ...data,
+      packages: data.packages
+        .filter(({ deploy_status }) => deploy_status === 'published')
+        .sort(({ deploy_date: a }, { deploy_date: b }) => (new Date(a)).getTime() - (new Date(b)).getTime()),
+    }));
   const transactions = packages.map(({ deploy_data }) => deploy_data);
 
   const coinMetadataTransactions = await Promise.all(

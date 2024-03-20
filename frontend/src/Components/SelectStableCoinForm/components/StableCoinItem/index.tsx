@@ -1,5 +1,4 @@
 import React, { FC, HTMLAttributes } from 'react';
-import NextImage from 'next/image';
 import { twMerge } from 'tailwind-merge';
 
 import { SimpleCheckbox } from '@/Components/Form/Checkbox';
@@ -21,23 +20,12 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({ stableCoinItem, isSele
     {...props}
   >
     <div className="flex gap-4 items-center">
-      <div className="flex items-center justify-center w-8 h-8">
-        {
-          stableCoinItem.icon
-            ? (
-              <NextImage
-                className="rounded-full"
-                src={stableCoinItem.icon}
-                alt="Wallet Icon"
-                width={32}
-                height={32}
-              />
-            )
-            : (
-              <div className="w-full h-full bg-seashell rounded-full" />
-            )
-        }
-      </div>
+      <div
+        className="w-8 h-8 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+        style={{
+          backgroundImage: `url(${stableCoinItem.icon})`,
+        }}
+      />
       <div>
         <p className="font-semibold text-primary">
           {stableCoinItem.name}

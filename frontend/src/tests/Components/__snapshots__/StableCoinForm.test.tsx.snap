@@ -56,12 +56,9 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
             class="flex gap-4 items-center"
           >
             <div
-              class="flex items-center justify-center w-8 h-8"
-            >
-              <div
-                class="w-full h-full bg-seashell rounded-full"
-              />
-            </div>
+              class="w-8 h-8 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+              style="background-image: url(undefined);"
+            />
             <div>
               <p
                 class="font-semibold text-primary"
@@ -103,12 +100,9 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
             class="flex gap-4 items-center"
           >
             <div
-              class="flex items-center justify-center w-8 h-8"
-            >
-              <div
-                class="w-full h-full bg-seashell rounded-full"
-              />
-            </div>
+              class="w-8 h-8 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+              style="background-image: url(undefined);"
+            />
             <div>
               <p
                 class="font-semibold text-primary"
