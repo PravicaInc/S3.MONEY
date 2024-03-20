@@ -56,6 +56,7 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
 
   if (data.icon_url !== undefined) {
     data.icon_url = data.icon_url.trim()
+    data.raw_icon_url = data.icon_url
     try {
       new URL(data.icon_url)
     } catch (e) {
@@ -65,6 +66,7 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
     data.icon_url = `option::some(url::new_unsafe_from_bytes(b"${data.icon_url}"))`
   } else {
     data.icon_url = 'option::none()'
+    data.raw_icon_url = ''
   }
 
   // TODO: add more checks
@@ -154,12 +156,16 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
   */
 
   const pkg = await getPackageDB(data.address, data.packageName)
-  if (pkg !== null && pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
+  if (pkg === null) {
+    console.log(`package not created: ${data.address}/${data.packageName}`)
+    return {error: `package not created: ${data.address}/${data.packageName}`}
+  } else if (pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
       error: `package already published: ${data.address}/${data.packageName}`,
     }
   }
+
   return {error: '', data: data}
 }
 
@@ -173,7 +179,7 @@ export function validAddress(address: string): IFace.IValid {
 }
 
 export function validIconRequest(data: IFace.IPackageIcon): IFace.IValid {
-  const stringFields = ['address', 'ticker', 'fileName', 'mimeType']
+  const stringFields = ['address', 'fileName']
 
   for (const field of stringFields) {
     if (!(field in data)) {
@@ -181,15 +187,6 @@ export function validIconRequest(data: IFace.IPackageIcon): IFace.IValid {
       return {error: `missing field: ${field}`}
     }
   }
-
-  const v = validTicker(data.ticker)
-  if (v !== '') {
-    console.log(v)
-    return {error: v}
-  }
-
-  // downcase the package name and remove $
-  data.packageName = data.ticker.toLowerCase().trim().substring(1)
 
   return {error: '', data: data}
 }
