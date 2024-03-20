@@ -41,7 +41,7 @@ const getStableCoinsList = async (accountAddress: string): Promise<StableCoinsLi
       ...data,
       packages: data.packages
         .filter(({ deploy_status }) => deploy_status === 'published')
-        .sort(({ deploy_date: a }, { deploy_date: b }) => (new Date(a)).getTime() - (new Date(b)).getTime()),
+        .sort(({ deploy_date: a }, { deploy_date: b }) => (new Date(b)).getTime() - (new Date(a)).getTime()),
     }));
   const transactions = packages.map(({ deploy_data }) => deploy_data);
 

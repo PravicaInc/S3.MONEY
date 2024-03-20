@@ -1,16 +1,16 @@
+import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
-import { twMerge } from 'tailwind-merge';
 
-import { PageLayout, PageLayoutProps } from '@/Components/PageLayout/index';
+import { PageLayout } from '@/Components/PageLayout/index';
 
 export const metadata: Metadata = {
   title: 'S3 - Home',
 };
 
-export default function HomeLayout({ className, ...props }: PageLayoutProps) {
+export default function HomeLayout({ ...props }: PropsWithChildren) {
   return (
     <PageLayout
-      className={twMerge('bg-pageBgSecondary', className)}
+      className="bg-pageBgSecondary"
       contentClassName="flex"
       {...props}
     />
