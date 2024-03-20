@@ -6,7 +6,8 @@ export interface ICreatePackageRequest {
   ticker: string // short name, usually five or fewer characters (uppercase)
   decimals: number
   name: string
-  icon_url?: string
+  icon_url?: string // substituted in the contract
+  raw_icon_url?: string // copied from icon_url, unaltered
   // for supply-constrainted contracts
   initialSupply?: string // can be "0"
   maxSupply?: string // can be "0"
@@ -25,6 +26,7 @@ export interface IPackageCreated {
   data?: object
   // set internally
   packageName?: string
+  icon_url?: string
 }
 
 export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
@@ -33,6 +35,7 @@ export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
     ticker: data.ticker,
     created: true,
     packageName: data.packageName,
+    icon_url: data.raw_icon_url,
   }
 }
 
@@ -48,9 +51,7 @@ export enum PackageStatus {
 
 export interface IPackageIcon {
   address: string
-  ticker: string
   fileName: string
-  mimeType: string
   // set internally
   packageName?: string
 }

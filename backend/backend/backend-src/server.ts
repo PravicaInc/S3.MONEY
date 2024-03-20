@@ -1,4 +1,5 @@
 import * as child from 'child_process'
+import {createHmac} from 'crypto'
 import fs from 'fs'
 import express, {Express, Request} from 'express'
 import cors from 'cors'
@@ -80,8 +81,14 @@ app.post('/generateIconURL', async (req: Request<{}, {}, IFace.IPackageIcon>, re
   const v = Checks.validIconRequest(req.body)
   if (v.error === '') {
     const data = v.data! as IFace.IPackageIcon
-    const key = `${data.address}/${data.packageName}-${data.fileName}`
-    let url = await AWS.createPresignedUrlForIcon(key, data.mimeType)
+    let ext = '.png'
+    if (data.fileName.includes('.')) {
+      ext = data.fileName.split('.').slice(-1)[0]
+      if (ext.length > 4) ext = ext.slice(0, 4)
+    }
+    const name = createHmac('sha256', new Date().toISOString()).update(data.fileName).digest('hex')
+    const key = `icons/${data.address}/${name}.${ext}`
+    let url = await AWS.createPresignedUrlForIcon(key)
     res.status(200).json({status: 'ok', url: url})
   } else {
     res.status(400).json({
@@ -193,6 +200,9 @@ async function deletePackage(data: IFace.IPackageCreated) {
 }
 
 async function savePackage(data: IFace.IPackageCreated) {
+  const pkg = await AWS.getPackageDB(data.address, data.packageName!)
+  // at this point, we've already checked to see if pkg exists in the db
+  data.icon_url = pkg!.icon_url
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
