@@ -22,8 +22,7 @@ export const useUploadImage = (walletAddress?: string) => useMutation({
     const { url } = await getS3UrlToUploadImageApi.post({
       address: walletAddress,
       mimeType: file.type,
-      fileName: `${Math.trunc(Math.random() * 10e10)}-${file.name}`,
-      ticker: '$ICON',
+      fileName: file.name,
     })
       .then((response: AxiosResponse<UploadImageApiPutResponse>) => response.data);
     const urlObj = new URL(url);

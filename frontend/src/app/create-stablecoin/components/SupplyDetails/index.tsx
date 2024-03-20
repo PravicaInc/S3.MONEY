@@ -49,7 +49,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
       .number()
       .typeError('Decimals is required.')
       .required('Decimals is required.')
-      .max(8, 'Decimals can be up to 8.'),
+      .max(16, 'Decimals can be up to 16.'),
   });
 
   const formMethods = useForm({
@@ -86,6 +86,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
               onChange={({ target }) => {
                 target.value = target.value ? numberFormat(target.value) : target.value;
               }}
+              maxLength={14}
             />
           </div>
           <div>
@@ -121,6 +122,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
                     target.value = target.value ? numberFormat(target.value) : target.value;
                   }}
                   shouldUnregister
+                  maxLength={14}
                 />
               </div>
             )

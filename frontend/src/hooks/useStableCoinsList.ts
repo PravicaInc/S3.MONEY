@@ -31,6 +31,7 @@ export interface packagesListApiGetByKeyResponse {
     package_name: string,
     ticker: string,
     txid: string,
+    icon_url: string;
   }[],
 }
 
