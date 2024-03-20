@@ -5,6 +5,7 @@ import {
   PutItemCommand,
   ScanCommand,
   PutItemInput,
+  QueryCommand,
 } from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 import {S3Client, PutObjectCommand} from '@aws-sdk/client-s3'
@@ -18,8 +19,8 @@ const DEPLOYED_TABLE = 's3money-deployed-contracts-dev'
 const s3client = new S3Client()
 const dbclient = new DynamoDBClient()
 
-export async function createPresignedUrlForIcon(key: string, mimeType: string) {
-  const command = new PutObjectCommand({Bucket: BUCKET, Key: key, ContentType: mimeType, ACL: 'public-read'})
+export async function createPresignedUrlForIcon(key: string) {
+  const command = new PutObjectCommand({Bucket: BUCKET, Key: key, ACL: 'public-read'})
   return getSignedUrl(s3client, command, {expiresIn: 3600})
 }
 
@@ -39,7 +40,9 @@ export async function getPackageDB(address: string, package_name: string) {
 }
 
 export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.PackageStatus) {
-  let deploy_data = marshall(data.data ?? {})
+  const deploy_data = marshall(data.data ?? {})
+  let icon_url = ''
+  if (data.icon_url !== undefined && data.icon_url != 'option::none()') icon_url = data.icon_url
 
   const command = new PutItemCommand({
     TableName: DEPLOYED_TABLE,
@@ -47,6 +50,7 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
       address: {S: data.address},
       package_name: {S: data.packageName!},
       ticker: {S: data.ticker},
+      icon_url: {S: icon_url},
       txid: {S: data.txid || ''},
       deploy_date: {S: new Date().toISOString()},
       deploy_data: {M: deploy_data},
@@ -70,11 +74,21 @@ export async function deletePackageDB(address: string, package_name: string) {
 }
 
 export async function listPackagesDB(address: string, summary: boolean) {
-  let projection = 'package_name, ticker, txid, deploy_status, deploy_date, deploy_data'
+  let projection = 'package_name, ticker, txid, icon_url, deploy_status, deploy_date, deploy_data'
   if (summary) {
-    projection = 'package_name, ticker, txid, deploy_status, deploy_date'
+    projection = 'package_name, ticker, txid, icon_url, deploy_status, deploy_date'
   }
-  const command = new ScanCommand({
+
+  const command = new QueryCommand({
+    TableName: DEPLOYED_TABLE,
+    KeyConditionExpression: 'address = :address',
+    ExpressionAttributeValues: {
+      ':address': {S: address},
+    },
+    ProjectionExpression: projection,
+  })
+
+  const xcommand = new ScanCommand({
     TableName: DEPLOYED_TABLE,
     FilterExpression: 'address = :address',
     ExpressionAttributeValues: {
@@ -83,8 +97,10 @@ export async function listPackagesDB(address: string, summary: boolean) {
     ProjectionExpression: projection,
   })
 
-  const response = await dbclient.send(command)
+  const response = await dbclient.send(command!)
   const retlist = response.Items?.map(item => unmarshall(item))
+    .sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date']))
+    .reverse()
 
   return retlist || []
 }
