@@ -55,7 +55,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
   const formMethods = useForm({
     resolver: yupResolver(supplyDetailsFormSchema),
     defaultValues: {
-      supplyType: SupplyTypes.Infinite,
+      supplyType: undefined,
       ...defaultValues,
     },
   });
@@ -104,6 +104,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
               ]}
               placeholder="Infinite/Finite"
               className="w-full"
+              isRequired
             />
           </div>
           {

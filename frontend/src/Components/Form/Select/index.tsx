@@ -36,7 +36,6 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(({
         'text-secondary has-[>option:checked:not([value=""])]:text-primary',
         className
       )}
-      required={isRequired}
       defaultValue=""
       {...props}
     >
