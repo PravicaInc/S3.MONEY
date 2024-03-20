@@ -18,7 +18,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
       </span>
       <a
         class="rounded-xl"
-        href="#"
+        href="/create-stablecoin"
       >
         <button
           class="text-white rounded-xl shadow-button border-actionSecondary border-solid border flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-sm font-semibold h-[37px] w-[153px]"
@@ -36,6 +36,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
         <input
           class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none pl-11 w-full"
           placeholder="Search..."
+          type="text"
           value=""
         />
         <svg
@@ -46,7 +47,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
         class="bg-borderPrimary h-[1px]"
       />
       <div
-        class="space-y-3"
+        class="space-y-3 max-h-[410px] overflow-auto"
       >
         <button
           class="border rounded-[10px] px-4 py-3 flex items-center justify-between w-full text-left border-borderPrimary"
@@ -55,12 +56,9 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
             class="flex gap-4 items-center"
           >
             <div
-              class="flex items-center justify-center w-8 h-8"
-            >
-              <div
-                class="w-full h-full bg-[#F0F0F0] rounded-full"
-              />
-            </div>
+              class="w-8 h-8 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+              style="background-image: url(undefined);"
+            />
             <div>
               <p
                 class="font-semibold text-primary"
@@ -68,24 +66,32 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
                 PRV
               </p>
               <p
-                class="text-sm text-[#666D80] mt-[2px]"
+                class="text-sm text-grayText mt-[2px]"
               >
                 Pravica Token
               </p>
             </div>
           </div>
-          <div
-            class="relative"
+          <label
+            class="relative transition cursor-pointer"
           >
             <input
-              class="invisible absolute inset-1/2"
+              class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
               readonly=""
               type="checkbox"
             />
             <div
               class="w-5 h-5 border border-borderPrimary flex items-center justify-center rounded-md transition"
-            />
-          </div>
+            >
+              <svg
+                class="hidden duration-1000"
+              />
+            </div>
+          </label>
         </button>
         <button
           class="border rounded-[10px] px-4 py-3 flex items-center justify-between w-full text-left border-borderPrimary"
@@ -94,12 +100,9 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
             class="flex gap-4 items-center"
           >
             <div
-              class="flex items-center justify-center w-8 h-8"
-            >
-              <div
-                class="w-full h-full bg-[#F0F0F0] rounded-full"
-              />
-            </div>
+              class="w-8 h-8 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+              style="background-image: url(undefined);"
+            />
             <div>
               <p
                 class="font-semibold text-primary"
@@ -107,24 +110,32 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
                 SSS
               </p>
               <p
-                class="text-sm text-[#666D80] mt-[2px]"
+                class="text-sm text-grayText mt-[2px]"
               >
                 S3 Money Token
               </p>
             </div>
           </div>
-          <div
-            class="relative"
+          <label
+            class="relative transition cursor-pointer"
           >
             <input
-              class="invisible absolute inset-1/2"
+              class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
               readonly=""
               type="checkbox"
             />
             <div
               class="w-5 h-5 border border-borderPrimary flex items-center justify-center rounded-md transition"
-            />
-          </div>
+            >
+              <svg
+                class="hidden duration-1000"
+              />
+            </div>
+          </label>
         </button>
       </div>
       <button

@@ -12,7 +12,11 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
       class="flex items-center justify-between max-w-screen-2xl mx-auto h-full w-full"
       data-testid="header"
     >
-      <svg />
+      <a
+        href="/"
+      >
+        <svg />
+      </a>
       <button
         class=" border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium transition hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary "
       >

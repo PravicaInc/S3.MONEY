@@ -4,11 +4,11 @@ import { FC, useCallback } from 'react';
 import { useConnectWallet, useWallets } from '@mysten/dapp-kit';
 import { twMerge } from 'tailwind-merge';
 
-import { Button, ButtonProps, primaryButtonClasses } from '@/Components/Form/Button';
+import { Button, ButtonProps1, primaryButtonClasses } from '@/Components/Form/Button';
 
 import { WALLETS } from '@/utils/const';
 
-export interface WalletConnectButton extends ButtonProps {
+export interface WalletConnectButton extends ButtonProps1 {
   onConnectSuccess?: (walletName: string) => void;
   onConnectError?: (error: unknown) => void;
 }

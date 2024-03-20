@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FC, ReactNode } from 'react';
+import { ButtonHTMLAttributes, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { Loader } from '@/Components/Loader';
@@ -37,14 +37,14 @@ const buttonViewsClassNames = {
   [BUTTON_VIEWS.secondary]: secondaryButtonClasses,
 };
 
-export const Button: FC<ButtonProps> = ({
+export const Button = ({
   className,
   text,
   children,
   isLoading,
   view = BUTTON_VIEWS.primary,
   ...props
-}) => (
+}: ButtonProps) => (
   <button
     className={twMerge(
       buttonViewsClassNames[view],

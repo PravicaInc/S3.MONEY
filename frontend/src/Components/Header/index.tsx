@@ -3,6 +3,7 @@
 import { FC, HTMLAttributes, useCallback, useMemo, useState } from 'react';
 import { useAutoConnectWallet, useCurrentAccount, useCurrentWallet, useDisconnectWallet } from '@mysten/dapp-kit';
 import NextImage from 'next/image';
+import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
@@ -58,7 +59,9 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
         data-testid="header"
         className="flex items-center justify-between max-w-screen-2xl mx-auto h-full w-full"
       >
-        <LogoIcon />
+        <Link href={PAGES_URLS.home}>
+          <LogoIcon />
+        </Link>
         {
           (isLoading || isRedirecting) && (
             <Loader className="h-8" />

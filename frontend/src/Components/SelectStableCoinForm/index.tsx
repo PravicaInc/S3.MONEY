@@ -12,6 +12,8 @@ import { Button } from '@/Components/Form/Button';
 import { SimpleInput } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
 
+import { PAGES_URLS } from '@/utils/const';
+
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 import { StableCoinItem } from './components/StableCoinItem';
@@ -21,7 +23,11 @@ export interface SelectStableCoinFormProps extends HTMLAttributes<HTMLDivElement
 export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className, ...props }) => {
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
-  const { data, isLoading: isStableCoinsListLoading } = useStableCoinsList(account?.address);
+  const {
+    data,
+    isLoading: isStableCoinsListLoading,
+    isFetching: isStableCoinsListFetching,
+  } = useStableCoinsList(account?.address);
 
   const [searchValue, setSearchValue] = useState<string>('');
   const [selectedStableCoin, setSelectedStableCoin] = useState<StableCoin | null>();
@@ -69,7 +75,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
               <Loader className="h-5" />
             )
             : (
-              <Link href="#" className="rounded-xl">
+              <Link href={PAGES_URLS.createStableCoin} className="rounded-xl">
                 <Button className="text-sm font-semibold h-[37px] w-[153px]">
                   + New Stablecoin
                 </Button>
@@ -78,7 +84,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
         }
       </div>
       {
-        isLoading || isRedirecting || isStableCoinsListLoading
+        isLoading || isRedirecting || isStableCoinsListLoading || isStableCoinsListFetching
           ? (
             <div className="flex h-40 items-center justify-center">
               <Loader className="h-10" />
@@ -94,7 +100,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
                 icon={<SearchIcon />}
               />
               <Delimiter />
-              <div className="space-y-3">
+              <div className="space-y-3 max-h-[410px] overflow-auto">
                 {
                   filteredStableCoins.map(coin => (
                     <StableCoinItem

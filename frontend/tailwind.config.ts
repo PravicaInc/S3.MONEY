@@ -7,6 +7,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
+        error: '#DC2626',
         primary: '#0D0D12',
         secondary: '#808897',
         actionPrimary: '#FE6321',
@@ -15,6 +16,11 @@ const config: Config = {
         pageBgSecondary: 'rgb(253, 241, 238)',
         borderPrimary: '#DFE1E6',
         modalBackdropColor: '#00000088',
+
+        // custom colors
+        seashell: '#F0F0F0',
+        grayText: '#666D80',
+        lavenderGrey: '#C1C7CF',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
