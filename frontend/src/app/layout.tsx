@@ -1,5 +1,8 @@
+import { ToastContainer } from 'react-toastify';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
+
+import 'react-toastify/dist/ReactToastify.css';
 
 import 'rc-tooltip/assets/bootstrap_white.css';
 
@@ -25,6 +28,19 @@ export default function RootLayout({
         <Providers>
           <ClientLayout>
             {children}
+            <ToastContainer
+              position="top-center"
+              autoClose={5000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+              theme="colored"
+              // transition={Bounce}
+            />
           </ClientLayout>
         </Providers>
       </body>

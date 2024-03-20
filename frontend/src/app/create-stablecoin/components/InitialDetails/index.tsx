@@ -2,6 +2,7 @@
 
 import { FC, HTMLAttributes, useEffect } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
@@ -173,9 +174,18 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
                     type="file"
                     label="Stablecoin Symbol"
                     description="JPG or PNG. 1MB max"
-                    onChange={({ target: { files } }) => {
-                      if (files?.[0]) {
-                        uploadIcon(files[0]);
+                    accept="image/png,image/jpeg"
+                    onChange={({ target }) => {
+                      const selectedFile = target.files?.[0];
+
+                      if (selectedFile) {
+                        if (selectedFile.size < 1 * 1024 * 1024) {
+                          uploadIcon(selectedFile);
+                        }
+                        else {
+                          formMethods.setValue('icon', '');
+                          toast.error('The size of the image cannot be more than 1MB.');
+                        }
                       }
                     }}
                   />

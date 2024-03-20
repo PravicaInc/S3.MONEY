@@ -176,6 +176,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                   >
                     Choose
                     <input
+                      accept="image/png,image/jpeg"
                       class="hidden"
                       id="icon"
                       name="icon"
