@@ -1,4 +1,4 @@
-FROM node:20-bookworm
+FROM node:20-bookworm-slim
 
 ENV RELEASE="testnet-v1.21.0"
 ENV RELEASE_ARCHIVE="sui-testnet-v1.21.0-ubuntu-x86_64.tgz"
@@ -10,6 +10,7 @@ VOLUME $WORK_DIR
 # for dependencies
 VOLUME $HOME/.move
 
+RUN apt-get update && apt-get -y install wget
 RUN mkdir -p $HOME/app/node_modules $HOME/.move $WORK_DIR && chown -R node:node $HOME $WORK_DIR
 WORKDIR $HOME/app
 COPY --chown=node:node backend/ ./
@@ -17,8 +18,8 @@ COPY --chown=node:node backend/ ./
 RUN npm install -g pnpm && scripts/install-sui.sh
 
 USER node
-RUN pnpm install && pnpm run build && sh scripts/install-deps.sh
-COPY --chown=node:node . .
+# RUN pnpm install && pnpm run build && sh scripts/install-deps.sh
+RUN pnpm install && pnpm run build
 
 ENV PORT=3000
 EXPOSE 3000/tcp
