@@ -26,7 +26,6 @@ export enum suiNetworkList {
 
 export interface CreateStableCoinData {
   walletAddress: string;
-  packageName: string;
   ticker: string;
   decimals: number;
   name?: string | undefined;
@@ -35,6 +34,7 @@ export interface CreateStableCoinData {
   initialSupply?: number;
   network?: suiNetworkList;
   icon?: string;
+  roles?: Record<string, string | undefined>;
 }
 
 export interface CreateStableCoinApiPostResponse {
@@ -68,7 +68,6 @@ export const useCreateStableCoin = () => ({
   create: useMutation({
     mutationFn: async ({
       walletAddress,
-      packageName,
       ticker,
       name,
       description,
@@ -79,7 +78,6 @@ export const useCreateStableCoin = () => ({
       icon,
     }: CreateStableCoinData) => createApi.post({
       address: walletAddress,
-      packageName,
       ticker,
       name,
       description,
