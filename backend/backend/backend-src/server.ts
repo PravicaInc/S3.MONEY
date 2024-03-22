@@ -104,7 +104,10 @@ app.get('/packages/:address', async (req, res) => {
 
   const v = Checks.validAddress(address)
   if (v.error === '') {
-    res.status(200).json({status: 'ok', packages: await packageData(address, summary)})
+    res.status(200).json({
+      status: 'ok',
+      packages: await packageData(address, summary),
+    })
   } else {
     res.status(400).json({
       error: 400,
@@ -115,7 +118,10 @@ app.get('/packages/:address', async (req, res) => {
 
 // for dev/testing
 app.get('/t/env', async (req, res) => {
-  res.status(200).json({status: 'ok', env: JSON.stringify(process.env, null, 2)})
+  res.status(200).json({
+    status: 'ok',
+    env: JSON.stringify(process.env, null, 2),
+  })
 })
 
 // 404 in json
@@ -203,6 +209,7 @@ async function savePackage(data: IFace.IPackageCreated) {
   const pkg = await AWS.getPackageDB(data.address, data.packageName!)
   // at this point, we've already checked to see if pkg exists in the db
   data.icon_url = pkg!.icon_url
+  data.name = pkg!.name
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
