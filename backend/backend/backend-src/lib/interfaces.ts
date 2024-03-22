@@ -37,6 +37,7 @@ export interface IPackageCreated {
   // sent if created is true
   txid?: string
   data?: object
+  package_zip?: string
   // set internally
   packageName?: string
   packageRoles?: RoleMap
@@ -44,7 +45,7 @@ export interface IPackageCreated {
   ticker_name?: string
 }
 
-export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
+export function reqToCreated(data: ICreatePackageRequest, s3key: string | undefined): IPackageCreated {
   return {
     address: data.address,
     ticker: data.ticker,
@@ -53,6 +54,7 @@ export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
     packageRoles: data.roles,
     ticker_name: data.name,
     icon_url: data.raw_icon_url,
+    package_zip: s3key ?? '',
   }
 }
 
