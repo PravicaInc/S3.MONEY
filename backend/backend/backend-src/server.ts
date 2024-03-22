@@ -5,6 +5,8 @@ import express, {Express, Request} from 'express'
 import cors from 'cors'
 import ejs from 'ejs'
 
+import {Zip} from 'zip-lib'
+
 import * as IFace from './lib/interfaces'
 import * as Checks from './lib/checks'
 import * as AWS from './lib/aws'
@@ -177,13 +179,21 @@ async function createPackage(data: IFace.ICreatePackageRequest) {
     console.log(`wrote to ${TOut}`)
   }
 
-  // FIXME: this should be serialized
+  // FIXME: look into this
+  let version
   let ret
   try {
+    version = child.execSync(`sui --version`, {encoding: 'utf-8'})
+    fs.writeFileSync(`${packagePath}/.built_with_sui`, version)
+
     ret = child.execSync(`sui move build --dump-bytecode-as-base64`, {
       cwd: packagePath,
       encoding: 'utf-8',
     })
+
+    const zip = new Zip()
+    zip.addFolder(packagePath, data.packageName!)
+    await zip.archive(`/tmp/${packagePath}.zip`)
   } catch (e: any) {
     console.log(e)
     fs.rmSync(packagePath, {recursive: true})
@@ -193,7 +203,10 @@ async function createPackage(data: IFace.ICreatePackageRequest) {
   const {modules, dependencies} = JSON.parse(ret)
   // clear any existing roles
   await AWS.deleteRolesDB(data.address, data.packageName!)
-  await AWS.savePackageDB(IFace.reqToCreated(data), IFace.PackageStatus.CREATED)
+
+  const package_zip_key = await AWS.savePackageS3(data.address, data.packageName!, `/tmp/${packagePath}.zip`)
+
+  await AWS.savePackageDB(IFace.reqToCreated(data, package_zip_key), IFace.PackageStatus.CREATED)
 
   return {modules, dependencies, error: ''}
 }
@@ -203,6 +216,7 @@ async function deletePackage(data: IFace.IPackageCreated) {
   if (fs.existsSync(path)) {
     await fs.rmSync(path, {recursive: true})
   }
+  await AWS.deletePackageS3(data.address, data.packageName!)
   await AWS.deletePackageDB(data.address, data.packageName!)
 }
 
@@ -212,6 +226,7 @@ async function savePackage(data: IFace.IPackageCreated) {
   data.icon_url = pkg!.icon_url
   data.ticker_name = pkg!.ticker_name
   data.packageRoles = pkg!.package_roles
+  data.package_zip = pkg!.package_zip
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
