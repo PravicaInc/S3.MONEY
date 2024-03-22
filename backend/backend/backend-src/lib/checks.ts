@@ -93,6 +93,25 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
     data.raw_icon_url = ''
   }
 
+  // FIXME: there has to be a better way to do this
+  // if any roles are not sent, set them to the deployer's address
+  const roleFields = Object.values(IFace.PackageRoles)
+  if (data.roles !== undefined) {
+    for (const role of roleFields) {
+      if (!(role in data.roles)) {
+        data.roles[role] = data.address
+      }
+    }
+  } else {
+    const roles = {} as IFace.RoleMap
+    for (const role of roleFields) {
+      if (!(role in roles)) {
+        roles[role] = data.address
+      }
+    }
+    data.roles = roles
+  }
+
   // TODO: add more checks
 
   return {error: '', data: data}
