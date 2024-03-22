@@ -1,4 +1,4 @@
-import { FC, forwardRef, InputHTMLAttributes } from 'react';
+import { FC, forwardRef, InputHTMLAttributes, ReactNode } from 'react';
 import { useFormContext } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 
@@ -91,18 +91,28 @@ export const SimpleCheckbox = forwardRef<HTMLInputElement, SimpleCheckboxProps>(
 
 export interface CheckboxProps extends SimpleCheckboxProps {
   name: string;
+  label?: ReactNode;
+  labelClassName?: string;
 }
 
 export const Checkbox: FC<CheckboxProps> = ({
   name,
+  label,
+  labelClassName,
+
   ...props
 }) => {
   const { register } = useFormContext() || {};
 
   return (
-    <SimpleCheckbox
-      {...register(name)}
-      {...props}
-    />
+    <label className={twMerge('flex items-center gap-2 cursor-pointer', labelClassName)}>
+      <SimpleCheckbox
+        {...register(name)}
+        {...props}
+      />
+      <span>
+        {label}
+      </span>
+    </label>
   );
 };
