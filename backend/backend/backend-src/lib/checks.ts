@@ -40,6 +40,30 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
   data.initialSupply = data.initialSupply || '0'
   data.maxSupply = data.maxSupply || '0'
 
+  const initialSupply = parseInt(data.initialSupply, 10)
+  const maxSupply = parseInt(data.maxSupply, 10)
+
+  if (initialSupply < 0 || maxSupply < 0) {
+    console.log(`initialSupply or maxSupply cannot be negative: ${data.initialSupply}, ${data.maxSupply}`)
+    return {
+      error: `initialSupply or maxSupply cannot be negative: ${data.initialSupply}, ${data.maxSupply}`,
+    }
+  }
+
+  if (maxSupply > 0 && initialSupply >= maxSupply) {
+    console.log(`initialSupply cannot be greater than maxSupply: ${data.initialSupply}, ${data.maxSupply}`)
+    return {
+      error: `initialSupply cannot be greater than maxSupply: ${data.initialSupply}, ${data.maxSupply}`,
+    }
+  }
+
+  if (isNaN(maxSupply) || isNaN(initialSupply)) {
+    console.log(`invalid initialSupply or maxSupply: ${data.initialSupply}, ${data.maxSupply}`)
+    return {
+      error: `invalid initialSupply or maxSupply: ${data.initialSupply}, ${data.maxSupply}`,
+    }
+  }
+
   const path = `${WORK_DIR}/${data.address}/${data.packageName}`
   if (fs.existsSync(path)) {
     fs.rmSync(path, {recursive: true})
