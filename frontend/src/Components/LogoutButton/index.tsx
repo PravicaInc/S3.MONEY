@@ -65,7 +65,7 @@ export const LogoutButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({ clas
                 />
               )
             }
-            {shortAccountAddress}
+            {account?.label || shortAccountAddress}
             <LogoutIcon />
           </button>
         )
