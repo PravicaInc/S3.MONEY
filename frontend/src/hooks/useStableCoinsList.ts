@@ -1,4 +1,3 @@
-import { getFullnodeUrl, MoveValue, SuiClient } from '@mysten/sui.js/client';
 import type { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import { useQuery } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
@@ -6,9 +5,9 @@ import { AxiosResponse } from 'axios';
 import { ApiManager } from '@/services/api';
 
 export interface StableCoin {
-  id: string;
+  txid: string;
+  ticker: string;
   name: string;
-  tokenName: string;
   icon?: string;
 }
 
@@ -30,6 +29,7 @@ export interface packagesListApiGetByKeyResponse {
     deploy_status: 'created' | 'published',
     package_name: string,
     ticker: string,
+    ticker_name: string,
     txid: string,
     icon_url: string;
   }[],
@@ -44,53 +44,18 @@ const getStableCoinsList = async (accountAddress: string): Promise<StableCoinsLi
         .filter(({ deploy_status }) => deploy_status === 'published')
         .sort(({ deploy_date: a }, { deploy_date: b }) => (new Date(b)).getTime() - (new Date(a)).getTime()),
     }));
-  const transactions = packages.map(({ deploy_data }) => deploy_data);
-
-  const coinMetadataTransactions = await Promise.all(
-    transactions
-      .map(({ objectChanges }) => {
-        const coinMetadataTransaction = objectChanges
-          ?.find(objectChange => objectChange.type === 'created' && objectChange.objectType?.includes('CoinMetadata'));
-
-        const client = new SuiClient({ url: getFullnodeUrl('testnet') });
-
-        return coinMetadataTransaction?.type === 'created'
-          ? client.getObject({
-            id: coinMetadataTransaction.objectId,
-            options: {
-              showContent: true,
-              showDisplay: true,
-              showOwner: true,
-              showPreviousTransaction: true,
-              showStorageRebate: true,
-              showType: true,
-            },
-          })
-          : Promise.resolve(null);
-      })
-  );
 
   return {
     accountAddress,
-    coins: coinMetadataTransactions
-      .map((coinMetadataTransaction, idx) => {
-        if (coinMetadataTransaction === null || coinMetadataTransaction?.data?.content?.dataType !== 'moveObject') {
-          return null;
-        }
-
-        const fields = coinMetadataTransaction?.data?.content?.fields as {
-          [key: string]: MoveValue;
-        };
-
-        return {
-          id: transactions[idx].digest,
-          name: fields?.symbol,
-          tokenName: fields?.name,
-          icon: fields?.icon_url,
-        };
-      })
-      .filter(coin => !!coin)
-      .map(coin => coin as StableCoin),
+    coins: packages
+      .filter(({ deploy_status }) => deploy_status === 'published')
+      .sort(({ deploy_date: a }, { deploy_date: b }) => (new Date(b)).getTime() - (new Date(a)).getTime())
+      .map(({ txid, ticker_name, ticker, icon_url }) => ({
+        txid,
+        ticker,
+        name: ticker_name,
+        icon: icon_url,
+      })),
   };
 };
 

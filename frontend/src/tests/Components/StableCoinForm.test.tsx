@@ -92,30 +92,30 @@ describe('SelectStableCoinForm:', () => {
 
     it('Show StableCoin list', () => {
       expect(renderResult.queryByTestId('loader')).toBeNull();
-      expect(renderResult.queryByText(TEST_STABLE_COIN1.name)).toBeVisible();
-      expect(renderResult.queryByText(TEST_STABLE_COIN2.name)).toBeVisible();
+      expect(renderResult.queryByText(TEST_STABLE_COIN1.ticker)).toBeVisible();
+      expect(renderResult.queryByText(TEST_STABLE_COIN2.ticker)).toBeVisible();
     });
 
     it('Show filtered StableCoin list', () => {
       const searchInput = renderResult.getByPlaceholderText(/Search/);
 
-      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.name } });
+      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.ticker } });
 
-      expect(renderResult.queryByText(TEST_STABLE_COIN1.name)).toBeNull();
-      expect(renderResult.queryByText(TEST_STABLE_COIN2.name)).toBeVisible();
+      expect(renderResult.queryByText(TEST_STABLE_COIN1.ticker)).toBeNull();
+      expect(renderResult.queryByText(TEST_STABLE_COIN2.ticker)).toBeVisible();
 
       fireEvent.change(searchInput, { target: { value: '' } });
 
-      expect(renderResult.queryByText(TEST_STABLE_COIN1.name)).toBeVisible();
-      expect(renderResult.queryByText(TEST_STABLE_COIN2.name)).toBeVisible();
+      expect(renderResult.queryByText(TEST_STABLE_COIN1.ticker)).toBeVisible();
+      expect(renderResult.queryByText(TEST_STABLE_COIN2.ticker)).toBeVisible();
     });
 
     it('Select StableCoin', () => {
       const buttonStableCoin1 = renderResult.getByRole('button', {
-        name: new RegExp(TEST_STABLE_COIN1.name),
+        name: new RegExp(TEST_STABLE_COIN1.ticker),
       });
       const buttonStableCoin2 = renderResult.getByRole('button', {
-        name: new RegExp(TEST_STABLE_COIN2.name),
+        name: new RegExp(TEST_STABLE_COIN2.ticker),
       });
 
       act(() => {
@@ -140,7 +140,7 @@ describe('SelectStableCoinForm:', () => {
 
     it('Unselect StableCoin if it has been filtered', () => {
       const buttonStableCoin1 = renderResult.getByRole('button', {
-        name: new RegExp(TEST_STABLE_COIN1.name),
+        name: new RegExp(TEST_STABLE_COIN1.ticker),
       });
       const searchInput = renderResult.getByPlaceholderText(/Search/);
 
@@ -148,12 +148,12 @@ describe('SelectStableCoinForm:', () => {
         buttonStableCoin1.click();
       });
 
-      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.name } });
+      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.ticker } });
       fireEvent.change(searchInput, { target: { value: '' } });
 
       expect(
         (getQueriesForElement(renderResult.getByRole('button', {
-          name: new RegExp(TEST_STABLE_COIN1.name),
+          name: new RegExp(TEST_STABLE_COIN1.ticker),
         })).queryByRole('checkbox') as HTMLInputElement)?.checked
       ).toBeFalsy();
     });
@@ -161,7 +161,7 @@ describe('SelectStableCoinForm:', () => {
     it('Disabled and enabled manage stablecoin button', () => {
       const manageStableCoinButton = renderResult.getByText('Manage Stablecoin') as HTMLButtonElement;
       const buttonStableCoin1 = renderResult.getByRole('button', {
-        name: new RegExp(TEST_STABLE_COIN1.name),
+        name: new RegExp(TEST_STABLE_COIN1.ticker),
       });
       const searchInput = renderResult.getByPlaceholderText(/Search/);
 
@@ -173,11 +173,11 @@ describe('SelectStableCoinForm:', () => {
 
       expect(manageStableCoinButton?.disabled).toBeFalsy();
 
-      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN1.name } });
+      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN1.ticker } });
 
       expect(manageStableCoinButton?.disabled).toBeFalsy();
 
-      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.name } });
+      fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.ticker } });
 
       expect(manageStableCoinButton?.disabled).toBeTruthy();
 

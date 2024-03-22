@@ -3,15 +3,15 @@ import { QueryObserverSuccessResult } from '@tanstack/react-query';
 import { StableCoin, StableCoinsListResponse } from '@/hooks/useStableCoinsList';
 
 export const TEST_STABLE_COIN1: StableCoin = {
-  id: '1',
-  name: 'PRV',
-  tokenName: 'Pravica Token',
+  txid: '1',
+  ticker: 'PRV',
+  name: 'Pravica Token',
 };
 
 export const TEST_STABLE_COIN2: StableCoin = {
-  id: '2',
-  name: 'SSS',
-  tokenName: 'S3 Money Token',
+  txid: '2',
+  ticker: 'SSS',
+  name: 'S3 Money Token',
 };
 
 export const createMockStableCoinList = (mockData?: unknown) => (accountAddress: string | undefined) => ({
