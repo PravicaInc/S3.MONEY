@@ -191,9 +191,8 @@ async function createPackage(data: IFace.ICreatePackageRequest) {
   }
 
   const {modules, dependencies} = JSON.parse(ret)
-
-  console.log('about to save to db')
-
+  // clear any existing roles
+  await AWS.deleteRolesDB(data.address, data.packageName!)
   await AWS.savePackageDB(IFace.reqToCreated(data), IFace.PackageStatus.CREATED)
 
   return {modules, dependencies, error: ''}
@@ -201,7 +200,9 @@ async function createPackage(data: IFace.ICreatePackageRequest) {
 
 async function deletePackage(data: IFace.IPackageCreated) {
   const path = `${WORK_DIR}/${data.address}/${data.packageName}`
-  await fs.rmSync(path, {recursive: true})
+  if (fs.existsSync(path)) {
+    await fs.rmSync(path, {recursive: true})
+  }
   await AWS.deletePackageDB(data.address, data.packageName!)
 }
 
@@ -210,6 +211,7 @@ async function savePackage(data: IFace.IPackageCreated) {
   // at this point, we've already checked to see if pkg exists in the db
   data.icon_url = pkg!.icon_url
   data.ticker_name = pkg!.ticker_name
+  data.packageRoles = pkg!.package_roles
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
