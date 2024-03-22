@@ -55,7 +55,7 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
     Item: {
       address: {S: data.address},
       package_name: {S: data.packageName!},
-      name: {S: data.name!},
+      ticker_name: {S: data.ticker_name!},
       ticker: {S: data.ticker},
       icon_url: {S: icon_url},
       txid: {S: data.txid || ''},
@@ -81,9 +81,9 @@ export async function deletePackageDB(address: string, package_name: string) {
 }
 
 export async function listPackagesDB(address: string, summary: boolean) {
-  let projection = 'package_name, ticker, txid, icon_url, deploy_status, deploy_date, deploy_data'
+  let projection = 'package_name, ticker, txid, icon_url, ticker_name, deploy_status, deploy_date, deploy_data'
   if (summary) {
-    projection = 'package_name, ticker, txid, icon_url, deploy_status, deploy_date'
+    projection = 'package_name, ticker, txid, icon_url, ticker_name, deploy_status, deploy_date'
   }
 
   const command = new QueryCommand({
