@@ -27,6 +27,7 @@ export interface IPackageCreated {
   // set internally
   packageName?: string
   icon_url?: string
+  name?: string
 }
 
 export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
@@ -35,6 +36,7 @@ export function reqToCreated(data: ICreatePackageRequest): IPackageCreated {
     ticker: data.ticker,
     created: true,
     packageName: data.packageName,
+    name: data.name,
     icon_url: data.raw_icon_url,
   }
 }
