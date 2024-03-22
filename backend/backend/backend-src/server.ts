@@ -209,7 +209,7 @@ async function savePackage(data: IFace.IPackageCreated) {
   const pkg = await AWS.getPackageDB(data.address, data.packageName!)
   // at this point, we've already checked to see if pkg exists in the db
   data.icon_url = pkg!.icon_url
-  data.name = pkg!.name
+  data.ticker_name = pkg!.ticker_name
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
