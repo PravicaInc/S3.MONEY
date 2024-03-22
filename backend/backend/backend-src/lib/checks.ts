@@ -19,7 +19,7 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
     }
   }
 
-  if (data.decimals < 0 || data.decimals > 8) {
+  if (data.decimals < 0 || data.decimals > 16) {
     console.log(`wrong number of decimals: ${data.decimals}`)
     return {error: `wrong number of decimals: ${data.decimals}`}
   }
@@ -158,7 +158,9 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
   const pkg = await getPackageDB(data.address, data.packageName)
   if (pkg === null) {
     console.log(`package not created: ${data.address}/${data.packageName}`)
-    return {error: `package not created: ${data.address}/${data.packageName}`}
+    return {
+      error: `package not created: ${data.address}/${data.packageName}`,
+    }
   } else if (pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
