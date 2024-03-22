@@ -5,6 +5,8 @@ import {
   QueryCommand,
   QueryCommandInput,
   ScanCommand,
+  TransactGetItem,
+  TransactGetItemsCommand,
   TransactWriteItem,
   TransactWriteItemsCommand,
 } from '@aws-sdk/client-dynamodb'
@@ -18,6 +20,9 @@ const BUCKET = 's3.money-contracts-dev'
 const DEPLOYED_TABLE = 's3money-deployed-contracts-dev'
 const ROLES_TABLE = 's3money-contract-roles-dev'
 const ROLES_INDEX = 's3money-contract-roles-dev-roles-index'
+
+const DEPLOYED_TABLE_SUMMARY_PROJECTION =
+  'address, package_name, ticker, txid, icon_url, ticker_name, deploy_status, deploy_date'
 
 const s3client = new S3Client()
 const dbclient = new DynamoDBClient()
@@ -182,25 +187,67 @@ export async function deletePackageDB(address: string, package_name: string) {
 }
 
 export async function listPackagesDB(address: string, summary: boolean) {
-  const input: QueryCommandInput = {
-    TableName: DEPLOYED_TABLE,
-    KeyConditionExpression: 'address = :address',
+  // first, we need to get all the roles for the address
+  const rInput: QueryCommandInput = {
+    TableName: ROLES_TABLE,
+    IndexName: ROLES_INDEX,
+    KeyConditionExpression: 'role_address = :role_address',
     ExpressionAttributeValues: {
-      ':address': {S: address},
+      ':role_address': {S: address},
     },
   }
-  // let projection = 'package_name, ticker, txid, icon_url, ticker_name, deploy_status, deploy_date, deploy_data'
-  if (summary) {
-    input.ProjectionExpression = 'package_name, ticker, txid, icon_url, ticker_name, deploy_status, deploy_date'
-  } else {
-    input.Select = 'ALL_ATTRIBUTES'
-  }
 
-  const command = new QueryCommand(input)
+  const command = new QueryCommand(rInput)
   const response = await dbclient.send(command!)
   const retlist = response.Items?.map(item => unmarshall(item))
+
+  if (retlist === undefined || retlist.length == 0) return []
+
+  const pkgRoleMap = {} as Record<string, string[]>
+  const packages: string[] = []
+  for (const item of retlist) {
+    if ('address_package' in item) {
+      if (!(item.address_package in pkgRoleMap)) {
+        pkgRoleMap[item.address_package] = []
+        packages.push(item.address_package)
+      }
+      pkgRoleMap[item.address_package].push(item.package_role)
+    }
+  }
+
+  // now we can get the package data
+  let items: TransactGetItem[] = []
+  for (const pkg of packages) {
+    const [address, package_name] = pkg.split('-')
+    const o: TransactGetItem = {
+      Get: {
+        TableName: DEPLOYED_TABLE,
+        Key: {
+          address: {S: address},
+          package_name: {S: package_name},
+        },
+      },
+    }
+    if (summary) {
+      o.Get!.ProjectionExpression = DEPLOYED_TABLE_SUMMARY_PROJECTION
+    }
+    items.push(o)
+  }
+
+  const txGetCommand = new TransactGetItemsCommand({
+    TransactItems: items,
+  })
+
+  const getResponse = await dbclient.send(txGetCommand)
+  const pkgItems = getResponse.Responses?.map(response => unmarshall(response.Item!))
     .sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date']))
     .reverse()
 
-  return retlist || []
+  for (let item of pkgItems ?? []) {
+    const key = `${item.address}-${item.package_name}`
+    item.address_roles = pkgRoleMap[key]
+    delete item.address
+  }
+
+  return pkgItems || []
 }
