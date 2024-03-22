@@ -11,15 +11,14 @@ VOLUME $WORK_DIR
 VOLUME $HOME/.move
 
 RUN apt-get update && apt-get -y install wget git
-RUN mkdir -p $HOME/app/node_modules $HOME/.move $WORK_DIR && chown -R node:node $HOME $WORK_DIR
+RUN mkdir -p $HOME/app/node_modules $HOME/.move $WORK_DIR
 WORKDIR $HOME/app
 COPY --chown=node:node backend/ ./
 
-RUN npm install -g pnpm && scripts/install-sui.sh
+RUN npm install -g pnpm && scripts/install-sui.sh && chown -R node:node $HOME $WORK_DIR
 
 USER node
-# RUN pnpm install && pnpm run build && sh scripts/install-deps.sh
-RUN pnpm install && pnpm run build
+RUN pnpm install && pnpm run build && sh scripts/install-deps.sh
 
 ENV PORT=3000
 EXPOSE 3000/tcp
