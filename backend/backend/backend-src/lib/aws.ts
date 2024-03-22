@@ -1,3 +1,4 @@
+import fs from 'fs'
 import {
   DeleteItemCommand,
   DynamoDBClient,
@@ -11,7 +12,7 @@ import {
   TransactWriteItemsCommand,
 } from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
-import {PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
+import {DeleteObjectCommand, PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 
 import * as IFace from './interfaces'
@@ -22,7 +23,7 @@ const ROLES_TABLE = 's3money-contract-roles-dev'
 const ROLES_INDEX = 's3money-contract-roles-dev-roles-index'
 
 const DEPLOYED_TABLE_SUMMARY_PROJECTION =
-  'address, package_name, ticker, txid, icon_url, ticker_name, deploy_status, deploy_date'
+  'address, package_name, ticker, txid, icon_url, ticker_name, package_zip, deploy_status, deploy_date'
 
 const s3client = new S3Client()
 const dbclient = new DynamoDBClient()
@@ -34,6 +35,40 @@ export async function createPresignedUrlForIcon(key: string) {
     ACL: 'public-read',
   })
   return getSignedUrl(s3client, command, {expiresIn: 3600})
+}
+
+export function createKeyForZip(address: string, package_name: string) {
+  return `packages/${address}/${package_name}.zip`
+}
+
+export async function savePackageS3(address: string, package_name: string, zip_path: string) {
+  const key = createKeyForZip(address, package_name)
+  console.log(`uploading object: ${zip_path} to ${BUCKET} as ${key}`)
+
+  const command = new PutObjectCommand({
+    Bucket: BUCKET,
+    Key: key,
+    ACL: 'public-read',
+    Body: fs.readFileSync(zip_path), // about 300-400 kbytes
+    ContentType: 'application/zip',
+  })
+
+  const response = await s3client.send(command)
+  console.log(response)
+  return key
+}
+
+export async function deletePackageS3(address: string, package_name: string) {
+  const key = createKeyForZip(address, package_name)
+
+  if (key !== undefined) {
+    console.log(`deleting object: ${key} in ${BUCKET}`)
+    const command = new DeleteObjectCommand({
+      Bucket: BUCKET,
+      Key: key,
+    })
+    return await s3client.send(command)
+  }
 }
 
 export async function getPackageDB(address: string, package_name: string) {
@@ -74,6 +109,7 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
           deploy_data: {M: deploy_data},
           deploy_status: {S: status},
           package_roles: {M: package_roles},
+          package_zip: {S: data.package_zip!},
         },
       },
     },
