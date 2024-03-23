@@ -116,7 +116,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
                 selectedStableCoin
                   ? (
                     <Link
-                      href={`${PAGES_URLS.dashboardOverview}?txid=${selectedStableCoin.id}`}
+                      href={`${PAGES_URLS.dashboardOverview}?txid=${selectedStableCoin.txid}`}
                       className="rounded-xl block"
                     >
                       <Button
