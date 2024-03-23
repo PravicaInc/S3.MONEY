@@ -104,10 +104,10 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
                 {
                   filteredStableCoins.map(coin => (
                     <StableCoinItem
-                      key={coin.id}
+                      key={coin.txid}
                       stableCoinItem={coin}
                       onClick={() => setSelectedStableCoin(coin)}
-                      isSelected={selectedStableCoin?.id === coin.id}
+                      isSelected={selectedStableCoin?.txid === coin.txid}
                     />
                   ))
                 }
@@ -125,7 +125,7 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
   );
 
   function stableCoinMatchesSearch(stableCoin: StableCoin, search: string) {
-    return stableCoin.name.toLowerCase().includes(search.toLowerCase())
-      || stableCoin.tokenName.toLowerCase().includes(search.toLowerCase());
+    return stableCoin.ticker.toLowerCase().includes(search.toLowerCase())
+      || stableCoin.name.toLowerCase().includes(search.toLowerCase());
   }
 };

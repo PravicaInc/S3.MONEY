@@ -209,7 +209,7 @@ describe('Create stablecoin page:', () => {
         await user.type(decimalsField, '123456789');
 
         expect(renderResult.queryByDisplayValue('123,456,789')).toBeVisible();
-        expect(renderResult.queryByText(/Decimals can be up to 8/)).toBeVisible();
+        expect(renderResult.queryByText(/Decimals can be up to 16/)).toBeVisible();
 
         await user.clear(decimalsField);
 

@@ -111,8 +111,7 @@ export default function CreateStableCoinPage() {
       if (account?.address && data.name && data.ticker && data.decimals) {
         try {
           const { dependencies, modules } = await createStableCoin.create.mutateAsync({
-            walletAddress: account?.address,
-            packageName: data.name,
+            walletAddress: account.address,
             ticker: data.ticker,
             decimals: data.decimals,
             icon: data.icon || undefined,
@@ -120,6 +119,13 @@ export default function CreateStableCoinPage() {
             description: 'Created via S3.MONEY',
             maxSupply: data.maxSupply,
             initialSupply: data.initialSupply,
+            roles: {
+              cashIn: data?.cashIn,
+              burn: data?.burn,
+              pause: data?.pause,
+              freeze: data?.freeze,
+              cashOut: data?.cashOut,
+            },
           });
           const txb = new TransactionBlock();
 

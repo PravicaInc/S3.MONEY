@@ -1623,6 +1623,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                   <input
                     class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
                     id="initialSupply"
+                    maxlength="14"
                     name="initialSupply"
                     placeholder="Initial Supply"
                     type="text"
