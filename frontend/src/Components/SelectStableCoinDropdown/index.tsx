@@ -38,7 +38,7 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
     [autoConnectionStatus, account?.address]
   );
   const currentStableCoin = useMemo(
-    () => stableCoins.find(({ id }) => id === searchParams.get('txid')),
+    () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),
     [searchParams, stableCoins]
   );
 
@@ -58,10 +58,10 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
                 <MenuButton>
                   <Button view={BUTTON_VIEWS.secondary} className="px-5 py-3">
                     {'['}
-                    {currentStableCoin?.name}
+                    {currentStableCoin?.ticker}
                     {']'}
                     {' '}
-                    {currentStableCoin?.tokenName}
+                    {currentStableCoin?.name}
                     <ChevronIcon className="ml-2" />
                   </Button>
                 </MenuButton>
@@ -76,17 +76,17 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
               )}
             >
               {
-                stableCoins.map(({ id, name, tokenName }) => (
+                stableCoins.map(({ txid, name, ticker }) => (
                   <MenuItem
-                    key={id}
-                    value={id}
+                    key={txid}
+                    value={txid}
                     className="block w-full px-4 py-2 hover:bg-actionPrimary hover:bg-opacity-30 cursor-pointer"
                   >
                     {'['}
-                    {name}
+                    {ticker}
                     {']'}
                     {' '}
-                    {tokenName}
+                    {name}
                   </MenuItem>
                 ))
               }
