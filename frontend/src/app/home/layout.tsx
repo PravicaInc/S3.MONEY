@@ -1,7 +1,7 @@
 import { PropsWithChildren } from 'react';
 import type { Metadata } from 'next';
 
-import { PageLayout } from '@/Components/PageLayout/index';
+import { PageLayout } from '@/Components/PageLayout';
 
 export const metadata: Metadata = {
   title: 'S3 - Home',

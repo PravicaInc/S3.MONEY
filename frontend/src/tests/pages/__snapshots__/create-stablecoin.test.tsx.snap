@@ -282,12 +282,12 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
           class="flex items-center justify-center gap-4 mt-8"
         >
           <a
-            href="/"
+            href="/dashboard/operations?txid="
           >
             <button
               class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
             >
-              GO TO DASHBOARD
+              GO TO STABLECOIN DASHBOARD
             </button>
           </a>
         </div>
@@ -417,25 +417,30 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
               Assign Default Permissions
               <div>
                 <label
-                  class="relative transition"
+                  class="flex items-center gap-2 cursor-pointer"
                 >
-                  <input
-                    class="
+                  <label
+                    class="relative transition"
+                  >
+                    <input
+                      class="
   invisible absolute inset-1/2
   [&+div]:checked:bg-actionPrimary [&+div]:checked:after:left-[calc(100%-18px)]
 "
-                    disabled=""
-                    name="defaultPermissions"
-                    readonly=""
-                    type="checkbox"
-                  />
-                  <div
-                    class="w-8 h-5 bg-slate-300 rounded-[833.33px] relative transition duration-500 after:content-[''] after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-all after:absolute after:top-[2px] after:left-[2px]"
-                  >
-                    <svg
-                      class="hidden duration-1000"
+                      disabled=""
+                      name="defaultPermissions"
+                      readonly=""
+                      type="checkbox"
                     />
-                  </div>
+                    <div
+                      class="w-8 h-5 bg-slate-300 rounded-[833.33px] relative transition duration-500 after:content-[''] after:w-4 after:h-4 after:bg-white after:rounded-full after:transition-all after:absolute after:top-[2px] after:left-[2px]"
+                    >
+                      <svg
+                        class="hidden duration-1000"
+                      />
+                    </div>
+                  </label>
+                  <span />
                 </label>
               </div>
             </div>
@@ -634,12 +639,12 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           class="flex items-center justify-center gap-4 mt-8"
         >
           <a
-            href="/"
+            href="/dashboard/operations?txid="
           >
             <button
               class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
             >
-              GO TO DASHBOARD
+              GO TO STABLECOIN DASHBOARD
             </button>
           </a>
         </div>
@@ -1473,12 +1478,12 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           class="flex items-center justify-center gap-4 mt-8"
         >
           <a
-            href="/"
+            href="/dashboard/operations?txid="
           >
             <button
               class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
             >
-              GO TO DASHBOARD
+              GO TO STABLECOIN DASHBOARD
             </button>
           </a>
         </div>
@@ -1805,12 +1810,12 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           class="flex items-center justify-center gap-4 mt-8"
         >
           <a
-            href="/"
+            href="/dashboard/operations?txid="
           >
             <button
               class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
             >
-              GO TO DASHBOARD
+              GO TO STABLECOIN DASHBOARD
             </button>
           </a>
         </div>

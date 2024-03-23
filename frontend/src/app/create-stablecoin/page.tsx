@@ -51,6 +51,7 @@ export default function CreateStableCoinPage() {
   ]);
   const [showCreateStableCoinConfirm, setShowCreateStableCoinConfirm] = useState<boolean>(false);
   const [showSuccessCreatedStableCoinModal, setShowSuccessCreatedStableCoinModal] = useState<boolean>(false);
+  const [newStableCoinTxID, setNewStableCoinTxID] = useState<string>();
   const [excludeTickerNames, setExcludeTickerNames] = useState<string[]>([]);
 
   const isLoading = useMemo(
@@ -156,6 +157,7 @@ export default function CreateStableCoinPage() {
 
           setShowCreateStableCoinConfirm(false);
           setShowSuccessCreatedStableCoinModal(true);
+          setNewStableCoinTxID(transactionData.digest);
         }
         catch (error) {
           if (error instanceof AxiosError) {
@@ -265,6 +267,7 @@ export default function CreateStableCoinPage() {
       <SuccessCreatedStableCoinModal
         visible={showSuccessCreatedStableCoinModal}
         onClose={() => {}}
+        txid={newStableCoinTxID}
       />
     </div>
   );

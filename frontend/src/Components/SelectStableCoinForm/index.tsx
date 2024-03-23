@@ -112,12 +112,29 @@ export const SelectStableCoinForm: FC<SelectStableCoinFormProps> = ({ className,
                   ))
                 }
               </div>
-              <Button
-                className="w-full h-[37px] text-sm font-semibold"
-                disabled={!selectedStableCoin}
-              >
-                Manage Stablecoin
-              </Button>
+              {
+                selectedStableCoin
+                  ? (
+                    <Link
+                      href={`${PAGES_URLS.dashboardOverview}?txid=${selectedStableCoin.id}`}
+                      className="rounded-xl block"
+                    >
+                      <Button
+                        className="w-full h-[37px] text-sm font-semibold"
+                      >
+                        Manage Stablecoin
+                      </Button>
+                    </Link>
+                  )
+                  : (
+                    <Button
+                      className="w-full h-[37px] text-sm font-semibold"
+                      disabled
+                    >
+                      Manage Stablecoin
+                    </Button>
+                  )
+              }
             </div>
           )
       }

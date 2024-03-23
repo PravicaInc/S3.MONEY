@@ -18,39 +18,39 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
         <svg />
       </a>
       <button
-        class=" border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium transition hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary "
+        class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium transition hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary"
       >
         0x11...1111
         <svg />
       </button>
-    </div>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6"
-    >
-      <div
-        class=""
+      <dialog
+        class="backdrop:bg-modalBackdropColor rounded-xl p-6"
       >
-        <p
-          class="text-primary font-semibold text-2xl text-center mt-4"
-        >
-          Confirm Logout?
-        </p>
         <div
-          class="flex items-center justify-center gap-4 mt-8"
+          class=""
         >
-          <button
-            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+          <p
+            class="text-primary font-semibold text-2xl text-center mt-4"
           >
-            Cancel
-          </button>
-          <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            Confirm Logout?
+          </p>
+          <div
+            class="flex items-center justify-center gap-4 mt-8"
           >
-            Proceed
-          </button>
+            <button
+              class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            >
+              Cancel
+            </button>
+            <button
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            >
+              Proceed
+            </button>
+          </div>
         </div>
-      </div>
-    </dialog>
+      </dialog>
+    </div>
   </div>
 </div>
 `;

@@ -3,6 +3,8 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
 import 'react-toastify/dist/ReactToastify.css';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/transitions/slide.css';
 
 import 'rc-tooltip/assets/bootstrap_white.css';
 

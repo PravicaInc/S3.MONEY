@@ -159,31 +159,31 @@ describe('SelectStableCoinForm:', () => {
     });
 
     it('Disabled and enabled manage stablecoin button', () => {
-      const manageStableCoinButton = renderResult.getByText('Manage Stablecoin') as HTMLButtonElement;
+      const getManageStableCoinButton = () => renderResult.getByText('Manage Stablecoin') as HTMLButtonElement;
       const buttonStableCoin1 = renderResult.getByRole('button', {
         name: new RegExp(TEST_STABLE_COIN1.ticker),
       });
       const searchInput = renderResult.getByPlaceholderText(/Search/);
 
-      expect(manageStableCoinButton?.disabled).toBeTruthy();
+      expect(getManageStableCoinButton()?.disabled).toBeTruthy();
 
       act(() => {
         buttonStableCoin1.click();
       });
 
-      expect(manageStableCoinButton?.disabled).toBeFalsy();
+      expect(getManageStableCoinButton()?.disabled).toBeFalsy();
 
       fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN1.ticker } });
 
-      expect(manageStableCoinButton?.disabled).toBeFalsy();
+      expect(getManageStableCoinButton()?.disabled).toBeFalsy();
 
       fireEvent.change(searchInput, { target: { value: TEST_STABLE_COIN2.ticker } });
 
-      expect(manageStableCoinButton?.disabled).toBeTruthy();
+      expect(getManageStableCoinButton()?.disabled).toBeTruthy();
 
       fireEvent.change(searchInput, { target: { value: '' } });
 
-      expect(manageStableCoinButton?.disabled).toBeTruthy();
+      expect(getManageStableCoinButton()?.disabled).toBeTruthy();
     });
 
     it('Snapshot', () => {
