@@ -273,11 +273,16 @@ export async function listPackagesDB(address: string, summary: boolean) {
   const txGetCommand = new TransactGetItemsCommand({
     TransactItems: items,
   })
-
   const getResponse = await dbclient.send(txGetCommand)
-  const pkgItems = getResponse.Responses?.map(response => unmarshall(response.Item!))
-    .sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date']))
-    .reverse()
+
+  let pkgItems;
+  try {
+    const responses = getResponse.Responses?.map(response => unmarshall(response.Item!)) ?? [];
+    pkgItems = responses.sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date'])).reverse()
+  } catch (e: any) {
+    console.log(`should get ${items.length} items from deployed contracts table but failed: ${e.toString()}`);
+    return [];
+  }
 
   for (let item of pkgItems ?? []) {
     const key = `${item.address}-${item.package_name}`
