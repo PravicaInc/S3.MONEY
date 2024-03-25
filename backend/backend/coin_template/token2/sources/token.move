@@ -28,12 +28,27 @@ module <%- packageName %>::<%- packageName %> {
     struct <%- packageName.toUpperCase() %> has drop {}
 
     // Events: contract paused/unpaused
-    struct TokenPaused has copy, drop {}
-    struct TokenUnpaused has copy, drop {}
+    struct EventPaused has copy, drop {}
+    struct EventUnpaused has copy, drop {}
 
     // Events: address frozen/unfrozen
-    struct TransfersFrozen has copy, drop { address: address }
-    struct TransfersUnfrozen has copy, drop { address: address }
+    struct EventTransfersFrozen has copy, drop { address: address }
+    struct EventTransfersUnfrozen has copy, drop { address: address }
+
+    // Events: mint, burn, transfer
+    struct EventMint has copy, drop {
+        address: address,
+        amount: u64,
+    }
+    struct EventBurn has copy, drop {
+        amount: u64,
+    }
+    struct EventTransfer has copy, drop {
+        sender: address,
+        recipient: address,
+        amount: u64,
+    }
+
 
     // Initialize contract objects at deployment time.
     fun init(otw: <%- packageName.toUpperCase() %>, ctx: &mut TxContext) {
@@ -71,12 +86,19 @@ module <%- packageName %>::<%- packageName %> {
     }
 
     public fun transfer<T>(policy: &TokenPolicy<T>, token: Token<T>, recipient: address, ctx: &mut TxContext) {
+        let amount = token::value(&token);
         let request = token::transfer<T>(token, recipient, ctx);
 
         denylist::verify<T>(policy, &mut request, ctx);
         pauser::verify<T>(policy, &mut request, ctx);
 
         token::confirm_request<T>(policy, request, ctx);
+
+        event::emit(EventTransfer {
+            sender: sender(ctx),
+            recipient: recipient,
+            amount: amount,
+            })
     }
 
     // Admin functions
@@ -95,24 +117,34 @@ module <%- packageName %>::<%- packageName %> {
         let request = token::transfer(token, recipient, ctx);
 
         token::confirm_with_treasury_cap(cap, request, ctx);
+
+        event::emit(EventMint {
+            address: recipient,
+            amount: amount,
+        })
     }
 
     public fun burn<T>(cap: &mut TreasuryCap<T>, policy: &TokenPolicy<T>, token: Token<T>) {
         let paused = pauser::paused<T>(policy);
         assert!(!paused, EPaused);
 
-        token::burn(cap, token)
+        let amount = token::value(&token);
+        token::burn(cap, token);
+
+        event::emit(EventBurn {
+            amount: amount,
+        })
     }
 
     // Pause/unpause contract
     public fun pause<T>(cap: &TokenPolicyCap<T>, policy: &mut TokenPolicy<T>, ctx: &mut TxContext) {
         pauser::set_config<T>(policy, cap, true, ctx);
-        event::emit(TokenPaused {});
+        event::emit(EventPaused {});
     }
 
     public fun unpause<T>(cap: &TokenPolicyCap<T>, policy: &mut TokenPolicy<T>, ctx: &mut TxContext) {
         pauser::set_config<T>(policy, cap, false, ctx);
-        event::emit(TokenUnpaused {});
+        event::emit(EventUnpaused {});
     }
 
     // Freeze/unfreeze address.
@@ -121,7 +153,7 @@ module <%- packageName %>::<%- packageName %> {
         assert!(!paused, EPaused);
 
         denylist::add_records(policy, cap, vector[ address ], ctx);
-        event::emit(TransfersFrozen {
+        event::emit(EventTransfersFrozen {
             address: address
         })
     }
@@ -131,7 +163,7 @@ module <%- packageName %>::<%- packageName %> {
         assert!(!paused, EPaused);
 
         denylist::remove_records(policy, cap, vector[ address ], ctx);
-        event::emit(TransfersUnfrozen {
+        event::emit(EventTransfersUnfrozen {
             address: address
         })
     }
