@@ -74,3 +74,59 @@ export interface IPackageIcon {
   // set internally
   packageName?: string
 }
+
+export interface IPackageSummary {
+  packageId: string
+  token_policy: string
+  token_supply: string
+  treasury_cap: string
+  token_policy_cap: string
+}
+
+export interface IPackageDeployed {
+  digest: string
+  events: IPackageEvent[]
+  objectChanges: IPackageObjectChange[]
+  confirmedLocalExecution: boolean
+}
+
+interface IPackageEvent {
+  packageId: string
+  sender: string
+  type: string
+  id: object
+}
+export interface IPackageObjectChange {
+  type: string
+  objectType: string
+  objectId: string
+  packageId?: string
+}
+
+export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageSummary {
+  let data: IPackageSummary = {
+    packageId: '',
+    token_policy: '',
+    token_supply: '',
+    treasury_cap: '',
+    token_policy_cap: '',
+  }
+
+  for (const obj of objectChanges) {
+    if (obj.type === 'published') {
+      data.packageId = obj.packageId!
+    } else {
+      if (obj.objectType.includes('0x2::token::TokenPolicy<')) {
+        data.token_policy = obj.objectId
+      } else if (obj.objectType.includes('token_supply::TokenSupply<')) {
+        data.token_supply = obj.objectId
+      } else if (obj.objectType.includes('0x2::coin::TreasuryCap<')) {
+        data.treasury_cap = obj.objectId
+      } else if (obj.objectType.includes('0x2::token::TokenPolicyCap<')) {
+        data.token_policy_cap = obj.objectId
+      }
+    }
+  }
+
+  return data
+}

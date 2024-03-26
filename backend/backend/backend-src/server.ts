@@ -118,7 +118,7 @@ app.get('/packages/:address', async (req, res) => {
   }
 })
 
-// for dev/testing
+// for dev/testing and as a heartbeat
 app.get('/t/env', async (req, res) => {
   res.status(200).json({
     status: 'ok',
