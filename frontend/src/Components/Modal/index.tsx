@@ -1,6 +1,8 @@
 import React, { FC, HTMLAttributes, MouseEventHandler, ReactNode, useCallback, useEffect, useRef } from 'react';
 import { twMerge } from 'tailwind-merge';
 
+import { ToastContainer } from '@/Components/ToastContainer';
+
 export interface ModalProps extends HTMLAttributes<HTMLDialogElement> {
   visible: boolean;
   onClose: () => void;
@@ -93,6 +95,9 @@ export const Modal: FC<ModalProps> = ({
       onClick={handleOutsideClick}
       {...props}
     >
+      <ToastContainer
+        containerId="modal-toast"
+      />
       <div className={twMerge('', contentClassName)}>
         {children}
       </div>

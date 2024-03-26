@@ -3,7 +3,6 @@
 import { useCallback, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
 import { useAutoConnectWallet, useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
-import { getFullnodeUrl } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { AxiosError } from 'axios';
 import { twMerge } from 'tailwind-merge';
@@ -13,9 +12,11 @@ import { Loader } from '@/Components/Loader';
 import { ProgressSteps } from '@/Components/ProgressSteps';
 import { ProgressStepItem } from '@/Components/ProgressSteps/components/ProgressStep';
 
+import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
+import { BalanceErrorModal } from './components/BalanceErrorModal';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
 import { RolesAssignment, RolesStableCoinData } from './components/RolesAssignment';
 import { StableCoinPreview } from './components/StableCoinPreview';
@@ -31,6 +32,7 @@ export default function CreateStableCoinPage() {
   const account = useCurrentAccount();
   const createStableCoin = useCreateStableCoin();
   const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
+  const buildTransaction = useBuildTransaction();
 
   const [data, setData] = useState<Partial<CreateStableCoinData>>({});
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -51,6 +53,7 @@ export default function CreateStableCoinPage() {
   ]);
   const [showCreateStableCoinConfirm, setShowCreateStableCoinConfirm] = useState<boolean>(false);
   const [showSuccessCreatedStableCoinModal, setShowSuccessCreatedStableCoinModal] = useState<boolean>(false);
+  const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
   const [newStableCoinTxID, setNewStableCoinTxID] = useState<string>();
   const [excludeTickerNames, setExcludeTickerNames] = useState<string[]>([]);
 
@@ -132,11 +135,12 @@ export default function CreateStableCoinPage() {
 
           const upgradeCapPolicy = txb.publish({ dependencies, modules });
 
-          txb.transferObjects([upgradeCapPolicy], txb.pure(account?.address));
+          txb.transferObjects([upgradeCapPolicy], txb.pure(account.address));
+
+          await buildTransaction.mutateAsync(txb);
 
           const transactionData = await signAndExecuteTransactionBlock.mutateAsync({
             transactionBlock: txb,
-            chain: getFullnodeUrl('testnet'),
             requestType: 'WaitForLocalExecution',
             options: {
               showBalanceChanges: true,
@@ -170,11 +174,24 @@ export default function CreateStableCoinPage() {
               setExcludeTickerNames(currentValue => [...currentValue, data.ticker as string]);
             }
           }
-          else if (error instanceof Error && error.message.includes('Rejected from user')) {
+          else if (
+            error instanceof Error && (
+              error.message.includes('Rejected from user')
+                || error.message.includes('GasBalanceTooLow')
+                || error.message.includes('No valid gas coins found for the transaction')
+            )
+          ) {
             await createStableCoin.removeNotPublishedStableCoin.mutateAsync({
               walletAddress: account?.address,
               ticker: data.ticker,
             });
+
+            if (
+              error.message.includes('GasBalanceTooLow')
+                || error.message.includes('No valid gas coins found for the transaction')
+            ) {
+              setShowBalanceErrorModal(true);
+            }
           }
           else {
             throw error;
@@ -182,7 +199,7 @@ export default function CreateStableCoinPage() {
         }
       }
     },
-    [data, account?.address, createStableCoin, signAndExecuteTransactionBlock]
+    [data, account?.address, createStableCoin, signAndExecuteTransactionBlock, buildTransaction]
   );
 
   return (
@@ -262,12 +279,17 @@ export default function CreateStableCoinPage() {
             || createStableCoin.removeNotPublishedStableCoin.isPending
             || createStableCoin.savePublishedStableCoin.isPending
             || signAndExecuteTransactionBlock.isPending
+            || buildTransaction.isPending
         }
       />
       <SuccessCreatedStableCoinModal
         visible={showSuccessCreatedStableCoinModal}
         onClose={() => {}}
         txid={newStableCoinTxID}
+      />
+      <BalanceErrorModal
+        visible={showBalanceErrorModal}
+        onClose={() => setShowBalanceErrorModal(false)}
       />
     </div>
   );
