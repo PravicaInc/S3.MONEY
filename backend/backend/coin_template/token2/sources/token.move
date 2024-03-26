@@ -49,7 +49,6 @@ module <%- packageName %>::<%- packageName %> {
         amount: u64,
     }
 
-
     // Initialize contract objects at deployment time.
     fun init(otw: <%- packageName.toUpperCase() %>, ctx: &mut TxContext) {
         let treasury_cap = create_currency(otw, ctx);
@@ -75,14 +74,6 @@ module <%- packageName %>::<%- packageName %> {
 
     public fun is_paused<T>(policy: &TokenPolicy<T>): bool {
         pauser::paused<T>(policy)
-    }
-
-    public fun zero_true(): bool {
-        true
-    }
-
-    public fun one_false(r: address): address {
-        r
     }
 
     public fun transfer<T>(policy: &TokenPolicy<T>, token: Token<T>, recipient: address, ctx: &mut TxContext) {
