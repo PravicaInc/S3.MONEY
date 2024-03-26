@@ -255,7 +255,7 @@ export async function listPackagesDB(address: string, summary: boolean) {
   let items: TransactGetItem[] = []
   for (const pkg of packages) {
     const [address, package_name] = pkg.split('-')
-    const o: TransactGetItem = {
+    items.push({
       Get: {
         TableName: DEPLOYED_TABLE,
         Key: {
@@ -263,11 +263,7 @@ export async function listPackagesDB(address: string, summary: boolean) {
           package_name: {S: package_name},
         },
       },
-    }
-    if (summary) {
-      o.Get!.ProjectionExpression = DEPLOYED_TABLE_SUMMARY_PROJECTION
-    }
-    items.push(o)
+    })
   }
 
   const txGetCommand = new TransactGetItemsCommand({
@@ -279,6 +275,15 @@ export async function listPackagesDB(address: string, summary: boolean) {
   try {
     const responses = getResponse.Responses?.map(response => unmarshall(response.Item!)) ?? []
     pkgItems = responses.sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date'])).reverse()
+    if (summary) {
+      pkgItems = pkgItems.map(item => {
+        const deploy_data = item.deploy_data as IFace.IPackageDeployed
+        const parsed = IFace.packageSummary(deploy_data?.objectChanges ?? [])
+        item.deploy_data = parsed
+
+        return item
+      })
+    }
   } catch (e: any) {
     console.log(`should get ${items.length} items from deployed contracts table but failed: ${e.toString()}`)
     return []
