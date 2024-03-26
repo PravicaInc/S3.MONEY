@@ -89,7 +89,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                       Current Account
                       <SimpleCheckbox
                         checked={values?.[valueName] === account?.address}
-                        view={CHECKBOX_VIEWS.rounded}
+                        view={CHECKBOX_VIEWS.smallRounded}
                       />
                     </div>
                     {
@@ -106,7 +106,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                         >
                           Other Account
                           <SimpleCheckbox
-                            view={CHECKBOX_VIEWS.rounded}
+                            view={CHECKBOX_VIEWS.smallRounded}
                           />
                         </div>
                       )
@@ -127,7 +127,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                         maxLength={66}
                       />
                       <SimpleCheckbox
-                        view={CHECKBOX_VIEWS.rounded}
+                        view={CHECKBOX_VIEWS.smallRounded}
                         checked
                         wrapperClassName="absolute top-4 right-4"
                       />

@@ -72,7 +72,7 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
             ref={ref}
             type={type}
             className={twMerge(
-              'text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary',
+              'text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary',
               'focus:border-actionPrimary outline-none',
               icon && 'pl-11',
               className
