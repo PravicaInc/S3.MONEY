@@ -12,7 +12,7 @@ const TABLE_LASTFETCH = 's3m-contracts-lastfetch-dev'
 const queryFirst = `
 query($module: String!, $evType: String!) {
   events(
-    first: 10
+    first: 25
     filter: {
       emittingModule: $module
       eventType: $evType
@@ -150,15 +150,16 @@ void (async () => {
   console.log(JSON.stringify(modules, null, 2))
 
   for (const mod of modules) {
-    let old_token = await lastFetch(mod)
+    let token = await lastFetch(mod)
     let moduleEvents: object[] = []
     let moduleDone = false
 
     while (!moduleDone) {
-      let [timestamp, new_token, events, done] = await getTokenEvents(mod, old_token)
+      let [timestamp, new_token, events, done] = await getTokenEvents(mod, token)
       moduleEvents.push(...events)
       console.log(`fetched events for ${mod}: ${events.length}`)
       moduleDone = done
+      token = new_token
       if (moduleDone) {
         await saveEvents(mod, moduleEvents, timestamp, new_token)
       }
