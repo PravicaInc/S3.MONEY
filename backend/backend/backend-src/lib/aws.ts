@@ -17,10 +17,10 @@ import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 
 import * as IFace from './interfaces'
 
-const BUCKET = 's3.money-contracts-dev'
-const DEPLOYED_TABLE = 's3money-deployed-contracts-dev'
-const ROLES_TABLE = 's3money-contract-roles-dev'
-const ROLES_INDEX = 's3money-contract-roles-dev-roles-index'
+const BUCKET = 's3m-contracts-dev'
+const DEPLOYED_TABLE = 's3m-contracts-dev'
+const ROLES_TABLE = 's3m-roles-dev'
+const ROLES_INDEX = 's3m-roles-by-address-index-dev'
 
 const DEPLOYED_TABLE_SUMMARY_PROJECTION =
   'address, package_name, ticker, txid, icon_url, ticker_name, package_zip, deploy_status, deploy_date'
@@ -275,13 +275,13 @@ export async function listPackagesDB(address: string, summary: boolean) {
   })
   const getResponse = await dbclient.send(txGetCommand)
 
-  let pkgItems;
+  let pkgItems
   try {
-    const responses = getResponse.Responses?.map(response => unmarshall(response.Item!)) ?? [];
+    const responses = getResponse.Responses?.map(response => unmarshall(response.Item!)) ?? []
     pkgItems = responses.sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date'])).reverse()
   } catch (e: any) {
-    console.log(`should get ${items.length} items from deployed contracts table but failed: ${e.toString()}`);
-    return [];
+    console.log(`should get ${items.length} items from deployed contracts table but failed: ${e.toString()}`)
+    return []
   }
 
   for (let item of pkgItems ?? []) {
