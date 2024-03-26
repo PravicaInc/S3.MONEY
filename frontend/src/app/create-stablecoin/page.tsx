@@ -167,7 +167,10 @@ export default function CreateStableCoinPage() {
           if (error instanceof AxiosError) {
             if (
               error.response?.status === 400
-                && error.response?.data?.message.includes('package directory already exists')
+                && (
+                  error.response?.data?.message.includes('package directory already exists')
+                    || error.response?.data?.message.includes('package already published')
+                )
             ) {
               setCurrentStep(0);
               setShowCreateStableCoinConfirm(false);
