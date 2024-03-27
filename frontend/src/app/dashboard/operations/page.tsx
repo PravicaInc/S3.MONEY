@@ -90,8 +90,7 @@ export default function DashboardOperationsPage() {
                   className="py-4 px-6 border border-borderPrimary rounded-xl"
                 />
                 <FreezeAddressForm
-                  // eslint-disable-next-line no-console
-                  onSubmit={console.log}
+                  stableCoin={currentStableCoin}
                   className="py-4 px-6 border border-borderPrimary rounded-xl"
                 />
               </div>

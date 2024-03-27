@@ -1,7 +1,7 @@
 'use client';
 
-import { FC, HTMLAttributes } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FC, HTMLAttributes, useCallback, useState } from 'react';
+import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
@@ -11,21 +11,28 @@ import LockIcon from '@/../public/images/lock.svg?jsx';
 import { Button } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 
+import { useFreezeAddress } from '@/hooks/useFreezeAddress';
+import { StableCoin } from '@/hooks/useStableCoinsList';
+
+import { FreezeAddressConfirm } from './components/FreezeAddressConfirm';
+
 export interface FreezeAddressFormData {
   address: string;
 }
 
 export interface FreezeAddressFormProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
-  onSubmit: (data: FreezeAddressFormData) => unknown;
-  defaultValues?: Partial<FreezeAddressFormData>;
+  stableCoin: StableCoin;
 }
 
 export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
   className,
-  onSubmit,
-  defaultValues,
+  stableCoin,
   ...props
 }) => {
+  const freezeAddress = useFreezeAddress();
+
+  const [showFreezeAddressConfirm, setShowFreezeAddressConfirm] = useState<boolean>(false);
+
   const freezeAddressFormSchema = yup.object().shape({
     address: yup
       .string()
@@ -37,9 +44,25 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
     resolver: yupResolver(freezeAddressFormSchema),
     defaultValues: {
       address: '',
-      ...defaultValues,
     },
   });
+  const walletAddress = formMethods.watch('address');
+
+  const freezeWalletAddress: SubmitHandler<FreezeAddressFormData> = useCallback(
+    async ({ address }) => {
+      await freezeAddress.mutateAsync({
+        walletAddress: address,
+        packageName: stableCoin.package_name,
+        packageId: stableCoin.deploy_data.packageId,
+        tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
+        tokenPolicy: stableCoin.deploy_data.token_policy,
+      });
+
+      formMethods.reset();
+      setShowFreezeAddressConfirm(false);
+    },
+    [freezeAddress, stableCoin, formMethods]
+  );
 
   return (
     <FormProvider {...formMethods}>
@@ -48,7 +71,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
           'border border-borderPrimary rounded-xl bg-white p-5 flex flex-col justify-between gap-3',
           className
         )}
-        onSubmit={formMethods.handleSubmit(onSubmit)}
+        onSubmit={formMethods.handleSubmit(() => setShowFreezeAddressConfirm(true))}
         {...props}
       >
         <div>
@@ -81,6 +104,13 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
           Freeze Account
         </Button>
       </form>
+      <FreezeAddressConfirm
+        visible={showFreezeAddressConfirm}
+        onClose={() => setShowFreezeAddressConfirm(false)}
+        walletAddress={walletAddress}
+        onProceed={() => freezeWalletAddress({ address: walletAddress })}
+        inProcess={freezeAddress.isPending}
+      />
     </FormProvider>
   );
 };
