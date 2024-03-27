@@ -3,6 +3,8 @@ import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { useBuildTransaction } from './useBuildTransaction';
+
 const is_paused = async (suiClient: SuiClient, txid: string): Promise<boolean> => {
   const { data } = (
     await suiClient.getObject({ id: txid, options: { showContent: true } })
@@ -28,6 +30,7 @@ export const useIsSystemPaused = (txid?: string) => {
 export const usePauseSystem = () => {
   const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
   const queryClient = useQueryClient();
+  const buildTransaction = useBuildTransaction();
 
   return useMutation({
     mutationFn: async ({
@@ -54,6 +57,8 @@ export const usePauseSystem = () => {
         ],
       });
 
+      await buildTransaction.mutateAsync(txb);
+
       await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
@@ -67,6 +72,7 @@ export const usePauseSystem = () => {
 export const usePlaySystem = () => {
   const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
   const queryClient = useQueryClient();
+  const buildTransaction = useBuildTransaction();
 
   return useMutation({
     mutationFn: async ({
@@ -92,6 +98,8 @@ export const usePlaySystem = () => {
           txb.object(tokenPolicy),
         ],
       });
+
+      await buildTransaction.mutateAsync(txb);
 
       await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,

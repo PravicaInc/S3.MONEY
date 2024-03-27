@@ -2,8 +2,11 @@ import { useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { useMutation } from '@tanstack/react-query';
 
+import { useBuildTransaction } from './useBuildTransaction';
+
 export const useFreezeAddress = () => {
   const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
+  const buildTransaction = useBuildTransaction();
 
   return useMutation({
     mutationFn: async ({
@@ -30,6 +33,8 @@ export const useFreezeAddress = () => {
           txb.pure.address(walletAddress),
         ],
       });
+
+      await buildTransaction.mutateAsync(txb);
 
       await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,

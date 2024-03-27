@@ -7,6 +7,7 @@ import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { AxiosError } from 'axios';
 import { twMerge } from 'tailwind-merge';
 
+import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Footer } from '@/Components/Footer';
 import { Loader } from '@/Components/Loader';
 import { ProgressSteps } from '@/Components/ProgressSteps';
@@ -16,7 +17,6 @@ import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
-import { BalanceErrorModal } from './components/BalanceErrorModal';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
 import { RolesAssignment, RolesStableCoinData } from './components/RolesAssignment';
 import { StableCoinPreview } from './components/StableCoinPreview';

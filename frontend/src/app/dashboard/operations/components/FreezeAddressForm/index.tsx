@@ -9,6 +9,7 @@ import * as yup from 'yup';
 
 import LockIcon from '@/../public/images/lock.svg?jsx';
 
+import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Button } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 
@@ -33,6 +34,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
   const freezeAddress = useFreezeAddress();
 
   const [showFreezeAddressConfirm, setShowFreezeAddressConfirm] = useState<boolean>(false);
+  const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
 
   const freezeAddressFormSchema = yup.object().shape({
     address: yup
@@ -51,22 +53,37 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
 
   const freezeWalletAddress: SubmitHandler<FreezeAddressFormData> = useCallback(
     async ({ address }) => {
-      await freezeAddress.mutateAsync({
-        walletAddress: address,
-        packageName: stableCoin.package_name,
-        packageId: stableCoin.deploy_data.packageId,
-        tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-        tokenPolicy: stableCoin.deploy_data.token_policy,
-      });
+      try {
+        await freezeAddress.mutateAsync({
+          walletAddress: address,
+          packageName: stableCoin.package_name,
+          packageId: stableCoin.deploy_data.packageId,
+          tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
+          tokenPolicy: stableCoin.deploy_data.token_policy,
+        });
 
-      formMethods.reset();
-      toast.success(
-        `You successfully block this account ${address} from sending and receiving tokens`,
-        {
-          className: 'w-[400px]',
+        formMethods.reset();
+        toast.success(
+          `You successfully block this account ${address} from sending and receiving tokens`,
+          {
+            className: 'w-[400px]',
+          }
+        );
+        setShowFreezeAddressConfirm(false);
+      }
+      catch (error) {
+        if (
+          error instanceof Error && (
+            error.message.includes('GasBalanceTooLow')
+              || error.message.includes('No valid gas coins found for the transaction')
+          )
+        ) {
+          setShowBalanceErrorModal(true);
         }
-      );
-      setShowFreezeAddressConfirm(false);
+        else {
+          throw error;
+        }
+      }
     },
     [freezeAddress, stableCoin, formMethods]
   );
@@ -117,6 +134,10 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
         walletAddress={walletAddress}
         onProceed={() => freezeWalletAddress({ address: walletAddress })}
         inProcess={freezeAddress.isPending}
+      />
+      <BalanceErrorModal
+        visible={showBalanceErrorModal}
+        onClose={() => setShowBalanceErrorModal(false)}
       />
     </FormProvider>
   );

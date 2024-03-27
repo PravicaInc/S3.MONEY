@@ -3,7 +3,8 @@
 import { ButtonHTMLAttributes, FC, useCallback, useState } from 'react';
 import { useCurrentAccount, useCurrentWallet, useDisconnectWallet } from '@mysten/dapp-kit';
 import NextImage from 'next/image';
-import { usePathname, useRouter } from 'next/navigation';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
 
 import LogoutIcon from '@/../public/images/logout.svg?jsx';
@@ -17,6 +18,7 @@ import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 export const LogoutButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({ className, ...props }) => {
   const router = useRouter();
   const pathname = usePathname();
+  const searchParams = useSearchParams();
 
   const account = useCurrentAccount();
   const { currentWallet, connectionStatus } = useCurrentWallet();
@@ -29,9 +31,11 @@ export const LogoutButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({ clas
     async () => {
       await disconnectWallet.mutateAsync();
 
-      router.replace(`${PAGES_URLS.signIn}?next=${encodeURIComponent(pathname)}`);
+      router.replace(`${PAGES_URLS.signIn}?${qs.stringify({
+        next: `${pathname}?${qs.stringify(Object.fromEntries(searchParams.entries()))}`,
+      })}`);
     },
-    [disconnectWallet, router, pathname]
+    [disconnectWallet, router, pathname, searchParams]
   );
 
   return (

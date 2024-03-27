@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, HTMLAttributes, useCallback } from 'react';
+import { FC, HTMLAttributes, useCallback, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { twMerge } from 'tailwind-merge';
@@ -8,6 +8,7 @@ import { twMerge } from 'tailwind-merge';
 import PauseIcon from '@/../public/images/pause.svg?jsx';
 import PlayIcon from '@/../public/images/play.svg?jsx';
 
+import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Button } from '@/Components/Form/Button';
 import { Checkbox, CHECKBOX_VIEWS } from '@/Components/Form/Checkbox';
 import { Loader } from '@/Components/Loader';
@@ -28,6 +29,8 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
   const pauseSystem = usePauseSystem();
   const playSystem = usePlaySystem();
 
+  const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
+
   const formMethods = useForm({
     defaultValues: {
       approve: false,
@@ -38,23 +41,38 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
 
   const onSubmit = useCallback(
     async () => {
-      if (isPaused) {
-        await playSystem.mutateAsync({
-          pauser: stableCoin.deploy_data.pauser,
-          packageName: stableCoin.package_name,
-          packageId: stableCoin.deploy_data.packageId,
-          tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-          tokenPolicy: stableCoin.deploy_data.token_policy,
-        });
+      try {
+        if (isPaused) {
+          await playSystem.mutateAsync({
+            pauser: stableCoin.deploy_data.pauser,
+            packageName: stableCoin.package_name,
+            packageId: stableCoin.deploy_data.packageId,
+            tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
+            tokenPolicy: stableCoin.deploy_data.token_policy,
+          });
+        }
+        else {
+          await pauseSystem.mutateAsync({
+            pauser: stableCoin.deploy_data.pauser,
+            packageName: stableCoin.package_name,
+            packageId: stableCoin.deploy_data.packageId,
+            tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
+            tokenPolicy: stableCoin.deploy_data.token_policy,
+          });
+        }
       }
-      else {
-        await pauseSystem.mutateAsync({
-          pauser: stableCoin.deploy_data.pauser,
-          packageName: stableCoin.package_name,
-          packageId: stableCoin.deploy_data.packageId,
-          tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-          tokenPolicy: stableCoin.deploy_data.token_policy,
-        });
+      catch (error) {
+        if (
+          error instanceof Error && (
+            error.message.includes('GasBalanceTooLow')
+              || error.message.includes('No valid gas coins found for the transaction')
+          )
+        ) {
+          setShowBalanceErrorModal(true);
+        }
+        else {
+          throw error;
+        }
       }
 
       formMethods.reset();
@@ -146,6 +164,10 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
           </Button>
         </div>
       </form>
+      <BalanceErrorModal
+        visible={showBalanceErrorModal}
+        onClose={() => setShowBalanceErrorModal(false)}
+      />
     </FormProvider>
   );
 };

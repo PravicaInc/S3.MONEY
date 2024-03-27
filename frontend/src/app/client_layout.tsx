@@ -3,6 +3,7 @@
 import { FC, PropsWithChildren, useEffect } from 'react';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import qs from 'qs';
 
 import { PAGES_URLS } from '@/utils/const';
 
@@ -32,7 +33,9 @@ export const ClientLayout: FC<PropsWithChildren> = ({ children }) => {
           && !account?.address
           && !pagesUrlsWithoutAuthorization.includes(pathname)
       ) {
-        router.replace(`${PAGES_URLS.signIn}?next=${encodeURIComponent(pathname)}`);
+        router.replace(`${PAGES_URLS.signIn}?${qs.stringify({
+          next: `${pathname}?${qs.stringify(Object.fromEntries(searchParams.entries()))}`,
+        })}`);
       }
     },
     [autoConnectionStatus, account, router, pathname, searchParams]
