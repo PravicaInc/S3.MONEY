@@ -133,7 +133,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
+                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
                     id="name"
                     maxlength="28"
                     name="name"
@@ -153,7 +153,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
+                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
                     id="ticker"
                     maxlength="6"
                     name="ticker"
@@ -488,7 +488,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                       />
                     </div>
                   </label>
-                  <span />
+                  <span
+                    class="text-sm text-grayText"
+                  />
                 </label>
               </div>
             </div>
@@ -1770,7 +1772,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
+                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
                     id="initialSupply"
                     maxlength="14"
                     name="initialSupply"
@@ -1794,7 +1796,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                     name="supplyType"
                   >
                     <option
-                      class="text-[#A4ABB8]"
+                      class="text-hitGrey"
                       disabled=""
                       selected=""
                       value=""
@@ -1828,7 +1830,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
+                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
                     id="decimals"
                     name="decimals"
                     placeholder="Decimals"

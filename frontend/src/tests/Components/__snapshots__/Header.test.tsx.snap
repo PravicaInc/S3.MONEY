@@ -18,7 +18,7 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
         <svg />
       </a>
       <button
-        class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium transition hover:bg-actionPrimary hover:bg-opacity-10 hover:border-actionSecondary"
+        class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium text-sm transition hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
       >
         0x11...1111
         <svg />
