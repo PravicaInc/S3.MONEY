@@ -15,7 +15,7 @@ export const DashboardLayout: FC<DashboardLayoutProps> = ({ children, className,
     <DashboardLeftNavBar className="shrink-0" />
     <div className={twMerge('w-screen h-screen flex flex-col', contentClassName)}>
       <DashboardTopNavBar className="shrink-0" />
-      <div className="overflow-auto">
+      <div className="overflow-auto h-full">
         {children}
       </div>
     </div>

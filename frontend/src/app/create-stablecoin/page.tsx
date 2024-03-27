@@ -148,7 +148,6 @@ export default function CreateStableCoinPage() {
               showEvents: true,
               showInput: true,
               showObjectChanges: true,
-              showRawInput: true,
             },
           });
 
