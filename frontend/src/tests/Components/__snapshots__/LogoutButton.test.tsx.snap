@@ -15,6 +15,10 @@ exports[`LogoutButton: LogoutButton with connected state via zkLogin: Snapshot 1
     class="backdrop:bg-modalBackdropColor rounded-xl p-6"
   >
     <div
+      class="Toastify"
+      id="modal-toast"
+    />
+    <div
       class=""
     >
       <p
@@ -55,6 +59,10 @@ exports[`LogoutButton: LogoutButton with connected state: Snapshot 1`] = `
   <dialog
     class="backdrop:bg-modalBackdropColor rounded-xl p-6"
   >
+    <div
+      class="Toastify"
+      id="modal-toast"
+    />
     <div
       class=""
     >
