@@ -12,7 +12,7 @@ import { Button } from '@/Components/Form/Button';
 import { Checkbox, CHECKBOX_VIEWS } from '@/Components/Form/Checkbox';
 import { Loader } from '@/Components/Loader';
 
-import { useIsSystemPaused, usePauseSystem } from '@/hooks/usePlayPauseSystem';
+import { useIsSystemPaused, usePauseSystem, usePlaySystem } from '@/hooks/usePlayPauseSystem';
 import { StableCoin } from '@/hooks/useStableCoinsList';
 
 export interface PauseFormProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
@@ -24,8 +24,9 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
   stableCoin,
   ...props
 }) => {
-  const { data: isPaused, isFetching: isPausedLoading } = useIsSystemPaused(stableCoin.deploy_data.pauser);
+  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(stableCoin.deploy_data.pauser);
   const pauseSystem = usePauseSystem();
+  const playSystem = usePlaySystem();
 
   const formMethods = useForm({
     defaultValues: {
@@ -37,17 +38,28 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
 
   const onSubmit = useCallback(
     async () => {
-      await pauseSystem.mutateAsync({
-        pauser: stableCoin.deploy_data.pauser,
-        packageName: stableCoin.package_name,
-        packageId: stableCoin.deploy_data.packageId,
-        tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-        tokenPolicy: stableCoin.deploy_data.token_policy,
-      });
+      if (isPaused) {
+        await playSystem.mutateAsync({
+          pauser: stableCoin.deploy_data.pauser,
+          packageName: stableCoin.package_name,
+          packageId: stableCoin.deploy_data.packageId,
+          tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
+          tokenPolicy: stableCoin.deploy_data.token_policy,
+        });
+      }
+      else {
+        await pauseSystem.mutateAsync({
+          pauser: stableCoin.deploy_data.pauser,
+          packageName: stableCoin.package_name,
+          packageId: stableCoin.deploy_data.packageId,
+          tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
+          tokenPolicy: stableCoin.deploy_data.token_policy,
+        });
+      }
 
       formMethods.reset();
     },
-    [pauseSystem, stableCoin, formMethods]
+    [isPaused, pauseSystem, playSystem, stableCoin, formMethods]
   );
 
   return (
@@ -63,7 +75,7 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
         <div>
           <div className="flex items-center gap-4">
             <div
-              className="bg-antiqueWhite w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
+              className="bg-antiqueWhite min-w-10 min-h-10 flex items-center justify-center rounded-full shadow-operationIcon"
             >
               {
                 isPausedLoading || formMethods.formState.isSubmitting

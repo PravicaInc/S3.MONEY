@@ -2,6 +2,7 @@
 
 import { FC, HTMLAttributes, useCallback, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
+import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
@@ -59,6 +60,12 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
       });
 
       formMethods.reset();
+      toast.success(
+        `You successfully block this account ${address} from sending and receiving tokens`,
+        {
+          className: 'w-[400px]',
+        }
+      );
       setShowFreezeAddressConfirm(false);
     },
     [freezeAddress, stableCoin, formMethods]
@@ -77,7 +84,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
         <div>
           <div className="flex items-center gap-4">
             <div
-              className="bg-antiqueWhite w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
+              className="bg-antiqueWhite min-w-10 min-h-10 flex items-center justify-center rounded-full shadow-operationIcon"
             >
               <LockIcon />
             </div>

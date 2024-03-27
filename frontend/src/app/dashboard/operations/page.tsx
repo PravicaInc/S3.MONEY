@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo } from 'react';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
@@ -42,6 +42,60 @@ export default function DashboardOperationsPage() {
     () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),
     [searchParams, stableCoins]
   );
+  const {
+    showPlayPauseSystemBlock,
+    showFreezeBlock,
+    showBurnBlock,
+    showCashInBlock,
+    showMintBlock,
+  } = useMemo(
+    () => ({
+      showPlayPauseSystemBlock: currentStableCoin?.address_roles.includes('pause'),
+      showFreezeBlock: currentStableCoin?.address_roles.includes('freeze'),
+      showMintBlock: currentStableCoin?.address_roles.includes('cashOut'),
+      showCashInBlock: currentStableCoin?.address_roles.includes('cashIn'),
+      showBurnBlock: currentStableCoin?.address_roles.includes('burn'),
+    }),
+    [currentStableCoin]
+  );
+  const actions = useMemo(
+    () => [
+      ...[
+        showMintBlock
+          ? {
+            title: 'Mint',
+            icon: <MintIcon />,
+            description: 'Issuers can effortlessly create new tokens, increasing the total supply of the stablecoin.',
+          }
+          : [],
+      ],
+      ...[
+        showCashInBlock
+          ? {
+            title: 'Cash In',
+            icon: <CashInIcon />,
+            description: 'Issuers can allocate some authorized tokens to the circulation for public.',
+          }
+          : [],
+      ],
+      ...[
+        showBurnBlock
+          ? {
+            title: 'Burn',
+            icon: <BurnIcon />,
+            description: `
+              The platform allows issuers to reduce the overall token supply by 'burning' or destroying tokens.
+            `,
+          }
+          : [],
+      ],
+    ].flat() as {
+      title: string,
+      icon: ReactNode,
+      description: string,
+    }[],
+    [showBurnBlock, showCashInBlock, showMintBlock]
+  );
 
   useEffect(
     () => {
@@ -51,26 +105,6 @@ export default function DashboardOperationsPage() {
     },
     [isLoading, isRedirecting, isStableCoinsListLoading, currentStableCoin, router]
   );
-
-  const actions = [
-    {
-      title: 'Mint',
-      icon: <MintIcon />,
-      description: 'Issuers can effortlessly create new tokens, increasing the total supply of the stablecoin.',
-    },
-    {
-      title: 'Cash In',
-      icon: <CashInIcon />,
-      description: 'Issuers can allocate some authorized tokens to the circulation for public.',
-    },
-    {
-      title: 'Burn',
-      icon: <BurnIcon />,
-      description: `
-        The platform allows issuers to reduce the overall token supply by 'burning' or destroying tokens.
-      `,
-    },
-  ];
 
   return (
     <div
@@ -84,17 +118,40 @@ export default function DashboardOperationsPage() {
         !(isLoading || isRedirecting || isStableCoinsListLoading) && currentStableCoin
           ? (
             <>
-              <div className="grid grid-cols-2 gap-10">
-                <PlayPauseForm
-                  stableCoin={currentStableCoin}
-                  className="py-4 px-6 border border-borderPrimary rounded-xl"
-                />
-                <FreezeAddressForm
-                  stableCoin={currentStableCoin}
-                  className="py-4 px-6 border border-borderPrimary rounded-xl"
-                />
+              <div
+                className={twMerge(
+                  'grid gap-10',
+                  (showPlayPauseSystemBlock || showFreezeBlock) && 'mb-6',
+                  showPlayPauseSystemBlock && showFreezeBlock
+                    ? 'grid-cols-2'
+                    : 'grid-cols-1'
+                )}
+              >
+                {
+                  showPlayPauseSystemBlock && (
+                    <PlayPauseForm
+                      stableCoin={currentStableCoin}
+                      className="py-4 px-6 border border-borderPrimary rounded-xl"
+                    />
+                  )
+                }
+                {
+                  showFreezeBlock && (
+                    <FreezeAddressForm
+                      stableCoin={currentStableCoin}
+                      className="py-4 px-6 border border-borderPrimary rounded-xl"
+                    />
+                  )
+                }
               </div>
-              <div className="grid grid-cols-3 gap-8 mt-6">
+              <div
+                className={twMerge(
+                  'grid gap-8',
+                  actions.length === 1 && 'grid-cols-1',
+                  actions.length === 2 && 'grid-cols-2',
+                  actions.length === 3 && 'grid-cols-3'
+                )}
+              >
                 {actions.map(({ title, icon, description }) => (
                   <div
                     key={title}

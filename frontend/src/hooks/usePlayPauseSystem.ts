@@ -63,3 +63,42 @@ export const usePauseSystem = () => {
     },
   });
 };
+
+export const usePlaySystem = () => {
+  const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      pauser,
+      packageName,
+      packageId,
+      tokenPolicyCap,
+      tokenPolicy,
+    }: {
+      pauser: string,
+      packageName: string,
+      packageId: string,
+      tokenPolicyCap: string,
+      tokenPolicy: string
+    }): Promise<void> => {
+      const txb = new TransactionBlock();
+
+      txb.moveCall({
+        target: `${packageId}::${packageName}::unpause`,
+        typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
+        arguments: [
+          txb.object(tokenPolicyCap),
+          txb.object(tokenPolicy),
+        ],
+      });
+
+      await signAndExecuteTransactionBlock.mutateAsync({
+        transactionBlock: txb,
+        requestType: 'WaitForLocalExecution',
+      });
+
+      queryClient.invalidateQueries({ queryKey: ['is-paused', pauser] });
+    },
+  });
+};

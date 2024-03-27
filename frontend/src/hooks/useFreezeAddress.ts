@@ -22,7 +22,7 @@ export const useFreezeAddress = () => {
       const txb = new TransactionBlock();
 
       txb.moveCall({
-        target: `${packageId}::${packageName}::is_frozen`,
+        target: `${packageId}::${packageName}::freeze_address`,
         typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
         arguments: [
           txb.object(tokenPolicyCap),

@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, HTMLAttributes } from 'react';
+import { FC, HTMLAttributes, ReactNode, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCurrentAccount } from '@mysten/dapp-kit';
@@ -15,49 +15,48 @@ import { Label } from '@/Components/Form/Label';
 
 import { PAGES_URLS } from '@/utils/const';
 
-type fieldName = 'cashIn'| 'burn'| 'pause'| 'freeze'| 'cashOut';
-
-export interface RolesStableCoinData extends Record<fieldName, string> {}
+export interface RolesStableCoinData extends Record<string, string> {}
 
 export interface RolesAssignmentProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: RolesStableCoinData) => unknown;
+  fields: {
+    fieldName: string;
+    label: ReactNode;
+  }[];
 }
 
-export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit, ...props }) => {
+export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit, fields, ...props }) => {
   const walletAddressSchema = yup
     .string()
     .trim()
     .required('Wallet address is required.')
     .matches(/^0[xX][a-fA-F0-9]{64}$/, 'Wallet address is incorrect.');
-  const rolesAssignmentFormSchema = yup.object().shape({
-    cashIn: walletAddressSchema,
-    burn: walletAddressSchema,
-    pause: walletAddressSchema,
-    freeze: walletAddressSchema,
-    cashOut: walletAddressSchema,
-  });
+  const rolesAssignmentFormSchema = yup.object().shape(
+    fields.reduce(
+      (accumulator, next) => ({
+        ...accumulator,
+        [next.fieldName]: walletAddressSchema,
+      }),
+      {}
+    )
+  );
 
   const account = useCurrentAccount();
   const formMethods = useForm({
     resolver: yupResolver(rolesAssignmentFormSchema),
-    defaultValues: {
-      cashIn: account?.address,
-      burn: account?.address,
-      pause: account?.address,
-      freeze: account?.address,
-      cashOut: account?.address,
-    } as Record<fieldName, string>,
+    defaultValues: useMemo<Record<string, string>>(
+      () => fields.reduce(
+        (accumulator, next) => ({
+          ...accumulator,
+          [next.fieldName]: account?.address,
+        }),
+        {}
+      ),
+      [fields, account?.address]
+    ),
   });
 
-  const fieldLabels = {
-    cashIn: 'Cash In',
-    burn: 'Burn',
-    pause: 'Pause',
-    freeze: 'Freeze',
-    cashOut: 'Cash out',
-  } as Record<fieldName, string>;
-
-  const values = formMethods.watch();
+  const values = formMethods.watch() as Record<string, string>;
 
   return (
     <FormProvider {...formMethods}>
@@ -71,11 +70,11 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
         </div>
         <div className="mt-10 space-y-4 relative">
           {
-            (Object.keys(values) as fieldName[])
-              .map(valueName => (
-                <div key={valueName}>
+            fields
+              .map(({ fieldName, label }) => (
+                <div key={fieldName}>
                   <Label
-                    label={fieldLabels[valueName]}
+                    label={label}
                     className="mb-2"
                   />
                   <div className="grid grid-cols-4 gap-3">
@@ -84,24 +83,27 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                         w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px]
                         flex items-center justify-between text-xs font-semibold cursor-pointer
                       "
-                      onClick={() => formMethods.setValue(valueName, account?.address as string)}
+                      // @ts-expect-error The name of the field can be any
+                      onClick={() => formMethods.setValue(fieldName, account?.address as string)}
                     >
                       Current Account
                       <SimpleCheckbox
-                        checked={values?.[valueName] === account?.address}
+                        checked={values?.[fieldName] === account?.address}
                         view={CHECKBOX_VIEWS.smallRounded}
                       />
                     </div>
                     {
-                      values?.[valueName] === account?.address && (
+                      values?.[fieldName] === account?.address && (
                         <div
                           className="
                             w-full p-4 rounded-xl border border-borderPrimary col-span-3
                             flex items-center justify-between text-xs font-semibold cursor-pointer
                           "
                           onClick={() => {
-                            formMethods.setValue(valueName, '');
-                            formMethods.setFocus(valueName);
+                            // @ts-expect-error The name of the field can be any
+                            formMethods.setValue(fieldName, '');
+                            // @ts-expect-error The name of the field can be any
+                            formMethods.setFocus(fieldName);
                           }}
                         >
                           Other Account
@@ -114,11 +116,11 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
                     <div
                       className={twMerge(
                         'w-full col-span-3 relative',
-                        values?.[valueName] === account?.address && 'absolute -z-10'
+                        values?.[fieldName] === account?.address && 'absolute -z-10'
                       )}
                     >
                       <Input
-                        name={valueName}
+                        name={fieldName}
                         className="
                           w-full p-4 text-xs font-semibold
                           placeholder:text-primary placeholder:font-semibold
