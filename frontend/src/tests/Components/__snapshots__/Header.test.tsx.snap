@@ -27,6 +27,10 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
         class="backdrop:bg-modalBackdropColor rounded-xl p-6"
       >
         <div
+          class="Toastify"
+          id="modal-toast"
+        />
+        <div
           class=""
         >
           <p
