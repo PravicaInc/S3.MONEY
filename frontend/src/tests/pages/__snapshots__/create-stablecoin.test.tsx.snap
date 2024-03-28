@@ -123,17 +123,26 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
               class="mt-10 space-y-4"
             >
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-between mb-2"
                 >
-                  Stablecoin Name
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Stablecoin Name
+                    *
+                  </p>
+                  <p
+                    class="font-medium text-secondary text-xs"
+                  >
+                    28 max symbols
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
                     id="name"
                     maxlength="28"
                     name="name"
@@ -143,17 +152,26 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                 </div>
               </div>
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-between mb-2"
                 >
-                  Stablecoin Ticker
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Stablecoin Ticker
+                    *
+                  </p>
+                  <p
+                    class="font-medium text-secondary text-xs"
+                  >
+                    5 max symbols
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full"
                     id="ticker"
                     maxlength="6"
                     name="ticker"
@@ -163,11 +181,15 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                 </div>
               </div>
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-start mb-2"
                 >
-                  Stablecoin Symbol
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Stablecoin Symbol
+                  </p>
+                </div>
                 <div
                   class="flex items-center gap-3"
                 >
@@ -186,7 +208,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                   <span
                     class="text-secondary text-sm"
                   >
-                    JPG or PNG. 1MB max
+                    JPG or PNG. 1MB max. 300x300 max
                   </span>
                 </div>
               </div>
@@ -488,27 +510,13 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                       />
                     </div>
                   </label>
-                  <span
-                    class="text-sm text-grayText w-full"
-                  />
+                  <span />
                 </label>
               </div>
             </div>
             <div
               class="mt-10 space-y-4"
             >
-              <div
-                class="flex items-center gap-[10px] text-primary"
-              >
-                <div
-                  class="w-6 h-6 flex items-center justify-center rounded-full bg-[#EFFEFA]"
-                >
-                  <svg
-                    class="[&>path]:stroke-[#287F6E]"
-                  />
-                </div>
-                Pause - S3-Token-Manager Smart Contract
-              </div>
               <div
                 class="flex items-center gap-[10px] text-primary"
               >
@@ -531,31 +539,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                     class="[&>path]:stroke-[#287F6E]"
                   />
                 </div>
-                Mint - S3-Token-Manager Smart Contract
-              </div>
-              <div
-                class="flex items-center gap-[10px] text-primary"
-              >
-                <div
-                  class="w-6 h-6 flex items-center justify-center rounded-full bg-[#EFFEFA]"
-                >
-                  <svg
-                    class="[&>path]:stroke-[#287F6E]"
-                  />
-                </div>
-                Cash In - S3-Token-Manager Smart Contract
-              </div>
-              <div
-                class="flex items-center gap-[10px] text-primary"
-              >
-                <div
-                  class="w-6 h-6 flex items-center justify-center rounded-full bg-[#EFFEFA]"
-                >
-                  <svg
-                    class="[&>path]:stroke-[#287F6E]"
-                  />
-                </div>
-                Burn - S3-Token-Manager Smart Contract
+                Pause - S3-Token-Manager Smart Contract
               </div>
             </div>
             <div
@@ -914,303 +898,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 <p
                   class="font-medium text-sm text-secondary mb-2"
                 >
-                  Pause
-                </p>
-                <div
-                  class="grid grid-cols-4 gap-3"
-                >
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
-                  >
-                    <div
-                      class="relative"
-                    >
-                      <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="pause"
-                        maxlength="66"
-                        name="pause"
-                        placeholder="Other Account"
-                        type="text"
-                      />
-                    </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Freeze
-                </p>
-                <div
-                  class="grid grid-cols-4 gap-3"
-                >
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
-                  >
-                    <div
-                      class="relative"
-                    >
-                      <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="freeze"
-                        maxlength="66"
-                        name="freeze"
-                        placeholder="Other Account"
-                        type="text"
-                      />
-                    </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Mint
-                </p>
-                <div
-                  class="grid grid-cols-4 gap-3"
-                >
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
-                  >
-                    <div
-                      class="relative"
-                    >
-                      <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="mint"
-                        maxlength="66"
-                        name="mint"
-                        placeholder="Other Account"
-                        type="text"
-                      />
-                    </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
                   Cash In
                 </p>
                 <div
@@ -1270,6 +957,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                   <div
                     class="w-full col-span-3 absolute -z-10"
                   >
+                    <div
+                      class="flex items-center justify-between"
+                    />
                     <div
                       class="relative"
                     >
@@ -1370,6 +1060,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     class="w-full col-span-3 absolute -z-10"
                   >
                     <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
                       class="relative"
                     >
                       <input
@@ -1377,6 +1070,312 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                         id="burn"
                         maxlength="66"
                         name="burn"
+                        placeholder="Other Account"
+                        type="text"
+                      />
+                    </div>
+                    <label
+                      class="transition cursor-pointer absolute top-4 right-4"
+                    >
+                      <input
+                        checked=""
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Pause
+                </p>
+                <div
+                  class="grid grid-cols-4 gap-3"
+                >
+                  <div
+                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  >
+                    Current Account
+                    <label
+                      class="relative transition cursor-pointer"
+                    >
+                      <input
+                        checked=""
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  >
+                    Other Account
+                    <label
+                      class="relative transition cursor-pointer"
+                    >
+                      <input
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    class="w-full col-span-3 absolute -z-10"
+                  >
+                    <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
+                      class="relative"
+                    >
+                      <input
+                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
+                        id="pause"
+                        maxlength="66"
+                        name="pause"
+                        placeholder="Other Account"
+                        type="text"
+                      />
+                    </div>
+                    <label
+                      class="transition cursor-pointer absolute top-4 right-4"
+                    >
+                      <input
+                        checked=""
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Freeze
+                </p>
+                <div
+                  class="grid grid-cols-4 gap-3"
+                >
+                  <div
+                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  >
+                    Current Account
+                    <label
+                      class="relative transition cursor-pointer"
+                    >
+                      <input
+                        checked=""
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  >
+                    Other Account
+                    <label
+                      class="relative transition cursor-pointer"
+                    >
+                      <input
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    class="w-full col-span-3 absolute -z-10"
+                  >
+                    <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
+                      class="relative"
+                    >
+                      <input
+                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
+                        id="freeze"
+                        maxlength="66"
+                        name="freeze"
+                        placeholder="Other Account"
+                        type="text"
+                      />
+                    </div>
+                    <label
+                      class="transition cursor-pointer absolute top-4 right-4"
+                    >
+                      <input
+                        checked=""
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <p
+                  class="font-medium text-sm text-secondary mb-2"
+                >
+                  Cash out
+                </p>
+                <div
+                  class="grid grid-cols-4 gap-3"
+                >
+                  <div
+                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  >
+                    Current Account
+                    <label
+                      class="relative transition cursor-pointer"
+                    >
+                      <input
+                        checked=""
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  >
+                    Other Account
+                    <label
+                      class="relative transition cursor-pointer"
+                    >
+                      <input
+                        class="
+  invisible absolute inset-1/2
+  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
+  [&+div>svg]:checked:block
+"
+                        readonly=""
+                        type="checkbox"
+                      />
+                      <div
+                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      >
+                        <svg
+                          class="hidden duration-1000"
+                        />
+                      </div>
+                    </label>
+                  </div>
+                  <div
+                    class="w-full col-span-3 absolute -z-10"
+                  >
+                    <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
+                      class="relative"
+                    >
+                      <input
+                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
+                        id="cashOut"
+                        maxlength="66"
+                        name="cashOut"
                         placeholder="Other Account"
                         type="text"
                       />
@@ -1526,18 +1525,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     class="[&>path]:stroke-white w-[8px] h-[8px]"
                   />
                 </div>
-                Pause - S3-Token-Manager Smart Contract
-              </div>
-              <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
-              >
-                <div
-                  class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
-                >
-                  <svg
-                    class="[&>path]:stroke-white w-[8px] h-[8px]"
-                  />
-                </div>
                 Freeze - S3-Token-Manager Smart Contract
               </div>
               <div
@@ -1550,31 +1537,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     class="[&>path]:stroke-white w-[8px] h-[8px]"
                   />
                 </div>
-                Mint - S3-Token-Manager Smart Contract
-              </div>
-              <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
-              >
-                <div
-                  class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
-                >
-                  <svg
-                    class="[&>path]:stroke-white w-[8px] h-[8px]"
-                  />
-                </div>
-                Cash In - S3-Token-Manager Smart Contract
-              </div>
-              <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
-              >
-                <div
-                  class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
-                >
-                  <svg
-                    class="[&>path]:stroke-white w-[8px] h-[8px]"
-                  />
-                </div>
-                Burn - S3-Token-Manager Smart Contract
+                Pause - S3-Token-Manager Smart Contract
               </div>
             </div>
           </div>
@@ -1834,17 +1797,21 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
               class="mt-10 space-y-4"
             >
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-start mb-2"
                 >
-                  Initial Supply
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Initial Supply
+                    *
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
                     id="initialSupply"
                     maxlength="14"
                     name="initialSupply"
@@ -1868,7 +1835,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                     name="supplyType"
                   >
                     <option
-                      class="text-hitGrey"
+                      class="text-[#A4ABB8]"
                       disabled=""
                       selected=""
                       value=""
@@ -1892,17 +1859,21 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                 </div>
               </div>
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-start mb-2"
                 >
-                  Decimals
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Decimals
+                    *
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
                   <input
-                    class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
+                    class="text-primary placeholder:text-[#A4ABB8] p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none w-full appearance-none"
                     id="decimals"
                     name="decimals"
                     placeholder="Decimals"
