@@ -112,6 +112,7 @@ export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageS
     treasury_cap: '',
     token_policy_cap: '',
     pauser: '',
+    deployer: '',
   }
 
   for (const obj of objectChanges) {
@@ -124,6 +125,7 @@ export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageS
         data.token_supply = obj.objectId
       } else if (obj.objectType.includes('0x2::coin::TreasuryCap<')) {
         data.treasury_cap = obj.objectId
+        data.deployer = obj.sender
       } else if (obj.objectType.includes('0x2::token::TokenPolicyCap<')) {
         data.token_policy_cap = obj.objectId
       } else if (obj.objectType.includes('pauser_rule::Config>')) {
