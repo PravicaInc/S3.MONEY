@@ -206,6 +206,11 @@ module <%- packageName %>::<%- packageName %> {
     fun maybe_mint_initial_supply<T>(cap: &mut TreasuryCap<T>, policy: &TokenPolicy<T>, supply: &TokenSupply<T>, ctx: &mut TxContext) {
          if (INITIAL_SUPPLY > 0) {
              mint(cap, policy, supply, INITIAL_SUPPLY, sender(ctx), ctx);
+             event::emit(EventTransfer {
+                 sender: @0x0,
+                 recipient: sender(ctx),
+                 amount: INITIAL_SUPPLY,
+             })
          }
     }
 
