@@ -129,13 +129,21 @@ module <%- packageName %>::<%- packageName %> {
 
     // Pause/unpause contract
     public fun pause<T>(cap: &TokenPolicyCap<T>, policy: &mut TokenPolicy<T>, ctx: &mut TxContext) {
-        pauser::set_config<T>(policy, cap, true, ctx);
-        event::emit(EventPaused {});
+        let paused = pauser::paused<T>(policy);
+
+        if (!paused) {
+            pauser::set_config<T>(policy, cap, true, ctx);
+            event::emit(EventPaused {});
+        }
     }
 
     public fun unpause<T>(cap: &TokenPolicyCap<T>, policy: &mut TokenPolicy<T>, ctx: &mut TxContext) {
-        pauser::set_config<T>(policy, cap, false, ctx);
-        event::emit(EventUnpaused {});
+        let paused = pauser::paused<T>(policy);
+
+        if (paused) {
+            pauser::set_config<T>(policy, cap, false, ctx);
+            event::emit(EventUnpaused {});
+        }
     }
 
     // Freeze/unfreeze address.
