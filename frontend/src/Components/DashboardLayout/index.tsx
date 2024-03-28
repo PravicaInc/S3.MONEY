@@ -13,9 +13,11 @@ export interface DashboardLayoutProps {
 export const DashboardLayout: FC<DashboardLayoutProps> = ({ children, className, contentClassName }) => (
   <div className={twMerge('flex min-h-screen bg-pageBgPrimary', className)}>
     <DashboardLeftNavBar className="shrink-0" />
-    <div className={twMerge('w-screen h-screen overflow-auto', contentClassName)}>
-      <DashboardTopNavBar />
-      {children}
+    <div className={twMerge('w-screen h-screen flex flex-col', contentClassName)}>
+      <DashboardTopNavBar className="shrink-0" />
+      <div className="overflow-auto h-full">
+        {children}
+      </div>
     </div>
   </div>
 );

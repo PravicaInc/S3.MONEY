@@ -7,6 +7,7 @@ import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { AxiosError } from 'axios';
 import { twMerge } from 'tailwind-merge';
 
+import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Footer } from '@/Components/Footer';
 import { Loader } from '@/Components/Loader';
 import { ProgressSteps } from '@/Components/ProgressSteps';
@@ -16,7 +17,6 @@ import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
-import { BalanceErrorModal } from './components/BalanceErrorModal';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
 import { RolesAssignment, RolesStableCoinData } from './components/RolesAssignment';
 import { StableCoinPreview } from './components/StableCoinPreview';
@@ -25,7 +25,9 @@ import { SupplyDetails, SupplyStableCoinData, SupplyTypes } from './components/S
 import { TokenDetailsReviewConfirm } from './components/TokenDetailsReviewConfirm';
 
 interface CreateStableCoinData
-  extends InitialStableCoinData, SupplyStableCoinData, PermissionsStableCoinData, RolesStableCoinData {}
+  extends InitialStableCoinData, SupplyStableCoinData, PermissionsStableCoinData {
+    roles: RolesStableCoinData;
+  }
 
 export default function CreateStableCoinPage() {
   const autoConnectionStatus = useAutoConnectWallet();
@@ -105,7 +107,7 @@ export default function CreateStableCoinPage() {
   const onRolesSubmit: SubmitHandler<RolesStableCoinData> = rolesStableCoinData => {
     setData(currentValue => ({
       ...currentValue,
-      ...rolesStableCoinData,
+      roles: rolesStableCoinData,
     }));
     setShowCreateStableCoinConfirm(true);
   };
@@ -123,13 +125,7 @@ export default function CreateStableCoinPage() {
             description: 'Created via S3.MONEY',
             maxSupply: data.maxSupply,
             initialSupply: data.initialSupply,
-            roles: {
-              cashIn: data?.cashIn,
-              burn: data?.burn,
-              pause: data?.pause,
-              freeze: data?.freeze,
-              cashOut: data?.cashOut,
-            },
+            roles: data?.roles,
           });
           const txb = new TransactionBlock();
 
@@ -148,7 +144,6 @@ export default function CreateStableCoinPage() {
               showEvents: true,
               showInput: true,
               showObjectChanges: true,
-              showRawInput: true,
             },
           });
 
@@ -255,9 +250,13 @@ export default function CreateStableCoinPage() {
               )
             }
             {
-              currentStep === 3 && (
+              currentStep === 3 && data.permissions && (
                 <RolesAssignment
                   onSubmit={onRolesSubmit}
+                  fields={data.permissions.map(({ value, label }) => ({
+                    fieldName: value,
+                    label: label.substring(0, label.indexOf('-')).trim(),
+                  }))}
                 />
               )
             }

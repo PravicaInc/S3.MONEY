@@ -9,10 +9,9 @@ import { twMerge } from 'tailwind-merge';
 
 import ChevronIcon from '@/../public/images/chevron.svg?jsx';
 
-import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
 
-import { useStableCoinsList } from '@/hooks/useStableCoinsList';
+import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 export interface SelectStableCoinDropdownProps extends HTMLAttributes<HTMLDivElement> {}
 
@@ -48,22 +47,21 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
       {...props}
     >
       {
-        isLoading || isRedirecting || isStableCoinsListLoading
+        !(isLoading || isRedirecting || isStableCoinsListLoading) && currentStableCoin
           ? (
-            <Loader className="h-8" />
-          )
-          : (
             <Menu
               menuButton={
-                <MenuButton>
-                  <Button view={BUTTON_VIEWS.secondary} className="px-5 py-3">
-                    {'['}
-                    {currentStableCoin?.ticker}
-                    {']'}
-                    {' '}
-                    {currentStableCoin?.name}
-                    <ChevronIcon className="ml-2" />
-                  </Button>
+                <MenuButton
+                  className="
+                    border border-borderPrimary rounded-[10px]
+                    h-10 px-4 flex items-center justify-between gap-2
+                    text-grayText font-medium text-sm
+                    transition
+                    hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary
+                  "
+                >
+                  {getStableCoinName(currentStableCoin)}
+                  <ChevronIcon className="[&>path]:stroke-grayText" />
                 </MenuButton>
               }
               transition
@@ -80,19 +78,26 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
                   <MenuItem
                     key={txid}
                     value={txid}
-                    className="block w-full px-4 py-2 hover:bg-actionPrimary hover:bg-opacity-30 cursor-pointer"
+                    className="
+                      block w-full px-4 py-3 cursor-pointer
+                      text-grayText font-medium text-sm
+                      hover:bg-actionPrimary hover:bg-opacity-10
+                    "
                   >
-                    {'['}
-                    {ticker}
-                    {']'}
-                    {' '}
-                    {name}
+                    {getStableCoinName({ ticker, name })}
                   </MenuItem>
                 ))
               }
             </Menu>
           )
+          : (
+            <Loader className="h-8" />
+          )
       }
     </div>
   );
+
+  function getStableCoinName({ ticker, name }: Pick<StableCoin, 'ticker' | 'name'>) {
+    return `[${ticker}] ${name}`;
+  }
 };

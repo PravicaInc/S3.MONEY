@@ -1,0 +1,39 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DashboardLeftNavBar: Snapshot 1`] = `
+<div>
+  <style>
+    [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
+  </style>
+  <div
+    class="h-screen w-[270px] border-r border-borderPrimary bg-white"
+  >
+    <a
+      class="ml-6 my-5 block"
+      href="/"
+    >
+      <svg />
+    </a>
+    <div
+      class="pt-5 px-4"
+    >
+      <p
+        class="text-xs font-semibold text-hitGrey pl-3 pb-3"
+      >
+        Main Menu
+      </p>
+      <div
+        class="flex flex-col gap-1"
+      >
+        <a
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-borderPrimary bg-[#F8F9FB] text-primary"
+          href="/dashboard/operations?txid=1"
+        >
+          <svg />
+          Operations
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;

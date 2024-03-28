@@ -10,7 +10,6 @@ export const metadata: Metadata = {
 export default function DashboardOperationsLayout({ ...props }: PropsWithChildren) {
   return (
     <DashboardLayout
-      className="bg-pageBgSecondary"
       {...props}
     />
   );

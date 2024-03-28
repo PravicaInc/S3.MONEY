@@ -66,7 +66,7 @@ export default function SignInPage() {
             </p>
           </div>
         </div>
-        <div className="bg-[#FFCDA8] h-full border-[10px] border-white flex items-center justify-center py-5">
+        <div className="bg-deepPeach h-full border-[10px] border-white flex items-center justify-center py-5">
           <div className="text-center mx-5 md:mx-10 lg:mx-20 max-w-4xl">
             <p className="text-[40px] leading-[44px] font-semibold text-primary">
               Gateway to Code-Free StableCoin Creation

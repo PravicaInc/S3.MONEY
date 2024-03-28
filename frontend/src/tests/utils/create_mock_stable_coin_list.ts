@@ -2,13 +2,13 @@ import { QueryObserverSuccessResult } from '@tanstack/react-query';
 
 import { StableCoin, StableCoinsListResponse } from '@/hooks/useStableCoinsList';
 
-export const TEST_STABLE_COIN1: StableCoin = {
+export const TEST_STABLE_COIN1: Partial<StableCoin> = {
   txid: '1',
   ticker: 'PRV',
   name: 'Pravica Token',
 };
 
-export const TEST_STABLE_COIN2: StableCoin = {
+export const TEST_STABLE_COIN2: Partial<StableCoin> = {
   txid: '2',
   ticker: 'SSS',
   name: 'S3 Money Token',

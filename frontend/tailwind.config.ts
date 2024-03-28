@@ -21,12 +21,16 @@ const config: Config = {
         seashell: '#F0F0F0',
         grayText: '#666D80',
         lavenderGrey: '#C1C7CF',
+        hitGrey: '#A4ABB8',
+        antiqueWhite: '#FFE8D4',
+        deepPeach: '#FFCDA8',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
         buttonBgAfter: 'linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 100%)',
       },
       boxShadow: {
+        operationIcon: '0px 1.6666666269302368px 3.3333332538604736px 0px #0D0D121F',
         button: '1px 2px 4px 0px rgba(13, 13, 18, 0.12)',
         'stableCoinForm': '0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814',
       },
