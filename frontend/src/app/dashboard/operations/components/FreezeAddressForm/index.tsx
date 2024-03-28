@@ -130,7 +130,10 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
       </form>
       <FreezeAddressConfirm
         visible={showFreezeAddressConfirm}
-        onClose={() => setShowFreezeAddressConfirm(false)}
+        onClose={() => {
+          setShowFreezeAddressConfirm(false);
+          freezeAddress.reset();
+        }}
         walletAddress={walletAddress}
         onProceed={() => freezeWalletAddress({ address: walletAddress })}
         inProcess={freezeAddress.isPending}

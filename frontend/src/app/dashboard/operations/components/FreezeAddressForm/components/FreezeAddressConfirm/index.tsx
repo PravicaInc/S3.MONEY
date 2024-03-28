@@ -41,7 +41,6 @@ export const FreezeAddressConfirm: FC<FreezeAddressConfirmProps> = ({
         className="w-56 h-[56px]"
         view={BUTTON_VIEWS.secondary}
         onClick={onClose}
-        disabled={inProcess}
       >
         Cancel
       </Button>

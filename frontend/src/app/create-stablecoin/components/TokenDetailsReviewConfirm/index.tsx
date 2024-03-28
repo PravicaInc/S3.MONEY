@@ -6,18 +6,22 @@ import { Modal, ModalProps } from '@/Components/Modal';
 export interface TokenDetailsReviewConfirmProps extends ModalProps {
   onProceed: () => void;
   inProcess?: boolean;
+  inCancelDisabled?: boolean;
+  inCancelProgress?: boolean;
 }
 
 export const TokenDetailsReviewConfirm: FC<TokenDetailsReviewConfirmProps> = ({
   onProceed,
   onClose,
   inProcess,
+  inCancelDisabled,
+  inCancelProgress,
   ...props
 }) => (
   <Modal
-    onClose={inProcess ? onClose : () => {}}
+    onClose={onClose}
     className="p-6 w-[520px]"
-    closeOnOutsideClick={!inProcess}
+    closeOnOutsideClick={!inProcess && !inCancelProgress}
     {...props}
   >
     <p className="text-primary font-semibold text-2xl text-center mt-4">
@@ -33,7 +37,8 @@ export const TokenDetailsReviewConfirm: FC<TokenDetailsReviewConfirmProps> = ({
         className="w-56 h-[56px]"
         view={BUTTON_VIEWS.secondary}
         onClick={onClose}
-        disabled={inProcess}
+        disabled={inCancelProgress || inCancelDisabled}
+        isLoading={inCancelProgress}
       >
         Cancel
       </Button>
