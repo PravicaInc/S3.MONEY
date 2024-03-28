@@ -57,9 +57,9 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
         await freezeAddress.mutateAsync({
           walletAddress: address,
           packageName: stableCoin.package_name,
-          packageId: stableCoin.deploy_data.packageId,
-          tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-          tokenPolicy: stableCoin.deploy_data.token_policy,
+          packageId: stableCoin.deploy_addresses.packageId,
+          tokenPolicyCap: stableCoin.deploy_addresses.token_policy_cap,
+          tokenPolicy: stableCoin.deploy_addresses.token_policy,
         });
 
         formMethods.reset();

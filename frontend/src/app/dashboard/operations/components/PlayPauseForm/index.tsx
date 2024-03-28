@@ -25,7 +25,7 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
   stableCoin,
   ...props
 }) => {
-  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(stableCoin.deploy_data.pauser);
+  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(stableCoin.deploy_addresses.pauser);
   const pauseSystem = usePauseSystem();
   const playSystem = usePlaySystem();
 
@@ -44,20 +44,20 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
       try {
         if (isPaused) {
           await playSystem.mutateAsync({
-            pauser: stableCoin.deploy_data.pauser,
+            pauser: stableCoin.deploy_addresses.pauser,
             packageName: stableCoin.package_name,
-            packageId: stableCoin.deploy_data.packageId,
-            tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-            tokenPolicy: stableCoin.deploy_data.token_policy,
+            packageId: stableCoin.deploy_addresses.packageId,
+            tokenPolicyCap: stableCoin.deploy_addresses.token_policy_cap,
+            tokenPolicy: stableCoin.deploy_addresses.token_policy,
           });
         }
         else {
           await pauseSystem.mutateAsync({
-            pauser: stableCoin.deploy_data.pauser,
+            pauser: stableCoin.deploy_addresses.pauser,
             packageName: stableCoin.package_name,
-            packageId: stableCoin.deploy_data.packageId,
-            tokenPolicyCap: stableCoin.deploy_data.token_policy_cap,
-            tokenPolicy: stableCoin.deploy_data.token_policy,
+            packageId: stableCoin.deploy_addresses.packageId,
+            tokenPolicyCap: stableCoin.deploy_addresses.token_policy_cap,
+            tokenPolicy: stableCoin.deploy_addresses.token_policy,
           });
         }
       }
