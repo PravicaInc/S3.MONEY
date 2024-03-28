@@ -82,6 +82,7 @@ export interface IPackageSummary {
   treasury_cap: string
   token_policy_cap: string
   pauser: string
+  deployer: string
 }
 
 export interface IPackageDeployed {
