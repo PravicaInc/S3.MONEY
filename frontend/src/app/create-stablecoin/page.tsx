@@ -58,6 +58,7 @@ export default function CreateStableCoinPage() {
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
   const [newStableCoinTxID, setNewStableCoinTxID] = useState<string>();
   const [excludeTickerNames, setExcludeTickerNames] = useState<string[]>([]);
+  const [isStableCoinCreatedButNotPublished, setIsStableCoinCreatedButNotPublished] = useState<boolean>(false);
 
   const isLoading = useMemo(
     () => autoConnectionStatus === 'idle',
@@ -77,6 +78,115 @@ export default function CreateStableCoinPage() {
       })));
     },
     [currentStep, progressSteps]
+  );
+  const runCreateStableCoin = useCallback(
+    async () => {
+      if (account?.address && data.name && data.ticker && data.decimals) {
+        try {
+          const { dependencies, modules } = await createStableCoin.create.mutateAsync({
+            walletAddress: account.address,
+            ticker: data.ticker,
+            decimals: data.decimals,
+            icon: data.icon || undefined,
+            name: data.name,
+            description: 'Created via S3.MONEY',
+            maxSupply: data.maxSupply,
+            initialSupply: data.initialSupply,
+            roles: data?.roles,
+          });
+
+          setIsStableCoinCreatedButNotPublished(true);
+
+          const txb = new TransactionBlock();
+
+          const upgradeCapPolicy = txb.publish({ dependencies, modules });
+
+          txb.transferObjects([upgradeCapPolicy], txb.pure(account.address));
+
+          await buildTransaction.mutateAsync(txb);
+
+          const transactionData = await signAndExecuteTransactionBlock.mutateAsync({
+            transactionBlock: txb,
+            requestType: 'WaitForLocalExecution',
+            options: {
+              showBalanceChanges: true,
+              showEffects: true,
+              showEvents: true,
+              showInput: true,
+              showObjectChanges: true,
+            },
+          });
+
+          await createStableCoin.savePublishedStableCoin.mutateAsync({
+            walletAddress: account?.address,
+            ticker: data.ticker,
+            transactionID: transactionData.digest,
+            data: transactionData,
+          });
+
+          setShowCreateStableCoinConfirm(false);
+          setShowSuccessCreatedStableCoinModal(true);
+          setNewStableCoinTxID(transactionData.digest);
+          setIsStableCoinCreatedButNotPublished(false);
+        }
+        catch (error) {
+          if (error instanceof AxiosError) {
+            if (
+              error.response?.status === 400
+                && (
+                  error.response?.data?.message.includes('package directory already exists')
+                    || error.response?.data?.message.includes('package already published')
+                )
+            ) {
+              setCurrentStep(0);
+              setShowCreateStableCoinConfirm(false);
+              setExcludeTickerNames(currentValue => [...currentValue, data.ticker as string]);
+            }
+          }
+          else if (
+            error instanceof Error && (
+              error.message.includes('Rejected from user')
+                || error.message.includes('GasBalanceTooLow')
+                || error.message.includes('No valid gas coins found for the transaction')
+            )
+          ) {
+            await createStableCoin.removeNotPublishedStableCoin.mutateAsync({
+              walletAddress: account?.address,
+              ticker: data.ticker,
+            });
+
+            setIsStableCoinCreatedButNotPublished(false);
+
+            if (
+              error.message.includes('GasBalanceTooLow')
+                || error.message.includes('No valid gas coins found for the transaction')
+            ) {
+              setShowBalanceErrorModal(true);
+            }
+          }
+          else {
+            throw error;
+          }
+        }
+      }
+    },
+    [data, account?.address, createStableCoin, signAndExecuteTransactionBlock, buildTransaction]
+  );
+  const closeCreateStableCoinConfirm = useCallback(
+    async () => {
+      if (account?.address && data.ticker && isStableCoinCreatedButNotPublished) {
+        await createStableCoin.removeNotPublishedStableCoin.mutateAsync({
+          walletAddress: account.address,
+          ticker: data.ticker,
+        });
+
+        signAndExecuteTransactionBlock.reset();
+        setIsStableCoinCreatedButNotPublished(false);
+      }
+
+      setShowCreateStableCoinConfirm(false);
+    },
+    [createStableCoin, data, account, isStableCoinCreatedButNotPublished, signAndExecuteTransactionBlock]
   );
 
   const onInitialDetailsSubmit: SubmitHandler<InitialStableCoinData> = async initialStableCoinData => {
@@ -111,94 +221,6 @@ export default function CreateStableCoinPage() {
     }));
     setShowCreateStableCoinConfirm(true);
   };
-
-  const runCreateStableCoin = useCallback(
-    async () => {
-      if (account?.address && data.name && data.ticker && data.decimals) {
-        try {
-          const { dependencies, modules } = await createStableCoin.create.mutateAsync({
-            walletAddress: account.address,
-            ticker: data.ticker,
-            decimals: data.decimals,
-            icon: data.icon || undefined,
-            name: data.name,
-            description: 'Created via S3.MONEY',
-            maxSupply: data.maxSupply,
-            initialSupply: data.initialSupply,
-            roles: data?.roles,
-          });
-          const txb = new TransactionBlock();
-
-          const upgradeCapPolicy = txb.publish({ dependencies, modules });
-
-          txb.transferObjects([upgradeCapPolicy], txb.pure(account.address));
-
-          await buildTransaction.mutateAsync(txb);
-
-          const transactionData = await signAndExecuteTransactionBlock.mutateAsync({
-            transactionBlock: txb,
-            requestType: 'WaitForLocalExecution',
-            options: {
-              showBalanceChanges: true,
-              showEffects: true,
-              showEvents: true,
-              showInput: true,
-              showObjectChanges: true,
-            },
-          });
-
-          await createStableCoin.savePublishedStableCoin.mutateAsync({
-            walletAddress: account?.address,
-            ticker: data.ticker,
-            transactionID: transactionData.digest,
-            data: transactionData,
-          });
-
-          setShowCreateStableCoinConfirm(false);
-          setShowSuccessCreatedStableCoinModal(true);
-          setNewStableCoinTxID(transactionData.digest);
-        }
-        catch (error) {
-          if (error instanceof AxiosError) {
-            if (
-              error.response?.status === 400
-                && (
-                  error.response?.data?.message.includes('package directory already exists')
-                    || error.response?.data?.message.includes('package already published')
-                )
-            ) {
-              setCurrentStep(0);
-              setShowCreateStableCoinConfirm(false);
-              setExcludeTickerNames(currentValue => [...currentValue, data.ticker as string]);
-            }
-          }
-          else if (
-            error instanceof Error && (
-              error.message.includes('Rejected from user')
-                || error.message.includes('GasBalanceTooLow')
-                || error.message.includes('No valid gas coins found for the transaction')
-            )
-          ) {
-            await createStableCoin.removeNotPublishedStableCoin.mutateAsync({
-              walletAddress: account?.address,
-              ticker: data.ticker,
-            });
-
-            if (
-              error.message.includes('GasBalanceTooLow')
-                || error.message.includes('No valid gas coins found for the transaction')
-            ) {
-              setShowBalanceErrorModal(true);
-            }
-          }
-          else {
-            throw error;
-          }
-        }
-      }
-    },
-    [data, account?.address, createStableCoin, signAndExecuteTransactionBlock, buildTransaction]
-  );
 
   return (
     <div className="flex flex-col items-center justify-center w-full grow">
@@ -274,8 +296,13 @@ export default function CreateStableCoinPage() {
       <Footer className="w-full px-6 pb-6" />
       <TokenDetailsReviewConfirm
         visible={showCreateStableCoinConfirm}
-        onClose={() => setShowCreateStableCoinConfirm(false)}
+        onClose={closeCreateStableCoinConfirm}
         onProceed={runCreateStableCoin}
+        inCancelDisabled={
+          createStableCoin.create.isPending
+            || createStableCoin.savePublishedStableCoin.isPending
+        }
+        inCancelProgress={createStableCoin.removeNotPublishedStableCoin.isPending}
         inProcess={
           createStableCoin.create.isPending
             || createStableCoin.removeNotPublishedStableCoin.isPending
