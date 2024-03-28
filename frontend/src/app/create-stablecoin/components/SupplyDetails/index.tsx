@@ -79,6 +79,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
             <Input
               name="initialSupply"
               label="Initial Supply"
+              restrictionLabel="99,999,999,999 max"
               isRequired
               placeholder="Initial Supply"
               className="w-full appearance-none"
@@ -114,6 +115,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
                 <Input
                   name="maxSupply"
                   label="Max Supply"
+                  restrictionLabel="99,999,999,999 max"
                   isRequired
                   placeholder="Max Supply"
                   className="w-full appearance-none"
@@ -131,6 +133,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
             <Input
               name="decimals"
               label="Decimals"
+              restrictionLabel="16 max"
               isRequired
               placeholder="Decimals"
               className="w-full appearance-none"

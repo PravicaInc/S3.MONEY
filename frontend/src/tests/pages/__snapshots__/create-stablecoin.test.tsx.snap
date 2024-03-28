@@ -1872,13 +1872,18 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             >
               <div>
                 <div
-                  class="flex items-center justify-start mb-2"
+                  class="flex items-center justify-between mb-2"
                 >
                   <p
                     class="font-medium text-sm text-secondary"
                   >
                     Initial Supply
                     *
+                  </p>
+                  <p
+                    class="font-medium text-secondary text-xs"
+                  >
+                    99,999,999,999 max
                   </p>
                 </div>
                 <div
@@ -1934,13 +1939,18 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
               </div>
               <div>
                 <div
-                  class="flex items-center justify-start mb-2"
+                  class="flex items-center justify-between mb-2"
                 >
                   <p
                     class="font-medium text-sm text-secondary"
                   >
                     Decimals
                     *
+                  </p>
+                  <p
+                    class="font-medium text-secondary text-xs"
+                  >
+                    16 max
                   </p>
                 </div>
                 <div
