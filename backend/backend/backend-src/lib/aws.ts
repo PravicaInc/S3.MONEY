@@ -278,9 +278,8 @@ export async function listPackagesDB(address: string, summary: boolean) {
     if (summary) {
       pkgItems = pkgItems.map(item => {
         const deploy_data = item.deploy_data as IFace.IPackageDeployed
-        const parsed = IFace.packageSummary(deploy_data?.objectChanges ?? [])
-        item.deploy_data = parsed
-
+        item.deploy_addresses = IFace.packageSummary(deploy_data?.objectChanges ?? [])
+        delete item.deploy_data
         return item
       })
     }
