@@ -4,7 +4,7 @@ import { AxiosResponse } from 'axios';
 import { ApiManager } from '@/services/api';
 
 interface PackageApiResponse {
-  deploy_data: {
+  deploy_addresses: {
     packageId: string,
     token_policy: string,
     token_supply: string,
