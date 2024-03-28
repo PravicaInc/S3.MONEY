@@ -123,12 +123,21 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
               class="mt-10 space-y-4"
             >
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-between mb-2"
                 >
-                  Stablecoin Name
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Stablecoin Name
+                    *
+                  </p>
+                  <p
+                    class="font-medium text-secondary text-xs"
+                  >
+                    28 max symbols
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
@@ -143,12 +152,21 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                 </div>
               </div>
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-between mb-2"
                 >
-                  Stablecoin Ticker
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Stablecoin Ticker
+                    *
+                  </p>
+                  <p
+                    class="font-medium text-secondary text-xs"
+                  >
+                    5 max symbols
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
@@ -163,11 +181,15 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                 </div>
               </div>
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-start mb-2"
                 >
-                  Stablecoin Symbol
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Stablecoin Symbol
+                  </p>
+                </div>
                 <div
                   class="flex items-center gap-3"
                 >
@@ -186,7 +208,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
                   <span
                     class="text-secondary text-sm"
                   >
-                    JPG or PNG. 1MB max
+                    JPG or PNG. 1MB max. 300x300 max
                   </span>
                 </div>
               </div>
@@ -974,6 +996,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     class="w-full col-span-3 absolute -z-10"
                   >
                     <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
                       class="relative"
                     >
                       <input
@@ -1072,6 +1097,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                   <div
                     class="w-full col-span-3 absolute -z-10"
                   >
+                    <div
+                      class="flex items-center justify-between"
+                    />
                     <div
                       class="relative"
                     >
@@ -1172,6 +1200,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     class="w-full col-span-3 absolute -z-10"
                   >
                     <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
                       class="relative"
                     >
                       <input
@@ -1271,6 +1302,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     class="w-full col-span-3 absolute -z-10"
                   >
                     <div
+                      class="flex items-center justify-between"
+                    />
+                    <div
                       class="relative"
                     >
                       <input
@@ -1369,6 +1403,9 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                   <div
                     class="w-full col-span-3 absolute -z-10"
                   >
+                    <div
+                      class="flex items-center justify-between"
+                    />
                     <div
                       class="relative"
                     >
@@ -1834,12 +1871,16 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
               class="mt-10 space-y-4"
             >
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-start mb-2"
                 >
-                  Initial Supply
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Initial Supply
+                    *
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >
@@ -1892,12 +1933,16 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                 </div>
               </div>
               <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
+                <div
+                  class="flex items-center justify-start mb-2"
                 >
-                  Decimals
-                  *
-                </p>
+                  <p
+                    class="font-medium text-sm text-secondary"
+                  >
+                    Decimals
+                    *
+                  </p>
+                </div>
                 <div
                   class="relative"
                 >

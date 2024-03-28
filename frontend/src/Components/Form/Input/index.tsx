@@ -88,6 +88,7 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
 export interface InputProps extends SimpleInputProps {
   name: string;
   label?: ReactNode;
+  restrictionLabel?: ReactNode;
   isRequired?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValueAs?: (value: any) => any;
@@ -97,6 +98,7 @@ export interface InputProps extends SimpleInputProps {
 export const Input: FC<InputProps> = ({
   name,
   label,
+  restrictionLabel,
   isRequired,
   setValueAs,
   onChange,
@@ -108,15 +110,32 @@ export const Input: FC<InputProps> = ({
 
   return (
     <>
-      {
-        label && (
-          <Label
-            label={label}
-            isRequired={isRequired}
-            className="mb-2"
-          />
-        )
-      }
+      <div
+        className={twMerge(
+          'flex items-center justify-between',
+          label && !restrictionLabel && 'justify-start',
+          !label && restrictionLabel && 'justify-end',
+          label && restrictionLabel && 'justify-between',
+          (label || restrictionLabel) && 'mb-2'
+        )}
+      >
+        {
+          label && (
+            <Label
+              label={label}
+              isRequired={isRequired}
+            />
+          )
+        }
+        {
+          restrictionLabel && (
+            <Label
+              label={restrictionLabel}
+              className="text-xs"
+            />
+          )
+        }
+      </div>
       <SimpleInput
         id={name}
         className={twMerge(

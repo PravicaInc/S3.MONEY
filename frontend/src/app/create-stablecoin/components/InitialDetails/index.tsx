@@ -108,6 +108,7 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
             <Input
               name="name"
               label="Stablecoin Name"
+              restrictionLabel="28 max symbols"
               isRequired
               placeholder="Stablecoin Name"
               className="w-full"
@@ -118,6 +119,7 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
             <Input
               name="ticker"
               label="Stablecoin Ticker"
+              restrictionLabel="5 max symbols"
               isRequired
               placeholder="Stablecoin Ticker"
               className="w-full"
@@ -173,19 +175,32 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
                     name="icon"
                     type="file"
                     label="Stablecoin Symbol"
-                    description="JPG or PNG. 1MB max"
+                    description="JPG or PNG. 1MB max. 300x300 max"
                     accept="image/png,image/jpeg"
                     onChange={({ target }) => {
                       const selectedFile = target.files?.[0];
 
                       if (selectedFile) {
                         if (selectedFile.size < 1 * 1024 * 1024) {
-                          uploadIcon(selectedFile);
+                          const img = new Image();
+                          const objectUrl = URL.createObjectURL(selectedFile);
+
+                          img.addEventListener('load', () => {
+                            if (img.width <= 300 && img.height <= 300) {
+                              uploadIcon(selectedFile);
+                            }
+                            else {
+                              toast.error('The width and hight of the image cannot be more than 300px.');
+                            }
+                          });
+
+                          img.src = objectUrl;
                         }
                         else {
-                          formMethods.setValue('icon', '');
                           toast.error('The size of the image cannot be more than 1MB.');
                         }
+
+                        formMethods.setValue('icon', '');
                       }
                     }}
                   />
