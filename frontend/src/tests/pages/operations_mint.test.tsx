@@ -5,7 +5,7 @@ import qs from 'qs';
 
 import '@testing-library/jest-dom';
 
-import OperationsPage from '@/app/dashboard/operations/page';
+import OperationsMintPage from '@/app/dashboard/operations/mint/page';
 
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 
@@ -13,17 +13,17 @@ import { createMockStableCoinList, TEST_STABLE_COIN1 } from '@/tests/utils/creat
 import { createMockAccount } from '@/tests/utils/create_mock_wallet_account';
 import { renderWithProviders } from '@/tests/utils/render_with_providers';
 
-const renderSignInPageWithProviders = () => renderWithProviders(<OperationsPage />);
+const renderSignInPageWithProviders = () => renderWithProviders(<OperationsMintPage />);
 
 let renderResult: RenderResult;
 
-describe('Operations page:', () => {
+describe('Operations/Mint page:', () => {
   afterAll(cleanup);
 
-  describe('Operations page with connected state:', () => {
+  describe('Operations/Mint page with connected state:', () => {
     beforeEach(() => {
       const domain = 'https://localhost:3001';
-      const url = new URL(`${domain}/dashboard/operations?${qs.stringify({
+      const url = new URL(`${domain}/dashboard/operations/mint?${qs.stringify({
         txid: TEST_STABLE_COIN1.txid,
       })}`);
 

@@ -11,6 +11,7 @@ interface PackageApiResponse {
     treasury_cap: string,
     token_policy_cap: string,
     pauser: string,
+    deployer: string;
   },
   deploy_date: string,
   deploy_status: 'created' | 'published',

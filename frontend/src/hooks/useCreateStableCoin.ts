@@ -76,6 +76,7 @@ export const useCreateStableCoin = () => ({
       initialSupply,
       network = suiNetworkList.testnet,
       icon,
+      roles,
     }: CreateStableCoinData) => createApi.post({
       address: walletAddress,
       ticker,
@@ -86,6 +87,7 @@ export const useCreateStableCoin = () => ({
       initialSupply,
       network,
       icon_url: icon,
+      roles,
     })
       .then((response: AxiosResponse<CreateStableCoinApiPostResponse>) => response.data),
   }),

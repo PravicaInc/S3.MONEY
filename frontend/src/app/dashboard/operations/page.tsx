@@ -2,8 +2,10 @@
 
 import { ReactNode, useEffect, useMemo } from 'react';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
+import { UrlObject } from 'url';
 
 import BurnIcon from '@/../public/images/burn_icon.svg?jsx';
 import CashInIcon from '@/../public/images/cash_in_icon.svg?jsx';
@@ -26,6 +28,7 @@ export default function DashboardOperationsPage() {
   const {
     data,
     isLoading: isStableCoinsListLoading,
+    isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
 
   const { coins: stableCoins = [] } = data || {};
@@ -66,6 +69,10 @@ export default function DashboardOperationsPage() {
             title: 'Mint',
             icon: <MintIcon />,
             description: 'Issuers can effortlessly create new tokens, increasing the total supply of the stablecoin.',
+            link: {
+              pathname: PAGES_URLS.dashboardOperationsMint,
+              query: Object.fromEntries(searchParams.entries()),
+            },
           }
           : [],
       ],
@@ -75,6 +82,10 @@ export default function DashboardOperationsPage() {
             title: 'Cash In',
             icon: <CashInIcon />,
             description: 'Issuers can allocate some authorized tokens to the circulation for public.',
+            link: {
+              pathname: PAGES_URLS.dashboardOperationsCashIn,
+              query: Object.fromEntries(searchParams.entries()),
+            },
           }
           : [],
       ],
@@ -86,6 +97,10 @@ export default function DashboardOperationsPage() {
             description: `
               The platform allows issuers to reduce the overall token supply by 'burning' or destroying tokens.
             `,
+            link: {
+              pathname: PAGES_URLS.dashboardOperationsBurn,
+              query: Object.fromEntries(searchParams.entries()),
+            },
           }
           : [],
       ],
@@ -93,23 +108,24 @@ export default function DashboardOperationsPage() {
       title: string,
       icon: ReactNode,
       description: string,
+      link: string | UrlObject,
     }[],
-    [showBurnBlock, showCashInBlock, showMintBlock]
+    [showBurnBlock, showCashInBlock, showMintBlock, searchParams]
   );
 
   useEffect(
     () => {
-      if (!isLoading && !isRedirecting && !isStableCoinsListLoading && !currentStableCoin) {
+      if (!isLoading && !isRedirecting && !isStableCoinsListFetching && !currentStableCoin) {
         router.replace(PAGES_URLS.home);
       }
     },
-    [isLoading, isRedirecting, isStableCoinsListLoading, currentStableCoin, router]
+    [isLoading, isRedirecting, isStableCoinsListFetching, currentStableCoin, router]
   );
 
   return (
     <div
       className={twMerge(
-        'max-w-screen-2xl mx-auto p-10',
+        'max-w-screen-2xl mx-auto p-8',
         (isLoading || isRedirecting || isStableCoinsListLoading || !currentStableCoin)
           && 'flex items-center justify-center h-full'
       )}
@@ -152,10 +168,11 @@ export default function DashboardOperationsPage() {
                   actions.length === 3 && 'grid-cols-3'
                 )}
               >
-                {actions.map(({ title, icon, description }) => (
-                  <div
+                {actions.map(({ title, icon, description, link }) => (
+                  <Link
                     key={title}
                     className="border border-borderPrimary rounded-[10px] bg-white p-6"
+                    href={link}
                   >
                     <div
                       className="bg-deepPeach w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
@@ -168,7 +185,7 @@ export default function DashboardOperationsPage() {
                     <p className="text-grayText text-sm mt-2">
                       {description}
                     </p>
-                  </div>
+                  </Link>
                 ))}
               </div>
             </>

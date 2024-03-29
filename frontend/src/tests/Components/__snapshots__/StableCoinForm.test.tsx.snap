@@ -34,7 +34,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
         class="relative"
       >
         <input
-          class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none pl-11 w-full"
+          class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white pl-11 w-full"
           placeholder="Search..."
           type="text"
           value=""

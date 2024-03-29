@@ -24,6 +24,8 @@ const config: Config = {
         hitGrey: '#A4ABB8',
         antiqueWhite: '#FFE8D4',
         deepPeach: '#FFCDA8',
+        snowDrift: '#F8F9FB',
+        mistBlue: '#666D80',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',

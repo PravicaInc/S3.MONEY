@@ -99,20 +99,20 @@ describe('SelectStableCoinDropdown:', () => {
     });
 
     it('Show selected StableCoin', () => {
-      expect(renderResult.queryByText(new RegExp(TEST_STABLE_COIN1.ticker))).toBeVisible();
+      expect(renderResult.queryByText(new RegExp(TEST_STABLE_COIN1.ticker as string))).toBeVisible();
     });
 
     it('Show StableCoin list', async () => {
       const user = userEvent.setup();
 
       const dropdownButton = renderResult.getByRole('button', {
-        name: new RegExp(TEST_STABLE_COIN1.ticker),
+        name: new RegExp(TEST_STABLE_COIN1.ticker as string),
       });
 
       await user.click(dropdownButton);
 
-      expect(renderResult.queryAllByText(new RegExp(TEST_STABLE_COIN1.ticker)).length).toBe(2);
-      expect(renderResult.queryByText(new RegExp(TEST_STABLE_COIN2.ticker))).toBeVisible();
+      expect(renderResult.queryAllByText(new RegExp(TEST_STABLE_COIN1.ticker as string)).length).toBe(2);
+      expect(renderResult.queryByText(new RegExp(TEST_STABLE_COIN2.ticker as string))).toBeVisible();
     });
 
     it('Snapshot', () => {

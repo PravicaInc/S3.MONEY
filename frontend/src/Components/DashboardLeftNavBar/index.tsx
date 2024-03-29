@@ -26,7 +26,7 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
             },
             icon: <OperationsLinkIcon />,
             text: 'Operations',
-            isActive: pathname === PAGES_URLS.dashboardOperations,
+            isActive: pathname.indexOf(PAGES_URLS.dashboardOperations) !== -1,
           },
         ],
       },
@@ -61,7 +61,7 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
                   href={href}
                   className={twMerge(
                     'flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary',
-                    isActive && 'border-borderPrimary bg-[#F8F9FB] text-primary'
+                    isActive && 'border-borderPrimary bg-snowDrift text-primary'
                   )}
                 >
                   {icon}
