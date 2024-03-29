@@ -26,7 +26,7 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
         class="flex flex-col gap-1"
       >
         <a
-          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-borderPrimary bg-[#F8F9FB] text-primary"
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-borderPrimary bg-snowDrift text-primary"
           href="/dashboard/operations?txid=1"
         >
           <svg />

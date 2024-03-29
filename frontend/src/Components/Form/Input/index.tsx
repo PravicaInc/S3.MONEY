@@ -14,6 +14,7 @@ export interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> 
   wrapperClassName?: string;
   fileButtonText?: string;
   description?: string;
+  suffix?: ReactNode;
 }
 
 export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
@@ -23,6 +24,7 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
   type = 'text',
   fileButtonText = 'Choose',
   description,
+  suffix,
   ...props
 }, ref) => {
   const iconWithClass = useMemo(
@@ -73,13 +75,20 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
             type={type}
             className={twMerge(
               'text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary',
-              'focus:border-actionPrimary outline-none',
+              'focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white',
               icon && 'pl-11',
               className
             )}
             {...props}
           />
           {iconWithClass}
+          {
+            suffix && (
+              <span className="font-medium text-sm text-primary absolute top-1/2 right-4 -translate-y-1/2">
+                {suffix}
+              </span>
+            )
+          }
         </div>
       );
   }
@@ -88,6 +97,7 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
 export interface InputProps extends SimpleInputProps {
   name: string;
   label?: ReactNode;
+  labelClassName?: string;
   restrictionLabel?: ReactNode;
   isRequired?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -98,6 +108,7 @@ export interface InputProps extends SimpleInputProps {
 export const Input: FC<InputProps> = ({
   name,
   label,
+  labelClassName,
   restrictionLabel,
   isRequired,
   setValueAs,
@@ -123,6 +134,7 @@ export const Input: FC<InputProps> = ({
           label && (
             <Label
               label={label}
+              className={labelClassName}
               isRequired={isRequired}
             />
           )
