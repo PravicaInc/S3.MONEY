@@ -1,11 +1,9 @@
 import fs from 'fs'
 import {
-  DeleteItemCommand,
   DynamoDBClient,
   GetItemCommand,
   QueryCommand,
   QueryCommandInput,
-  ScanCommand,
   TransactGetItem,
   TransactGetItemsCommand,
   TransactWriteItem,
@@ -117,7 +115,7 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
       Put: {
         TableName: ROLES_TABLE,
         Item: {
-          address_package: {S: `${data.address}-${data.packageName!}`},
+          address_package: {S: `${data.address}::${data.packageName!}`},
           package_role: {S: 'deployer'},
           role_address: {S: data.address},
         },
@@ -131,7 +129,7 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
       Put: {
         TableName: ROLES_TABLE,
         Item: {
-          address_package: {S: `${data.address}-${data.packageName!}`},
+          address_package: {S: `${data.address}::${data.packageName!}`},
           package_role: {S: role},
           role_address: {S: address},
         },
@@ -151,7 +149,7 @@ async function getPackageRoles(address: string, package_name: string): Promise<R
     TableName: ROLES_TABLE,
     KeyConditionExpression: 'address_package = :address_package',
     ExpressionAttributeValues: {
-      ':address_package': {S: `${address}-${package_name}`},
+      ':address_package': {S: `${address}::${package_name}`},
     },
     ProjectionExpression: 'package_role',
   })
@@ -171,7 +169,7 @@ export async function deleteRolesDB(address: string, package_name: string) {
         Delete: {
           TableName: ROLES_TABLE,
           Key: {
-            address_package: {S: `${address}-${package_name}`},
+            address_package: {S: `${address}::${package_name}`},
             package_role: {S: item.package_role},
           },
         },
@@ -207,7 +205,7 @@ export async function deletePackageDB(address: string, package_name: string) {
         Delete: {
           TableName: ROLES_TABLE,
           Key: {
-            address_package: {S: `${address}-${package_name}`},
+            address_package: {S: `${address}::${package_name}`},
             package_role: {S: item.package_role},
           },
         },
@@ -254,7 +252,7 @@ export async function listPackagesDB(address: string, summary: boolean) {
   // now we can get the package data
   let items: TransactGetItem[] = []
   for (const pkg of packages) {
-    const [address, package_name] = pkg.split('-')
+    const [address, package_name] = pkg.split('::')
     items.push({
       Get: {
         TableName: DEPLOYED_TABLE,
@@ -289,7 +287,7 @@ export async function listPackagesDB(address: string, summary: boolean) {
   }
 
   for (let item of pkgItems ?? []) {
-    const key = `${item.address}-${item.package_name}`
+    const key = `${item.address}::${item.package_name}`
     item.address_roles = pkgRoleMap[key]
     delete item.address
   }
