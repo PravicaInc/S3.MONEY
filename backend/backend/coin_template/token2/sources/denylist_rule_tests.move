@@ -31,6 +31,30 @@ module <%- packageName %>::denylist_rule_tests {
         test::return_policy(policy, cap);
     }
 
+    #[test]
+    fun denylist_check_if_on_list() {
+        let ctx = &mut sui::tx_context::dummy();
+        let (policy, cap) = test::get_policy(ctx);
+
+        // the abort codes should be better
+        // 10x = should not be on the list
+        // 11x = should be on the list
+
+        token::add_rule_for_action<TEST, Denylist>(&mut policy, &cap, utf8(b"transfer"), ctx);
+        denylist::add_records(&mut policy, &cap, vector[ @0x0, @deployer ], ctx);
+
+        // should be on the list, error if they're not
+        if (!denylist::verifyp(&policy, @0x0)) { abort 110 };
+        if (!denylist::verifyp(&policy, @deployer)) { abort 119 };
+
+        // shouldn't be on the list, error if they are
+        if (denylist::verifyp(&policy, @0x1)) { abort 101 };
+        if (denylist::verifyp(&policy, @0x2)) { abort 102 };
+
+        test::return_policy(policy, cap);
+    }
+
+
     #[test, expected_failure(abort_code = <%- packageName %>::denylist_rule::EUserBlocked)]
     // Scenario: add a denylist with addresses, sender is on the list and
     // transaction fails with `EUserBlocked`.
