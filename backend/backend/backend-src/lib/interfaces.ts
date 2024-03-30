@@ -1,5 +1,6 @@
 export enum PackageRoles {
   BURN = 'burn',
+  MINT = 'mint', // should be same as burn
   CASH_IN = 'cashIn',
   CASH_OUT = 'cashOut',
   FREEZE = 'freeze',
