@@ -107,14 +107,41 @@ app.get('/packages/:address', async (req, res) => {
   if (Checks.isValidAddress(address)) {
     res.status(200).json({
       status: 'ok',
-      packages: await packageData(address, summary),
+      packages: await packageData(address, undefined, summary),
     })
   } else {
     res.status(400).json({
       error: 400,
-      message: v.error,
+      message: `invalid address: ${address}`,
     })
   }
+})
+
+app.get('/packages/:address/:ticker', async (req, res) => {
+  const {address, ticker} = req.params
+  const summary = 'summary' in req.query
+
+  const addressCheck = Checks.isValidAddress(address)
+  const tickerCheck = Checks.isValidTicker(ticker)
+
+  if (!addressCheck) {
+    return res.status(400).json({
+      error: 400,
+      message: `invalid address: ${address}`,
+    })
+  }
+
+  if (tickerCheck !== '') {
+    return res.status(400).json({
+      error: 400,
+      message: tickerCheck,
+    })
+  }
+
+  res.status(200).json({
+    status: 'ok',
+    packages: await packageData(address, ticker.toLowerCase().slice(1), summary),
+  })
 })
 
 // for dev/testing and as a heartbeat
@@ -229,6 +256,6 @@ async function savePackage(data: IFace.IPackageCreated) {
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
-async function packageData(address: string, summary: boolean) {
-  return await AWS.listPackagesDB(address, summary)
+async function packageData(address: string, ticker: string | undefined, summary: boolean) {
+  return await AWS.listPackagesDB(address, ticker, summary)
 }
