@@ -24,7 +24,7 @@ module <%- packageName %>::denylist_rule {
         request: &mut ActionRequest<T>,
         ctx: &mut TxContext
     ) {
-        // early return if no records are added;
+        // early return if no records are added
         if (!has_config(policy)) {
             token::add_approval(Denylist {}, request, ctx);
             return
@@ -45,6 +45,11 @@ module <%- packageName %>::denylist_rule {
     }
 
     public fun verifyp<T>(policy: &TokenPolicy<T>, recipient: address): bool {
+        // early return if no records are added
+        if (!has_config(policy)) {
+            return false
+        };
+
         let config = config(policy);
 
         bag::contains(config, recipient)
