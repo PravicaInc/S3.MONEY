@@ -104,8 +104,7 @@ app.get('/packages/:address', async (req, res) => {
   const {address} = req.params
   const summary = 'summary' in req.query
 
-  const v = Checks.validAddress(address)
-  if (v.error === '') {
+  if (Checks.isValidAddress(address)) {
     res.status(200).json({
       status: 'ok',
       packages: await packageData(address, summary),
