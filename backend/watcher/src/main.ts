@@ -20,13 +20,13 @@ const API_FETCH_SLEEP = 2
 const TESTNET_ENDPOINT = 'https://sui-testnet.mystenlabs.com/graphql'
 const TABLE_DEPLOYED = 's3m-contracts-dev'
 // key: (address_package, timestamp)
-// rest: event, sender, receiver, amount (insert row)
+// rest: event, sender, receiver, amount, timestamp (insert row)
 const EVENTS_TABLE = 's3m-contracts-events-dev'
 // key: (ticker, address)
 // rest: balance, ltimestamp of last change (upsert row)
 const BALANCES_TABLE = 's3m-balances-dev'
-// key: address_package
-// rest: endCursor, ltimestamp
+// key: address_package,
+// rest: timestamp of last event
 const LASTFETCH_TABLE = 's3m-contracts-lastfetch-dev'
 
 // timestamp = timestamp in event
@@ -62,7 +62,7 @@ query($module: String!, $evType: String!) {
 }
 `
 
-const querySubsequent = `
+const queryForwardSubsequent = `
 query($module: String!, $evType: String!, $after: String!) {
   events(
     first: 10
@@ -70,6 +70,49 @@ query($module: String!, $evType: String!, $after: String!) {
     filter: { emittingModule: $module, eventType: $evType }
   ) {
     pageInfo { hasNextPage, endCursor }
+    nodes {
+      type { repr }
+      timestamp
+      sendingModule {
+        name
+        package { address }
+      }
+      sender { address }
+      json
+    }
+  }
+}
+`
+
+const queryLast = `
+query($module: String!, $evType: String!) {
+  events(
+    last: 2
+    filter: { emittingModule: $module, eventType: $evType }
+  ) {
+    pageInfo { hasNextPage, endCursor, startCursor }
+    nodes {
+      type { repr }
+      timestamp
+      sendingModule {
+        name
+        package { address }
+      }
+      sender { address }
+      json
+    }
+  }
+}
+`
+
+const queryLastSubsequent = `
+query($module: String!, $evType: String!, $before: String!) {
+  events(
+    last: 2
+    before: $before
+    filter: { emittingModule: $module, eventType: $evType }
+  ) {
+    pageInfo { hasNextPage, endCursor, startCursor }
     nodes {
       type { repr }
       timestamp
@@ -126,7 +169,7 @@ async function getPackageModules(): Promise<string[]> {
   return packages
 }
 
-async function lastFetch(pkg: string): Promise<string> {
+async function lastFetchEventTime(pkg: string): Promise<string> {
   const command = new GetItemCommand({
     TableName: LASTFETCH_TABLE,
     Key: {
@@ -139,11 +182,134 @@ async function lastFetch(pkg: string): Promise<string> {
 
   const item = unmarshall(response.Item)
 
-  return item.endCursor
+  return item.timestamp ?? ''
+}
+
+async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
+  console.log(`fetching ${module}`)
+
+  let cancel = () => {}
+  const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
+    let innerResult
+    if (token === '') {
+      cancel = gclient.subscribe(
+        {
+          query: queryFirst,
+          variables: {module: module, evType: module},
+        },
+        {
+          next: data => (innerResult = data),
+          error: reject,
+          complete: () => resolve(innerResult),
+        },
+      )
+    } else {
+      cancel = gclient.subscribe(
+        {
+          query: queryForwardSubsequent,
+          variables: {module: module, evType: module, after: token},
+        },
+        {
+          next: data => (innerResult = data),
+          error: reject,
+          complete: () => resolve(innerResult),
+        },
+      )
+    }
+  })
+
+  if ('errors' in result) {
+    console.log(JSON.stringify(result.errors, null, 2))
+    return ['', [], true]
+  }
+
+  if ('data' in result && 'events' in result.data!) {
+    const new_token = result.data.events!['pageInfo'].endCursor
+    const events = result.data.events!['nodes'] ?? []
+    const etime = events[events.length - 1].timestamp
+    const done = !result.data.events!['pageInfo'].hasNextPage ?? true
+    return [new_token, events, done]
+  } else {
+    return ['', [], true]
+  }
+}
+
+async function getTokenEventsBackwards(
+  module: string,
+  token: string,
+  stopTime: string,
+): Promise<[string, object[], boolean]> {
+  // console.log(`fetching ${module} backwards`)
+
+  let cancel = () => {}
+  const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
+    let innerResult
+    if (token === '') {
+      cancel = gclient.subscribe(
+        {
+          query: queryLast,
+          variables: {module: module, evType: module},
+        },
+        {
+          next: data => (innerResult = data),
+          error: reject,
+          complete: () => resolve(innerResult),
+        },
+      )
+    } else {
+      cancel = gclient.subscribe(
+        {
+          query: queryLastSubsequent,
+          variables: {module: module, evType: module, before: token},
+        },
+        {
+          next: data => (innerResult = data),
+          error: reject,
+          complete: () => resolve(innerResult),
+        },
+      )
+    }
+  })
+
+  if ('errors' in result) {
+    console.log(JSON.stringify(result.errors, null, 2))
+    return ['', [], true]
+  }
+
+  /*
+   assume our page size is 5
+   on the first run there are 4 events and we fetch 2024-01-01, 2024-01-02, 2024-01-03, 2024-01-04
+   set stopTime to 2024-01-04
+   two more events occur
+   on the next run, when we go fetch 5 events backwards, we fetch
+   2024-01-02, 2024-01-03, 2024-01-04, 2024-01-05, 2024-01-06
+   reverse them: 2024-01-06, 2024-01-05, 2024-01-04, 2024-01-03, 2024-01-02
+   the last event in our reversed list is 2024-01-02
+   is stopTime >= lastEvent?  yes, so we're done
+   later on, we reverse all the events and filter out events that are <= stopTime
+   which leaves us with 2024-01-05, 2024-01-06
+   */
+  if ('data' in result && 'events' in result.data!) {
+    const new_token = result.data.events!['pageInfo'].startCursor
+    // when we fetch events, we get them in chronological order, oldest to newest
+    // reverse it so it's newest to oldest
+    const events = (result.data.events!['nodes'] ?? []).reverse()
+    // events.forEach(event => {
+    //  console.log(`---- ${event.timestamp}`)
+    //})
+    const etime = events[events.length - 1].timestamp
+    const done = stopTime >= etime
+    console.log(`---- new_token: ${new_token}, done: ${done}, etime: ${etime}, cmp : ${stopTime >= etime}`)
+    // console.log(JSON.stringify(events, null, 2))
+    console.log('----')
+    return [new_token, events, done]
+  } else {
+    return ['', [], true]
+  }
 }
 
 async function saveEvents(pkg: string, events: Record<string, any>[], new_token: string) {
-  const ltimestamp = new Date().toISOString()
+  const ltimestamp = events[events.length - 1].timestamp
   console.log(`saving for ${pkg}, ts ${ltimestamp}, events: ${events.length}`)
   fs.writeFileSync(`/tmp/${pkg}`, JSON.stringify(events))
 
@@ -159,10 +325,9 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         Key: {
           address_package: {S: pkg},
         },
-        UpdateExpression: 'SET endCursor = :new_token, ltimestamp = :ltimestamp',
+        UpdateExpression: 'SET timestamp = :timestamp',
         ExpressionAttributeValues: {
-          ':new_token': {S: new_token},
-          ':ltimestamp': {S: ltimestamp},
+          ':timestamp': {S: ltimestamp},
         },
       },
     },
@@ -247,76 +412,47 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
   await dbclient.send(txWriteCommand)
 }
 
-async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
-  console.log(`fetching ${module}`)
-
-  let cancel = () => {}
-  const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
-    let innerResult
-    if (token === '') {
-      cancel = gclient.subscribe(
-        {
-          query: queryFirst,
-          variables: {module: module, evType: module},
-        },
-        {
-          next: data => (innerResult = data),
-          error: reject,
-          complete: () => resolve(innerResult),
-        },
-      )
-    } else {
-      cancel = gclient.subscribe(
-        {
-          query: querySubsequent,
-          variables: {module: module, evType: module, after: token},
-        },
-        {
-          next: data => (innerResult = data),
-          error: reject,
-          complete: () => resolve(innerResult),
-        },
-      )
-    }
-  })
-
-  if ('errors' in result) {
-    console.log(JSON.stringify(result.errors, null, 2))
-    return ['', [], true]
-  }
-
-  if ('data' in result && 'events' in result.data!) {
-    const new_token = result.data.events!['pageInfo'].endCursor
-    const events = result.data.events!['nodes'] ?? []
-    const done = !result.data.events!['pageInfo'].hasNextPage ?? true
-    return [new_token, events, done]
-  } else {
-    return ['', [], true]
-  }
-}
-
 void (async () => {
   const packages = await getPackageModules()
   console.log(JSON.stringify(packages, null, 2))
 
+  // for (const pkg of ['0xffa422771a3d41c8c2b97570d2ccf916e25aa4c42de21c1167256a377a57393d::play']) {
   for (const pkg of packages) {
-    let token = await lastFetch(pkg)
+    let ltime = await lastFetchEventTime(pkg)
     let packageEvents: object[] = []
     let packageDone = false
+    const forward = ltime == ''
 
+    let token = ''
     while (!packageDone) {
-      let [new_token, events, done] = await getTokenEvents(pkg, token)
+      let new_token = ''
+      let events: object[]
+      let done = false
+      if (forward) {
+        ;[new_token, events, done] = await getTokenEvents(pkg, token)
+      } else {
+        ;[new_token, events, done] = await getTokenEventsBackwards(pkg, token, ltime)
+      }
       packageEvents.push(...events)
-      console.log(`fetched events for ${pkg}: ${events.length}`)
       packageDone = done
       token = new_token
+      console.log(`fetched events for ${pkg}: ${events.length}, new token is ${token} done ${packageDone}`)
+
       if (packageDone) {
         if (packageEvents.length > 0) {
-          await saveEvents(pkg, packageEvents, new_token)
-          await sleep(DB_WRITE_SLEEP)
-        } else {
-          await sleep(API_FETCH_SLEEP)
+          if (!forward) {
+            packageEvents = packageEvents.reverse()
+            packageEvents = packageEvents.filter(event => event['timestamp'] > ltime)
+          }
+          const ltimestamp = packageEvents[packageEvents.length - 1]['timestamp'] ?? 'XXX'
+          console.log(`saving for ${pkg}, ts ${ltimestamp}, events: ${packageEvents.length}`)
+          fs.writeFileSync(`/tmp/${pkg}`, JSON.stringify(packageEvents))
+
+          // await saveEvents(pkg, packageEvents, new_token)
+          // await sleep(DB_WRITE_SLEEP)
         }
+      } else {
+        await sleep(API_FETCH_SLEEP)
       }
     }
   }
