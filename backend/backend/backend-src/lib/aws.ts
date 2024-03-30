@@ -220,7 +220,7 @@ export async function deletePackageDB(address: string, package_name: string) {
   return await dbclient.send(txWriteCommand)
 }
 
-export async function listPackagesDB(address: string, summary: boolean) {
+export async function listPackagesDB(address: string, ticker: string | undefined, summary: boolean) {
   // first, we need to get all the roles for the address
   const rInput: QueryCommandInput = {
     TableName: ROLES_TABLE,
@@ -242,6 +242,8 @@ export async function listPackagesDB(address: string, summary: boolean) {
   for (const item of retlist) {
     if ('address_package' in item) {
       if (!(item.address_package in pkgRoleMap)) {
+        const [address, pkg] = item.address_package.split('::')
+        if (ticker !== undefined && pkg != ticker) continue
         pkgRoleMap[item.address_package] = []
         packages.push(item.address_package)
       }
