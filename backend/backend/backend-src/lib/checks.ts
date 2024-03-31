@@ -8,7 +8,6 @@ const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
 
 const TICKER_REGEX = new RegExp(/^[-+_$\w\d]+$/)
-const ADDRESS_REGEX = new RegExp(/0x[a-f0-9]{64}$/)
 
 export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IFace.IValid> {
   const stringFields = ['ticker', 'name', 'decimals', 'address']
@@ -99,24 +98,18 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
     data.raw_icon_url = ''
   }
 
-  // FIXME: there has to be a better way to do this
   // if any roles are not sent, set them to the deployer's address
   const roleFields = Object.values(IFace.PackageRoles)
-  if (data.roles !== undefined) {
-    for (const role of roleFields) {
-      if (!(role in data.roles)) {
-        data.roles[role] = data.address
-      }
+  const dataRoles = (data.roles as IFace.RoleMap) || {}
+  for (const role of roleFields) {
+    if (role in dataRoles && !isValidAddress(dataRoles[role])) {
+      console.log(`invalid role address: ${dataRoles[role]}`)
+      return {error: `invalid role address: ${dataRoles[role]}`}
+    } else if (!(role in dataRoles)) {
+      dataRoles[role] = data.address
     }
-  } else {
-    const roles = {} as IFace.RoleMap
-    for (const role of roleFields) {
-      if (!(role in roles)) {
-        roles[role] = data.address
-      }
-    }
-    data.roles = roles
   }
+  data.roles = dataRoles
 
   // special case: mint and burn should be the same address
   if (data.roles['mint'] !== data.roles['burn']) {
@@ -186,6 +179,19 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
       return {error: `missing field: ${field}`}
     }
   }
+
+  // if any roles are not sent, set them to the deployer's address
+  const roleFields = Object.values(IFace.PackageRoles)
+  const dataRoles = (data.packageRoles as IFace.RoleMap) || {}
+  for (const role of roleFields) {
+    if (role in dataRoles && !isValidAddress(dataRoles[role])) {
+      console.log(`invalid role address: ${dataRoles[role]}`)
+      return {error: `invalid role address: ${dataRoles[role]}`}
+    } else if (!(role in dataRoles)) {
+      dataRoles[role] = data.address
+    }
+  }
+  data.packageRoles = dataRoles
 
   if (!isValidAddress(data.address)) {
     console.log(`invalid address: ${data.address}`)

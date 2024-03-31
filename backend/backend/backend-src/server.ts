@@ -234,11 +234,11 @@ async function createPackage(data: IFace.ICreatePackageRequest) {
     return {modules: '', dependencies: '', error: e.toString()}
   }
 
+  const package_zip_key = await AWS.savePackageS3(data.address, data.packageName!, `/tmp/${packagePath}.zip`)
+
   const {modules, dependencies} = JSON.parse(ret)
   // clear any existing roles
   await AWS.deleteRolesDB(data.address, data.packageName!)
-
-  const package_zip_key = await AWS.savePackageS3(data.address, data.packageName!, `/tmp/${packagePath}.zip`)
 
   await AWS.savePackageDB(IFace.reqToCreated(data, package_zip_key), IFace.PackageStatus.CREATED)
 
