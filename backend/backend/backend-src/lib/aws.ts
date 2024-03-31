@@ -220,7 +220,7 @@ export async function deletePackageDB(address: string, package_name: string) {
   return await dbclient.send(txWriteCommand)
 }
 
-export async function listPackagesDB(address: string, ticker: string | undefined, summary: boolean) {
+export async function listPackagesDB(address: string, extra: Record<string, string> | undefined, summary: boolean) {
   // first, we need to get all the roles for the address
   const rInput: QueryCommandInput = {
     TableName: ROLES_TABLE,
@@ -243,7 +243,7 @@ export async function listPackagesDB(address: string, ticker: string | undefined
     if ('address_package' in item) {
       if (!(item.address_package in pkgRoleMap)) {
         const [address, pkg] = item.address_package.split('::')
-        if (ticker !== undefined && pkg != ticker) continue
+        if (extra !== undefined && extra.ticker !== undefined && pkg != extra.ticker) continue
         pkgRoleMap[item.address_package] = []
         packages.push(item.address_package)
       }
@@ -275,6 +275,9 @@ export async function listPackagesDB(address: string, ticker: string | undefined
   try {
     const responses = getResponse.Responses?.map(response => unmarshall(response.Item!)) ?? []
     pkgItems = responses.sort((x, y) => x['deploy_date'].localeCompare(y['deploy_date'])).reverse()
+    if (extra !== undefined && extra.digest !== undefined) {
+      pkgItems = responses.filter(item => item.txid == extra.digest)
+    }
     if (summary) {
       pkgItems = pkgItems.map(item => {
         const deploy_data = item.deploy_data as IFace.IPackageDeployed
