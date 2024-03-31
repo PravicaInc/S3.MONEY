@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, HTMLAttributes, useCallback, useState } from 'react';
+import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -86,6 +86,15 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
       }
     },
     [freezeAddress, stableCoin, formMethods]
+  );
+
+  useEffect(
+    () => {
+      formMethods.reset();
+      setShowFreezeAddressConfirm(false);
+      setShowBalanceErrorModal(false);
+    },
+    [formMethods, stableCoin]
   );
 
   return (
