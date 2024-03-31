@@ -117,12 +117,15 @@ app.get('/packages/:address', async (req, res) => {
   }
 })
 
-app.get('/packages/:address/:ticker', async (req, res) => {
-  const {address, ticker} = req.params
+app.get('/packages/:address/:param', async (req, res) => {
+  const {address, param} = req.params
   const summary = 'summary' in req.query
 
+  // extra can be a ticker or a digest (txid)
+
   const addressCheck = Checks.isValidAddress(address)
-  const tickerCheck = Checks.isValidTicker(ticker)
+  const tickerCheck = Checks.isValidTicker(param)
+  const digestCheck = Checks.isValidDigest(param)
 
   if (!addressCheck) {
     return res.status(400).json({
@@ -131,16 +134,21 @@ app.get('/packages/:address/:ticker', async (req, res) => {
     })
   }
 
-  if (tickerCheck !== '') {
+  if (tickerCheck !== '' && !digestCheck) {
     return res.status(400).json({
       error: 400,
-      message: tickerCheck,
+      message: `invalid field: ${param}`,
     })
   }
 
+  let extra: Record<string, string> = {}
+
+  if (digestCheck) extra.digest = param
+  else if (tickerCheck === '') extra.ticker = param.toLowerCase().slice(1)
+
   res.status(200).json({
     status: 'ok',
-    packages: await packageData(address, ticker.toLowerCase().slice(1), summary),
+    packages: await packageData(address, extra, summary),
   })
 })
 
@@ -256,6 +264,6 @@ async function savePackage(data: IFace.IPackageCreated) {
   await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
 }
 
-async function packageData(address: string, ticker: string | undefined, summary: boolean) {
-  return await AWS.listPackagesDB(address, ticker, summary)
+async function packageData(address: string, extra: Record<string, string> | undefined, summary: boolean) {
+  return await AWS.listPackagesDB(address, extra, summary)
 }

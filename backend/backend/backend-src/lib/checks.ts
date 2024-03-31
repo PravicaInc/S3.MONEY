@@ -2,7 +2,7 @@ import fs from 'fs'
 
 import * as IFace from './interfaces'
 import {getPackageDB} from './aws'
-import {isValidSuiAddress, isValidSuiObjectId} from '@mysten/sui.js/utils'
+import {isValidSuiAddress, isValidSuiObjectId, isValidTransactionDigest} from '@mysten/sui.js/utils'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
@@ -273,4 +273,8 @@ export function isValidTicker(ticker: string): string {
   }
 
   return ''
+}
+
+export function isValidDigest(digest: string): boolean {
+  return isValidTransactionDigest(digest)
 }
