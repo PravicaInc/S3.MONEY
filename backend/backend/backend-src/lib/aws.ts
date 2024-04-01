@@ -20,8 +20,10 @@ const DEPLOYED_TABLE = 's3m-contracts-dev'
 const ROLES_TABLE = 's3m-roles-dev'
 const ROLES_INDEX = 's3m-roles-by-address-index-dev'
 
-const DEPLOYED_TABLE_SUMMARY_PROJECTION =
-  'address, package_name, ticker, txid, icon_url, ticker_name, package_zip, deploy_status, deploy_date'
+const ADDRESS_EVENTS_TABLE = 's3m-address-events-dev'
+const CONTRACT_EVENTS_TABLE = 's3m-contracts-events-dev'
+const BALANCES_TABLE = 's3m-balances-dev'
+const LASTFETCH_TABLE = 's3m-contracts-lastfetch-dev'
 
 const s3client = new S3Client()
 const dbclient = new DynamoDBClient()
@@ -108,6 +110,16 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
           deploy_status: {S: status},
           package_roles: {M: package_roles},
           package_zip: {S: data.package_zip!},
+        },
+      },
+    },
+    {
+      Put: {
+        // dummy timestamp for the event watcher
+        TableName: LASTFETCH_TABLE,
+        Item: {
+          address_package: {S: `${data.address}::${data.packageName!}`},
+          last_timestamp: {S: '2024-01-01T00:00:00.000Z'},
         },
       },
     },
