@@ -10,23 +10,31 @@ import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 
 import {ExecutionResult} from 'graphql'
 import {createClient, RequestParams} from 'graphql-http'
+import {time, timeStamp} from 'console'
 
 const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 // in seconds
-const DB_WRITE_SLEEP = 3
+const DB_WRITE_SLEEP = 2
 const API_FETCH_SLEEP = 2
 
 const TESTNET_ENDPOINT = 'https://sui-testnet.mystenlabs.com/graphql'
 const TABLE_DEPLOYED = 's3m-contracts-dev'
-// key: (address_package, timestamp)
-// rest: event, sender, receiver, amount, timestamp (insert row)
-const EVENTS_TABLE = 's3m-contracts-events-dev'
-// key: (ticker, address)
-// rest: balance, ltimestamp of last change (upsert row)
+
+// key: (address_package, event_timestamp)
+// rest: list of events (insert row)
+const CONTRACT_EVENTS_TABLE = 's3m-contracts-events-dev'
+
+// key: (address, event_timestamp)
+// rest: list of events
+const ADDRESS_EVENTS_TABLE = 's3m-address-events-dev'
+
+// key: (address, ticker)
+// rest: balance (upsert row)
 const BALANCES_TABLE = 's3m-balances-dev'
+
 // key: address_package,
-// rest: timestamp of last event
+// rest: last_timestamp of last event
 const LASTFETCH_TABLE = 's3m-contracts-lastfetch-dev'
 
 // timestamp = timestamp in event
@@ -87,7 +95,7 @@ query($module: String!, $evType: String!, $after: String!) {
 const queryLast = `
 query($module: String!, $evType: String!) {
   events(
-    last: 2
+    last: 10
     filter: { emittingModule: $module, eventType: $evType }
   ) {
     pageInfo { hasNextPage, endCursor, startCursor }
@@ -108,7 +116,7 @@ query($module: String!, $evType: String!) {
 const queryLastSubsequent = `
 query($module: String!, $evType: String!, $before: String!) {
   events(
-    last: 2
+    last: 10
     before: $before
     filter: { emittingModule: $module, eventType: $evType }
   ) {
@@ -182,11 +190,11 @@ async function lastFetchEventTime(pkg: string): Promise<string> {
 
   const item = unmarshall(response.Item)
 
-  return item.timestamp ?? ''
+  return item.last_timestamp ?? ''
 }
 
 async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
-  console.log(`fetching ${module}`)
+  // console.log(`fetching ${module}`)
 
   let cancel = () => {}
   const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
@@ -226,7 +234,6 @@ async function getTokenEvents(module: string, token: string): Promise<[string, o
   if ('data' in result && 'events' in result.data!) {
     const new_token = result.data.events!['pageInfo'].endCursor
     const events = result.data.events!['nodes'] ?? []
-    const etime = events[events.length - 1].timestamp
     const done = !result.data.events!['pageInfo'].hasNextPage ?? true
     return [new_token, events, done]
   } else {
@@ -294,14 +301,9 @@ async function getTokenEventsBackwards(
     // when we fetch events, we get them in chronological order, oldest to newest
     // reverse it so it's newest to oldest
     const events = (result.data.events!['nodes'] ?? []).reverse()
-    // events.forEach(event => {
-    //  console.log(`---- ${event.timestamp}`)
-    //})
     const etime = events[events.length - 1].timestamp
     const done = stopTime >= etime
-    console.log(`---- new_token: ${new_token}, done: ${done}, etime: ${etime}, cmp : ${stopTime >= etime}`)
     // console.log(JSON.stringify(events, null, 2))
-    console.log('----')
     return [new_token, events, done]
   } else {
     return ['', [], true]
@@ -325,46 +327,58 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         Key: {
           address_package: {S: pkg},
         },
-        UpdateExpression: 'SET timestamp = :timestamp',
+        UpdateExpression: 'SET last_timestamp = :ltimestamp',
         ExpressionAttributeValues: {
-          ':timestamp': {S: ltimestamp},
+          ':ltimestamp': {S: ltimestamp},
         },
       },
     },
   ]
 
-  // put events in EVENTS_TABLE
+  // put events in CONTRACT_EVENTS_TABLE and ADDRESS_EVENTS_TABLE
+  // this is more complicated than necessary because when
+  // multiple events are fired in the same txb, they all have the same timestamp
+  const packageEventsToSave = {}
+  const addressEventsToSave = {}
+
   for (const event of events) {
+    // address_package, event_timestamp
+    const key = `${pkg}____${event.timestamp}`
+    if (!(key in packageEventsToSave)) {
+      packageEventsToSave[key] = []
+    }
+
     const item = {
-      address_package: pkg,
-      timestamp: event.timestamp,
+      ticker: '$' + event.sendingModule.name.toUpperCase(),
       event: event.type.repr.split(/::/).pop(),
       sender: '',
-      receiver: '',
-      json: event.json ?? {},
+      recipient: '',
+      amount: 0,
     }
 
     switch (item.event) {
       case 'EventMint':
-        item.sender = ZERO_ADDRESS
-        item.receiver = event.json.address
-        balances[item.receiver] = (balances[item.receiver] ?? 0) + parseInt(event.json.amount, 10)
+        item.sender = event.sender.address
+        item.recipient = event.json.address
+        item.amount = parseInt(event.json.amount, 10)
+        balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
         break
       case 'EventBurn':
-        item.sender = event.json.address
-        item.receiver = ZERO_ADDRESS
-        balances[item.sender] = (balances[item.sender] ?? 0) - parseInt(event.json.amount, 10)
+        item.sender = event.sender.address
+        item.amount = parseInt(event.json.amount, 10)
+        balances[item.sender] = (balances[item.sender] ?? 0) - item.amount
         break
       case 'EventTransfer':
         // old style mint: EventMint
-        // new style mint: EventMint + EventTransfer; skip
+        // new style mint: EventMint + EventTransfer; skip latter event
         if (event.json.sender == ZERO_ADDRESS) {
           continue
         }
         item.sender = event.json.sender
-        item.receiver = event.json.receiver
-        balances[item.sender] = (balances[item.sender] ?? 0) - parseInt(event.json.amount, 10)
-        balances[item.receiver] = (balances[item.receiver] ?? 0) + parseInt(event.json.amount, 10)
+        item.recipient = event.json.recipient
+        item.amount = parseInt(event.json.amount, 10)
+        balances[item.sender] = (balances[item.sender] ?? 0) - item.amount
+        balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
         break
       case 'EventPaused':
       case 'EventUnpaused':
@@ -379,37 +393,100 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         item.sender = event.sender.address
     }
 
+    if (item.sender != '') {
+      const skey = `${item.sender}____${event.timestamp}`
+      if (!(skey in addressEventsToSave)) {
+        addressEventsToSave[skey] = [item]
+      } else {
+        addressEventsToSave[skey].push(item)
+      }
+    }
+
+    if (item.recipient != '' && item.recipient != item.sender) {
+      const rkey = `${item.recipient}____${event.timestamp}`
+      if (!(rkey in addressEventsToSave)) {
+        addressEventsToSave[rkey] = [item]
+      } else {
+        addressEventsToSave[rkey].push(item)
+      }
+    }
+
+    packageEventsToSave[key].push(item)
+  }
+
+  for (const [key, pkg_events] of Object.entries(packageEventsToSave)) {
+    const [pkg, timestamp] = key.split('____')
+    const item = {
+      address_package: pkg,
+      event_timestamp: timestamp,
+      events: pkg_events,
+    }
+
     items.push({
       Put: {
-        TableName: EVENTS_TABLE,
+        TableName: CONTRACT_EVENTS_TABLE,
         Item: marshall(item, {removeUndefinedValues: true}),
       },
     })
   }
 
-  // update balances in BALANCES_TABLE
-  for (const [address, balance] of Object.entries(balances)) {
+  for (const [key, address_events] of Object.entries(addressEventsToSave)) {
+    const [address, timestamp] = key.split('____')
+    const item = {
+      address: address,
+      event_timestamp: timestamp,
+      events: address_events,
+    }
+
     items.push({
+      Put: {
+        TableName: ADDRESS_EVENTS_TABLE,
+        Item: marshall(item, {removeUndefinedValues: true}),
+      },
+    })
+  }
+
+  for (let i = 0; i < items.length; i += 100) {
+    const txWriteCommand = new TransactWriteItemsCommand({
+      TransactItems: items.slice(i, i + 100),
+    })
+    await dbclient.send(txWriteCommand)
+    console.log(`wrote items: ${items.slice(i, i + 100).length}`)
+    await sleep(DB_WRITE_SLEEP)
+  }
+
+  // save balances only after everything else has been saved
+  await saveBalances(balances, pkg, ltimestamp)
+}
+
+async function saveBalances(balances: Record<string, number>, pkg: string, ltimestamp: string) {
+  const items: TransactWriteItem[] = Object.entries(balances).map(([address, balance]) => {
+    console.log(`${address}: ${balance}`)
+    return {
       Update: {
         TableName: BALANCES_TABLE,
         Key: {
           ticker: {S: `$${pkg.split('::')[1].toUpperCase()}`},
           address: {S: address},
         },
-        UpdateExpression: 'ADD balance :balance SET ltimestamp = :ltimestamp',
+        UpdateExpression: 'ADD balance :balance SET last_timestamp = :ltimestamp',
         ExpressionAttributeValues: {
           ':balance': {N: `${balance}`},
           ':ltimestamp': {S: ltimestamp},
         },
       },
-    })
-  }
-
-  const txWriteCommand = new TransactWriteItemsCommand({
-    TransactItems: items,
+    }
   })
 
-  await dbclient.send(txWriteCommand)
+  // transactions are limited to 100 objects each
+  for (let i = 0; i < items.length; i += 100) {
+    const txWriteCommand = new TransactWriteItemsCommand({
+      TransactItems: items.slice(i, i + 100),
+    })
+    await dbclient.send(txWriteCommand)
+    console.log(`wrote balances: ${items.slice(i, i + 100).length}`)
+    await sleep(DB_WRITE_SLEEP)
+  }
 }
 
 void (async () => {
@@ -417,6 +494,7 @@ void (async () => {
   console.log(JSON.stringify(packages, null, 2))
 
   // for (const pkg of ['0xffa422771a3d41c8c2b97570d2ccf916e25aa4c42de21c1167256a377a57393d::play']) {
+  // for (const pkg of ['0x06f021fa63f1d47346e3c9c1cb06306b33cc7e6c4e3ae1180000af9599f21a50::mint1']) {
   for (const pkg of packages) {
     let ltime = await lastFetchEventTime(pkg)
     let packageEvents: object[] = []
@@ -425,6 +503,7 @@ void (async () => {
 
     let token = ''
     while (!packageDone) {
+      await sleep(API_FETCH_SLEEP)
       let new_token = ''
       let events: object[]
       let done = false
@@ -439,20 +518,17 @@ void (async () => {
       console.log(`fetched events for ${pkg}: ${events.length}, new token is ${token} done ${packageDone}`)
 
       if (packageDone) {
+        if (!forward) {
+          packageEvents = packageEvents.reverse()
+          packageEvents = packageEvents.filter(event => event['timestamp'] > ltime)
+        }
         if (packageEvents.length > 0) {
-          if (!forward) {
-            packageEvents = packageEvents.reverse()
-            packageEvents = packageEvents.filter(event => event['timestamp'] > ltime)
-          }
           const ltimestamp = packageEvents[packageEvents.length - 1]['timestamp'] ?? 'XXX'
-          console.log(`saving for ${pkg}, ts ${ltimestamp}, events: ${packageEvents.length}`)
           fs.writeFileSync(`/tmp/${pkg}`, JSON.stringify(packageEvents))
 
-          // await saveEvents(pkg, packageEvents, new_token)
-          // await sleep(DB_WRITE_SLEEP)
+          await saveEvents(pkg, packageEvents, new_token)
+          await sleep(DB_WRITE_SLEEP)
         }
-      } else {
-        await sleep(API_FETCH_SLEEP)
       }
     }
   }
