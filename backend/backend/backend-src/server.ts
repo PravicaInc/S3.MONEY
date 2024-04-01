@@ -100,11 +100,56 @@ app.post('/generateIconURL', async (req: Request<{}, {}, IFace.IPackageIcon>, re
   }
 })
 
+app.get('/balances/:address', async (req, res) => {
+  const {address} = req.params
+  if (Checks.isValidAddress(address)) {
+    res.status(200).json({
+      status: 'ok',
+      balances: await AWS.getBalancesDB(address),
+    })
+  } else {
+    res.status(400).json({
+      error: 400,
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
+app.get('/package-events/:address/:ticker', async (req, res) => {
+  const {address, ticker} = req.params
+  if (Checks.isValidPackage(address)) {
+    res.status(200).json({
+      status: 'ok',
+      events: await AWS.getPackageEventsDB(address, ticker),
+    })
+  } else {
+    res.status(400).json({
+      error: 400,
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
+app.get('/address-events/:address', async (req, res) => {
+  const {address} = req.params
+  if (Checks.isValidAddress(address)) {
+    res.status(200).json({
+      status: 'ok',
+      events: await AWS.getAddressEventsDB(address),
+    })
+  } else {
+    res.status(400).json({
+      error: 400,
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
 app.get('/packages/:address', async (req, res) => {
   const {address} = req.params
   const summary = 'summary' in req.query
 
-  if (Checks.isValidAddress(address)) {
+  if (Checks.isValidPackage(address)) {
     res.status(200).json({
       status: 'ok',
       packages: await packageData(address, undefined, summary),
