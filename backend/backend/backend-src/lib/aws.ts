@@ -148,12 +148,13 @@ export async function savePackageDB(data: IFace.IPackageCreated, status: IFace.P
       },
     })
   }
-
-  const txWriteCommand = new TransactWriteItemsCommand({
-    TransactItems: items,
-  })
-
-  await dbclient.send(txWriteCommand)
+  // transactions are limited to 100 objects each
+  for (let i = 0; i < items.length; i += 100) {
+    const txWriteCommand = new TransactWriteItemsCommand({
+      TransactItems: items.slice(i, i + 100),
+    })
+    await dbclient.send(txWriteCommand)
+  }
 }
 
 async function getPackageRoles(address: string, package_name: string): Promise<Record<string, any>[]> {
