@@ -253,15 +253,15 @@ export function validIconRequest(data: IFace.IPackageIcon): IFace.IValid {
 
 export function isValidAddress(address: string): boolean {
   if (!isValidSuiAddress(address)) return false
-  {
-    error: `invalid address: ${address}`
-  }
 
   // check for all zeros -- 0x0, etc.
   const allzeros = /^0+$/
   if (allzeros.test(address)) return false
 
   return true
+}
+export function isValidPackage(objectId: string): boolean {
+  return isValidSuiObjectId(objectId)
 }
 
 export function isValidTicker(ticker: string): string {
