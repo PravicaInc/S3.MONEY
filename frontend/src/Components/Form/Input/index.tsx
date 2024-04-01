@@ -8,6 +8,7 @@ import { StaticImageData } from 'next/dist/shared/lib/get-img-props';
 import { secondaryButtonClasses } from '@/Components/Form/Button';
 import { FormError } from '@/Components/Form/FormError';
 import { Label } from '@/Components/Form/Label';
+import { Loader } from '@/Components/Loader';
 
 export interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> {
   icon?: ReactElement | StaticImageData | string;
@@ -15,6 +16,7 @@ export interface SimpleInputProps extends InputHTMLAttributes<HTMLInputElement> 
   fileButtonText?: string;
   description?: string;
   suffix?: ReactNode;
+  isLoading?: boolean;
 }
 
 export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
@@ -25,6 +27,7 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
   fileButtonText = 'Choose',
   description,
   suffix,
+  isLoading,
   ...props
 }, ref) => {
   const iconWithClass = useMemo(
@@ -86,6 +89,13 @@ export const SimpleInput = forwardRef<HTMLInputElement, SimpleInputProps>(({
             suffix && (
               <span className="font-medium text-sm text-primary absolute top-1/2 right-4 -translate-y-1/2">
                 {suffix}
+              </span>
+            )
+          }
+          {
+            isLoading && (
+              <span className="absolute top-1/2 right-4 -translate-y-1/2">
+                <Loader className="h-4" />
               </span>
             )
           }

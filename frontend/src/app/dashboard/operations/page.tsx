@@ -55,7 +55,7 @@ export default function DashboardOperationsPage() {
     () => ({
       showPlayPauseSystemBlock: currentStableCoin?.address_roles.includes('pause'),
       showFreezeBlock: currentStableCoin?.address_roles.includes('freeze'),
-      showMintBlock: currentStableCoin?.address_roles.includes('cashOut'),
+      showMintBlock: currentStableCoin?.address_roles.includes('mint'),
       showCashInBlock: currentStableCoin?.address_roles.includes('cashIn'),
       showBurnBlock: currentStableCoin?.address_roles.includes('burn'),
     }),

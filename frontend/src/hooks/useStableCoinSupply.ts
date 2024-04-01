@@ -1,9 +1,10 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
-import { GetOwnedObjectsParams, SuiClient } from '@mysten/sui.js/client';
+import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useBuildTransaction } from './useBuildTransaction';
+import { getAllOwnedObjects } from './useCurrentBalance';
 import { StableCoin } from './useStableCoinsList';
 
 interface StableCoinCurrentSupplyObject {
@@ -163,6 +164,12 @@ export const useMintTo = () => {
       queryClient.invalidateQueries({
         queryKey: ['stable-coin-max-supply', tokenSupply],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['current-stable-coins-balances'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['current-stable-coin-balance'],
+      });
     },
   });
 };
@@ -205,32 +212,43 @@ export const useBurnFrom = () => {
           (coinB.data.content.fields.balance as number) - (coinA.data.content.fields.balance as number)
         ));
 
-      const txb = new TransactionBlock();
+      const coinsForBurn = [];
 
       for (let currentAmount = amount, i = 0; currentAmount > 0 && i < coins.length; i++) {
-        const coinForBurn = currentAmount >= (coins[i].data?.content.fields.balance as number)
-          ? coins[i].data.objectId
-          : txb.moveCall({
-            target: '0x2::token::split',
-            typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
-            arguments: [
-              txb.object(coins[i].data.objectId),
-              txb.pure.u64(currentAmount),
-            ],
-          });
-
-        txb.moveCall({
-          target: `${packageId}::${packageName}::burn`,
-          typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
-          arguments: [
-            txb.object(treasuryCap),
-            txb.object(tokenPolicy),
-            txb.object(coinForBurn),
-          ],
-        });
+        coinsForBurn.push(coins[i]);
 
         currentAmount -= (coins[i].data?.content.fields.balance as number);
       }
+
+      const txb = new TransactionBlock();
+
+      const { newCoin, newBalance } = joinCoins(
+        txb,
+        coinsForBurn,
+        packageId,
+        packageName
+      );
+
+      const coinForBurn = amount === newBalance
+        ? newCoin
+        : txb.moveCall({
+          target: '0x2::token::split',
+          typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
+          arguments: [
+            txb.object(newCoin),
+            txb.pure.u64(amount),
+          ],
+        });
+
+      txb.moveCall({
+        target: `${packageId}::${packageName}::burn`,
+        typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
+        arguments: [
+          txb.object(treasuryCap),
+          txb.object(tokenPolicy),
+          txb.object(coinForBurn),
+        ],
+      });
 
       await buildTransaction.mutateAsync(txb);
 
@@ -245,31 +263,37 @@ export const useBurnFrom = () => {
       queryClient.invalidateQueries({
         queryKey: ['stable-coin-max-supply', tokenSupply],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['current-stable-coins-balances'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['current-stable-coin-balance'],
+      });
     },
   });
 };
 
-async function getAllOwnedObjects(
-  suiClient: SuiClient,
-  {
-    owner,
-    cursor,
-  }: GetOwnedObjectsParams
-): Promise<StableCoinBalanceObject[]> {
-  const { data, hasNextPage, nextCursor } = (await suiClient.getOwnedObjects({
-    owner,
-    cursor,
-    options: {
-      showContent: true,
-    },
-  }));
+export function joinCoins(
+  txb: TransactionBlock,
+  coins: StableCoinBalanceObject[],
+  packageId: string,
+  packageName: string
+) {
+  const newCoin = coins?.[0].data.objectId;
+  let newBalance = coins?.[0].data.content.fields.balance as number;
 
-  return [
-    ...data as unknown as StableCoinBalanceObject[],
-    ...[
-      hasNextPage && nextCursor
-        ? await getAllOwnedObjects(suiClient, { owner, cursor: nextCursor })
-        : [],
-    ],
-  ].flat();
+  for (let i = 1; i < coins.length; i++) {
+    newBalance += coins[i].data.content.fields.balance as number;
+
+    txb.moveCall({
+      target: '0x2::token::join',
+      typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
+      arguments: [
+        txb.object(newCoin),
+        txb.object(coins[i].data.objectId),
+      ],
+    });
+  }
+
+  return { newCoin, newBalance };
 }
