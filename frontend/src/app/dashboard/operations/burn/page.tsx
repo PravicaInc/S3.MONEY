@@ -20,11 +20,11 @@ import { PAGES_URLS } from '@/utils/const';
 import { numberFormat, numberNormalize } from '@/utils/string_formats';
 
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
-import { useMintTo, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
+import { useBurnFrom, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
 
-import { MintConfirm } from './components/MintConfirm';
+import { BurnConfirm } from './components/BurnConfirm';
 
-export default function DashboardOperationsMintPage() {
+export default function DashboardOperationsBurnPage() {
   const account = useCurrentAccount();
   const autoConnectionStatus = useAutoConnectWallet();
   const searchParams = useSearchParams();
@@ -34,9 +34,9 @@ export default function DashboardOperationsMintPage() {
     isLoading: isStableCoinsListLoading,
     isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
-  const mintTo = useMintTo();
+  const burnFrom = useBurnFrom();
 
-  const [showMintConfirm, setShowMintConfirm] = useState<boolean>(false);
+  const [showBurnConfirm, setShowBurnConfirm] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
 
   const { coins: stableCoins = [] } = data || {};
@@ -63,32 +63,32 @@ export default function DashboardOperationsMintPage() {
     isFetching: isLoadingStableCoinMaxSupply,
   } = useStableCoinMaxSupply(currentStableCoin);
 
-  const mintFormSchema = yup.object().shape({
-    mintValue: yup
+  const burnFormSchema = yup.object().shape({
+    burnValue: yup
       .number()
-      .typeError('Mint value is required.')
-      .required('Mint value is required.')
-      .moreThan(0, 'Mint value must be greater than 0.')
+      .typeError('Burn value is required.')
+      .required('Burn value is required.')
+      .moreThan(0, 'Burn value must be greater than 0.')
       .test({
-        name: 'over-max',
-        test: (value: number) => stableCoinMaxSupply >= value + stableCoinCurrentSupply,
-        message: 'You have exceeded Max Supply.',
+        name: 'less-min',
+        test: (value: number) => stableCoinCurrentSupply - value >= 0,
+        message: 'New current Supply value must be greater than 0.',
       }),
     mainAccountAddress: yup
       .string(),
   });
   const formMethods = useForm({
-    resolver: yupResolver(mintFormSchema),
+    resolver: yupResolver(burnFormSchema),
     defaultValues: useMemo(
       () => ({
-        mintValue: 0,
+        burnValue: 0,
         mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
       }),
       [currentStableCoin]
     ),
   });
 
-  const mintValue = formMethods.watch('mintValue');
+  const burnValue = formMethods.watch('burnValue');
   const mainAccountAddress = formMethods.watch('mainAccountAddress');
 
   const relatedInformationList = useMemo(
@@ -100,12 +100,12 @@ export default function DashboardOperationsMintPage() {
           : `${numberFormat(`${stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`,
       },
       {
-        text: 'Total Supply after Mint:',
+        text: 'Total Supply after Burn:',
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : (
-            mintValue && (mintValue + stableCoinCurrentSupply) < stableCoinMaxSupply
-              ? `${numberFormat(`${mintValue + stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`
+            burnValue && (stableCoinCurrentSupply - burnValue) >= 0
+              ? `${numberFormat(`${stableCoinCurrentSupply - burnValue}`)} ${currentStableCoin?.ticker}`
               : '-'
           ),
       },
@@ -127,7 +127,7 @@ export default function DashboardOperationsMintPage() {
               ? <Loader className="h-4" />
               : `
                 ${numberFormat(`
-                  ${Math.max(stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0), 0)}
+                  ${Math.max(stableCoinMaxSupply - stableCoinCurrentSupply + (burnValue || 0), 0)}
                 `)}
                 ${currentStableCoin?.ticker}
               `,
@@ -141,7 +141,7 @@ export default function DashboardOperationsMintPage() {
       isLoadingStableCoinCurrentSupply,
       stableCoinMaxSupply,
       isLoadingStableCoinMaxSupply,
-      mintValue,
+      burnValue,
     ]
   );
 
@@ -156,40 +156,40 @@ export default function DashboardOperationsMintPage() {
 
   useEffect(() => {
     formMethods.reset({
-      mintValue: 0,
+      burnValue: 0,
       mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
     });
-    setShowMintConfirm(false);
+    setShowBurnConfirm(false);
     setShowBalanceErrorModal(false);
   }, [formMethods, currentStableCoin]);
 
-  const onMint = useCallback(
+  const onBurn = useCallback(
     async () => {
       try {
         if (currentStableCoin && mainAccountAddress) {
-          await mintTo.mutateAsync({
+          await burnFrom.mutateAsync({
             deployAddresses: mainAccountAddress,
             packageName: currentStableCoin.package_name,
             packageId: currentStableCoin.deploy_addresses.packageId,
             treasuryCap: currentStableCoin.deploy_addresses.treasury_cap,
             tokenPolicy: currentStableCoin.deploy_addresses.token_policy,
             tokenSupply: currentStableCoin.deploy_addresses.token_supply,
-            amount: mintValue,
+            amount: burnValue,
           });
 
           formMethods.reset();
 
           toast.success(
             `
-              You have successfully entered this amount: ${numberFormat(`${mintValue}`)} ${currentStableCoin.ticker}
-              to be minted for the Main Account: ${mainAccountAddress}
+              You have successfully entered this amount: ${numberFormat(`${burnValue}`)} ${currentStableCoin.ticker}
+              to be burned for the Main Account: ${mainAccountAddress}
             `,
             {
               className: 'w-[400px]',
             }
           );
 
-          setShowMintConfirm(false);
+          setShowBurnConfirm(false);
         }
       }
       catch (error) {
@@ -206,7 +206,7 @@ export default function DashboardOperationsMintPage() {
         }
       }
     },
-    [currentStableCoin, formMethods, mainAccountAddress, mintTo, mintValue]
+    [currentStableCoin, formMethods, mainAccountAddress, burnFrom, burnValue]
   );
 
   return (
@@ -222,20 +222,20 @@ export default function DashboardOperationsMintPage() {
           ? (
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
-                Mint
+                Burn
               </p>
               <form
                 className="mt-8 grid grid-cols-5 gap-6"
-                onSubmit={formMethods.handleSubmit(() => setShowMintConfirm(true))}
+                onSubmit={formMethods.handleSubmit(() => setShowBurnConfirm(true))}
               >
                 <div className="bg-white border border-borderPrimary rounded-xl p-6 space-y-6 col-span-3">
                   <div>
                     <Input
-                      name="mintValue"
+                      name="burnValue"
                       label="Amount"
                       labelClassName="font-semibold text-primary mb-4"
                       isRequired
-                      placeholder="Tokens to be minted"
+                      placeholder="Tokens to be burned"
                       className="w-full appearance-none"
                       setValueAs={value => value ? numberNormalize(value) : value}
                       onChange={({ target }) => {
@@ -256,13 +256,10 @@ export default function DashboardOperationsMintPage() {
                     />
                   </div>
                   <Tips
-                    title="Tips on Minting"
+                    title="Tips on Burning"
                     tipsList={[
-                      'If your stable coin has a finite supply type, you can mint tokens up to the maximum supply.',
-                      `
-                        All minted tokens will be transferred to the Main account,
-                        which is the account that issued the stablecoin contracts in the first place.
-                      `,
+                      'Once a token is burned, it is irretrievably removed from circulation and cannot be recovered.',
+                      'Ensure you are fully aware of potential consequences and risks before burning stable coins.',
                     ]}
                   />
                   <div className="flex items-center justify-between gap-6 mt-10">
@@ -286,7 +283,7 @@ export default function DashboardOperationsMintPage() {
                       disabled={formMethods.formState.isSubmitting}
                       isLoading={formMethods.formState.isSubmitting}
                     >
-                      Mint
+                      Burn
                     </Button>
                   </div>
                 </div>
@@ -314,16 +311,16 @@ export default function DashboardOperationsMintPage() {
             <Loader className="h-8" />
           )
       }
-      <MintConfirm
-        visible={showMintConfirm}
+      <BurnConfirm
+        visible={showBurnConfirm}
         onClose={() => {
-          setShowMintConfirm(false);
-          mintTo.reset();
+          setShowBurnConfirm(false);
+          burnFrom.reset();
         }}
         walletAddress={mainAccountAddress}
-        onProceed={onMint}
-        inProcess={mintTo.isPending}
-        amount={`${numberFormat(`${mintValue}`)} ${currentStableCoin?.ticker}`}
+        onProceed={onBurn}
+        inProcess={burnFrom.isPending}
+        amount={`${numberFormat(`${burnValue}`)} ${currentStableCoin?.ticker}`}
       />
       <BalanceErrorModal
         visible={showBalanceErrorModal}

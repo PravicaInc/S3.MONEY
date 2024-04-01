@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, HTMLAttributes, useCallback, useState } from 'react';
+import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import Skeleton from 'react-loading-skeleton';
 import { twMerge } from 'tailwind-merge';
@@ -78,6 +78,14 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
       formMethods.reset();
     },
     [isPaused, pauseSystem, playSystem, stableCoin, formMethods]
+  );
+
+  useEffect(
+    () => {
+      formMethods.reset();
+      setShowBalanceErrorModal(false);
+    },
+    [formMethods, stableCoin]
   );
 
   return (
