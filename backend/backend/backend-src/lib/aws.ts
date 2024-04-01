@@ -279,6 +279,8 @@ export async function listPackagesDB(address: string, extra: Record<string, stri
     })
   }
 
+  if (items.length == 0) return []
+
   const txGetCommand = new TransactGetItemsCommand({
     TransactItems: items,
   })
@@ -311,4 +313,53 @@ export async function listPackagesDB(address: string, extra: Record<string, stri
   }
 
   return pkgItems || []
+}
+
+export async function getBalancesDB(address: string) {
+  const command = new QueryCommand({
+    TableName: BALANCES_TABLE,
+    KeyConditionExpression: 'address = :address',
+    ExpressionAttributeValues: {
+      ':address': {S: address},
+    },
+    ProjectionExpression: 'ticker, balance, last_timestamp',
+  })
+
+  const response = await dbclient.send(command)
+  if (response.Items === undefined) return []
+  else return response.Items?.map(item => unmarshall(item)) ?? []
+}
+
+export async function getPackageEventsDB(address: string, ticker: string) {
+  const module = ticker.toLowerCase().slice(1)
+  const address_package = `${address}::${module}`
+  const command = new QueryCommand({
+    TableName: CONTRACT_EVENTS_TABLE,
+    KeyConditionExpression: 'address_package = :address_package',
+    ExpressionAttributeValues: {
+      ':address_package': {S: address_package},
+    },
+    ScanIndexForward: false,
+  })
+
+  const response = await dbclient.send(command)
+
+  if (response.Items === undefined) return []
+  else return response.Items?.map(item => unmarshall(item)) ?? []
+}
+
+export async function getAddressEventsDB(address: string) {
+  const command = new QueryCommand({
+    TableName: ADDRESS_EVENTS_TABLE,
+    KeyConditionExpression: 'address = :address',
+    ExpressionAttributeValues: {
+      ':address': {S: address},
+    },
+    ScanIndexForward: false,
+  })
+
+  const response = await dbclient.send(command)
+
+  if (response.Items === undefined) return []
+  else return response.Items?.map(item => unmarshall(item)) ?? []
 }
