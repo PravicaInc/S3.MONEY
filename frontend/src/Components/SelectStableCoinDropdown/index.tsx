@@ -9,7 +9,10 @@ import { twMerge } from 'tailwind-merge';
 
 import ChevronIcon from '@/../public/images/chevron.svg?jsx';
 
+import { primaryButtonClasses } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
+
+import { PAGES_URLS } from '@/utils/const';
 
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
@@ -66,18 +69,16 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
               }
               transition
               menuClassName="!mt-4 !p-0 overflow-hidden"
-              onItemClick={({ value: txid }) => router.push(
-                `${pathname}?${qs.stringify({
-                  ...Object.fromEntries(searchParams.entries()),
-                  txid,
-                })}`
-              )}
+              onItemClick={({ value: link }) => router.push(link)}
             >
               {
                 stableCoins.map(({ txid, name, ticker }) => (
                   <MenuItem
                     key={txid}
-                    value={txid}
+                    value={`${pathname}?${qs.stringify({
+                      ...Object.fromEntries(searchParams.entries()),
+                      txid,
+                    })}`}
                     className="
                       block w-full px-4 py-3 cursor-pointer
                       text-grayText font-medium text-sm
@@ -88,6 +89,15 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
                   </MenuItem>
                 ))
               }
+              <MenuItem
+                value={PAGES_URLS.createStableCoin}
+                className={twMerge(
+                  primaryButtonClasses,
+                  'font-medium text-sm mx-4 my-3'
+                )}
+              >
+                + New Stablecoin
+              </MenuItem>
             </Menu>
           )
           : (
