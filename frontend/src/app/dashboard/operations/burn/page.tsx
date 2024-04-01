@@ -125,12 +125,14 @@ export default function DashboardOperationsBurnPage() {
             text: 'Left to threshold:',
             value: isLoadingStableCoinCurrentSupply || isLoadingStableCoinMaxSupply
               ? <Loader className="h-4" />
-              : `
-                ${numberFormat(`
-                  ${Math.max(stableCoinMaxSupply - stableCoinCurrentSupply + (burnValue || 0), 0)}
-                `)}
-                ${currentStableCoin?.ticker}
-              `,
+              : (
+                burnValue && (stableCoinCurrentSupply - burnValue) >= 0
+                  ? `
+                    ${numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply + (burnValue || 0)}`)}
+                    ${currentStableCoin?.ticker}
+                  `
+                  : '-'
+              ),
           }
           : [],
       ],

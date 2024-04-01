@@ -84,6 +84,7 @@ export const useStableCoinsList = (accountAddress: string | undefined) => {
     queryFn: () => accountAddress
       ? getStableCoinsList(accountAddress)
       : Promise.resolve({} as StableCoinsListResponse),
+    staleTime: 60 * 1000,
   });
 
   return {

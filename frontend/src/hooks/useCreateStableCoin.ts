@@ -1,5 +1,5 @@
 import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosResponse } from 'axios';
 
 import { ApiManager } from '@/services/api';
@@ -64,57 +64,67 @@ export interface SavePublishedStableCoinApiPostResponse {
   packages: SuiSignAndExecuteTransactionBlockOutput[];
 }
 
-export const useCreateStableCoin = () => ({
-  create: useMutation({
-    mutationFn: async ({
-      walletAddress,
-      ticker,
-      name,
-      description,
-      decimals,
-      maxSupply,
-      initialSupply,
-      network = suiNetworkList.testnet,
-      icon,
-      roles,
-    }: CreateStableCoinData) => createApi.post({
-      address: walletAddress,
-      ticker,
-      name,
-      description,
-      decimals,
-      maxSupply,
-      initialSupply,
-      network,
-      icon_url: icon,
-      roles,
-    })
-      .then((response: AxiosResponse<CreateStableCoinApiPostResponse>) => response.data),
-  }),
-  removeNotPublishedStableCoin: useMutation({
-    mutationFn: async ({
-      walletAddress,
-      ticker,
-    }: RemoveNotPublishedStableCoinData) => cancelApi.post({
-      address: walletAddress,
-      ticker,
-      created: false,
-    })
-      .then((response: AxiosResponse<RemoveNotPublishedStableCoinApiPostResponse>) => response.data),
-  }),
-  savePublishedStableCoin: useMutation({
-    mutationFn: async ({
-      walletAddress,
-      ticker,
-      transactionID,
-      data,
-    }: SavePublishedStableCoinData) => publishedApi.post({
-      address: walletAddress,
-      ticker,
-      txid: transactionID,
-      created: true,
-      data,
-    })
-      .then((response: AxiosResponse<SavePublishedStableCoinApiPostResponse>) => response.data),
-  }),
-});
+export const useCreateStableCoin = () => {
+  const queryClient = useQueryClient();
+
+  return ({
+    create: useMutation({
+      mutationFn: async ({
+        walletAddress,
+        ticker,
+        name,
+        description,
+        decimals,
+        maxSupply,
+        initialSupply,
+        network = suiNetworkList.testnet,
+        icon,
+        roles,
+      }: CreateStableCoinData) => createApi.post({
+        address: walletAddress,
+        ticker,
+        name,
+        description,
+        decimals,
+        maxSupply,
+        initialSupply,
+        network,
+        icon_url: icon,
+        roles,
+      })
+        .then((response: AxiosResponse<CreateStableCoinApiPostResponse>) => response.data),
+    }),
+    removeNotPublishedStableCoin: useMutation({
+      mutationFn: async ({
+        walletAddress,
+        ticker,
+      }: RemoveNotPublishedStableCoinData) => cancelApi.post({
+        address: walletAddress,
+        ticker,
+        created: false,
+      })
+        .then((response: AxiosResponse<RemoveNotPublishedStableCoinApiPostResponse>) => response.data),
+    }),
+    savePublishedStableCoin: useMutation({
+      mutationFn: async ({
+        walletAddress,
+        ticker,
+        transactionID,
+        data,
+      }: SavePublishedStableCoinData) => publishedApi.post({
+        address: walletAddress,
+        ticker,
+        txid: transactionID,
+        created: true,
+        data,
+      })
+        .then((response: AxiosResponse<SavePublishedStableCoinApiPostResponse>) => {
+          queryClient.invalidateQueries({
+            queryKey: ['stableCoinsList', walletAddress],
+          });
+
+          return response.data;
+        }),
+    }),
+  });
+};
