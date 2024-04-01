@@ -71,7 +71,7 @@ export default function DashboardOperationsMintPage() {
       .moreThan(0, 'Mint value must be greater than 0.')
       .test({
         name: 'over-max',
-        test: (value: number) => stableCoinMaxSupply >= value + stableCoinCurrentSupply,
+        test: (value: number) => (stableCoinMaxSupply || Infinity) >= value + stableCoinCurrentSupply,
         message: 'You have exceeded Max Supply.',
       }),
     mainAccountAddress: yup
@@ -104,7 +104,7 @@ export default function DashboardOperationsMintPage() {
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : (
-            mintValue && (mintValue + stableCoinCurrentSupply) < stableCoinMaxSupply
+            mintValue && (mintValue + stableCoinCurrentSupply) < (stableCoinMaxSupply || Infinity)
               ? `${numberFormat(`${mintValue + stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`
               : '-'
           ),
@@ -125,12 +125,14 @@ export default function DashboardOperationsMintPage() {
             text: 'Left to threshold:',
             value: isLoadingStableCoinCurrentSupply || isLoadingStableCoinMaxSupply
               ? <Loader className="h-4" />
-              : `
-                ${numberFormat(`
-                  ${Math.max(stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0), 0)}
-                `)}
-                ${currentStableCoin?.ticker}
-              `,
+              : (
+                stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0) > 0
+                  ? `
+                    ${numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0)}`)}
+                    ${currentStableCoin?.ticker}
+                  `
+                  : '-'
+              ),
           }
           : [],
       ],
