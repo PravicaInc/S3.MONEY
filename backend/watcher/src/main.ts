@@ -33,6 +33,10 @@ const ADDRESS_EVENTS_TABLE = 's3m-address-events-dev'
 // rest: balance (upsert row)
 const BALANCES_TABLE = 's3m-balances-dev'
 
+// key: (address, 'allocated' | 'unallocated')
+// rest: amount, last_timestamp (upsert row)
+const ALLOCATION_TABLE = 's3m-allocation-dev'
+
 // key: address_package,
 // rest: last_timestamp of last event
 const LASTFETCH_TABLE = 's3m-contracts-lastfetch-dev'
@@ -340,12 +344,16 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
   // multiple events are fired in the same txb, they all have the same timestamp
   const packageEventsToSave = {}
   const addressEventsToSave = {}
+  const allocationEventsToSave = {}
 
   for (const event of events) {
     // address_package, event_timestamp
     const key = `${pkg}____${event.timestamp}`
     if (!(key in packageEventsToSave)) {
       packageEventsToSave[key] = []
+    }
+    if (!(pkg in packageEventsToSave)) {
+      allocationEventsToSave[pkg] = []
     }
 
     const item = {
@@ -362,6 +370,9 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         item.recipient = event.json.address
         item.amount = parseInt(event.json.amount, 10)
         balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
+        if (item.sender == item.recipient) {
+          allocationEventsToSave[pkg].push(item)
+        }
         break
       case 'EventBurn':
         item.sender = event.sender.address
@@ -380,6 +391,13 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         balances[item.sender] = (balances[item.sender] ?? 0) - item.amount
         balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
         break
+      case 'EventAllocation':
+        item.sender = event.json.sender
+        item.recipient = event.json.recipient
+        item.amount = parseInt(event.json.amount, 10)
+        balances[item.sender] = (balances[item.sender] ?? 0) - item.amount
+        balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
+        allocationEventsToSave[pkg].push(item)
       case 'EventPaused':
       case 'EventUnpaused':
         item.sender = event.sender.address
@@ -455,13 +473,84 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
     await sleep(DB_WRITE_SLEEP)
   }
 
+  await saveAllocations(allocationEventsToSave, ltimestamp)
+
   // save balances only after everything else has been saved
   await saveBalances(balances, pkg, ltimestamp)
 }
 
+async function saveAllocations(allocations: Record<string, object[]>, ltimestamp: string) {
+  let items: TransactWriteItem[] = []
+  let allocated: Record<string, number> = {}
+  let unallocated: Record<string, number> = {}
+
+  for (const [pkg, events] of Object.entries(allocations)) {
+    allocated[pkg] = 0
+    unallocated[pkg] = 0
+
+    for (const event of events) {
+      switch (event['event']) {
+        case 'EventAllocation':
+          allocated[pkg] += event['amount']
+          break
+        case 'EventMint':
+          unallocated[pkg] += event['amount']
+          break
+        default: // do nothing
+          console.log(`unknown event: ${event['event']}`)
+      }
+    }
+  }
+
+  for (const [pkg, amount] of Object.entries(allocated)) {
+    items.push({
+      Update: {
+        TableName: ALLOCATION_TABLE,
+        Key: {
+          address_package: {S: pkg},
+          allocation_type: {S: 'allocated'},
+        },
+        UpdateExpression: 'ADD amount :amount SET last_timestamp = :ltimestamp',
+        ExpressionAttributeValues: {
+          ':amount': {N: `${amount}`},
+          ':ltimestamp': {S: ltimestamp},
+        },
+      },
+    })
+  }
+
+  for (const [pkg, amount] of Object.entries(unallocated)) {
+    items.push({
+      Update: {
+        TableName: ALLOCATION_TABLE,
+        Key: {
+          address_package: {S: pkg},
+          allocation_type: {S: 'unallocated'},
+        },
+        UpdateExpression: 'ADD amount :amount SET last_timestamp = :ltimestamp',
+        ExpressionAttributeValues: {
+          ':amount': {N: `${amount}`},
+          ':ltimestamp': {S: ltimestamp},
+        },
+      },
+    })
+  }
+
+  if (items.length == 0) return
+
+  for (let i = 0; i < items.length; i += 100) {
+    const txWriteCommand = new TransactWriteItemsCommand({
+      TransactItems: items.slice(i, i + 100),
+    })
+    await dbclient.send(txWriteCommand)
+    console.log(`wrote allocations: ${items.slice(i, i + 100).length}`)
+    await sleep(DB_WRITE_SLEEP)
+  }
+}
+
 async function saveBalances(balances: Record<string, number>, pkg: string, ltimestamp: string) {
   const items: TransactWriteItem[] = Object.entries(balances).map(([address, balance]) => {
-    console.log(`${address}: ${balance}`)
+    console.log(`${address}: ${balance} $${pkg.split('::')[1].toUpperCase()}`)
     return {
       Update: {
         TableName: BALANCES_TABLE,
@@ -477,6 +566,8 @@ async function saveBalances(balances: Record<string, number>, pkg: string, ltime
       },
     }
   })
+
+  if (items.length == 0) return
 
   // transactions are limited to 100 objects each
   for (let i = 0; i < items.length; i += 100) {
@@ -532,4 +623,5 @@ void (async () => {
       }
     }
   }
+  console.log('done')
 })()
