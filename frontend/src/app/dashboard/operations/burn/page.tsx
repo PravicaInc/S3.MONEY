@@ -187,8 +187,13 @@ export default function DashboardOperationsBurnPage() {
           showPauseAlert: true,
         })}`);
       }
+      else if (currentStableCoin && !currentStableCoin?.address_roles.includes('burn')) {
+        router.replace(`${PAGES_URLS.dashboardOperations}?${qs.stringify({
+          ...Object.fromEntries(searchParams.entries()),
+        })}`);
+      }
     },
-    [isPaused, router, searchParams]
+    [currentStableCoin, isPaused, router, searchParams]
   );
 
   const onBurn = useCallback(

@@ -109,6 +109,7 @@ export interface InputProps extends SimpleInputProps {
   label?: ReactNode;
   labelClassName?: string;
   restrictionLabel?: ReactNode;
+  restrictionLabelClassName?: string;
   isRequired?: boolean;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   setValueAs?: (value: any) => any;
@@ -120,6 +121,7 @@ export const Input: FC<InputProps> = ({
   label,
   labelClassName,
   restrictionLabel,
+  restrictionLabelClassName,
   isRequired,
   setValueAs,
   onChange,
@@ -153,7 +155,7 @@ export const Input: FC<InputProps> = ({
           restrictionLabel && (
             <Label
               label={restrictionLabel}
-              className="text-xs"
+              className={twMerge('text-xs', restrictionLabelClassName)}
             />
           )
         }

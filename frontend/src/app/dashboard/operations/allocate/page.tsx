@@ -127,8 +127,13 @@ export default function DashboardOperationsAllocatePage() {
           showPauseAlert: true,
         })}`);
       }
+      else if (currentStableCoin && !currentStableCoin?.address_roles.includes('cashIn')) {
+        router.replace(`${PAGES_URLS.dashboardOperations}?${qs.stringify({
+          ...Object.fromEntries(searchParams.entries()),
+        })}`);
+      }
     },
-    [isPaused, router, searchParams]
+    [currentStableCoin, isPaused, router, searchParams]
   );
 
   useEffect(() => {
