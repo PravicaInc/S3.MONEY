@@ -268,19 +268,9 @@ export async function validRelatedDelete(data: IFace.IRelatedDelete): Promise<IF
 export async function validRelatedModify(data: IFace.IRelatedModify): Promise<IFace.IValid> {
   const stringFields = ['label', 'new_label']
 
-  for (const field of stringFields) {
-    if (!(field in data)) {
-      console.log(`missing field: ${field}`)
-      return {error: `missing field: ${field}`}
-    }
-  }
-
-  if (data.label.trim() == '' || data.new_label.trim() == '') {
-    console.log('missing field')
-    return {error: 'missing field'}
-  } else {
-    data.label = data.label.trim()
-    data.new_label = data.new_label.trim()
+  if (!('label' in data) || data.label.trim() == '') {
+    console.log(`missing field: label`)
+    return {error: `missing field: label`}
   }
 
   return {error: '', data: data}

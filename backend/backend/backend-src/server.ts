@@ -145,26 +145,26 @@ app.get('/address-events/:address', async (req, res) => {
   }
 })
 
-app.get('/related/:address', async (req, res) => {
-  const {address} = req.params
-  if (Checks.isValidAddress(address)) {
+app.get('/related/:pkgaddress', async (req, res) => {
+  const {pkgaddress} = req.params
+  if (Checks.isValidPackage(pkgaddress)) {
     res.status(200).json({
       status: 'ok',
-      related: await AWS.getRelatedDB(address),
+      related: await AWS.listRelatedDB(pkgaddress),
     })
   } else {
     res.status(400).json({
       status: 'error',
-      message: `invalid address: ${address}`,
+      message: `invalid package address: ${pkgaddress}`,
     })
   }
 })
 
-app.post('/related/:address', async (req, res) => {
-  const {address} = req.params
+app.post('/related/:pkgaddress', async (req, res) => {
+  const {pkgaddress} = req.params
   const v = await Checks.validRelatedCreate(req.body)
-  if (Checks.isValidAddress(address) && v.error === '') {
-    const ret = await AWS.createRelatedDB(address, v.data as IFace.IRelatedCreate)
+  if (Checks.isValidPackage(pkgaddress) && v.error === '') {
+    const ret = await AWS.createRelatedDB(pkgaddress, v.data as IFace.IRelatedCreate)
     if (ret !== undefined && 'error' in ret) {
       res.status(400).json({
         status: 'error',
@@ -183,37 +183,31 @@ app.post('/related/:address', async (req, res) => {
   } else {
     res.status(400).json({
       status: 'error',
-      message: `invalid address: ${address}`,
+      message: `invalid address: ${pkgaddress}`,
     })
   }
 })
 
-app.post('/related/:address/delete', async (req, res) => {
-  const {address} = req.params
-  const v = await Checks.validRelatedDelete(req.body)
-  if (Checks.isValidAddress(address) && v.error === '') {
-    await AWS.deleteRelatedDB(address, v.data as IFace.IRelatedDelete)
+app.delete('/related/:pkgaddress/:slug', async (req, res) => {
+  const {pkgaddress, slug} = req.params
+  if (Checks.isValidPackage(pkgaddress) && slug.trim() != '') {
+    await AWS.deleteRelatedDB(pkgaddress, slug)
     res.status(200).json({
       status: 'ok',
     })
-  } else if (v.error != '') {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
   } else {
     res.status(400).json({
       status: 'error',
-      message: `invalid address: ${address}`,
+      message: `invalid address: ${pkgaddress}`,
     })
   }
 })
 
-app.post('/related/:address/modify', async (req, res) => {
-  const {address} = req.params
+app.patch('/related/:pkgaddress/:slug', async (req, res) => {
+  const {pkgaddress, slug} = req.params
   const v = await Checks.validRelatedModify(req.body)
-  if (Checks.isValidAddress(address) && v.error === '') {
-    const ret = await AWS.modifyRelatedDB(address, v.data as IFace.IRelatedModify)
+  if (Checks.isValidPackage(pkgaddress) && v.error === '') {
+    const ret = await AWS.modifyRelatedDB(pkgaddress, slug, v.data as IFace.IRelatedModify)
     if (ret !== undefined && 'error' in ret) {
       res.status(400).json({
         status: 'error',
@@ -232,7 +226,7 @@ app.post('/related/:address/modify', async (req, res) => {
   } else {
     res.status(400).json({
       status: 'error',
-      message: `invalid address: ${address}`,
+      message: `invalid address: ${pkgaddress}`,
     })
   }
 })

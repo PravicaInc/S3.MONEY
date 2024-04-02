@@ -60,7 +60,6 @@ export interface IRelatedDelete {
 
 export interface IRelatedModify {
   label: string
-  new_label: string
 }
 
 export function reqToCreated(data: ICreatePackageRequest, s3key: string | undefined): IPackageCreated {
