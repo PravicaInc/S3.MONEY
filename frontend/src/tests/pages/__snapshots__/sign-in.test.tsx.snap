@@ -60,7 +60,7 @@ exports[`Sign-in page: Sign-in page with disconnected state: Snapshot 1`] = `
             Gateway to Code-Free StableCoin Creation
           </p>
           <p
-            class="mt-5 text-[#353849] text-opacity-70"
+            class="mt-5 text-tuna text-opacity-70"
           >
             Just connect your Sui wallet and step into the wonderfully simple world of StableCoin Studio on the Sui Blockchain. You'll be able to create and manage your own stable coins with just a few clicks. And the best part? No coding is required! It's a platform designed just for you.
           </p>

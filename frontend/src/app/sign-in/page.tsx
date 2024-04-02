@@ -71,7 +71,7 @@ export default function SignInPage() {
             <p className="text-[40px] leading-[44px] font-semibold text-primary">
               Gateway to Code-Free StableCoin Creation
             </p>
-            <p className="mt-5 text-[#353849] text-opacity-70">
+            <p className="mt-5 text-tuna text-opacity-70">
               Just connect your Sui wallet and step into the wonderfully simple world of StableCoin Studio on
               the Sui Blockchain. You'll be able to create and manage your own stable coins with just a few clicks.
               And the best part? No coding is required! It's a platform designed just for you.

@@ -7,6 +7,7 @@ import { twMerge } from 'tailwind-merge';
 
 import LogoIcon from '@/../public/images/logo.svg?jsx';
 import OperationsLinkIcon from '@/../public/images/operations_link_icon.svg?jsx';
+import RelationsLinkIcon from '@/../public/images/relations_icon.svg?jsx';
 
 import { PAGES_URLS } from '@/utils/const';
 
@@ -27,6 +28,15 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
             icon: <OperationsLinkIcon />,
             text: 'Operations',
             isActive: pathname.indexOf(PAGES_URLS.dashboardOperations) !== -1,
+          },
+          {
+            href: {
+              pathname: PAGES_URLS.dashboardRelations,
+              query: Object.fromEntries(searchParams.entries()),
+            },
+            icon: <RelationsLinkIcon />,
+            text: 'Relations',
+            isActive: pathname.indexOf(PAGES_URLS.dashboardRelations) !== -1,
           },
         ],
       },
