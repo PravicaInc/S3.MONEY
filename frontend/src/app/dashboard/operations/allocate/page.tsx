@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
+import { useAutoConnectWallet, useCurrentAccount, useSuiClient } from '@mysten/dapp-kit';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'qs';
@@ -19,14 +19,17 @@ import { Tips } from '@/Components/Tips';
 
 import { PAGES_URLS } from '@/utils/const';
 import { numberFormat, numberNormalize } from '@/utils/string_formats';
+import { suiAddressRegExp } from '@/utils/validators';
 
+import { useAllocate } from '@/hooks/useAllocate';
+import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
+import { isFrozenAccount } from '@/hooks/useFreezeAddress';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
-import { useMintTo, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
 
-import { MintConfirm } from './components/MintConfirm';
+import { AllocateConfirm } from './components/AllocateConfirm';
 
-export default function DashboardOperationsMintPage() {
+export default function DashboardOperationsAllocatePage() {
   const account = useCurrentAccount();
   const autoConnectionStatus = useAutoConnectWallet();
   const searchParams = useSearchParams();
@@ -36,10 +39,12 @@ export default function DashboardOperationsMintPage() {
     isLoading: isStableCoinsListLoading,
     isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
-  const mintTo = useMintTo();
+  const allocate = useAllocate();
+  const suiClient = useSuiClient();
 
-  const [showMintConfirm, setShowMintConfirm] = useState<boolean>(false);
+  const [showAllocateConfirm, setShowAllocateConfirm] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
+  const [isCheckFrozenAccountInProgress, setIsCheckFrozenAccountInProgress] = useState<boolean>(false);
 
   const { coins: stableCoins = [] } = data || {};
 
@@ -57,98 +62,53 @@ export default function DashboardOperationsMintPage() {
   );
 
   const {
-    data: stableCoinCurrentSupply = 0,
-    isFetching: isLoadingStableCoinCurrentSupply,
-  } = useStableCoinCurrentSupply(currentStableCoin);
-  const {
-    data: stableCoinMaxSupply = 0,
-    isFetching: isLoadingStableCoinMaxSupply,
-  } = useStableCoinMaxSupply(currentStableCoin);
+    data: currentStableCoinBalance,
+    isFetching: isCurrentStableCoinBalanceFetching,
+  } = useCurrentStableCoinBalance(account?.address, currentStableCoin);
   const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(currentStableCoin?.deploy_addresses.pauser);
 
-  const mintFormSchema = yup.object().shape({
-    mintValue: yup
+  const allocateFormSchema = yup.object().shape({
+    allocateValue: yup
       .number()
-      .typeError('Mint value is required.')
-      .required('Mint value is required.')
-      .moreThan(0, 'Mint value must be greater than 0.')
+      .typeError('Allocate value is required.')
+      .required('Allocate value is required.')
+      .moreThan(0, 'Allocate value must be greater than 0.')
       .test({
         name: 'over-max',
-        test: (value: number) => (stableCoinMaxSupply || Infinity) >= value + stableCoinCurrentSupply,
-        message: 'You have exceeded Max Supply.',
+        test: (value: number) => (currentStableCoinBalance || 0) - value >= 0,
+        message: () => `Allocate value must not exceed ${numberFormat(`${currentStableCoinBalance}`)} ${currentStableCoin?.ticker}.`,
       }),
-    mainAccountAddress: yup
-      .string(),
+    accountAddress: yup
+      .string()
+      .matches(suiAddressRegExp, 'Wallet address is incorrect.')
+      .test({
+        name: 'is-frozen',
+        test: async value => {
+          try {
+            setIsCheckFrozenAccountInProgress(true);
+
+            return !(await isFrozenAccount(suiClient, currentStableCoin, value));
+          }
+          finally {
+            setIsCheckFrozenAccountInProgress(false);
+          }
+        },
+        message: 'This account is frozen',
+      }),
   });
   const formMethods = useForm({
-    resolver: yupResolver(mintFormSchema),
+    resolver: yupResolver(allocateFormSchema),
     defaultValues: useMemo(
       () => ({
-        mintValue: 0,
-        mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
+        allocateValue: 0,
+        accountAddress: '',
       }),
-      [currentStableCoin]
+      []
     ),
   });
 
-  const mintValue = formMethods.watch('mintValue');
-  const mainAccountAddress = formMethods.watch('mainAccountAddress');
-
-  const relatedInformationList = useMemo(
-    () => [
-      {
-        text: 'Current Supply:',
-        value: isLoadingStableCoinCurrentSupply
-          ? <Loader className="h-4" />
-          : `${numberFormat(`${stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`,
-      },
-      {
-        text: 'Total Supply after Mint:',
-        value: isLoadingStableCoinCurrentSupply
-          ? <Loader className="h-4" />
-          : (
-            mintValue && (mintValue + stableCoinCurrentSupply) < (stableCoinMaxSupply || Infinity)
-              ? `${numberFormat(`${mintValue + stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`
-              : '-'
-          ),
-      },
-      {
-        text: 'Supply Type:',
-        value: isLoadingStableCoinMaxSupply
-          ? <Loader className="h-4" />
-          : (
-            stableCoinMaxSupply
-              ? `Finite (max ${numberFormat(`${stableCoinMaxSupply}`)} ${currentStableCoin?.ticker})`
-              : 'Infinite'
-          ),
-      },
-      ...[
-        stableCoinMaxSupply && stableCoinCurrentSupply !== undefined
-          ? {
-            text: 'Left to threshold:',
-            value: isLoadingStableCoinCurrentSupply || isLoadingStableCoinMaxSupply
-              ? <Loader className="h-4" />
-              : (
-                stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0) > 0
-                  ? `
-                    ${numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0)}`)}
-                    ${currentStableCoin?.ticker}
-                  `
-                  : '-'
-              ),
-          }
-          : [],
-      ],
-    ].flat(),
-    [
-      currentStableCoin,
-      stableCoinCurrentSupply,
-      isLoadingStableCoinCurrentSupply,
-      stableCoinMaxSupply,
-      isLoadingStableCoinMaxSupply,
-      mintValue,
-    ]
-  );
+  const allocateValue = formMethods.watch('allocateValue');
+  const accountAddress = formMethods.watch('accountAddress');
 
   useEffect(
     () => {
@@ -172,41 +132,39 @@ export default function DashboardOperationsMintPage() {
   );
 
   useEffect(() => {
-    formMethods.reset({
-      mintValue: 0,
-      mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
-    });
-    setShowMintConfirm(false);
+    setShowAllocateConfirm(false);
     setShowBalanceErrorModal(false);
+    formMethods.reset();
   }, [formMethods, currentStableCoin]);
 
-  const onMint = useCallback(
+  const onAllocate = useCallback(
     async () => {
       try {
-        if (currentStableCoin && mainAccountAddress) {
-          await mintTo.mutateAsync({
-            deployAddresses: mainAccountAddress,
+        if (currentStableCoin && account?.address && accountAddress) {
+          await allocate.mutateAsync({
+            senderAddresses: account.address,
+            recipientAddresses: accountAddress,
             packageName: currentStableCoin.package_name,
             packageId: currentStableCoin.deploy_addresses.packageId,
             treasuryCap: currentStableCoin.deploy_addresses.treasury_cap,
             tokenPolicy: currentStableCoin.deploy_addresses.token_policy,
             tokenSupply: currentStableCoin.deploy_addresses.token_supply,
-            amount: mintValue,
+            amount: allocateValue,
           });
 
           formMethods.reset();
 
           toast.success(
             `
-              You have successfully entered this amount: ${numberFormat(`${mintValue}`)} ${currentStableCoin.ticker}
-              to be minted for the Main Account: ${mainAccountAddress}
+              You have successfully allocated this amount: ${numberFormat(`${allocateValue}`)} ${currentStableCoin.ticker}
+              to be allocated to: ${accountAddress}
             `,
             {
               className: 'w-[400px]',
             }
           );
 
-          setShowMintConfirm(false);
+          setShowAllocateConfirm(false);
         }
       }
       catch (error) {
@@ -223,7 +181,7 @@ export default function DashboardOperationsMintPage() {
         }
       }
     },
-    [currentStableCoin, formMethods, mainAccountAddress, mintTo, mintValue]
+    [currentStableCoin, account, accountAddress, allocate, allocateValue, formMethods]
   );
 
   return (
@@ -239,20 +197,32 @@ export default function DashboardOperationsMintPage() {
           ? (
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
-                Mint
+                Allocate
               </p>
               <form
                 className="mt-8 grid grid-cols-5 gap-6"
-                onSubmit={formMethods.handleSubmit(() => setShowMintConfirm(true))}
+                onSubmit={formMethods.handleSubmit(() => setShowAllocateConfirm(true))}
               >
-                <div className="bg-white border border-borderPrimary rounded-xl p-6 space-y-6 col-span-3">
+                <div className="bg-white border border-borderPrimary rounded-xl p-6 space-y-6 col-span-5">
                   <div>
                     <Input
-                      name="mintValue"
-                      label="Amount"
+                      name="accountAddress"
+                      label="Address"
+                      labelClassName="font-semibold text-primary mb-4"
+                      placeholder="Address"
+                      className="w-full appearance-none"
+                      isRequired
+                      maxLength={66}
+                      isLoading={isCheckFrozenAccountInProgress}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      name="allocateValue"
+                      label="Allocation Amount"
                       labelClassName="font-semibold text-primary mb-4"
                       isRequired
-                      placeholder="Tokens to be minted"
+                      placeholder="Tokens to be allocated"
                       className="w-full appearance-none"
                       setValueAs={value => value ? numberNormalize(value) : value}
                       onChange={({ target }) => {
@@ -261,24 +231,46 @@ export default function DashboardOperationsMintPage() {
                       maxLength={14}
                       suffix={currentStableCoin.ticker}
                     />
-                  </div>
-                  <div>
-                    <Input
-                      name="mainAccountAddress"
-                      label="Main Account Address"
-                      labelClassName="text-[#696969] mb-4"
-                      placeholder="Main Account Address"
-                      className="w-full appearance-none"
-                      disabled
-                    />
+                    <p className="mt-2 text-[#666D80] text-xs h-4">
+                      {
+                        isCurrentStableCoinBalanceFetching
+                          ? (
+                            <Loader className="h-4" />
+                          )
+                          : (
+                            <>
+                              Maximum:
+                              {' '}
+                              {numberFormat(`${currentStableCoinBalance}`)}
+                              {' '}
+                              {currentStableCoin.ticker}
+                              .
+                            </>
+                          )
+                      }
+                    </p>
                   </div>
                   <Tips
-                    title="Tips on Minting"
+                    title="Tips on Allocation"
                     tipsList={[
-                      'If your stable coin has a finite supply type, you can mint tokens up to the maximum supply.',
                       `
-                        All minted tokens will be transferred to the Main account,
-                        which is the account that issued the stablecoin contracts in the first place.
+                        This involves transferring tokens from the main account to the Treasury account,
+                        preparing them for circulation and delivery to the Related Accounts.
+                      `,
+                      (
+                        <>
+                          <span className="font-bold">
+                            Treasury Account
+                          </span>
+                          {' '}
+                          - This is a secondary wallet owned by the issuer.
+                          It acts like a treasury for the token, where the issuer can hold tokens that are
+                          in circulation but not distributed to the public.
+                        </>
+                      ),
+                      `
+                        The Treasury Account should be fully verified and operational
+                        before starting the allocation process.
                       `,
                     ]}
                   />
@@ -303,25 +295,8 @@ export default function DashboardOperationsMintPage() {
                       disabled={formMethods.formState.isSubmitting}
                       isLoading={formMethods.formState.isSubmitting}
                     >
-                      Mint
+                      Allocate
                     </Button>
-                  </div>
-                </div>
-                <div className="bg-white border border-borderPrimary rounded-xl h-fit col-span-2">
-                  <p className="text-primary text-lg font-semibold p-5 border-b border-borderPrimary">
-                    Related Information
-                  </p>
-                  <div className="px-5 py-6 space-y-4">
-                    {relatedInformationList.map(({ text, value }) => (
-                      <p key={text} className="text-sm font-medium flex justify-between items-baseline gap-2">
-                        <span className="text-mistBlue whitespace-nowrap">
-                          {text}
-                        </span>
-                        <span className="text-primary">
-                          {value}
-                        </span>
-                      </p>
-                    ))}
                   </div>
                 </div>
               </form>
@@ -331,16 +306,16 @@ export default function DashboardOperationsMintPage() {
             <Loader className="h-8" />
           )
       }
-      <MintConfirm
-        visible={showMintConfirm}
+      <AllocateConfirm
+        visible={showAllocateConfirm}
         onClose={() => {
-          setShowMintConfirm(false);
-          mintTo.reset();
+          setShowAllocateConfirm(false);
+          allocate.reset();
         }}
-        walletAddress={mainAccountAddress}
-        onProceed={onMint}
-        inProcess={mintTo.isPending}
-        amount={`${numberFormat(`${mintValue}`)} ${currentStableCoin?.ticker}`}
+        walletAddress={accountAddress}
+        onProceed={onAllocate}
+        inProcess={allocate.isPending}
+        amount={`${numberFormat(`${allocateValue}`)} ${currentStableCoin?.ticker}`}
       />
       <BalanceErrorModal
         visible={showBalanceErrorModal}

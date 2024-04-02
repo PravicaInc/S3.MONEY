@@ -6,366 +6,61 @@ exports[`Operations page: Operations page with connected state: Snapshot 1`] = `
     [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
   </style>
   <div
-    class="max-w-screen-2xl mx-auto p-8"
+    class="max-w-screen-2xl mx-auto p-8 flex items-center justify-center h-full"
   >
-    <div
-      class="grid gap-10 mb-6 grid-cols-2"
+    <svg
+      aria-hidden="true"
+      class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-8"
+      data-icon="spinner"
+      data-prefix="fas"
+      data-testid="loader"
+      focusable="false"
+      role="img"
+      viewBox="0 0 512 512"
+      xmlns="http://www.w3.org/2000/svg"
     >
-      <form
-        class="bg-white p-5 flex flex-col justify-between gap-3 py-4 px-6 border border-borderPrimary rounded-xl"
-      >
-        <div>
-          <div
-            class="flex items-center gap-4"
-          >
-            <div
-              class="bg-antiqueWhite min-w-10 min-h-10 flex items-center justify-center rounded-full shadow-operationIcon"
-            >
-              <svg
-                aria-hidden="true"
-                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-5"
-                data-icon="spinner"
-                data-prefix="fas"
-                data-testid="loader"
-                focusable="false"
-                role="img"
-                viewBox="0 0 512 512"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
-                  fill="currentColor"
-                />
-              </svg>
-            </div>
-            <p
-              class="text-primary text-xl font-semibold w-full"
-            >
-              <span
-                aria-busy="true"
-                aria-live="polite"
-              >
-                <span
-                  class="react-loading-skeleton w-1/2"
-                >
-                  ‌
-                </span>
-                <br />
-              </span>
-            </p>
-          </div>
-          <p
-            class="text-grayText mt-6"
-          >
-            <span
-              aria-busy="true"
-              aria-live="polite"
-            >
-              <span
-                class="react-loading-skeleton"
-              >
-                ‌
-              </span>
-              <br />
-              <span
-                class="react-loading-skeleton"
-              >
-                ‌
-              </span>
-              <br />
-            </span>
-          </p>
-        </div>
-        <div>
-          <label
-            class="flex items-center gap-2 cursor-pointer"
-          >
-            <label
-              class="relative transition"
-            >
-              <input
-                class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                disabled=""
-                name="approve"
-                readonly=""
-                type="checkbox"
-              />
-              <div
-                class="border border-borderPrimary flex items-center justify-center transition rounded-full w-5 h-5"
-              >
-                <svg
-                  class="hidden duration-1000"
-                />
-              </div>
-            </label>
-            <span
-              class="text-sm text-grayText w-full"
-            >
-              <span
-                aria-busy="true"
-                aria-live="polite"
-              >
-                <span
-                  class="react-loading-skeleton w-1/2"
-                >
-                  ‌
-                </span>
-                <br />
-              </span>
-            </span>
-          </label>
-          <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-12 w-full mt-6"
-            disabled=""
-            type="submit"
-          >
-            Pause
-          </button>
-        </div>
-      </form>
-      <dialog
-        class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+      <path
+        d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+        fill="currentColor"
+      />
+    </svg>
+    <dialog
+      class="backdrop:bg-modalBackdropColor rounded-xl relative p-6 w-[400px]"
+    >
+      <div
+        class="Toastify"
+        id="modal-toast"
+      />
+      <div
+        class=""
       >
         <div
-          class="Toastify"
-          id="modal-toast"
-        />
-        <div
-          class=""
+          class="absolute top-0 left-0 z-[-1]"
         >
-          <p
-            class="text-primary font-semibold text-2xl text-center mt-4"
-          >
-            Your balance is too low
-          </p>
-          <p
-            class="text-sm text-grayText mt-3 text-center"
-          >
-            Unfortunately, your balance is too small to create a new StableCoin.
-          </p>
+          <svg />
           <div
-            class="grid grid-cols-4 items-center justify-center gap-4 mt-8"
+            class="absolute top-6 left-6 bg-[#FEE4E2] w-12 h-12 flex items-center justify-center rounded-full"
           >
-            <button
-              class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-[56px] col-span-1"
-            >
-              Close
-            </button>
-            <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[56px] col-span-3"
-            >
-              Request
-               
-              testnet
-               
-              SUI Tokens
-            </button>
+            <svg />
           </div>
         </div>
-      </dialog>
-      <form
-        class="bg-white p-5 flex flex-col justify-between gap-3 py-4 px-6 border border-borderPrimary rounded-xl"
-      >
-        <div>
-          <div
-            class="flex items-center gap-4"
-          >
-            <div
-              class="bg-antiqueWhite min-w-10 min-h-10 flex items-center justify-center rounded-full shadow-operationIcon"
-            >
-              <svg />
-            </div>
-            <p
-              class="text-primary text-xl font-semibold"
-            >
-              Freeze Address
-            </p>
-          </div>
-          <p
-            class="text-grayText mt-4"
-          >
-            You can freeze the transactions for your token of this particular address.
-          </p>
-          <div
-            class="flex items-center justify-between"
-          />
-          <div
-            class="relative"
-          >
-            <input
-              class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full mt-4"
-              id="address"
-              maxlength="66"
-              name="address"
-              placeholder="Wallet Address"
-              type="text"
-            />
-          </div>
-        </div>
+        <p
+          class="text-primary text-lg font-semibold mt-[88px]"
+        >
+          System is Paused!
+        </p>
+        <p
+          class="mt-1 text-secondary"
+        >
+          You cannot operate this project right now because the system is paused.
+        </p>
         <button
-          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[48px] w-full"
-          type="submit"
+          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
         >
-          Freeze Account
+          OK
         </button>
-      </form>
-      <dialog
-        class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
-      >
-        <div
-          class="Toastify"
-          id="modal-toast"
-        />
-        <div
-          class=""
-        >
-          <p
-            class="text-primary font-semibold text-2xl text-center mt-4"
-          >
-            Are you sure to freeze this account?
-          </p>
-          <p
-            class="text-sm text-grayText mt-3 text-center"
-          >
-            This actions will block this account from sending and receiving tokens.
-            <br />
-            <span
-              class="break-all"
-            >
-              Address:
-               
-              <span
-                class="text-[#FE6321] font-bold"
-              />
-            </span>
-          </p>
-          <div
-            class="flex items-center justify-center gap-4 mt-8"
-          >
-            <button
-              class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
-            >
-              Cancel
-            </button>
-            <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
-            >
-              Confirm
-            </button>
-          </div>
-        </div>
-      </dialog>
-      <dialog
-        class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
-      >
-        <div
-          class="Toastify"
-          id="modal-toast"
-        />
-        <div
-          class=""
-        >
-          <p
-            class="text-primary font-semibold text-2xl text-center mt-4"
-          >
-            Your balance is too low
-          </p>
-          <p
-            class="text-sm text-grayText mt-3 text-center"
-          >
-            Unfortunately, your balance is too small to create a new StableCoin.
-          </p>
-          <div
-            class="grid grid-cols-4 items-center justify-center gap-4 mt-8"
-          >
-            <button
-              class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-[56px] col-span-1"
-            >
-              Close
-            </button>
-            <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[56px] col-span-3"
-            >
-              Request
-               
-              testnet
-               
-              SUI Tokens
-            </button>
-          </div>
-        </div>
-      </dialog>
-    </div>
-    <div
-      class="grid gap-8 grid-cols-3"
-    >
-      <a
-        class="border border-borderPrimary rounded-[10px] bg-white p-6"
-        href="/dashboard/operations/mint?txid=1"
-      >
-        <div
-          class="bg-deepPeach w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
-        >
-          <svg />
-        </div>
-        <p
-          class="text-primary text-lg font-semibold mt-5"
-        >
-          Mint
-        </p>
-        <p
-          class="text-grayText text-sm mt-2"
-        >
-          Issuers can effortlessly create new tokens, increasing the total supply of the stablecoin.
-        </p>
-      </a>
-      <a
-        class="border border-borderPrimary rounded-[10px] bg-white p-6"
-        href="/dashboard/operations/cash-in?txid=1"
-      >
-        <div
-          class="bg-deepPeach w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
-        >
-          <svg />
-        </div>
-        <p
-          class="text-primary text-lg font-semibold mt-5"
-        >
-          Cash In
-        </p>
-        <p
-          class="text-grayText text-sm mt-2"
-        >
-          Issuers can allocate some authorized tokens to the circulation for public.
-        </p>
-      </a>
-      <a
-        class="border border-borderPrimary rounded-[10px] bg-white p-6"
-        href="/dashboard/operations/burn?txid=1"
-      >
-        <div
-          class="bg-deepPeach w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
-        >
-          <svg />
-        </div>
-        <p
-          class="text-primary text-lg font-semibold mt-5"
-        >
-          Burn
-        </p>
-        <p
-          class="text-grayText text-sm mt-2"
-        >
-          
-              The platform allows issuers to reduce the overall token supply by 'burning' or destroying tokens.
-            
-        </p>
-      </a>
-    </div>
+      </div>
+    </dialog>
   </div>
 </div>
 `;

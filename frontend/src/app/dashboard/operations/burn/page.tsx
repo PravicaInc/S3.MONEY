@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -19,6 +20,8 @@ import { Tips } from '@/Components/Tips';
 import { PAGES_URLS } from '@/utils/const';
 import { numberFormat, numberNormalize } from '@/utils/string_formats';
 
+import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
+import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 import { useBurnFrom, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
 
@@ -55,6 +58,11 @@ export default function DashboardOperationsBurnPage() {
   );
 
   const {
+    data: currentStableCoinBalance,
+    isFetching: isCurrentStableCoinBalanceFetching,
+  } = useCurrentStableCoinBalance(account?.address, currentStableCoin);
+
+  const {
     data: stableCoinCurrentSupply = 0,
     isFetching: isLoadingStableCoinCurrentSupply,
   } = useStableCoinCurrentSupply(currentStableCoin);
@@ -62,6 +70,7 @@ export default function DashboardOperationsBurnPage() {
     data: stableCoinMaxSupply = 0,
     isFetching: isLoadingStableCoinMaxSupply,
   } = useStableCoinMaxSupply(currentStableCoin);
+  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(currentStableCoin?.deploy_addresses.pauser);
 
   const burnFormSchema = yup.object().shape({
     burnValue: yup
@@ -73,6 +82,11 @@ export default function DashboardOperationsBurnPage() {
         name: 'less-min',
         test: (value: number) => stableCoinCurrentSupply - value >= 0,
         message: 'New current Supply value must be greater than 0.',
+      })
+      .test({
+        name: 'over-max',
+        test: (value: number) => (currentStableCoinBalance || 0) - value >= 0,
+        message: () => `You can't burn more than ${numberFormat(`${currentStableCoinBalance}`)} ${currentStableCoin?.ticker}.`,
       }),
     mainAccountAddress: yup
       .string(),
@@ -165,6 +179,18 @@ export default function DashboardOperationsBurnPage() {
     setShowBalanceErrorModal(false);
   }, [formMethods, currentStableCoin]);
 
+  useEffect(
+    () => {
+      if (isPaused) {
+        router.replace(`${PAGES_URLS.dashboardOperations}?${qs.stringify({
+          ...Object.fromEntries(searchParams.entries()),
+          showPauseAlert: true,
+        })}`);
+      }
+    },
+    [isPaused, router, searchParams]
+  );
+
   const onBurn = useCallback(
     async () => {
       try {
@@ -215,12 +241,12 @@ export default function DashboardOperationsBurnPage() {
     <div
       className={twMerge(
         'max-w-screen-2xl mx-auto p-8',
-        (isLoading || isRedirecting || isStableCoinsListLoading || !currentStableCoin)
+        (isLoading || isRedirecting || isStableCoinsListLoading || isPausedLoading || isPaused || !currentStableCoin)
           && 'flex items-center justify-center h-full'
       )}
     >
       {
-        !(isLoading || isRedirecting || isStableCoinsListLoading) && currentStableCoin
+        !(isLoading || isRedirecting || isStableCoinsListLoading || isPausedLoading || isPaused) && currentStableCoin
           ? (
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
@@ -246,6 +272,24 @@ export default function DashboardOperationsBurnPage() {
                       maxLength={14}
                       suffix={currentStableCoin.ticker}
                     />
+                    <p className="mt-2 text-[#666D80] text-xs h-4">
+                      {
+                        isCurrentStableCoinBalanceFetching
+                          ? (
+                            <Loader className="h-4" />
+                          )
+                          : (
+                            <>
+                              Maximum:
+                              {' '}
+                              {numberFormat(`${currentStableCoinBalance}`)}
+                              {' '}
+                              {currentStableCoin.ticker}
+                              .
+                            </>
+                          )
+                      }
+                    </p>
                   </div>
                   <div>
                     <Input

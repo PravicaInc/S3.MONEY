@@ -13,6 +13,8 @@ import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Button } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 
+import { suiAddressRegExp } from '@/utils/validators';
+
 import { useFreezeAddress } from '@/hooks/useFreezeAddress';
 import { StableCoin } from '@/hooks/useStableCoinsList';
 
@@ -41,7 +43,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
       .string()
       .trim()
       .required('Wallet address is required.')
-      .matches(/^0[xX][a-fA-F0-9]{64}$/, 'Wallet address is incorrect.'),
+      .matches(suiAddressRegExp, 'Wallet address is incorrect.'),
   });
   const formMethods = useForm({
     resolver: yupResolver(freezeAddressFormSchema),

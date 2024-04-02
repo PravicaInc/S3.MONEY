@@ -14,6 +14,7 @@ import { Input } from '@/Components/Form/Input';
 import { Label } from '@/Components/Form/Label';
 
 import { PAGES_URLS } from '@/utils/const';
+import { suiAddressRegExp } from '@/utils/validators';
 
 export interface RolesStableCoinData extends Record<string, string> {}
 
@@ -30,7 +31,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
     .string()
     .trim()
     .required('Wallet address is required.')
-    .matches(/^0[xX][a-fA-F0-9]{64}$/, 'Wallet address is incorrect.');
+    .matches(suiAddressRegExp, 'Wallet address is incorrect.');
   const rolesAssignmentFormSchema = yup.object().shape(
     fields.reduce(
       (accumulator, next) => ({
