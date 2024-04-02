@@ -17,7 +17,7 @@ const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
 // simple token template
 const TOKEN_SIMPLE = `${CWD}/coin_template/token1`
 // supply-constrained token template
-const TOKEN_SUPPLY = `${CWD}/coin_template/token2`
+const TOKEN_SUPPLY = `${CWD}/coin_template/token3`
 
 const port = process.env.PORT || 3000
 const app: Express = express()
