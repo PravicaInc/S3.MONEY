@@ -1,9 +1,10 @@
 'use client';
 
-import { ReactNode, useEffect, useMemo } from 'react';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
 import { UrlObject } from 'url';
 
@@ -11,10 +12,12 @@ import BurnIcon from '@/../public/images/burn_icon.svg?jsx';
 import CashInIcon from '@/../public/images/cash_in_icon.svg?jsx';
 import MintIcon from '@/../public/images/mint_icon.svg?jsx';
 
+import { Alert } from '@/Components/Alert';
 import { Loader } from '@/Components/Loader';
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 import { FreezeAddressForm } from './components/FreezeAddressForm';
@@ -32,6 +35,8 @@ export default function DashboardOperationsPage() {
   } = useStableCoinsList(account?.address);
 
   const { coins: stableCoins = [] } = data || {};
+
+  const [showSystemIsPausedAlert, setShowSystemIsPausedAlert] = useState<boolean>(false);
 
   const isLoading = useMemo(
     () => autoConnectionStatus === 'idle',
@@ -113,6 +118,8 @@ export default function DashboardOperationsPage() {
     [showBurnBlock, showCashInBlock, showMintBlock, searchParams]
   );
 
+  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(currentStableCoin?.deploy_addresses.pauser);
+
   useEffect(
     () => {
       if (!isLoading && !isRedirecting && !isStableCoinsListFetching && !currentStableCoin) {
@@ -122,16 +129,29 @@ export default function DashboardOperationsPage() {
     [isLoading, isRedirecting, isStableCoinsListFetching, currentStableCoin, router]
   );
 
+  useEffect(
+    () => {
+      if (searchParams.get('showPauseAlert')) {
+        setShowSystemIsPausedAlert(true);
+        router.replace(`${PAGES_URLS.dashboardOperations}?${qs.stringify({
+          ...Object.fromEntries(searchParams.entries()),
+          showPauseAlert: undefined,
+        })}`);
+      }
+    },
+    [searchParams, router]
+  );
+
   return (
     <div
       className={twMerge(
         'max-w-screen-2xl mx-auto p-8',
-        (isLoading || isRedirecting || isStableCoinsListLoading || !currentStableCoin)
+        (isLoading || isRedirecting || isStableCoinsListLoading || isPausedLoading || !currentStableCoin)
           && 'flex items-center justify-center h-full'
       )}
     >
       {
-        !(isLoading || isRedirecting || isStableCoinsListLoading) && currentStableCoin
+        !(isLoading || isRedirecting || isStableCoinsListLoading || isPausedLoading) && currentStableCoin
           ? (
             <>
               <div
@@ -171,7 +191,10 @@ export default function DashboardOperationsPage() {
                 {actions.map(({ title, icon, description, link }) => (
                   <Link
                     key={title}
-                    className="border border-borderPrimary rounded-[10px] bg-white p-6"
+                    className={twMerge(
+                      'border border-borderPrimary rounded-[10px] bg-white p-6',
+                      isPaused && 'pointer-events-none bg-borderPrimary bg-opacity-30'
+                    )}
                     href={link}
                   >
                     <div
@@ -194,6 +217,13 @@ export default function DashboardOperationsPage() {
             <Loader className="h-8" />
           )
       }
+      <Alert
+        visible={showSystemIsPausedAlert}
+        onClose={() => setShowSystemIsPausedAlert(false)}
+        onOkClick={() => setShowSystemIsPausedAlert(false)}
+        header="System is Paused!"
+        description="You cannot operate this project right now because the system is paused."
+      />
     </div>
   );
 }

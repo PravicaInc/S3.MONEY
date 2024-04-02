@@ -7,6 +7,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useAutoConnectWallet, useCurrentAccount, useSuiClient } from '@mysten/dapp-kit';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
+import qs from 'qs';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -23,6 +24,7 @@ import { suiAddressRegExp } from '@/utils/validators';
 import { useAllocate } from '@/hooks/useAllocate';
 import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
 import { isFrozenAccount } from '@/hooks/useFreezeAddress';
+import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 import { AllocateConfirm } from './components/AllocateConfirm';
@@ -63,6 +65,7 @@ export default function DashboardOperationsAllocatePage() {
     data: currentStableCoinBalance,
     isFetching: isCurrentStableCoinBalanceFetching,
   } = useCurrentStableCoinBalance(account?.address, currentStableCoin);
+  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(currentStableCoin?.deploy_addresses.pauser);
 
   const allocateFormSchema = yup.object().shape({
     allocateValue: yup
@@ -114,6 +117,18 @@ export default function DashboardOperationsAllocatePage() {
       }
     },
     [isLoading, isRedirecting, isStableCoinsListFetching, currentStableCoin, router]
+  );
+
+  useEffect(
+    () => {
+      if (isPaused) {
+        router.replace(`${PAGES_URLS.dashboardOperations}?${qs.stringify({
+          ...Object.fromEntries(searchParams.entries()),
+          showPauseAlert: true,
+        })}`);
+      }
+    },
+    [isPaused, router, searchParams]
   );
 
   useEffect(() => {
@@ -173,12 +188,12 @@ export default function DashboardOperationsAllocatePage() {
     <div
       className={twMerge(
         'max-w-screen-2xl mx-auto p-8',
-        (isLoading || isRedirecting || isStableCoinsListLoading || !currentStableCoin)
+        (isLoading || isRedirecting || isStableCoinsListLoading || isPausedLoading || isPaused || !currentStableCoin)
           && 'flex items-center justify-center h-full'
       )}
     >
       {
-        !(isLoading || isRedirecting || isStableCoinsListLoading) && currentStableCoin
+        !(isLoading || isRedirecting || isStableCoinsListLoading || isPausedLoading || isPaused) && currentStableCoin
           ? (
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
