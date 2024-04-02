@@ -46,6 +46,23 @@ export interface IPackageCreated {
   ticker_name?: string
 }
 
+export interface IRelatedItem {
+  label: string
+  address: string
+}
+export interface IRelatedCreate {
+  label: string
+  address: string
+}
+export interface IRelatedDelete {
+  label: string
+}
+
+export interface IRelatedModify {
+  label: string
+  new_label: string
+}
+
 export function reqToCreated(data: ICreatePackageRequest, s3key: string | undefined): IPackageCreated {
   return {
     address: data.address,
