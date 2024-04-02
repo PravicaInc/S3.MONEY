@@ -29,6 +29,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.3
+  slug:
+    specifier: ^9.0.0
+    version: 9.0.0
   zip-lib:
     specifier: ^1.0.3
     version: 1.0.3
@@ -49,6 +52,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.17
     version: 20.11.29
+  '@types/slug':
+    specifier: ^5.0.8
+    version: 5.0.8
   nodemon:
     specifier: ^3.0.3
     version: 3.1.0
@@ -1539,6 +1545,10 @@ packages:
       '@types/node': 20.11.29
     dev: true
 
+  /@types/slug@5.0.8:
+    resolution: {integrity: sha512-mblTWR1OST257k1gZ3QvqG+ERSr8Ea6dyM1FH6Jtm4jeXi0/r0/95VNctofuiywPxCVQuE8AuFoqmvJ4iVUlXQ==}
+    dev: true
+
   /@webassemblyjs/ast@1.12.1:
     resolution: {integrity: sha512-EKfMUOPRRUTy5UII4qJDGPpqfwjOmZ5jeGFwid9mnoqIFK+e0vqoi1qH56JpmZSzEL53jKnNzScdmftJyG5xWg==}
     dependencies:
@@ -2860,6 +2870,11 @@ packages:
     dependencies:
       semver: 7.6.0
     dev: true
+
+  /slug@9.0.0:
+    resolution: {integrity: sha512-ixytnHlpHPWM56heaGgYe/M8tDAcpJcsg/zBuyElbFDOORzMGOeP3Te6iJBRVYu3WQEiWLQPb70Gh9ig/sZgGQ==}
+    hasBin: true
+    dev: false
 
   /source-map-support@0.5.21:
     resolution: {integrity: sha512-uBHU3L3czsIyYXKX88fdrGovxdSCoTGDRZ6SYXtSRxLZUzHg5P/66Ht6uoUlHu9EZod+inXhKo3qQgwXUT/y1w==}
