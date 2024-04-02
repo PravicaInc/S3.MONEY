@@ -107,7 +107,7 @@ export default function DashboardOperationsMintPage() {
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : (
-            mintValue && (mintValue + stableCoinCurrentSupply) < (stableCoinMaxSupply || Infinity)
+            mintValue && (mintValue + stableCoinCurrentSupply) <= (stableCoinMaxSupply || Infinity)
               ? `${numberFormat(`${mintValue + stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`
               : '-'
           ),
@@ -129,7 +129,7 @@ export default function DashboardOperationsMintPage() {
             value: isLoadingStableCoinCurrentSupply || isLoadingStableCoinMaxSupply
               ? <Loader className="h-4" />
               : (
-                stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0) > 0
+                stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0) >= 0
                   ? `
                     ${numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0)}`)}
                     ${currentStableCoin?.ticker}
@@ -167,8 +167,13 @@ export default function DashboardOperationsMintPage() {
           showPauseAlert: true,
         })}`);
       }
+      else if (currentStableCoin && !currentStableCoin?.address_roles.includes('mint')) {
+        router.replace(`${PAGES_URLS.dashboardOperations}?${qs.stringify({
+          ...Object.fromEntries(searchParams.entries()),
+        })}`);
+      }
     },
-    [isPaused, router, searchParams]
+    [isPaused, router, searchParams, currentStableCoin]
   );
 
   useEffect(() => {
@@ -251,6 +256,12 @@ export default function DashboardOperationsMintPage() {
                       name="mintValue"
                       label="Amount"
                       labelClassName="font-semibold text-primary mb-4"
+                      restrictionLabel={`${
+                        stableCoinMaxSupply
+                          ? numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply}`)
+                          : '99,999,999,999'
+                      } max`}
+                      restrictionLabelClassName="mb-4"
                       isRequired
                       placeholder="Tokens to be minted"
                       className="w-full appearance-none"
