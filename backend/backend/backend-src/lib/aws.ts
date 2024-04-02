@@ -1,5 +1,6 @@
 import fs from 'fs'
 import {
+  DeleteItemCommand,
   DynamoDBClient,
   GetItemCommand,
   PutItemCommand,
@@ -9,10 +10,13 @@ import {
   TransactGetItemsCommand,
   TransactWriteItem,
   TransactWriteItemsCommand,
+  UpdateItemCommand,
 } from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 import {DeleteObjectCommand, PutObjectCommand, S3Client} from '@aws-sdk/client-s3'
 import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
+
+import slug from 'slug'
 
 import * as IFace from './interfaces'
 
@@ -368,83 +372,107 @@ export async function getAddressEventsDB(address: string) {
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 
-export async function getRelatedDB(address: string): Promise<Record<string, string>[]> {
-  const command = new GetItemCommand({
+export async function listRelatedDB(pkgaddress: string) {
+  const command = new QueryCommand({
     TableName: RELATED_TABLE,
-    Key: {
-      address: {S: address},
+    KeyConditionExpression: 'address = :address',
+    ExpressionAttributeValues: {
+      ':address': {S: pkgaddress},
     },
-    ProjectionExpression: 'related',
+    ProjectionExpression: 'slug, label, wallet_address',
   })
 
   const response = await dbclient.send(command)
-  if (response.Item === undefined) return []
 
-  return (unmarshall(response.Item) ?? {}).related
+  if (response.Items === undefined) return []
+  else return response.Items?.map(item => unmarshall(item)) ?? []
+}
+
+export async function getRelatedDB(pkgaddress: string, slug: string) {
+  const command = new GetItemCommand({
+    TableName: RELATED_TABLE,
+    Key: {
+      address: {S: pkgaddress},
+      slug: {S: slug},
+    },
+  })
+
+  const response = await dbclient.send(command)
+  if (response.Item === undefined) return null
+
+  return unmarshall(response.Item)
 }
 
 export async function createRelatedDB(address: string, data: IFace.IRelatedCreate) {
   // get existing item, if any
-  const existing: Record<string, string>[] = await getRelatedDB(address)
-
-  const already = existing.filter(item => item.label == data.label)
-  if (already.length != 0) {
-    return {error: `label '${data.label}' already exists for address: ${already[0].address}`}
-  }
+  const label_slug = slug(data.label)
+  const existing = await getRelatedDB(address, label_slug)
+  if (existing !== null) return {error: `label '${data.label}' already exists for address: ${existing.address}`}
 
   const command = new PutItemCommand({
     TableName: RELATED_TABLE,
     Item: marshall({
       address: address,
-      related: existing.concat({label: data.label, address: data.address}),
+      slug: label_slug,
+      label: data.label,
+      wallet_address: data.address,
     }),
   })
 
   return await dbclient.send(command)
 }
 
-export async function deleteRelatedDB(address: string, data: IFace.IRelatedDelete) {
+export async function deleteRelatedDB(address: string, slug: string) {
   // get existing item, if any
-  const existing = await getRelatedDB(address)
-  if (existing.length == 0) return
+  const existing = await getRelatedDB(address, slug)
+  if (existing === null) return
 
-  const filtered = existing.filter(item => item.label != data.label)
-
-  const command = new PutItemCommand({
+  const command = new DeleteItemCommand({
     TableName: RELATED_TABLE,
-    Item: marshall({
-      address: address,
-      related: filtered,
-    }),
+    Key: {
+      address: {S: address},
+      slug: {S: slug},
+    },
   })
 
   return await dbclient.send(command)
 }
 
-export async function modifyRelatedDB(address: string, data: IFace.IRelatedModify) {
-  // get existing item, if any
-  const existing = await getRelatedDB(address)
-  if (existing.length == 0) return
+export async function modifyRelatedDB(address: string, existing_slug: string, data: IFace.IRelatedModify) {
+  // check if the new label already exists
+  const new_slug = slug(data.label)
+  const maybe = await getRelatedDB(address, new_slug)
+  if (maybe !== null) return {error: `label '${data.label}' already exists for address: ${address}`}
 
-  let item_address = ''
-  let item_idx = 0
-  for (let idx = 0; idx < existing.length; idx++) {
-    if (existing[idx].label == data.label) {
-      item_address = existing[idx].address
-      item_idx = idx
-    } else if (existing[idx].label == data.new_label) {
-      return {error: `label '${data.new_label}' already exists for address: ${existing[idx].address}`}
-    }
-  }
-  existing[item_idx].label = data.new_label
+  const existing = await getRelatedDB(address, existing_slug)
+  if (existing == null) return {error: `entry '${existing_slug}' does not exist for address: ${address}`}
 
-  const command = new PutItemCommand({
-    TableName: RELATED_TABLE,
-    Item: marshall({
-      address: address,
-      related: existing,
-    }),
+  let items: TransactWriteItem[] = [
+    {
+      Delete: {
+        TableName: RELATED_TABLE,
+        Key: {
+          address: {S: address},
+          slug: {S: existing_slug},
+        },
+      },
+    },
+    {
+      Put: {
+        TableName: RELATED_TABLE,
+        Item: marshall({
+          address: address,
+          slug: new_slug,
+          label: data.label,
+          wallet_address: existing.wallet_address,
+        }),
+      },
+    },
+  ]
+
+  const txWriteCommand = new TransactWriteItemsCommand({
+    TransactItems: items,
   })
 
-  return await dbclient.send(command)
+  await dbclient.send(txWriteCommand)
 }
