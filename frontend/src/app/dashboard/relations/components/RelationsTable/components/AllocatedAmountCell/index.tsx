@@ -7,29 +7,34 @@ import { Loader } from '@/Components/Loader';
 
 import { numberFormat } from '@/utils/string_formats';
 
-import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
+import { useCurrentAllocatedAmountToAccount } from '@/hooks/useAllocate';
 import { StableCoin } from '@/hooks/useStableCoinsList';
 
-export interface BalanceCellProps extends HTMLAttributes<HTMLDivElement> {
+export interface AllocatedAmountCellProps extends HTMLAttributes<HTMLDivElement> {
   accountAddress: string;
   currentStableCoin: StableCoin;
   loaderClassName?: string;
 }
 
-export const BalanceCell: FC<BalanceCellProps> = ({ accountAddress, currentStableCoin, loaderClassName, ...props }) => {
+export const AllocatedAmountCell: FC<AllocatedAmountCellProps> = ({
+  accountAddress,
+  currentStableCoin,
+  loaderClassName,
+  ...props
+}) => {
   const {
-    data: currentStableCoinBalance,
-    isFetching: isCurrentStableCoinBalanceFetching,
-  } = useCurrentStableCoinBalance(accountAddress, currentStableCoin);
+    data: currentAllocatedAmountToAccount,
+    isFetching: isCurrentAllocatedAmountToAccountFetching,
+  } = useCurrentAllocatedAmountToAccount(accountAddress, currentStableCoin);
 
   return (
     <div {...props}>
       {
-        isCurrentStableCoinBalanceFetching
+        isCurrentAllocatedAmountToAccountFetching
           ? <Loader className={twMerge('h-4', loaderClassName)} />
           : (
             <>
-              {numberFormat(`${currentStableCoinBalance}`)}
+              {numberFormat(`${currentAllocatedAmountToAccount}`)}
               {' '}
               {currentStableCoin.ticker}
             </>

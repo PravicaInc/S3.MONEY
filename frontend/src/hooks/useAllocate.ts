@@ -1,9 +1,11 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
+import { useStableCoinEvents } from './useStableCoinEvents';
 import { useBuildTransaction } from './useBuildTransaction';
 import { getAllOwnedObjects } from './useCurrentBalance';
+import { StableCoin } from './useStableCoinsList';
 import { joinCoins } from './useStableCoinSupply';
 
 export const useAllocate = () => {
@@ -104,6 +106,49 @@ export const useAllocate = () => {
       queryClient.invalidateQueries({
         queryKey: ['current-stable-coin-balance'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['current-allocated-amount-to-account', recipientAddresses],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['last-allocated-date-to-account', recipientAddresses],
+      });
     },
+  });
+};
+
+export const useCurrentAllocatedAmountToAccount = (walletAddress?: string, stableCoin?: StableCoin) => {
+  const stableCoinEvents = useStableCoinEvents(stableCoin);
+
+  return useQuery<number>({
+    queryKey: ['current-allocated-amount-to-account', walletAddress, stableCoin?.ticker, stableCoinEvents.data],
+    queryFn: async () => (
+      walletAddress && stableCoin && stableCoinEvents.data
+        ? stableCoinEvents.data
+          .filter(({ parsedJson }) => parsedJson.recipient === walletAddress)
+          .map(({ parsedJson: { amount } }) => parseFloat(amount))
+          .reduce((accumulator, next) => accumulator + next)
+        : Promise.resolve(0)
+    ),
+    enabled: !!stableCoinEvents.data,
+  });
+};
+
+export const useLastAllocatedDateToAccount = (walletAddress?: string, stableCoin?: StableCoin) => {
+  const stableCoinEvents = useStableCoinEvents(stableCoin);
+
+  return useQuery<Date | undefined>({
+    queryKey: ['last-allocated-date-to-account', walletAddress, stableCoin?.ticker, stableCoinEvents.data],
+    queryFn: async () => {
+      const lastTimeStamp = walletAddress && stableCoin && stableCoinEvents.data
+        ? stableCoinEvents.data
+          .filter(({ parsedJson }) => parsedJson.recipient === walletAddress)
+          .map(({ timestampMs }) => parseInt(timestampMs))
+          .sort()
+          .at(-1)
+        : 0;
+
+      return lastTimeStamp ? new Date(lastTimeStamp) : undefined;
+    },
+    enabled: !!stableCoinEvents.data,
   });
 };

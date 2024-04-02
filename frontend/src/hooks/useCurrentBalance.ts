@@ -73,13 +73,13 @@ export async function getAllOwnedObjects(
     cursor,
   }: GetOwnedObjectsParams
 ): Promise<StableCoinBalanceObject[]> {
-  const { data, hasNextPage, nextCursor } = (await suiClient.getOwnedObjects({
+  const { data, hasNextPage, nextCursor } = await suiClient.getOwnedObjects({
     owner,
     cursor,
     options: {
       showContent: true,
     },
-  }));
+  });
 
   return [
     ...data as unknown as StableCoinBalanceObject[],

@@ -24,9 +24,11 @@ import { getShortAccountAddress } from '@/utils/string_formats';
 import { Relation, useCreateRelation, useEditRelation } from '@/hooks/useRelations';
 import { StableCoin } from '@/hooks/useStableCoinsList';
 
+import { AllocatedAmountCell } from './components/AllocatedAmountCell';
 import { BalanceCell } from './components/BalanceCell';
 import { CreateRelationFormData, CreateRelationModal } from './components/CreateRelationModal';
 import { EditRelationFormData, EditRelationModal } from './components/EditRelationModal';
+import { LastAllocatedDateCell } from './components/LastAllocatedDateCell';
 
 export interface RelationsTableProps extends HTMLAttributes<HTMLDivElement> {
   relationsList: Relation[];
@@ -53,6 +55,7 @@ export const RelationsTable: FC<RelationsTableProps> = ({
     () => [
       {
         accessorKey: 'label',
+        id: 'name',
         header: 'Name',
         cell: info => info.getValue(),
         minSize: 0,
@@ -60,6 +63,7 @@ export const RelationsTable: FC<RelationsTableProps> = ({
       },
       {
         accessorKey: 'wallet_address',
+        id: 'address',
         header: 'Address',
         cell: info => getShortAccountAddress(info.getValue() as string),
         enableSorting: false,
@@ -67,14 +71,22 @@ export const RelationsTable: FC<RelationsTableProps> = ({
         size: 160,
       },
       {
+        accessorKey: 'wallet_address',
+        id: 'allocated',
         header: 'Allocated',
-        cell: () => 'Allocated',
+        cell: info => (
+          <AllocatedAmountCell
+            accountAddress={info.getValue() as string}
+            currentStableCoin={currentStableCoin}
+          />
+        ),
         enableSorting: false,
         minSize: 0,
         size: 194,
       },
       {
         accessorKey: 'wallet_address',
+        id: 'balance',
         header: 'Balance',
         cell: info => (
           <BalanceCell
@@ -87,8 +99,15 @@ export const RelationsTable: FC<RelationsTableProps> = ({
         size: 194,
       },
       {
+        accessorKey: 'wallet_address',
+        id: 'last-allocation-date',
         header: 'Last Allocation Date',
-        cell: () => 'Last Allocation Date',
+        cell: info => (
+          <LastAllocatedDateCell
+            accountAddress={info.getValue() as string}
+            currentStableCoin={currentStableCoin}
+          />
+        ),
         enableSorting: false,
         minSize: 0,
         size: 194,
@@ -175,11 +194,11 @@ export const RelationsTable: FC<RelationsTableProps> = ({
       <table className="w-full text-left relative">
         {
           isFetching && (
-            <div
+            <span
               className="absolute w-full h-full top-0 flex items-center justify-center bg-black bg-opacity-40"
             >
               <Loader className="h-8" />
-            </div>
+            </span>
           )
         }
         <thead>
