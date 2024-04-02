@@ -233,6 +233,59 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
   return {error: '', data: data}
 }
 
+export async function validRelatedCreate(data: IFace.IRelatedCreate): Promise<IFace.IValid> {
+  const stringFields = ['label', 'address']
+
+  for (const field of stringFields) {
+    if (!(field in data)) {
+      console.log(`missing field: ${field}`)
+      return {error: `missing field: ${field}`}
+    }
+  }
+
+  if (data.label.trim() == '') {
+    console.log('missing field: label')
+    return {error: 'missing field: label'}
+  }
+
+  if (!isValidAddress(data.address)) {
+    console.log(`invalid address: ${data.address}`)
+    return {error: `invalid address: ${data.address}`}
+  }
+
+  return {error: '', data: data}
+}
+
+export async function validRelatedDelete(data: IFace.IRelatedDelete): Promise<IFace.IValid> {
+  if (!('label' in data) || data.label == '') {
+    console.log('missing field: label')
+    return {error: 'missing field: label'}
+  }
+
+  return {error: '', data: data}
+}
+
+export async function validRelatedModify(data: IFace.IRelatedModify): Promise<IFace.IValid> {
+  const stringFields = ['label', 'new_label']
+
+  for (const field of stringFields) {
+    if (!(field in data)) {
+      console.log(`missing field: ${field}`)
+      return {error: `missing field: ${field}`}
+    }
+  }
+
+  if (data.label.trim() == '' || data.new_label.trim() == '') {
+    console.log('missing field')
+    return {error: 'missing field'}
+  } else {
+    data.label = data.label.trim()
+    data.new_label = data.new_label.trim()
+  }
+
+  return {error: '', data: data}
+}
+
 export function validIconRequest(data: IFace.IPackageIcon): IFace.IValid {
   const stringFields = ['address', 'fileName']
 
