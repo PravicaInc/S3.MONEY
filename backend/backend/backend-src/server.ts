@@ -73,7 +73,7 @@ app.post('/published', async (req: Request<{}, {}, IFace.IPackageCreated>, res) 
     res.status(200).json({status: 'ok', message: 'saved'})
   } else {
     res.status(400).json({
-      error: 400,
+      status: 'error',
       message: v.error,
     })
   }
@@ -94,7 +94,7 @@ app.post('/generateIconURL', async (req: Request<{}, {}, IFace.IPackageIcon>, re
     res.status(200).json({status: 'ok', url: url})
   } else {
     res.status(400).json({
-      error: 400,
+      status: 'error',
       message: v.error,
     })
   }
@@ -109,7 +109,7 @@ app.get('/balances/:address', async (req, res) => {
     })
   } else {
     res.status(400).json({
-      error: 400,
+      status: 'error',
       message: `invalid address: ${address}`,
     })
   }
@@ -124,7 +124,7 @@ app.get('/package-events/:address/:ticker', async (req, res) => {
     })
   } else {
     res.status(400).json({
-      error: 400,
+      status: 'error',
       message: `invalid address: ${address}`,
     })
   }
@@ -139,7 +139,99 @@ app.get('/address-events/:address', async (req, res) => {
     })
   } else {
     res.status(400).json({
-      error: 400,
+      status: 'error',
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
+app.get('/related/:address', async (req, res) => {
+  const {address} = req.params
+  if (Checks.isValidAddress(address)) {
+    res.status(200).json({
+      status: 'ok',
+      related: await AWS.getRelatedDB(address),
+    })
+  } else {
+    res.status(400).json({
+      status: 'error',
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
+app.post('/related/:address', async (req, res) => {
+  const {address} = req.params
+  const v = await Checks.validRelatedCreate(req.body)
+  if (Checks.isValidAddress(address) && v.error === '') {
+    const ret = await AWS.createRelatedDB(address, v.data as IFace.IRelatedCreate)
+    if (ret !== undefined && 'error' in ret) {
+      res.status(400).json({
+        status: 'error',
+        message: ret.error,
+      })
+    } else {
+      res.status(200).json({
+        status: 'ok',
+      })
+    }
+  } else if (v.error != '') {
+    res.status(400).json({
+      status: 'error',
+      message: v.error,
+    })
+  } else {
+    res.status(400).json({
+      status: 'error',
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
+app.post('/related/:address/delete', async (req, res) => {
+  const {address} = req.params
+  const v = await Checks.validRelatedDelete(req.body)
+  if (Checks.isValidAddress(address) && v.error === '') {
+    await AWS.deleteRelatedDB(address, v.data as IFace.IRelatedDelete)
+    res.status(200).json({
+      status: 'ok',
+    })
+  } else if (v.error != '') {
+    res.status(400).json({
+      status: 'error',
+      message: v.error,
+    })
+  } else {
+    res.status(400).json({
+      status: 'error',
+      message: `invalid address: ${address}`,
+    })
+  }
+})
+
+app.post('/related/:address/modify', async (req, res) => {
+  const {address} = req.params
+  const v = await Checks.validRelatedModify(req.body)
+  if (Checks.isValidAddress(address) && v.error === '') {
+    const ret = await AWS.modifyRelatedDB(address, v.data as IFace.IRelatedModify)
+    if (ret !== undefined && 'error' in ret) {
+      res.status(400).json({
+        status: 'error',
+        message: ret.error,
+      })
+    } else {
+      res.status(200).json({
+        status: 'ok',
+      })
+    }
+  } else if (v.error != '') {
+    res.status(400).json({
+      status: 'error',
+      message: v.error,
+    })
+  } else {
+    res.status(400).json({
+      status: 'error',
       message: `invalid address: ${address}`,
     })
   }
@@ -156,7 +248,7 @@ app.get('/packages/:address', async (req, res) => {
     })
   } else {
     res.status(400).json({
-      error: 400,
+      status: 'error',
       message: `invalid address: ${address}`,
     })
   }
@@ -174,14 +266,14 @@ app.get('/packages/:address/:param', async (req, res) => {
 
   if (!addressCheck) {
     return res.status(400).json({
-      error: 400,
+      status: 'error',
       message: `invalid address: ${address}`,
     })
   }
 
   if (tickerCheck !== '' && !digestCheck) {
     return res.status(400).json({
-      error: 400,
+      status: 'error',
       message: `invalid field: ${param}`,
     })
   }
