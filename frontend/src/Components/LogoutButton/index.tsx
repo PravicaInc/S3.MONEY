@@ -48,7 +48,7 @@ export const LogoutButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = ({ clas
                 border border-borderPrimary rounded-[10px]
                 h-10 px-4 flex items-center justify-between gap-2
                 text-secondary font-medium text-sm
-                transition
+                transition shadow-logoutButton
                 hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary
               `,
               className
