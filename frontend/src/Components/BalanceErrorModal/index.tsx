@@ -59,7 +59,7 @@ export const BalanceErrorModal: FC<BalanceErrorModalProps> = ({
           Close
         </Button>
         {
-          suiClientContext.network === 'testnet' && (
+          ['testnet', 'devnet'].includes(suiClientContext.network) && (
             <Button
               className="h-[56px] col-span-3"
               onClick={requestToken}
