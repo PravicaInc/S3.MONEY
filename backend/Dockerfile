@@ -1,7 +1,7 @@
 FROM node:20-bookworm-slim
 
-ENV RELEASE="testnet-v1.21.0"
-ENV RELEASE_ARCHIVE="sui-testnet-v1.21.0-ubuntu-x86_64.tgz"
+ENV RELEASE="testnet-v1.22.0"
+ENV RELEASE_ARCHIVE="sui-testnet-v1.22.0-ubuntu-x86_64.tgz"
 ENV WORK_DIR="/contracts"
 ENV HOME="/home/s3"
 
