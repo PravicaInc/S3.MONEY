@@ -34,6 +34,22 @@ interface CreateStableCoinData
   }
 
 export default function CreateStableCoinPage() {
+  const stepsDescriptions = [
+    `
+      Choose a name and ticker for your new stablecoin.
+      You can also upload an icon for your stablecoin, which should be 300x300 pixels.
+    `,
+    `
+      The initial supply will be transferred to your account upon the completion of your project.
+      Choose a supply type and decimal count that suits your needs.
+    `,
+    `
+      Core permissions for your stablecoin are presently default, given only to the issuer.
+      Soon, you'll be able to manage them.
+    `,
+    'Create a new stablecoin on SUI',
+  ];
+
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
   const createStableCoin = useCreateStableCoin();
@@ -253,9 +269,14 @@ export default function CreateStableCoinPage() {
         )}
       >
         <div className="flex items-center justify-between w-full">
-          <p className="font-semibold text-2xl text-primary">
-            Create New Stablecoin
-          </p>
+          <div>
+            <p className="font-semibold text-2xl text-primary">
+              Create New Stablecoin
+            </p>
+            <p className="text-sm text-[#475467] mt-4">
+              {stepsDescriptions[currentStep]}
+            </p>
+          </div>
           <Link href={PAGES_URLS.home} className="w-20 rounded-xl">
             <Button
               view={BUTTON_VIEWS.secondary}
