@@ -26,6 +26,8 @@ const config: Config = {
         deepPeach: '#FFCDA8',
         snowDrift: '#F8F9FB',
         mistBlue: '#666D80',
+        bluishGrey: '#808897',
+        tuna: '#353849',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
@@ -34,7 +36,8 @@ const config: Config = {
       boxShadow: {
         operationIcon: '0px 1.6666666269302368px 3.3333332538604736px 0px #0D0D121F',
         button: '1px 2px 4px 0px rgba(13, 13, 18, 0.12)',
-        'stableCoinForm': '0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814',
+        stableCoinForm: '0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814',
+        backgroundModalDecorative: '0px 1px 2px 0px #1018280D',
       },
     },
   },

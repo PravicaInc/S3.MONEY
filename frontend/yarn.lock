@@ -2057,6 +2057,18 @@
   dependencies:
     "@tanstack/query-core" "5.24.1"
 
+"@tanstack/react-table@^8.15.3":
+  version "8.15.3"
+  resolved "https://registry.npmjs.org/@tanstack/react-table/-/react-table-8.15.3.tgz"
+  integrity sha512-aocQ4WpWiAh7R+yxNp+DGQYXeVACh5lv2kk96DjYgFiHDCB0cOFoYMT/pM6eDOzeMXR9AvPoLeumTgq8/0qX+w==
+  dependencies:
+    "@tanstack/table-core" "8.15.3"
+
+"@tanstack/table-core@8.15.3":
+  version "8.15.3"
+  resolved "https://registry.npmjs.org/@tanstack/table-core/-/table-core-8.15.3.tgz"
+  integrity sha512-wOgV0HfEvuMOv8RlqdR9MdNNqq0uyvQtP39QOvGlggHvIObOE4exS+D5LGO8LZ3LUXxId2IlUKcHDHaGujWhUg==
+
 "@testing-library/dom@^9.0.0", "@testing-library/dom@>=7.21.4":
   version "9.3.4"
   resolved "https://registry.npmjs.org/@testing-library/dom/-/dom-9.3.4.tgz"
@@ -5408,6 +5420,11 @@ modern-ahocorasick@^1.0.0:
   resolved "https://registry.npmjs.org/modern-ahocorasick/-/modern-ahocorasick-1.0.1.tgz"
   integrity sha512-yoe+JbhTClckZ67b2itRtistFKf8yPYelHLc7e5xAwtNAXxM6wJTUx2C7QeVSJFDzKT7bCIFyBVybPMKvmB9AA==
 
+moment@^2.30.1:
+  version "2.30.1"
+  resolved "https://registry.npmjs.org/moment/-/moment-2.30.1.tgz"
+  integrity sha512-uEmtNhbDOrWPFS+hdjFCBfy9f2YoyzRpwcl+DqpC6taX21FzsTLQVbMV/W7PzNSX6x/bhC1zA3c2UQ5NzH6how==
+
 ms@^2.1.1, ms@2.1.2:
   version "2.1.2"
   resolved "https://registry.npmjs.org/ms/-/ms-2.1.2.tgz"
@@ -5945,7 +5962,7 @@ rc-util@^5.21.0, rc-util@^5.24.4, rc-util@^5.38.0:
     "@babel/runtime" "^7.18.3"
     react-is "^18.2.0"
 
-"react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^18, react-dom@^18.0.0, react-dom@^18.2.0, react-dom@>=16.14.0, react-dom@>=16.8.0, react-dom@>=16.9.0, react-dom@>=18:
+"react-dom@^16.8 || ^17.0 || ^18.0", react-dom@^18, react-dom@^18.0.0, react-dom@^18.2.0, react-dom@>=16.14.0, react-dom@>=16.8, react-dom@>=16.8.0, react-dom@>=16.9.0, react-dom@>=18:
   version "18.2.0"
   resolved "https://registry.npmjs.org/react-dom/-/react-dom-18.2.0.tgz"
   integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
