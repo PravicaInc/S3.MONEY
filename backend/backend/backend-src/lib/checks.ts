@@ -1,15 +1,16 @@
 import fs from 'fs'
 
 import * as IFace from './interfaces'
-import {getPackageDB} from './aws'
+import * as packageOps from './db/packages'
 import {isValidSuiAddress, isValidSuiObjectId, isValidTransactionDigest} from '@mysten/sui.js/utils'
+import {tickerToPackageName} from '../utils'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
 
 const TICKER_REGEX = new RegExp(/^[-+_$\w\d]+$/)
 
-export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IFace.IValid> {
+export async function validCreate(data: IFace.ContractCreate): Promise<IFace.IValid> {
   const stringFields = ['ticker', 'name', 'decimals', 'address']
 
   for (const field of stringFields) {
@@ -38,9 +39,8 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
     return {error: v}
   }
 
-  // downcase the package name and remove $
-  data.packageName = data.ticker.toLowerCase().trim().substring(1)
-  data.description = data.name
+  data.packageName = tickerToPackageName(data.ticker)
+  data.description ??= data.name
 
   data.initialSupply = data.initialSupply || '0'
   data.maxSupply = data.maxSupply || '0'
@@ -75,7 +75,7 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
   }
 
   // FIXME: can only deploy one package for each ticker
-  const pkg = await getPackageDB(data.address, data.packageName)
+  const pkg = await packageOps.getPackage(data.address, data.packageName)
   if (pkg !== null && pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
@@ -85,7 +85,6 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
 
   if (data.icon_url !== undefined) {
     data.icon_url = data.icon_url.trim()
-    data.raw_icon_url = data.icon_url
     try {
       new URL(data.icon_url)
     } catch (e) {
@@ -95,7 +94,6 @@ export async function validCreate(data: IFace.ICreatePackageRequest): Promise<IF
     data.icon_url = `option::some(url::new_unsafe_from_bytes(b"${data.icon_url}"))`
   } else {
     data.icon_url = 'option::none()'
-    data.raw_icon_url = ''
   }
 
   // if any roles are not sent, set them to the deployer's address
@@ -156,10 +154,10 @@ export async function validCancel(data: IFace.IPackageCreated): Promise<IFace.IV
   }
 
   // downcase the package name and remove $
-  data.packageName = data.ticker.toLowerCase().trim().substring(1)
+  data.packageName = tickerToPackageName(data.ticker)
 
   // cannot cancel a published package
-  const pkg = await getPackageDB(data.address, data.packageName)
+  const pkg = await packageOps.getPackage(data.address, data.packageName)
   if (pkg !== null && pkg.deploy_status == IFace.PackageStatus.PUBLISHED) {
     console.log(`package already published: ${data.address}/${data.packageName}`)
     return {
@@ -215,9 +213,9 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
   }
 
   // downcase the package name and remove $
-  data.packageName = data.ticker.toLowerCase().trim().substring(1)
+  data.packageName = tickerToPackageName(data.ticker)
 
-  const pkg = await getPackageDB(data.address, data.packageName)
+  const pkg = await packageOps.getPackage(data.address, data.packageName)
   if (pkg === null) {
     console.log(`package not created: ${data.address}/${data.packageName}`)
     return {
@@ -233,7 +231,7 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
   return {error: '', data: data}
 }
 
-export async function validRelatedCreate(data: IFace.IRelatedCreate): Promise<IFace.IValid> {
+export async function validRelatedCreate(data: IFace.IRelationCreate): Promise<IFace.IValid> {
   const stringFields = ['label', 'address']
 
   for (const field of stringFields) {
@@ -256,7 +254,7 @@ export async function validRelatedCreate(data: IFace.IRelatedCreate): Promise<IF
   return {error: '', data: data}
 }
 
-export async function validRelatedDelete(data: IFace.IRelatedDelete): Promise<IFace.IValid> {
+export async function validRelatedDelete(data: IFace.IRelationDelete): Promise<IFace.IValid> {
   if (!('label' in data) || data.label == '') {
     console.log('missing field: label')
     return {error: 'missing field: label'}
@@ -265,7 +263,7 @@ export async function validRelatedDelete(data: IFace.IRelatedDelete): Promise<IF
   return {error: '', data: data}
 }
 
-export async function validRelatedModify(data: IFace.IRelatedModify): Promise<IFace.IValid> {
+export async function validRelatedModify(data: IFace.IRelationRename): Promise<IFace.IValid> {
   const stringFields = ['label', 'new_label']
 
   if (!('label' in data) || data.label.trim() == '') {

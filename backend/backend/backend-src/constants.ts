@@ -1,0 +1,28 @@
+/**
+ * @file Common constants used by the backend.
+ */
+
+export const S3 = {
+  BUCKET: 's3m-contracts-dev',
+  ICON_URL_TTL: 3600,
+}
+
+export const DB = {
+  // tables for deployed contracts
+  DEPLOYED_TABLE: 's3m-contracts-dev',
+  ROLES_TABLE: 's3m-roles-dev',
+  ROLES_INDEX: 's3m-roles-by-address-index-dev',
+  // tables for events and things derived from balance
+  ADDRESS_EVENTS_TABLE: 's3m-address-events-dev',
+  CONTRACT_EVENTS_TABLE: 's3m-contracts-events-dev',
+  BALANCES_TABLE: 's3m-balances-dev',
+  LASTFETCH_TABLE: 's3m-contracts-lastfetch-dev',
+  // table for related wallet addresses
+  RELATED_TABLE: 's3m-related-dev',
+}
+
+// supply-constrained token template
+// note: no leading or trailing slash
+export const TOKEN_SUPPLY_PATH = `coin_template/token3`
+
+// eof
