@@ -1,287 +1,63 @@
-import * as child from 'child_process'
-import {createHmac} from 'crypto'
-import fs from 'fs'
-import express, {Express, Request} from 'express'
+/**
+ * @file Entry point for the API server.
+ */
+
 import cors from 'cors'
-import ejs from 'ejs'
+import express, {Express, Request} from 'express'
 
-import {Zip} from 'zip-lib'
+import {TOKEN_SUPPLY_PATH} from './constants'
+import * as events from './events'
+import * as packages from './packages'
+import * as relations from './relations'
 
-import * as IFace from './lib/interfaces'
-import * as Checks from './lib/checks'
-import * as AWS from './lib/aws'
+const PORT = process.env.PORT || 3000
+const app: Express = express()
 
 const CWD = process.cwd()
+const TOKEN_PATH = `${CWD}/${TOKEN_SUPPLY_PATH}`
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
 
-// simple token template
-const TOKEN_SIMPLE = `${CWD}/coin_template/token1`
-// supply-constrained token template
-const TOKEN_SUPPLY = `${CWD}/coin_template/token3`
-
-const port = process.env.PORT || 3000
-const app: Express = express()
+declare module 'express-serve-static-core' {
+  export interface Request {
+    tokenPath: string
+    workDir: string
+  }
+}
 
 app.use(express.json())
 app.use(cors())
 app.options('*', cors())
 
+app.use((req: Request, res, next) => {
+  req.tokenPath = TOKEN_PATH
+  req.workDir = WORK_DIR
+  next()
+})
+
 app.get('/', (req, res) => {
   return res.send({status: 'ok'}).json()
 })
 
-app.post('/create', async (req: Request<{}, {}, IFace.ICreatePackageRequest>, res) => {
-  const v = await Checks.validCreate(req.body)
-  if (v.error === '') {
-    let r = await createPackage(v.data! as IFace.ICreatePackageRequest)
-    if (r.error === '') {
-      res.status(200).json({
-        status: 'ok',
-        ...r,
-      })
-    } else {
-      res.status(400).json({
-        status: 'error',
-        message: r.error,
-      })
-    }
-  } else {
-    res.status(400).json({
-      error: 400,
-      message: v.error, // 'Missing data to create coin',
-    })
-  }
-})
+// creating packages
+app.post('/create', packages.handleCreate)
+app.post('/cancel', packages.handleCancel)
+app.post('/published', packages.handlePublished)
+app.post('/generateIconURL', packages.handleIconUrlRequest)
 
-app.post('/cancel', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => {
-  const v = await Checks.validCancel(req.body)
-  if (v.error === '') {
-    await deletePackage(v.data! as IFace.IPackageCreated)
-    res.status(200).json({status: 'ok', message: 'deleted'})
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  }
-})
+// getting packages
+app.get('/packages/:address', packages.handleGetPackages)
+app.get('/packages/:address/:param', packages.handleGetFilteredPackages)
 
-app.post('/published', async (req: Request<{}, {}, IFace.IPackageCreated>, res) => {
-  const v = await Checks.validPublish(req.body)
-  if (v.error === '') {
-    await savePackage(v.data! as IFace.IPackageCreated)
-    res.status(200).json({status: 'ok', message: 'saved'})
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  }
-})
+// creating wallet relationships
+app.get('/related/:pkgAddress', relations.handleGetRelations)
+app.post('/related/:pkgAddress', relations.handleCreateRelation)
+app.delete('/related/:pkgAddress/:slug', relations.handleDeleteRelation)
+app.patch('/related/:pkgAddress/:slug', relations.handleRenameRelation)
 
-app.post('/generateIconURL', async (req: Request<{}, {}, IFace.IPackageIcon>, res) => {
-  const v = Checks.validIconRequest(req.body)
-  if (v.error === '') {
-    const data = v.data! as IFace.IPackageIcon
-    let ext = '.png'
-    if (data.fileName.includes('.')) {
-      ext = data.fileName.split('.').slice(-1)[0]
-      if (ext.length > 4) ext = ext.slice(0, 4)
-    }
-    const name = createHmac('sha256', new Date().toISOString()).update(data.fileName).digest('hex')
-    const key = `icons/${data.address}/${name}.${ext}`
-    let url = await AWS.createPresignedUrlForIcon(key)
-    res.status(200).json({status: 'ok', url: url})
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  }
-})
-
-app.get('/balances/:address', async (req, res) => {
-  const {address} = req.params
-  if (Checks.isValidAddress(address)) {
-    res.status(200).json({
-      status: 'ok',
-      balances: await AWS.getBalancesDB(address),
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
-  }
-})
-
-app.get('/package-events/:address/:ticker', async (req, res) => {
-  const {address, ticker} = req.params
-  if (Checks.isValidPackage(address)) {
-    res.status(200).json({
-      status: 'ok',
-      events: await AWS.getPackageEventsDB(address, ticker),
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
-  }
-})
-
-app.get('/address-events/:address', async (req, res) => {
-  const {address} = req.params
-  if (Checks.isValidAddress(address)) {
-    res.status(200).json({
-      status: 'ok',
-      events: await AWS.getAddressEventsDB(address),
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
-  }
-})
-
-app.get('/related/:pkgaddress', async (req, res) => {
-  const {pkgaddress} = req.params
-  if (Checks.isValidPackage(pkgaddress)) {
-    res.status(200).json({
-      status: 'ok',
-      related: await AWS.listRelatedDB(pkgaddress),
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid package address: ${pkgaddress}`,
-    })
-  }
-})
-
-app.post('/related/:pkgaddress', async (req, res) => {
-  const {pkgaddress} = req.params
-  const v = await Checks.validRelatedCreate(req.body)
-  if (Checks.isValidPackage(pkgaddress) && v.error === '') {
-    const ret = await AWS.createRelatedDB(pkgaddress, v.data as IFace.IRelatedCreate)
-    if (ret !== undefined && 'error' in ret) {
-      res.status(400).json({
-        status: 'error',
-        message: ret.error,
-      })
-    } else {
-      res.status(200).json({
-        status: 'ok',
-      })
-    }
-  } else if (v.error != '') {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${pkgaddress}`,
-    })
-  }
-})
-
-app.delete('/related/:pkgaddress/:slug', async (req, res) => {
-  const {pkgaddress, slug} = req.params
-  if (Checks.isValidPackage(pkgaddress) && slug.trim() != '') {
-    await AWS.deleteRelatedDB(pkgaddress, slug)
-    res.status(200).json({
-      status: 'ok',
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${pkgaddress}`,
-    })
-  }
-})
-
-app.patch('/related/:pkgaddress/:slug', async (req, res) => {
-  const {pkgaddress, slug} = req.params
-  const v = await Checks.validRelatedModify(req.body)
-  if (Checks.isValidPackage(pkgaddress) && v.error === '') {
-    const ret = await AWS.modifyRelatedDB(pkgaddress, slug, v.data as IFace.IRelatedModify)
-    if (ret !== undefined && 'error' in ret) {
-      res.status(400).json({
-        status: 'error',
-        message: ret.error,
-      })
-    } else {
-      res.status(200).json({
-        status: 'ok',
-      })
-    }
-  } else if (v.error != '') {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${pkgaddress}`,
-    })
-  }
-})
-
-app.get('/packages/:address', async (req, res) => {
-  const {address} = req.params
-  const summary = 'summary' in req.query
-
-  if (Checks.isValidPackage(address)) {
-    res.status(200).json({
-      status: 'ok',
-      packages: await packageData(address, undefined, summary),
-    })
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
-  }
-})
-
-app.get('/packages/:address/:param', async (req, res) => {
-  const {address, param} = req.params
-  const summary = 'summary' in req.query
-
-  // extra can be a ticker or a digest (txid)
-
-  const addressCheck = Checks.isValidAddress(address)
-  const tickerCheck = Checks.isValidTicker(param)
-  const digestCheck = Checks.isValidDigest(param)
-
-  if (!addressCheck) {
-    return res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
-  }
-
-  if (tickerCheck !== '' && !digestCheck) {
-    return res.status(400).json({
-      status: 'error',
-      message: `invalid field: ${param}`,
-    })
-  }
-
-  let extra: Record<string, string> = {}
-
-  if (digestCheck) extra.digest = param
-  else if (tickerCheck === '') extra.ticker = param.toLowerCase().slice(1)
-
-  res.status(200).json({
-    status: 'ok',
-    packages: await packageData(address, extra, summary),
-  })
-})
+// events and balances
+app.get('/package-events/:address/:ticker', events.HandleGetPackageEvents)
+app.get('/address-events/:address', events.handleGetAddressEvents)
+app.get('/balances/:address', events.handleGetBalances)
 
 // for dev/testing and as a heartbeat
 app.get('/t/env', async (req, res) => {
@@ -299,102 +75,6 @@ app.use((_, res) => {
   })
 })
 
-app.listen(port, () => {
-  console.log(`[server]: Server is running at port ${port}`)
+app.listen(PORT, () => {
+  console.log(`[server]: Server is running at port ${PORT}`)
 })
-
-/* Operations */
-
-async function createPackage(data: IFace.ICreatePackageRequest) {
-  let token: string = TOKEN_SUPPLY
-
-  const packagePath = `${WORK_DIR}/${data.address}/${data.packageName}`
-  const TMoveToml = fs.readFileSync(`${token}/Move.toml`, {
-    encoding: 'utf-8',
-  })
-  const TFiles = fs.readdirSync(`${token}/sources/`).filter(name => name.endsWith('.move'))
-
-  let path = `${packagePath}/sources`
-  fs.mkdirSync(path, {recursive: true})
-  console.log(`created ${path}`)
-
-  path = `${packagePath}/Move.toml`
-
-  const move = ejs.render(TMoveToml, data)
-  fs.writeFileSync(path, move)
-  console.log(`wrote to ${path}`)
-
-  for (const fname of TFiles) {
-    const TIn = fs.readFileSync(`${token}/sources/${fname}`, {
-      encoding: 'utf-8',
-    })
-
-    let TOut = `${packagePath}/sources/${fname}`
-
-    // special case: token.move -> <packageName>.move
-    // same with test
-    if (fname === 'token.move') {
-      TOut = `${packagePath}/sources/${data.packageName}.move`
-    } else if (fname === 'token_tests.move') {
-      TOut = `${packagePath}/sources/${data.packageName}_tests.move`
-    }
-
-    const merged = ejs.render(TIn, data)
-    fs.writeFileSync(TOut, merged)
-    console.log(`wrote to ${TOut}`)
-  }
-
-  // FIXME: look into this
-  let version
-  let ret
-  try {
-    version = child.execSync(`sui --version`, {encoding: 'utf-8'})
-    fs.writeFileSync(`${packagePath}/.built_with_sui`, version)
-
-    ret = child.execSync(`sui move build --dump-bytecode-as-base64`, {
-      cwd: packagePath,
-      encoding: 'utf-8',
-    })
-
-    const zip = new Zip()
-    zip.addFolder(packagePath, data.packageName!)
-    await zip.archive(`/tmp/${packagePath}.zip`)
-  } catch (e: any) {
-    console.log(e)
-    fs.rmSync(packagePath, {recursive: true})
-    return {modules: '', dependencies: '', error: e.toString()}
-  }
-
-  const package_zip_key = await AWS.savePackageS3(data.address, data.packageName!, `/tmp/${packagePath}.zip`)
-
-  const {modules, dependencies} = JSON.parse(ret)
-  // clear any existing roles
-  await AWS.deleteRolesDB(data.address, data.packageName!)
-
-  await AWS.savePackageDB(IFace.reqToCreated(data, package_zip_key), IFace.PackageStatus.CREATED)
-
-  return {modules, dependencies, error: ''}
-}
-
-async function deletePackage(data: IFace.IPackageCreated) {
-  const path = `${WORK_DIR}/${data.address}/${data.packageName}`
-  if (fs.existsSync(path)) {
-    await fs.rmSync(path, {recursive: true})
-  }
-  await AWS.deletePackageS3(data.address, data.packageName!)
-  await AWS.deletePackageDB(data.address, data.packageName!)
-}
-
-async function savePackage(data: IFace.IPackageCreated) {
-  const pkg = await AWS.getPackageDB(data.address, data.packageName!)
-  // at this point, we've already checked to see if pkg exists in the db
-  data.icon_url = pkg!.icon_url
-  data.ticker_name = pkg!.ticker_name
-  data.packageRoles = pkg!.package_roles
-  data.package_zip = pkg!.package_zip
-  await AWS.savePackageDB(data, IFace.PackageStatus.PUBLISHED)
-}
-
-async function packageData(address: string, extra: Record<string, string> | undefined, summary: boolean) {
-  return await AWS.listPackagesDB(address, extra, summary)
-}

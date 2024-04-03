@@ -1,3 +1,57 @@
+/**
+ * @file Interfaces and types.
+ */
+
+import {SuiSignAndExecuteTransactionBlockOutput} from '@mysten/wallet-standard'
+
+export interface PackageCreateRequest {
+  address: string // creator's address
+  network: string
+  maxSupply: string // can be "0"
+  initialSupply: string // can be "0"
+  roles: RoleMap
+  // coin metadata
+  ticker: string // short name, usually five or fewer characters (uppercase)
+  name: string
+  description: string
+  decimals: number
+  icon_url: string // substituted in the contract
+}
+export interface PackageCreateResponse {
+  status: string // 'ok' or 'error'
+  message?: string // error message, if any
+  modules?: string[]
+  dependencies?: string[]
+}
+
+export interface ContractCreate extends PackageCreateRequest {
+  packageName: string
+}
+
+export interface PackageCancelRequest {
+  address: string
+  ticker: string
+  created: boolean
+}
+
+export interface PackageCancelResponse {
+  status: string
+  message: string
+}
+
+export interface PackagePublishRequest {
+  address: string
+  ticker: string
+  txid: string
+  created: boolean
+  data: SuiSignAndExecuteTransactionBlockOutput
+}
+
+export interface PackagePublishResponse {
+  status: string
+  message: string
+}
+
 export enum PackageRoles {
   BURN = 'burn',
   MINT = 'mint', // should be same as burn
@@ -11,8 +65,16 @@ export type RoleMap = {
   [key in PackageRoles]: string
 }
 
-// TODO: use this properly, for type checking
-export interface ICreatePackageRequest {
+export enum PackageFilterKeys {
+  DIGEST = 'digest',
+  PACKAGE_NAME = 'packageName',
+}
+
+export type PackageFilter = {
+  [key in PackageFilterKeys]: string
+}
+
+export interface CreatePackageRequest {
   // creator's address
   address: string
   // coin metadata
@@ -50,19 +112,19 @@ export interface IRelatedItem {
   label: string
   address: string
 }
-export interface IRelatedCreate {
+export interface IRelationCreate {
   label: string
   address: string
 }
-export interface IRelatedDelete {
+export interface IRelationDelete {
   label: string
 }
 
-export interface IRelatedModify {
+export interface IRelationRename {
   label: string
 }
 
-export function reqToCreated(data: ICreatePackageRequest, s3key: string | undefined): IPackageCreated {
+export function reqToCreated(data: CreatePackageRequest, s3key: string | undefined): IPackageCreated {
   return {
     address: data.address,
     ticker: data.ticker,
