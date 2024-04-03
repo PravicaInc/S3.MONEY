@@ -3,7 +3,7 @@ import fs from 'fs'
 import * as IFace from './interfaces'
 import * as packageOps from './db/packages'
 import {isValidSuiAddress, isValidSuiObjectId, isValidTransactionDigest} from '@mysten/sui.js/utils'
-import {tickerToPackageName} from '../utils'
+import {tickerToPackageName} from './utils'
 
 const CWD = process.cwd()
 const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`
