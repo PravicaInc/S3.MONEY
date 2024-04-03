@@ -3,9 +3,9 @@
  */
 
 import {Request, Response} from 'express'
-import * as Checks from './lib/checks'
-import * as dbRelations from './lib/db/relations'
-import * as IFace from './lib/interfaces'
+import * as Checks from './checks'
+import * as dbRelations from './db/relations'
+import * as IFace from './interfaces'
 
 /**
  * Handler that returns a list of relations for a package.

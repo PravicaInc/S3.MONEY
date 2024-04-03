@@ -8,11 +8,10 @@ import {Zip} from 'zip-lib'
 
 import * as child from 'child_process'
 import fs from 'fs'
-import * as Checks from './lib/checks'
-import * as dbPackages from './lib/db/packages'
-import * as IFace from './lib/interfaces'
-import {CreatePackageRequest} from './lib/interfaces'
-import * as storage from './lib/storage'
+import * as Checks from './checks'
+import * as dbPackages from './db/packages'
+import * as IFace from './interfaces'
+import * as storage from './storage'
 import {tickerToPackageName} from './utils'
 
 /**
@@ -107,9 +106,9 @@ export async function handleIconUrlRequest(req: Request, res: Response) {
  *
  * @param {string} tokenPath - path to the token template directory
  * @param {string} workDir - path to the working directory where we create token packages
- * @param {CreatePackageRequest} data - package creation request
+ * @param {IFace.CreatePackageRequest} data - package creation request
  */
-async function createPackage(tokenPath: string, workDir: string, data: CreatePackageRequest) {
+async function createPackage(tokenPath: string, workDir: string, data: IFace.CreatePackageRequest) {
   let token: string = tokenPath
 
   const packagePath = `${workDir}/${data.address}/${data.packageName}`
