@@ -64,9 +64,9 @@ module <%- packageName %>::<%- packageName %> {
 
         maybe_mint_initial_supply(&mut treasury_cap, &policy, &supply, ctx);
 
-        transfer::public_transfer(treasury_cap, sender(ctx));
-        transfer::public_transfer(policy_cap, sender(ctx));
-        transfer::public_transfer(supply_cap, sender(ctx));
+        transfer::public_transfer(treasury_cap, @minter);
+        transfer::public_transfer(policy_cap, @pauser);
+        transfer::public_transfer(supply_cap, @minter);
 
         token::share_policy(policy);
         token_supply::share_supply(supply);

@@ -24,6 +24,8 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 [addresses]
 <%- packageName %> = "0x0"
 deployer = "<%- address %>"
+minter = "<%- roles.mint %>"
+pauser = "<%- roles.pause %>"
 
 # Named addresses will be accessible in Move as `@name`. They're also exported:
 # for example, `std = "0x1"` is exported by the Standard Library.
