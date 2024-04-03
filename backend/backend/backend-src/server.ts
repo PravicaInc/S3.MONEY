@@ -6,9 +6,9 @@ import cors from 'cors'
 import express, {Express, Request} from 'express'
 
 import {TOKEN_SUPPLY_PATH} from './constants'
-import * as events from './events'
-import * as packages from './packages'
-import * as relations from './relations'
+import * as events from './lib/events'
+import * as packages from './lib/packages'
+import * as relations from './lib/relations'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()

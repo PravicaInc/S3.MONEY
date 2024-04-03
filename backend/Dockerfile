@@ -15,14 +15,14 @@ RUN mkdir -p $HOME/app/node_modules $HOME/.move $WORK_DIR
 WORKDIR $HOME/app
 COPY --chown=node:node backend/ ./
 
-RUN npm install -g pnpm && scripts/install-sui.sh && chown -R node:node $HOME $WORK_DIR
+RUN scripts/install-sui.sh && chown -R node:node $HOME $WORK_DIR
 
 USER node
-RUN pnpm install && pnpm run build && sh scripts/install-deps.sh
+RUN npm install && npm run build && sh scripts/install-deps.sh
 
 ENV PORT=3000
 EXPOSE 3000/tcp
 
 ENV NODE_ENV="production"
 
-CMD ["pnpm", "start"]
+CMD ["npm", "start"]

@@ -3,8 +3,8 @@
  */
 
 import {Request, Response} from 'express'
-import * as Checks from './lib/checks'
-import * as dbEvents from './lib/db/events'
+import * as Checks from './checks'
+import * as dbEvents from './db/events'
 
 export async function handleGetBalances(req: Request, res: Response) {
   const {address} = req.params
