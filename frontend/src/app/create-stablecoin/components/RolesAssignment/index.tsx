@@ -4,7 +4,6 @@ import { FC, HTMLAttributes, ReactNode, useMemo } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCurrentAccount } from '@mysten/dapp-kit';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -13,20 +12,20 @@ import { CHECKBOX_VIEWS, SimpleCheckbox } from '@/Components/Form/Checkbox';
 import { Input } from '@/Components/Form/Input';
 import { Label } from '@/Components/Form/Label';
 
-import { PAGES_URLS } from '@/utils/const';
 import { suiAddressRegExp } from '@/utils/validators';
 
 export interface RolesStableCoinData extends Record<string, string> {}
 
 export interface RolesAssignmentProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: RolesStableCoinData) => unknown;
+  onBack: () => void;
   fields: {
     fieldName: string;
     label: ReactNode;
   }[];
 }
 
-export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit, fields, ...props }) => {
+export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit, onBack, fields, ...props }) => {
   const walletAddressSchema = yup
     .string()
     .trim()
@@ -141,14 +140,13 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({ className, onSubmit,
           }
         </div>
         <div className="flex items-center justify-between gap-6 mt-10">
-          <Link href={PAGES_URLS.home} className="w-full rounded-xl">
-            <Button
-              view={BUTTON_VIEWS.secondary}
-              className="h-14 w-full"
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            view={BUTTON_VIEWS.secondary}
+            className="h-14 w-full"
+            onClick={onBack}
+          >
+            Back
+          </Button>
           <Button
             className="h-14 w-full"
             type="submit"

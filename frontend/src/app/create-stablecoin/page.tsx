@@ -5,13 +5,17 @@ import { SubmitHandler } from 'react-hook-form';
 import { useAutoConnectWallet, useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { AxiosError } from 'axios';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Footer } from '@/Components/Footer';
+import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
 import { ProgressSteps } from '@/Components/ProgressSteps';
 import { ProgressStepItem } from '@/Components/ProgressSteps/components/ProgressStep';
+
+import { PAGES_URLS } from '@/utils/const';
 
 import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
@@ -75,6 +79,16 @@ export default function CreateStableCoinPage() {
       setProgressSteps(progressSteps.map((step, idx) => ({
         ...step,
         isActive: step.isActive || idx <= currentStep + 1,
+      })));
+    },
+    [currentStep, progressSteps]
+  );
+  const goToPreviousStep = useCallback(
+    () => {
+      setCurrentStep(currentStep - 1);
+      setProgressSteps(progressSteps.map((step, idx) => ({
+        ...step,
+        isActive: idx <= currentStep - 1,
       })));
     },
     [currentStep, progressSteps]
@@ -238,9 +252,19 @@ export default function CreateStableCoinPage() {
           (isLoading || isRedirecting) && 'hidden'
         )}
       >
-        <p className="font-semibold text-2xl text-primary">
-          Create New Stablecoin
-        </p>
+        <div className="flex items-center justify-between w-full">
+          <p className="font-semibold text-2xl text-primary">
+            Create New Stablecoin
+          </p>
+          <Link href={PAGES_URLS.home} className="w-20 rounded-xl">
+            <Button
+              view={BUTTON_VIEWS.secondary}
+              className="h-10 w-full text-sm"
+            >
+              Cancel
+            </Button>
+          </Link>
+        </div>
         <ProgressSteps
           steps={progressSteps}
           className="mt-8"
@@ -261,6 +285,7 @@ export default function CreateStableCoinPage() {
                 <SupplyDetails
                   onSubmit={onSupplyDetailsSubmit}
                   defaultValues={data}
+                  onBack={goToPreviousStep}
                 />
               )
             }
@@ -268,6 +293,7 @@ export default function CreateStableCoinPage() {
               currentStep === 2 && (
                 <AssignDefaultPermissions
                   onSubmit={onPermissionsSubmit}
+                  onBack={goToPreviousStep}
                 />
               )
             }
@@ -279,6 +305,7 @@ export default function CreateStableCoinPage() {
                     fieldName: value,
                     label: label.substring(0, label.indexOf('-')).trim(),
                   }))}
+                  onBack={goToPreviousStep}
                 />
               )
             }

@@ -5,15 +5,12 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useCurrentAccount } from '@mysten/dapp-kit';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
-import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
+import { Button } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
-
-import { PAGES_URLS } from '@/utils/const';
 
 import { useUploadImage } from '@/hooks/useUploadImage';
 
@@ -209,14 +206,6 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
           </div>
         </div>
         <div className="flex items-center justify-between gap-6 mt-10">
-          <Link href={PAGES_URLS.home} className="w-full rounded-xl">
-            <Button
-              view={BUTTON_VIEWS.secondary}
-              className="h-14 w-full"
-            >
-              Cancel
-            </Button>
-          </Link>
           <Button
             className="h-14 w-full"
             type="submit"
