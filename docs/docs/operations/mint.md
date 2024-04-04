@@ -11,3 +11,5 @@ It's important for the user to be cautious not to mint more tokens than the maxi
 In the case of an infinite supply, all minted tokens will be transferred to the connected account automatically.
 
 After filling out the supply details, the user can click the mint button. They will then review the mint details in a new prompt and proceed with the operation once they confirm the details.
+
+![Mint](../../static/img/mint.png)
