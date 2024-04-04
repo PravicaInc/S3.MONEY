@@ -1,0 +1,38 @@
+name: Docs deploy
+
+description: Deploy docs
+
+inputs:
+  S3_BUCKET:
+    description: 'S3_BUCKET'
+    required: true
+  S3_BUCKET_REGION:
+    description: 'S3_BUCKET_REGION'
+    required: true
+  CLOUDFRONT_DISTRIBUTION_ID:
+    description: 'CLOUDFRONT_DISTRIBUTION_ID'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Dependencies
+      run: cd docs && npm i && cd ../
+      shell: bash
+
+    - name: Build
+      run: cd docs && npm run build && cd ../
+      shell: bash
+
+    - name: Deploy
+      uses: reggionick/s3-deploy@v4
+      with:
+        folder: docs/build
+        bucket: ${{ inputs.S3_BUCKET }}
+        bucket-region: ${{ inputs.S3_BUCKET_REGION }}
+        dist-id: ${{ inputs.CLOUDFRONT_DISTRIBUTION_ID }}
+        invalidation: /*.html
+        delete-removed: true
+        no-cache: true
+        private: true
+        files-to-include: '{.*/**,**}'
