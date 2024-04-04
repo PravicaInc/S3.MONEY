@@ -1,0 +1,37 @@
+name: Deploy Docs
+
+on:
+  pull_request:
+    branches:
+      - develop
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  deploy_dev:
+    name: Deploy Docs
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Deploy Docs
+        uses: ./.github/actions/docs_deploy
+        with:
+          S3_BUCKET: ${{ vars.DEV_S3_BUCKET }}
+          S3_BUCKET_REGION: ${{ vars.DEV_S3_BUCKET_REGION }}
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.DEV_CLOUDFRONT_DISTRIBUTION_ID }}
