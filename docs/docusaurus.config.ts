@@ -4,7 +4,7 @@ import { themes as prismThemes } from "prism-react-renderer";
 
 const config: Config = {
   title: "StableCoin ",
-  favicon: "./static/img/logo.svg",
+  favicon: "/img/logo.svg",
 
   // Set the production url of your site here
   url: "https://your-docusaurus-site.example.com",
@@ -38,6 +38,10 @@ const config: Config = {
   themeConfig: {
     // Replace with your project's social card
     navbar: {
+      logo: {
+        alt: "wrapper-async",
+        src: "/img/full_logo.svg",
+      },
       items: [
         {
           href: "https://github.com/PravicaInc/S3.MONEY",
