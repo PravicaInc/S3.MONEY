@@ -32,6 +32,6 @@ jobs:
       - name: Deploy Docs
         uses: ./.github/actions/docs_deploy
         with:
-          S3_BUCKET: ${{ vars.DEV_S3_BUCKET }}
-          S3_BUCKET_REGION: ${{ vars.DEV_S3_BUCKET_REGION }}
-          CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.DEV_CLOUDFRONT_DISTRIBUTION_ID }}
+          S3_BUCKET: ${{ vars.DOCS_S3_BUCKET }}
+          S3_BUCKET_REGION: ${{ vars.DOCS_S3_BUCKET_REGION }}
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.DOCS_CLOUDFRONT_DISTRIBUTION_ID }}
