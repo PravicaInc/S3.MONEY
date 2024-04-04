@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Role Assignment
 
-![Role Assignment](../../static/img/step4.png)
+![Role assignment](../../static/img/step4.png)
 
 With the help of **Role Assignment** feature user has the option to assign roles to either their current account or other accounts. If the user decides to assign the role to another account then they have to enter the address to assign the specific functionality to that particular address.
 
