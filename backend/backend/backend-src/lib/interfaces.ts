@@ -162,6 +162,7 @@ export interface IPackageSummary {
   token_policy_cap: string
   pauser: string
   deployer: string
+  cash_cap: string
 }
 
 export interface IPackageDeployed {
@@ -194,6 +195,7 @@ export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageS
     token_policy_cap: '',
     pauser: '',
     deployer: '',
+    cash_cap: '',
   }
 
   for (const obj of objectChanges) {
@@ -211,6 +213,8 @@ export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageS
         data.token_policy_cap = obj.objectId
       } else if (obj.objectType.includes('pauser_rule::Config>')) {
         data.pauser = obj.objectId
+      } else if (obj.objectType.includes('cash_::CashInCap<')) {
+        data.cash_cap = obj.objectId
       }
     }
   }
