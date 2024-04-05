@@ -118,6 +118,14 @@ export async function validCreate(data: IFace.ContractCreate): Promise<IFace.IVa
     }
   }
 
+  // special case: freeze and pause should be the same address
+  if (data.roles['freeze'] !== data.roles['pause']) {
+    console.log(`freeze and pause roles must be the same: ${data.roles['freeze']}, ${data.roles['pause']}`)
+    return {
+      error: `freeze and pause roles must be the same: ${data.roles['freeze']}, ${data.roles['pause']}`,
+    }
+  }
+
   // TODO: add more checks
 
   return {error: '', data: data}
