@@ -5,16 +5,9 @@ import { themes as prismThemes } from "prism-react-renderer";
 const config: Config = {
   title: "StableCoin ",
   favicon: "/img/logo.svg",
-
-  // Set the production url of your site here
-  url: "https://your-docusaurus-site.example.com",
-  // Set the /<baseUrl>/ pathname under which your site is served
-  // For GitHub pages deployment, it is often '/<projectName>/'
+  url: "https://docs.s3.money.com",
   baseUrl: "/",
 
-  // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
     locales: ["en"],
@@ -39,7 +32,8 @@ const config: Config = {
     navbar: {
       logo: {
         alt: "wrapper-async",
-        src: "/img/full_logo.svg",
+        srcDark: "/img/full_logo_white.png",
+        src: "/img/full_logo.png",
       },
       items: [
         {
