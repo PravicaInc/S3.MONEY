@@ -10,6 +10,8 @@ module <%- packageName %>::<%- packageName %>_tests {
     const EInvalidValue: u64 = 0;
 
     const DEPLOYER: address = @0x0;
+    const MINTER: address = @minter;
+    const PAUSER: address = @pauser;
     const ALICE: address = @0x1;
     const BOB: address = @0x2;
     const CHARLIE: address = @0x3;
@@ -24,7 +26,7 @@ module <%- packageName %>::<%- packageName %>_tests {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
@@ -34,8 +36,8 @@ module <%- packageName %>::<%- packageName %>_tests {
 
             assert!(coin::total_supply(&treasurycap) == initial_supply(), EInvalidValue);
 
-            test_scenario::return_to_address(DEPLOYER, token);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, token);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
         test_scenario::end(scenario);
@@ -48,14 +50,14 @@ module <%- packageName %>::<%- packageName %>_tests {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, PAUSER);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let policycap = test_scenario::take_from_sender<TokenPolicyCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             freeze_address(&policycap, &mut policy, ALICE, ctx(&mut scenario));
 
-            test_scenario::return_to_address(DEPLOYER, policycap);
+            test_scenario::return_to_address(PAUSER, policycap);
             test_scenario::return_shared(policy);
         };
 
