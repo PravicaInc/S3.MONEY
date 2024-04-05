@@ -134,9 +134,9 @@ async function createPackage(tokenPath: string, workDir: string, data: IFace.Cre
 
     let TOut = `${packagePath}/sources/${fname}`
 
-    // special case: token.move -> <packageName>.move
+    // special case: token_.move -> <packageName>.move
     // same with test
-    if (fname === 'token.move') {
+    if (fname === 'token_.move') {
       TOut = `${packagePath}/sources/${data.packageName}.move`
     } else if (fname === 'token_tests.move') {
       TOut = `${packagePath}/sources/${data.packageName}_tests.move`
