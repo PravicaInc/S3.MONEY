@@ -14,10 +14,12 @@ module <%- packageName %>::<%- packageName %> {
     use <%- packageName %>::denylist_rule::{Self as denylist, Denylist};
     use <%- packageName %>::pauser_rule::{Self as pauser, Pauser};
     use <%- packageName %>::token_supply::{Self, TokenSupply};
+    use <%- packageName %>::cash_::{Self, CashInCap};
 
     // errors
     const EPaused: u64 = 200;
     const EWouldExceedMaxSupply: u64 = 201;
+    const EUnauthorized: u64 = 202;
 
     // these values are placeholders in the template contract
     const MAX_SUPPLY: u64 = <%- maxSupply %>;
@@ -59,14 +61,16 @@ module <%- packageName %>::<%- packageName %> {
         let treasury_cap = create_currency(otw, ctx);
         let (policy, policy_cap) = token::new_policy(&treasury_cap, ctx);
         let (supply, supply_cap) = token_supply::new_token_supply(&treasury_cap, MAX_SUPPLY, SUPPLY_MUTABLE, ctx);
+        let cashin_cap = cash_::new_cashin(&treasury_cap, @casher, ctx);
 
         set_rules(&mut policy, &policy_cap, ctx);
 
         maybe_mint_initial_supply(&mut treasury_cap, &policy, &supply, ctx);
 
         transfer::public_transfer(treasury_cap, @minter);
-        transfer::public_transfer(policy_cap, @pauser);
         transfer::public_transfer(supply_cap, @minter);
+        transfer::public_transfer(policy_cap, @pauser);
+        transfer::public_transfer(cashin_cap, @casher);
 
         token::share_policy(policy);
         token_supply::share_supply(supply);
@@ -98,14 +102,16 @@ module <%- packageName %>::<%- packageName %> {
     }
 
     // requires TreasuryCap to ensure it is called by deployer/mint role
-    public fun allocate<T>(cap: &mut TreasuryCap<T>, policy: &TokenPolicy<T>, token: Token<T>, recipient: address, ctx: &mut TxContext) {
-        let paused = pauser::paused<T>(policy);
-        assert!(!paused, EPaused);
+    public fun allocate<T>(cap: &CashInCap<T>, policy: &TokenPolicy<T>, token: Token<T>, recipient: address, ctx: &mut TxContext) {
+        assert!(cash_::get_address(cap) == sender(ctx), EUnauthorized);
 
         let amount = token::value(&token);
         let request = token::transfer<T>(token, recipient, ctx);
 
-        token::confirm_with_treasury_cap(cap, request, ctx);
+        denylist::verify<T>(policy, &mut request, ctx);
+        pauser::verify<T>(policy, &mut request, ctx);
+
+        token::confirm_request<T>(policy, request, ctx);
 
         event::emit(EventAllocation {
             sender: sender(ctx),
@@ -227,10 +233,10 @@ module <%- packageName %>::<%- packageName %> {
 
     fun maybe_mint_initial_supply<T>(cap: &mut TreasuryCap<T>, policy: &TokenPolicy<T>, supply: &TokenSupply<T>, ctx: &mut TxContext) {
          if (INITIAL_SUPPLY > 0) {
-             mint(cap, policy, supply, INITIAL_SUPPLY, sender(ctx), ctx);
+             mint(cap, policy, supply, INITIAL_SUPPLY, @casher, ctx);
              event::emit(EventTransfer {
                  sender: @0x0,
-                 recipient: sender(ctx),
+                 recipient: @casher,
                  amount: INITIAL_SUPPLY,
              })
          }

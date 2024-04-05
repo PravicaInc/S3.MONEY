@@ -12,6 +12,8 @@ module <%- packageName %>::burn_tests {
     const MINT_AMOUNT: u64 = 100_00;
 
     const DEPLOYER: address = @0x0;
+    const MINTER: address = @minter;
+    const PAUSER: address = @pauser;
     const ALICE: address = @0x1;
 
     #[test]
@@ -21,30 +23,30 @@ module <%- packageName %>::burn_tests {
             <%- packageName %>::init_for_testing(ctx(&mut scenario));
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let supply = test_scenario::take_shared<TokenSupply<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, DEPLOYER, ctx(&mut scenario));
+            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, MINTER, ctx(&mut scenario));
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             let supply = coin::total_supply(&treasurycap);
             assert!(supply == MINT_AMOUNT + initial_supply(), 0);
 
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
@@ -53,17 +55,17 @@ module <%- packageName %>::burn_tests {
             <%- packageName %>::burn(&mut treasurycap, &policy, token);
 
             test_scenario::return_shared(policy);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             let supply = coin::total_supply(&treasurycap);
             assert!(supply == initial_supply(), 0);
 
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
         test_scenario::end(scenario);
@@ -76,7 +78,7 @@ module <%- packageName %>::burn_tests {
             <%- packageName %>::init_for_testing(ctx(&mut scenario));
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
@@ -86,17 +88,17 @@ module <%- packageName %>::burn_tests {
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             let supply = coin::total_supply(&treasurycap);
             assert!(supply == MINT_AMOUNT + initial_supply(), 0);
 
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
         next_tx(&mut scenario, ALICE);
@@ -104,12 +106,12 @@ module <%- packageName %>::burn_tests {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::transfer(&policy, token, DEPLOYER, ctx(&mut scenario));
+            <%- packageName %>::transfer(&policy, token, MINTER, ctx(&mut scenario));
 
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
@@ -118,17 +120,17 @@ module <%- packageName %>::burn_tests {
             <%- packageName %>::burn(&mut treasurycap, &policy, token);
 
             test_scenario::return_shared(policy);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             let supply = coin::total_supply(&treasurycap);
             assert!(supply == initial_supply(), 0);
 
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
         test_scenario::end(scenario);
@@ -141,41 +143,41 @@ module <%- packageName %>::burn_tests {
             <%- packageName %>::init_for_testing(ctx(&mut scenario));
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let supply = test_scenario::take_shared<TokenSupply<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, DEPLOYER, ctx(&mut scenario));
+            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, MINTER, ctx(&mut scenario));
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             let supply = coin::total_supply(&treasurycap);
             assert!(supply == MINT_AMOUNT + initial_supply(), 0);
 
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, PAUSER);
         {
             let policycap = test_scenario::take_from_sender<TokenPolicyCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
 
             pause(&policycap, &mut policy, ctx(&mut scenario));
 
-            test_scenario::return_to_address(DEPLOYER, policycap);
+            test_scenario::return_to_address(PAUSER, policycap);
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
@@ -184,17 +186,17 @@ module <%- packageName %>::burn_tests {
             <%- packageName %>::burn(&mut treasurycap, &policy, token);
 
             test_scenario::return_shared(policy);
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, DEPLOYER);
+        next_tx(&mut scenario, MINTER);
         {
             let treasurycap = test_scenario::take_from_sender<TreasuryCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
             let supply = coin::total_supply(&treasurycap);
             assert!(supply == initial_supply(), 0);
 
-            test_scenario::return_to_address(DEPLOYER, treasurycap);
+            test_scenario::return_to_address(MINTER, treasurycap);
         };
 
         test_scenario::end(scenario);

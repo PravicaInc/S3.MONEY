@@ -1,5 +1,5 @@
 #[test_only]
-module <%- packageName %>::transfer_tests {
+module <%- packageName %>::allocation_tests {
     use sui::coin::TreasuryCap;
     use sui::token::{Self, Token, TokenPolicy, TokenPolicyCap};
 
@@ -7,8 +7,9 @@ module <%- packageName %>::transfer_tests {
 
     use <%- packageName %>::<%- packageName %>::{Self, <%- packageName.toUpperCase() %>, freeze_address, pause};
     use <%- packageName %>::pauser_rule::EPaused;
-    use <%- packageName %>::denylist_rule as denylist;
     use <%- packageName %>::token_supply::TokenSupply;
+    use <%- packageName %>::denylist_rule as denylist;
+    use <%- packageName %>::cash_::CashInCap;
 
     const EInvalidValue: u64 = 0;
 
@@ -17,11 +18,11 @@ module <%- packageName %>::transfer_tests {
     const DEPLOYER: address = @0x0;
     const MINTER: address = @minter;
     const PAUSER: address = @pauser;
+    const ALLOCATOR: address = @casher;
     const ALICE: address = @0x1;
-    const BOB: address = @0x2;
 
     #[test]
-    fun transfer_to_address() {
+    fun allocate_to_address() {
         let scenario = test_scenario::begin(DEPLOYER);
         {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
@@ -33,36 +34,43 @@ module <%- packageName %>::transfer_tests {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let supply = test_scenario::take_shared<TokenSupply<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALICE, ctx(&mut scenario));
+            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALLOCATOR, ctx(&mut scenario));
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
             test_scenario::return_to_address(MINTER, treasurycap);
         };
 
-        next_tx(&mut scenario, ALICE);
+        next_tx(&mut scenario, ALLOCATOR);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
+            let cash_cap = test_scenario::take_from_sender<CashInCap<<%- packageName.toUpperCase() %>>>(&scenario);
+
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            <%- packageName %>::transfer(&policy, token, BOB, ctx(&mut scenario));
+
+            <%- packageName %>::allocate(&cash_cap, &policy, token, ALICE, ctx(&mut scenario));
+
+            test_scenario::return_to_address(ALLOCATOR, cash_cap);
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, BOB);
+        next_tx(&mut scenario, ALICE);
         {
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
+
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            test_scenario::return_to_address(BOB, token);
+
+            test_scenario::return_to_address(ALICE, token);
         };
 
         test_scenario::end(scenario);
     }
 
     #[test, expected_failure(abort_code = EPaused)]
-    fun transfer_to_address_if_paused_fail() {
+    fun allocate_while_paused_fail() {
         let scenario = test_scenario::begin(DEPLOYER);
         {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
@@ -74,7 +82,7 @@ module <%- packageName %>::transfer_tests {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let supply = test_scenario::take_shared<TokenSupply<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALICE, ctx(&mut scenario));
+            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALLOCATOR, ctx(&mut scenario));
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
@@ -92,30 +100,36 @@ module <%- packageName %>::transfer_tests {
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, ALICE);
+        next_tx(&mut scenario, ALLOCATOR);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
+            let cash_cap = test_scenario::take_from_sender<CashInCap<<%- packageName.toUpperCase() %>>>(&scenario);
+
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            <%- packageName %>::transfer(&policy, token, BOB, ctx(&mut scenario));
+
+            <%- packageName %>::allocate(&cash_cap, &policy, token, ALICE, ctx(&mut scenario));
+
+            test_scenario::return_to_address(ALLOCATOR, cash_cap);
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, BOB);
+        next_tx(&mut scenario, ALICE);
         {
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
+
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            test_scenario::return_to_address(BOB, token);
+
+            test_scenario::return_to_address(ALICE, token);
         };
 
         test_scenario::end(scenario);
     }
 
-
     #[test, expected_failure(abort_code = denylist::EUserBlocked)]
-    fun transfer_to_address_if_sender_frozen_fail() {
+    fun allocate_to_frozen_fail() {
         let scenario = test_scenario::begin(DEPLOYER);
         {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
@@ -127,7 +141,7 @@ module <%- packageName %>::transfer_tests {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let supply = test_scenario::take_shared<TokenSupply<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALICE, ctx(&mut scenario));
+            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALLOCATOR, ctx(&mut scenario));
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
@@ -145,29 +159,36 @@ module <%- packageName %>::transfer_tests {
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, ALICE);
+        next_tx(&mut scenario, ALLOCATOR);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
+            let cash_cap = test_scenario::take_from_sender<CashInCap<<%- packageName.toUpperCase() %>>>(&scenario);
+
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            <%- packageName %>::transfer(&policy, token, BOB, ctx(&mut scenario));
+
+            <%- packageName %>::allocate(&cash_cap, &policy, token, ALICE, ctx(&mut scenario));
+
+            test_scenario::return_to_address(ALLOCATOR, cash_cap);
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, BOB);
+        next_tx(&mut scenario, ALICE);
         {
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
+
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            test_scenario::return_to_address(BOB, token);
+
+            test_scenario::return_to_address(ALICE, token);
         };
 
         test_scenario::end(scenario);
     }
 
     #[test, expected_failure(abort_code = denylist::EUserBlocked)]
-    fun transfer_to_address_if_recipient_frozen_fail() {
+    fun allocate_from_frozen_fail() {
         let scenario = test_scenario::begin(DEPLOYER);
         {
             <%- packageName %>::init_for_testing(ctx(&mut scenario))
@@ -179,7 +200,7 @@ module <%- packageName %>::transfer_tests {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let supply = test_scenario::take_shared<TokenSupply<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALICE, ctx(&mut scenario));
+            <%- packageName %>::mint(&mut treasurycap, &policy, &supply, MINT_AMOUNT, ALLOCATOR, ctx(&mut scenario));
 
             test_scenario::return_shared(supply);
             test_scenario::return_shared(policy);
@@ -191,28 +212,36 @@ module <%- packageName %>::transfer_tests {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let policycap = test_scenario::take_from_sender<TokenPolicyCap<<%- packageName.toUpperCase() %>>>(&scenario);
 
-            freeze_address(&policycap, &mut policy, BOB, ctx(&mut scenario));
+            freeze_address(&policycap, &mut policy, ALLOCATOR, ctx(&mut scenario));
 
             test_scenario::return_to_address(PAUSER, policycap);
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, ALICE);
+
+        next_tx(&mut scenario, ALLOCATOR);
         {
             let policy = test_scenario::take_shared<TokenPolicy<<%- packageName.toUpperCase() %>>>(&scenario);
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
+            let cash_cap = test_scenario::take_from_sender<CashInCap<<%- packageName.toUpperCase() %>>>(&scenario);
+
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            <%- packageName %>::transfer(&policy, token, BOB, ctx(&mut scenario));
+
+            <%- packageName %>::allocate(&cash_cap, &policy, token, ALICE, ctx(&mut scenario));
+
+            test_scenario::return_to_address(ALLOCATOR, cash_cap);
             test_scenario::return_shared(policy);
         };
 
-        next_tx(&mut scenario, BOB);
+        next_tx(&mut scenario, ALICE);
         {
             let token = test_scenario::take_from_sender<Token<<%- packageName.toUpperCase() %>>>(&scenario);
             let value = token::value<<%- packageName.toUpperCase() %>>(&token);
+
             assert!(value == MINT_AMOUNT, EInvalidValue);
-            test_scenario::return_to_address(BOB, token);
+
+            test_scenario::return_to_address(ALICE, token);
         };
 
         test_scenario::end(scenario);
