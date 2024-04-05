@@ -1,8 +1,9 @@
 import fs from 'fs'
 
-import * as IFace from './interfaces'
-import * as packageOps from './db/packages'
 import {isValidSuiAddress, isValidSuiObjectId, isValidTransactionDigest} from '@mysten/sui.js/utils'
+import {RESERVED_TICKERS} from '../constants'
+import * as packageOps from './db/packages'
+import * as IFace from './interfaces'
 import {tickerToPackageName} from './utils'
 
 const CWD = process.cwd()
@@ -319,6 +320,9 @@ export function isValidTicker(ticker: string): string {
     return `ticker must be alphanumeric with no special characters: ${ticker}`
   }
 
+  if (RESERVED_TICKERS.includes(ticker)) {
+    return `ticker name cannot be ${ticker}`
+  }
   return ''
 }
 

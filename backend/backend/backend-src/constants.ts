@@ -25,4 +25,21 @@ export const DB = {
 // note: no leading or trailing slash
 export const TOKEN_SUPPLY_PATH = `coin_template/token3`
 
+// ticker names cannot be one of the following
+export const RESERVED_TICKERS = [
+  '$BAG',
+  '$BCS',
+  '$HEX',
+  '$PAY',
+  '$SUI',
+  '$URI',
+  '$COIN',
+  '$MATH',
+  '$CLOCK',
+  '$EVENT',
+  '$TABLE',
+  '$TOKEN',
+  '$TYPES',
+]
+
 // eof
