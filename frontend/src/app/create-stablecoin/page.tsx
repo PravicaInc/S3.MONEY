@@ -333,10 +333,6 @@ export default function CreateStableCoinPage() {
               currentStep === 3 && data.permissions && (
                 <RolesAssignment
                   onSubmit={onRolesSubmit}
-                  fields={data.permissions.map(({ value, label }) => ({
-                    fieldName: value,
-                    label: label.substring(0, label.indexOf('-')).trim(),
-                  }))}
                   defaultValues={data.roles}
                   onBack={goToPreviousStep}
                 />

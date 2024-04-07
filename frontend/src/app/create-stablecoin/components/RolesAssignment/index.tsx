@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, ReactNode, useState } from 'react';
+import { FC, useState } from 'react';
 import { useCurrentAccount } from '@mysten/dapp-kit';
 import { twMerge } from 'tailwind-merge';
 
@@ -13,10 +13,6 @@ export interface RolesStableCoinData extends Record<string, string> {}
 export interface RolesAssignmentProps {
   onSubmit: (data: RolesStableCoinData) => unknown;
   onBack: () => void;
-  fields: {
-    fieldName: string;
-    label: ReactNode;
-  }[];
   className?: string;
   defaultValues?: Record<string, string>;
 }
@@ -25,19 +21,18 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({
   className,
   onSubmit,
   onBack,
-  fields,
   defaultValues,
   ...props
 }) => {
   const account = useCurrentAccount();
 
-  const [values, setValues] = useState<Record<string, string>>(fields.reduce(
-    (accumulator, next) => ({
-      ...accumulator,
-      [next.fieldName]: defaultValues?.[next.fieldName] || account?.address,
-    }),
-    {}
-  ));
+  const [values, setValues] = useState<Record<string, string>>({
+    pause: (defaultValues?.pause || account?.address) as string,
+    freeze: (defaultValues?.freeze || account?.address) as string,
+    mint: (defaultValues?.mint || account?.address) as string,
+    burn: (defaultValues?.burn || account?.address) as string,
+    cashIn: (defaultValues?.cashIn || account?.address) as string,
+  });
 
   return (
     <div
@@ -48,20 +43,32 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({
         Roles Assignment
       </div>
       <div className="mt-10 space-y-4 relative">
-        {
-          fields
-            .map(({ fieldName, label }) => (
-              <RolesDropdown
-                key={fieldName}
-                label={label}
-                value={values?.[fieldName]}
-                onChange={value => setValues(currentValues => ({
-                  ...currentValues,
-                  [fieldName]: value,
-                }))}
-              />
-            ))
-        }
+        <RolesDropdown
+          label="Pause/Restart System "
+          value={values.pause}
+          onChange={value => setValues(currentValues => ({
+            ...currentValues,
+            pause: value,
+            freeze: value,
+          }))}
+        />
+        <RolesDropdown
+          label="Mint/Burn"
+          value={values.mint}
+          onChange={value => setValues(currentValues => ({
+            ...currentValues,
+            mint: value,
+            burn: value,
+          }))}
+        />
+        <RolesDropdown
+          label="Cash In"
+          value={values.cashIn}
+          onChange={value => setValues(currentValues => ({
+            ...currentValues,
+            cashIn: value,
+          }))}
+        />
       </div>
       <div className="flex items-center justify-between gap-6 mt-10">
         <Button

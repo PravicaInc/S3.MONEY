@@ -39,27 +39,27 @@ export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
       permissions: [
         {
           value: 'pause',
-          label: 'Pause - S3-Token-Manager Smart Contract',
+          label: 'Pause - Current Account',
           isActive: true,
         },
         {
           value: 'freeze',
-          label: 'Freeze - S3-Token-Manager Smart Contract',
+          label: 'Freeze - Current Account',
           isActive: true,
         },
         {
           value: 'mint',
-          label: 'Mint - S3-Token-Manager Smart Contract',
+          label: 'Mint - Current Account',
           isActive: true,
         },
         {
           value: 'cashIn',
-          label: 'Cash In - S3-Token-Manager Smart Contract',
+          label: 'Cash In - Current Account',
           isActive: true,
         },
         {
           value: 'burn',
-          label: 'Burn - S3-Token-Manager Smart Contract',
+          label: 'Burn - Current Account',
           isActive: true,
         },
       ],
