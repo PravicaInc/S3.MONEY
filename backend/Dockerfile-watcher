@@ -1,0 +1,24 @@
+FROM node:20-bookworm-slim as builder
+
+ENV HOME=/home/node
+
+RUN mkdir -p $HOME/app/node_modules /build
+
+WORKDIR $HOME/app
+
+COPY --chown=node:node watcher/ ./
+RUN chown -R node:node $HOME /build
+
+USER node
+# RUN npm install && npm run build-lambda && cp -r node_modules dist /build/
+RUN npm install && npm run build-lambda && cp -r dist /build/
+
+FROM public.ecr.aws/lambda/nodejs:20
+
+WORKDIR ${LAMBDA_TASK_ROOT}
+
+COPY --from=builder /build/dist/* ./
+
+ENV NODE_ENV="production"
+
+CMD ["index.handler"]
