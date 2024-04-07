@@ -68,12 +68,24 @@ export const BalanceErrorModal: FC<BalanceErrorModalProps> = ({
             >
               {
                 requestSuiTokensSuccess
-                  ? '1 SUI received'
+                  ? (
+                    <>
+                      {
+                        suiClientContext.network === 'testnet'
+                          ? 1
+                          : 10
+                      }
+                      {' '}
+                      SUI received
+                    </>
+                  )
                   : (
                     <>
                       Request
                       {' '}
-                      {suiClientContext.network}
+                      <span className="capitalize">
+                        {suiClientContext.network}
+                      </span>
                       {' '}
                       SUI Tokens
                     </>

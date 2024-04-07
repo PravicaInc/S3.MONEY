@@ -113,7 +113,11 @@ exports[`Operations/Burn page: Operations/Burn page with connected state: Snapsh
           >
             Request
              
-            testnet
+            <span
+              class="capitalize"
+            >
+              testnet
+            </span>
              
             SUI Tokens
           </button>

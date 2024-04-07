@@ -29,7 +29,7 @@ describe('Create stablecoin page:', () => {
     });
 
     it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
+      expect(renderResult.queryAllByTestId('loader').length).toBe(3);
     });
   });
 
@@ -45,7 +45,7 @@ describe('Create stablecoin page:', () => {
     });
 
     it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
+      expect(renderResult.queryAllByTestId('loader').length).toBe(3);
     });
   });
 

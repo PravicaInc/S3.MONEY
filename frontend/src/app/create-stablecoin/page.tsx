@@ -2,7 +2,12 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useAutoConnectWallet, useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
+import {
+  useAutoConnectWallet,
+  useCurrentAccount,
+  useSignAndExecuteTransactionBlock,
+  useSuiClientContext,
+} from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { AxiosError } from 'axios';
 import Link from 'next/link';
@@ -19,9 +24,12 @@ import { PAGES_URLS } from '@/utils/const';
 
 import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
+import { useCurrentSuiBalance } from '@/hooks/useCurrentBalance';
+import { useRequestSuiTokens } from '@/hooks/useRequestSuiTokens';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
+import { InstructionBlock } from './components/InstructionBlock';
 import { RolesAssignment, RolesStableCoinData } from './components/RolesAssignment';
 import { StableCoinPreview } from './components/StableCoinPreview';
 import { SuccessCreatedStableCoinModal } from './components/SuccessCreatedStableCoinModal';
@@ -55,6 +63,9 @@ export default function CreateStableCoinPage() {
   const createStableCoin = useCreateStableCoin();
   const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
   const buildTransaction = useBuildTransaction();
+  const suiClientContext = useSuiClientContext();
+  const requestSuiTokens = useRequestSuiTokens();
+  const currentSuiBalance = useCurrentSuiBalance();
 
   const [data, setData] = useState<Partial<CreateStableCoinData>>({});
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -338,6 +349,59 @@ export default function CreateStableCoinPage() {
                 className="col-span-3 h-fit"
                 {...data}
               />
+            )
+          }
+          {
+            !data.name && currentStep === 0 && (
+              <div className="col-span-3 h-fit space-y-6">
+                <InstructionBlock
+                  header="Connected to the Testnet Network?"
+                  tooltipHeader="Testnet Network"
+                  tooltipDescription="
+                    This platform operates on the Testnet Network for testing purposes.
+                    To switch your network, open the wallet extension, click on the ⚙️ Settings icon,
+                    select 'Network', then choose 'Testnet'.
+                  "
+                  tooltipButtonText="I’m currently on testnet"
+                  onTooltipButtonClick={() => {}}
+                  inProgress={!account?.address}
+                  isDone={account?.chains?.includes('sui:testnet')}
+                />
+                {
+                  ['testnet', 'devnet'].includes(suiClientContext.network) && (
+                    <InstructionBlock
+                      header="Having enough balance to execute?"
+                      tooltipHeader="Balance to Execute"
+                      tooltipDescription={(
+                        <>
+                          Ensure you have sufficient
+                          {' '}
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          SUI Tokens for contract deployment.
+                          If not, you can request additional testnet tokens by clicking the button below.
+                        </>
+                      )}
+                      tooltipButtonText={(
+                        <>
+                          Receive
+                          {' '}
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          SUI Tokens
+                        </>
+                      )}
+                      inProgress={requestSuiTokens.isPending || currentSuiBalance.isLoading}
+                      onTooltipButtonClick={requestSuiTokens.mutateAsync}
+                      isDone={(currentSuiBalance.data || 0) >= 1}
+                    />
+                  )
+                }
+              </div>
             )
           }
         </div>

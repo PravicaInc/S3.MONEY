@@ -7,7 +7,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        error: '#DC2626',
+        error: '#F04438',
         primary: '#0D0D12',
         secondary: '#808897',
         actionPrimary: '#FE6321',
@@ -31,6 +31,7 @@ const config: Config = {
         riverBed: '#475467',
         pumpkinOrange: '#FE6321',
         alabaster: '#F9FAFB',
+        deepSapphire: '#062863',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
