@@ -32,20 +32,20 @@ exports[`Operations page: Operations page with connected state: Snapshot 1`] = `
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[400px]"
       >
         <div
           class="absolute top-0 left-0 z-[-1]"
         >
           <svg />
           <div
-            class="absolute top-6 left-6 bg-[#FEE4E2] w-12 h-12 flex items-center justify-center rounded-full"
+            class="absolute top-6 left-6 bg-mistyRose w-12 h-12 flex items-center justify-center rounded-full"
           >
             <svg />
           </div>
         </div>
         <p
-          class="text-primary text-lg font-semibold mt-[88px]"
+          class="text-primary text-lg font-semibold mt-16"
         >
           System is Paused!
         </p>

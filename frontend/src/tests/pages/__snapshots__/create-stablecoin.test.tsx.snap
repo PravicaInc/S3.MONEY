@@ -299,7 +299,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
       </div>
     </div>
     <div
-      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+      class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
       <p>
         Powered By
@@ -326,17 +326,27 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[480px]"
       >
-        <p
-          class="text-primary font-semibold text-2xl text-center mt-4"
+        <div
+          class="absolute top-0 left-0 z-[-1]"
         >
-          Token Details Review Confirmation
+          <svg />
+          <div
+            class="absolute top-6 left-6 w-12 h-12 flex items-center justify-center rounded-full bg-whiteIce"
+          >
+            <svg />
+          </div>
+        </div>
+        <p
+          class="text-primary text-lg font-semibold mt-16"
+        >
+          Review Your Token Details
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="mt-1 text-secondary"
         >
-          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+          If you did not review your token details yet, make sure everything is in place before proceeding.
         </p>
         <div
           class="flex items-center justify-center gap-4 mt-8"
@@ -368,7 +378,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -404,7 +414,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -412,7 +422,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
           Your balance is too low
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="text-sm text-mistBlue mt-3 text-center"
         >
           Unfortunately, your balance is too small to create a new StableCoin.
         </p>
@@ -618,7 +628,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                     </div>
                   </label>
                   <span
-                    class="text-sm text-grayText w-full"
+                    class="text-sm text-mistBlue w-full"
                   />
                 </label>
               </div>
@@ -721,6 +731,20 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
               style="background-image: url();"
             />
             <p
+              class="flex items-center gap-1"
+            >
+              <span
+                class="text-lg font-semibold text-primary"
+              >
+                $TS
+              </span>
+              <span
+                class="text-mistBlue text-sm"
+              >
+                TEST COIN
+              </span>
+            </p>
+            <p
               class="text-lg font-semibold mt-3"
             >
               TEST COIN
@@ -788,7 +812,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
       </div>
     </div>
     <div
-      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+      class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
       <p>
         Powered By
@@ -815,18 +839,111 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[480px]"
       >
-        <p
-          class="text-primary font-semibold text-2xl text-center mt-4"
+        <div
+          class="absolute top-0 left-0 z-[-1]"
         >
-          Token Details Review Confirmation
+          <svg />
+          <div
+            class="absolute top-6 left-6 w-12 h-12 flex items-center justify-center rounded-full bg-whiteIce"
+          >
+            <svg />
+          </div>
+        </div>
+        <p
+          class="text-primary text-lg font-semibold mt-16"
+        >
+          Review Your Token Details
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="mt-1 text-secondary"
         >
-          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+          If you did not review your token details yet, make sure everything is in place before proceeding.
         </p>
+        <div
+          class="flex items-center gap-4 border border-borderPrimary p-4 rounded-xl mt-5"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+            style="background-image: url();"
+          />
+          <div>
+            <div
+              class="flex items-center gap-1"
+            >
+              <span
+                class="font-semibold text-primary"
+              >
+                $TS
+              </span>
+              <span
+                class="text-mistBlue text-sm"
+              >
+                TEST COIN
+              </span>
+            </div>
+            <p
+              class="text-sm font-semibold text-actionPrimary"
+            >
+              0x11...1111
+            </p>
+          </div>
+        </div>
+        <p
+          class="font-semibold mt-3"
+        >
+          Supply details
+        </p>
+        <div
+          class="bg-borderPrimary h-[1px] mt-3 mb-4"
+        />
+        <div
+          class="space-y-3"
+        >
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Initial Supply
+            </span>
+            <span>
+              987
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Max Supply
+            </span>
+            <span>
+              123,456,789
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Supply Type
+            </span>
+            <span
+              class="capitalize"
+            >
+              finite
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Decimals
+            </span>
+            <span>
+              7
+            </span>
+          </div>
+        </div>
         <div
           class="flex items-center justify-center gap-4 mt-8"
         >
@@ -857,7 +974,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -893,7 +1010,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -901,7 +1018,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           Your balance is too low
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="text-sm text-mistBlue mt-3 text-center"
         >
           Unfortunately, your balance is too small to create a new StableCoin.
         </p>
@@ -1135,7 +1252,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     />
                   </button>
                   <button
-                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-actionPrimary "
                     type="button"
                   >
                     + Assign another account
@@ -1150,7 +1267,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                   class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
                 />
                 <div
-                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+                  class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[400px]"
                 >
                   <div
                     class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
@@ -1163,7 +1280,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     </div>
                   </div>
                   <p
-                    class="text-primary text-lg font-semibold mt-[88px] text-center"
+                    class="text-primary text-lg font-semibold mt-16 text-center"
                   >
                     Assign another account
                   </p>
@@ -1264,7 +1381,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     />
                   </button>
                   <button
-                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-actionPrimary "
                     type="button"
                   >
                     + Assign another account
@@ -1279,7 +1396,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                   class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
                 />
                 <div
-                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+                  class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[400px]"
                 >
                   <div
                     class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
@@ -1292,7 +1409,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     </div>
                   </div>
                   <p
-                    class="text-primary text-lg font-semibold mt-[88px] text-center"
+                    class="text-primary text-lg font-semibold mt-16 text-center"
                   >
                     Assign another account
                   </p>
@@ -1393,7 +1510,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     />
                   </button>
                   <button
-                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-actionPrimary "
                     type="button"
                   >
                     + Assign another account
@@ -1408,7 +1525,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                   class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
                 />
                 <div
-                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+                  class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[400px]"
                 >
                   <div
                     class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
@@ -1421,7 +1538,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                     </div>
                   </div>
                   <p
-                    class="text-primary text-lg font-semibold mt-[88px] text-center"
+                    class="text-primary text-lg font-semibold mt-16 text-center"
                   >
                     Assign another account
                   </p>
@@ -1504,6 +1621,20 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
               style="background-image: url();"
             />
             <p
+              class="flex items-center gap-1"
+            >
+              <span
+                class="text-lg font-semibold text-primary"
+              >
+                $TS
+              </span>
+              <span
+                class="text-mistBlue text-sm"
+              >
+                TEST COIN
+              </span>
+            </p>
+            <p
               class="text-lg font-semibold mt-3"
             >
               TEST COIN
@@ -1581,7 +1712,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 class=" h-full border-l border-l-lavenderGrey border-dashed absolute bottom-0 left-[7px] z-0 "
               />
               <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
+                class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
               >
                 <div
                   class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
@@ -1593,7 +1724,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 Pause - Current Account
               </div>
               <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
+                class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
               >
                 <div
                   class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
@@ -1605,7 +1736,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 Freeze - Current Account
               </div>
               <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
+                class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
               >
                 <div
                   class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
@@ -1617,7 +1748,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 Mint - Current Account
               </div>
               <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
+                class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
               >
                 <div
                   class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
@@ -1629,7 +1760,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 Cash In - Current Account
               </div>
               <div
-                class="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
+                class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
               >
                 <div
                   class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
@@ -1646,7 +1777,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
       </div>
     </div>
     <div
-      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+      class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
       <p>
         Powered By
@@ -1673,18 +1804,186 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[480px]"
       >
-        <p
-          class="text-primary font-semibold text-2xl text-center mt-4"
+        <div
+          class="absolute top-0 left-0 z-[-1]"
         >
-          Token Details Review Confirmation
+          <svg />
+          <div
+            class="absolute top-6 left-6 w-12 h-12 flex items-center justify-center rounded-full bg-whiteIce"
+          >
+            <svg />
+          </div>
+        </div>
+        <p
+          class="text-primary text-lg font-semibold mt-16"
+        >
+          Review Your Token Details
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="mt-1 text-secondary"
         >
-          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+          If you did not review your token details yet, make sure everything is in place before proceeding.
         </p>
+        <div
+          class="flex items-center gap-4 border border-borderPrimary p-4 rounded-xl mt-5"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+            style="background-image: url();"
+          />
+          <div>
+            <div
+              class="flex items-center gap-1"
+            >
+              <span
+                class="font-semibold text-primary"
+              >
+                $TS
+              </span>
+              <span
+                class="text-mistBlue text-sm"
+              >
+                TEST COIN
+              </span>
+            </div>
+            <p
+              class="text-sm font-semibold text-actionPrimary"
+            >
+              0x11...1111
+            </p>
+          </div>
+        </div>
+        <p
+          class="font-semibold mt-3"
+        >
+          Supply details
+        </p>
+        <div
+          class="bg-borderPrimary h-[1px] mt-3 mb-4"
+        />
+        <div
+          class="space-y-3"
+        >
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Initial Supply
+            </span>
+            <span>
+              987
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Max Supply
+            </span>
+            <span>
+              123,456,789
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Supply Type
+            </span>
+            <span
+              class="capitalize"
+            >
+              finite
+            </span>
+          </div>
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Decimals
+            </span>
+            <span>
+              7
+            </span>
+          </div>
+        </div>
+        <p
+          class="font-semibold mt-5"
+        >
+          Permissions
+        </p>
+        <div
+          class="bg-borderPrimary h-[1px] mt-3 mb-4"
+        />
+        <div
+          class="space-y-4 relative"
+        >
+          <div
+            class=" h-full border-l border-l-lavenderGrey border-dashed absolute bottom-0 left-[7px] z-0 "
+          />
+          <div
+            class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
+          >
+            <div
+              class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
+            >
+              <svg
+                class="[&>path]:stroke-white w-[8px] h-[8px]"
+              />
+            </div>
+            Pause - Current Account
+          </div>
+          <div
+            class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
+          >
+            <div
+              class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
+            >
+              <svg
+                class="[&>path]:stroke-white w-[8px] h-[8px]"
+              />
+            </div>
+            Freeze - Current Account
+          </div>
+          <div
+            class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
+          >
+            <div
+              class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
+            >
+              <svg
+                class="[&>path]:stroke-white w-[8px] h-[8px]"
+              />
+            </div>
+            Mint - Current Account
+          </div>
+          <div
+            class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
+          >
+            <div
+              class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
+            >
+              <svg
+                class="[&>path]:stroke-white w-[8px] h-[8px]"
+              />
+            </div>
+            Cash In - Current Account
+          </div>
+          <div
+            class="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
+          >
+            <div
+              class="w-4 h-4 min-w-4 min-h-4 flex items-center justify-center rounded-full bg-[#40C4AA]"
+            >
+              <svg
+                class="[&>path]:stroke-white w-[8px] h-[8px]"
+              />
+            </div>
+            Burn - Current Account
+          </div>
+        </div>
         <div
           class="flex items-center justify-center gap-4 mt-8"
         >
@@ -1715,7 +2014,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -1751,7 +2050,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -1759,7 +2058,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           Your balance is too low
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="text-sm text-mistBlue mt-3 text-center"
         >
           Unfortunately, your balance is too small to create a new StableCoin.
         </p>
@@ -2073,6 +2372,20 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
               style="background-image: url();"
             />
             <p
+              class="flex items-center gap-1"
+            >
+              <span
+                class="text-lg font-semibold text-primary"
+              >
+                $TS
+              </span>
+              <span
+                class="text-mistBlue text-sm"
+              >
+                TEST COIN
+              </span>
+            </p>
+            <p
               class="text-lg font-semibold mt-3"
             >
               TEST COIN
@@ -2086,7 +2399,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
       </div>
     </div>
     <div
-      class="font-medium flex items-center justify-between text-grayText w-full px-6 pb-6"
+      class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
       <p>
         Powered By
@@ -2113,18 +2426,57 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto relative p-6 w-[480px]"
       >
-        <p
-          class="text-primary font-semibold text-2xl text-center mt-4"
+        <div
+          class="absolute top-0 left-0 z-[-1]"
         >
-          Token Details Review Confirmation
+          <svg />
+          <div
+            class="absolute top-6 left-6 w-12 h-12 flex items-center justify-center rounded-full bg-whiteIce"
+          >
+            <svg />
+          </div>
+        </div>
+        <p
+          class="text-primary text-lg font-semibold mt-16"
+        >
+          Review Your Token Details
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="mt-1 text-secondary"
         >
-          If you did not review your token details yet, you can go back and scroll down the right side tab of the screen and make sure everything is in place first. Otherwise you can proceed.
+          If you did not review your token details yet, make sure everything is in place before proceeding.
         </p>
+        <div
+          class="flex items-center gap-4 border border-borderPrimary p-4 rounded-xl mt-5"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+            style="background-image: url();"
+          />
+          <div>
+            <div
+              class="flex items-center gap-1"
+            >
+              <span
+                class="font-semibold text-primary"
+              >
+                $TS
+              </span>
+              <span
+                class="text-mistBlue text-sm"
+              >
+                TEST COIN
+              </span>
+            </div>
+            <p
+              class="text-sm font-semibold text-actionPrimary"
+            >
+              0x11...1111
+            </p>
+          </div>
+        </div>
         <div
           class="flex items-center justify-center gap-4 mt-8"
         >
@@ -2155,7 +2507,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -2191,7 +2543,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -2199,7 +2551,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           Your balance is too low
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="text-sm text-mistBlue mt-3 text-center"
         >
           Unfortunately, your balance is too small to create a new StableCoin.
         </p>

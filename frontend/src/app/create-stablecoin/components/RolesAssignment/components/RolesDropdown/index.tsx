@@ -64,7 +64,7 @@ export const RolesDropdown: FC<RolesDropdownProps> = ({
           className={twMerge(
             'border border-borderPrimary py-[10px] px-[14px] rounded-lg cursor-pointer',
             'flex items-center justify-between transition-all',
-            isOpen && 'border-pumpkinOrange shadow-rolesDropdownTriggerActive',
+            isOpen && 'border-actionPrimary shadow-rolesDropdownTriggerActive',
             className
           )}
           onClick={() => setIsOpen(!isOpen)}
@@ -79,7 +79,7 @@ export const RolesDropdown: FC<RolesDropdownProps> = ({
                   </span>
                 )
                 : (
-                  <span className="text-pumpkinOrange">
+                  <span className="text-actionPrimary">
                     Another Account
                   </span>
                 )
@@ -120,7 +120,7 @@ export const RolesDropdown: FC<RolesDropdownProps> = ({
                         </span>
                       )
                       : (
-                        <span className="text-pumpkinOrange">
+                        <span className="text-actionPrimary">
                           Another Account
                         </span>
                       )
@@ -141,7 +141,7 @@ export const RolesDropdown: FC<RolesDropdownProps> = ({
             type="button"
             className="
               w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster
-              rounded-md text-left text-pumpkinOrange
+              rounded-md text-left text-actionPrimary
             "
             onClick={() => {
               setShowAddRolesModal(true);

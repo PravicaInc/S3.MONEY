@@ -32,7 +32,7 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -40,12 +40,12 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
           Review Mint Details
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center break-all"
+          class="text-sm text-mistBlue mt-3 text-center break-all"
         >
           You have entered this amount:
            
           <span
-            class="text-pumpkinOrange font-bold"
+            class="text-actionPrimary font-bold"
           >
             0 PRV
           </span>
@@ -53,7 +53,7 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
           to be minted for the Main Account:
            
           <span
-            class="text-pumpkinOrange font-bold"
+            class="text-actionPrimary font-bold"
           >
             0x1111111111111111111111111111111111111111111111111111111111111111
           </span>
@@ -88,7 +88,7 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
         class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class="bg-white rounded-xl z-10 p-6 w-[520px]"
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -96,7 +96,7 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
           Your balance is too low
         </p>
         <p
-          class="text-sm text-grayText mt-3 text-center"
+          class="text-sm text-mistBlue mt-3 text-center"
         >
           Unfortunately, your balance is too small to create a new StableCoin.
         </p>

@@ -19,7 +19,7 @@ exports[`LogoutButton: LogoutButton with connected state via zkLogin: Snapshot 1
       class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
     />
     <div
-      class="bg-white rounded-xl z-10 p-6"
+      class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6"
     >
       <p
         class="text-primary font-semibold text-2xl text-center mt-4"
@@ -70,7 +70,7 @@ exports[`LogoutButton: LogoutButton with connected state: Snapshot 1`] = `
       class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
     />
     <div
-      class="bg-white rounded-xl z-10 p-6"
+      class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6"
     >
       <p
         class="text-primary font-semibold text-2xl text-center mt-4"

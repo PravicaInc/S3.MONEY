@@ -77,7 +77,7 @@ export const AddRolesModal: FC<AddRolesModalProps> = ({
           <PeopleWithPlusIcon />
         </div>
       </div>
-      <p className="text-primary text-lg font-semibold mt-[88px] text-center">
+      <p className="text-primary text-lg font-semibold mt-16 text-center">
         Assign another account
       </p>
       <p className="mt-1 text-secondary text-center">

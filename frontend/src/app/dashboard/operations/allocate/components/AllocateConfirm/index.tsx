@@ -27,16 +27,16 @@ export const AllocateConfirm: FC<AllocateConfirmProps> = ({
     <p className="text-primary font-semibold text-2xl text-center mt-4">
       Review Allocation Details
     </p>
-    <p className="text-sm text-grayText mt-3 text-center break-all">
+    <p className="text-sm text-mistBlue mt-3 text-center break-all">
       You will allocate
       {' '}
-      <span className="text-pumpkinOrange font-bold">
+      <span className="text-actionPrimary font-bold">
         {amount}
       </span>
       {' '}
       to be allocated from the Main Account to:
       {' '}
-      <span className="text-pumpkinOrange font-bold">
+      <span className="text-actionPrimary font-bold">
         {walletAddress}
       </span>
     </p>

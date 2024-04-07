@@ -74,7 +74,7 @@ export const CreateRelationModal: FC<CreateRelationModalProps> = ({
               <PlusWithCircleIcon />
             </div>
           </div>
-          <p className="text-primary text-lg font-semibold mt-[88px]">
+          <p className="text-primary text-lg font-semibold mt-16">
             Add new relationship
           </p>
           <p className="mt-1 text-tuna">

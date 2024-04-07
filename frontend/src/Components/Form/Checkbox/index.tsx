@@ -117,7 +117,7 @@ export const Checkbox: FC<CheckboxProps> = ({
         {...register(name)}
         {...props}
       />
-      <span className="text-sm text-grayText w-full">
+      <span className="text-sm text-mistBlue w-full">
         {label}
       </span>
     </label>

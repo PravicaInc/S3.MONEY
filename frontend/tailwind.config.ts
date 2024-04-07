@@ -19,19 +19,18 @@ const config: Config = {
 
         // custom colors
         seashell: '#F0F0F0',
-        grayText: '#666D80',
         lavenderGrey: '#C1C7CF',
         hitGrey: '#A4ABB8',
         antiqueWhite: '#FFE8D4',
         deepPeach: '#FFCDA8',
         snowDrift: '#F8F9FB',
         mistBlue: '#666D80',
-        bluishGrey: '#808897',
         tuna: '#353849',
         riverBed: '#475467',
-        pumpkinOrange: '#FE6321',
         alabaster: '#F9FAFB',
         deepSapphire: '#062863',
+        mistyRose: '#FEE4E2',
+        whiteIce: '#DCFAE6',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',

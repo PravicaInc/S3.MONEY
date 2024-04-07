@@ -53,7 +53,7 @@ export const Modal: FC<ModalProps> = ({
         onClick={closeOnOutsideClick ? onClose : () => {}}
       />
       <div
-        className={twMerge('bg-white rounded-xl z-10', className)}
+        className={twMerge('bg-white rounded-xl z-10 max-h-screen overflow-auto', className)}
       >
         {children}
         {

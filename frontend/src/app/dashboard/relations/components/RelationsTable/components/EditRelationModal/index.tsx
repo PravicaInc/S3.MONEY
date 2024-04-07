@@ -81,7 +81,7 @@ export const EditRelationModal: FC<EditRelationModalProps> = ({
               <PlusWithCircleIcon />
             </div>
           </div>
-          <p className="text-primary text-lg font-semibold mt-[88px]">
+          <p className="text-primary text-lg font-semibold mt-16">
             Edit name
           </p>
           <div className="space-y-5 mt-5">

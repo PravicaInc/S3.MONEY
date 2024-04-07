@@ -278,7 +278,7 @@ describe('Create stablecoin page:', () => {
         expect(renderResult.container).toMatchSnapshot();
       });
 
-      it('Show Token Details Review Confirmation', async () => {
+      it('Show Review Your Token Details', async () => {
         const user = userEvent.setup();
         const createButton = renderResult.getByRole('button', {
           name: /Create/i,
@@ -286,7 +286,7 @@ describe('Create stablecoin page:', () => {
 
         await user.click(createButton);
 
-        expect(renderResult.queryByText(/Token Details Review Confirmation/)).toBeVisible();
+        expect(renderResult.queryByText(/Review Your Token Details/)).toBeVisible();
       });
     });
   });

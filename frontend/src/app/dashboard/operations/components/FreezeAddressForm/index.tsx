@@ -120,7 +120,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
               Freeze Address
             </p>
           </div>
-          <p className="text-grayText mt-4">
+          <p className="text-mistBlue mt-4">
             You can freeze the transactions for your token of this particular address.
           </p>
           <Input

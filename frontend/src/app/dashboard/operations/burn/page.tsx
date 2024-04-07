@@ -277,7 +277,7 @@ export default function DashboardOperationsBurnPage() {
                       maxLength={14}
                       suffix={currentStableCoin.ticker}
                     />
-                    <p className="mt-2 text-[#666D80] text-xs h-4">
+                    <p className="mt-2 text-mistBlue text-xs h-4">
                       {
                         isCurrentStableCoinBalanceFetching
                           ? (

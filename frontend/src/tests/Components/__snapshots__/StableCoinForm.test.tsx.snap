@@ -66,7 +66,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
                 PRV
               </p>
               <p
-                class="text-sm text-grayText mt-[2px]"
+                class="text-sm text-mistBlue mt-[2px]"
               >
                 Pravica Token
               </p>
@@ -110,7 +110,7 @@ exports[`SelectStableCoinForm: SelectStableCoinForm with StableCoin list: Snapsh
                 SSS
               </p>
               <p
-                class="text-sm text-grayText mt-[2px]"
+                class="text-sm text-mistBlue mt-[2px]"
               >
                 S3 Money Token
               </p>

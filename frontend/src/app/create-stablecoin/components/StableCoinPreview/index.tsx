@@ -15,7 +15,7 @@ import { SupplyStableCoinData, SupplyTypes } from '@/app/create-stablecoin/compo
 
 import { numberFormat } from '@/utils/string_formats';
 
-interface StableCoinPreviewProps
+export interface StableCoinPreviewProps
   extends InitialStableCoinData, SupplyStableCoinData, PermissionsStableCoinData, HTMLAttributes<HTMLDivElement> {}
 
 export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
@@ -40,6 +40,14 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
           backgroundImage: `url(${icon})`,
         }}
       />
+      <p className="flex items-center gap-1">
+        <span className="text-lg font-semibold text-primary">
+          {ticker}
+        </span>
+        <span className="text-mistBlue text-sm">
+          {name}
+        </span>
+      </p>
       <p className="text-lg font-semibold mt-3">
         {name}
         {' '}
@@ -121,7 +129,7 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
                 permissions.map(({ value, label, isActive }) => (
                   <div
                     key={value}
-                    className="flex items-center gap-3 text-grayText text-sm font-medium bg-white relative z-10"
+                    className="flex items-center gap-3 text-mistBlue text-sm font-medium bg-white relative z-10"
                   >
                     <div
                       className={twMerge(

@@ -125,7 +125,7 @@ export const PlayPauseForm: FC<PauseFormProps> = ({
               }
             </p>
           </div>
-          <p className="text-grayText mt-6">
+          <p className="text-mistBlue mt-6">
             {
               isPausedLoading
                 ? <Skeleton count={2} />

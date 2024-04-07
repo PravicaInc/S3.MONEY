@@ -404,6 +404,7 @@ export default function CreateStableCoinPage() {
       </div>
       <Footer className="w-full px-6 pb-6" />
       <TokenDetailsReviewConfirm
+        stableCoinData={data}
         visible={showCreateStableCoinConfirm}
         onClose={closeCreateStableCoinConfirm}
         onProceed={runCreateStableCoin}
