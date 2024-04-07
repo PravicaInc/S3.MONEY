@@ -121,6 +121,7 @@ export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
             view={BUTTON_VIEWS.secondary}
             className="h-14 w-full"
             onClick={onBack}
+            type="button"
           >
             Back
           </Button>

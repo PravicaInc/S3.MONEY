@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import AlertIcon from '@/../public/images/alert_icon.svg?jsx';
-import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative.svg?jsx';
+import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative_left.svg?jsx';
 
 import { Button } from '@/Components/Form/Button';
 import { Modal, ModalProps } from '@/Components/Modal';

@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
-import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative.svg?jsx';
+import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative_left.svg?jsx';
 import PlusWithCircleIcon from '@/../public/images/plus_with_circle.svg?jsx';
 
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';

@@ -54,50 +54,52 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
               Supply details
             </p>
             <Delimiter className="mt-3 mb-4" />
-            {
-              initialSupply != undefined && (
-                <div className="flex items-center justify-between text-secondary text-sm">
-                  <span>
-                    Initial Supply
-                  </span>
-                  <span>
-                    {numberFormat(`${initialSupply}`)}
-                  </span>
-                </div>
-              )
-            }
-            {
-              maxSupply != undefined && (
-                <div className="flex items-center justify-between text-secondary text-sm">
-                  <span>
-                    Max Supply
-                  </span>
-                  <span>
-                    {numberFormat(`${maxSupply}`)}
-                  </span>
-                </div>
-              )
-            }
-            <div className="flex items-center justify-between text-secondary text-sm">
-              <span>
-                Supply Type
-              </span>
-              <span className="capitalize">
-                {supplyType}
-              </span>
+            <div className="space-y-3">
+              {
+                initialSupply != undefined && (
+                  <div className="flex items-center justify-between text-secondary text-sm">
+                    <span>
+                      Initial Supply
+                    </span>
+                    <span>
+                      {numberFormat(`${initialSupply}`)}
+                    </span>
+                  </div>
+                )
+              }
+              {
+                maxSupply != undefined && (
+                  <div className="flex items-center justify-between text-secondary text-sm">
+                    <span>
+                      Max Supply
+                    </span>
+                    <span>
+                      {numberFormat(`${maxSupply}`)}
+                    </span>
+                  </div>
+                )
+              }
+              <div className="flex items-center justify-between text-secondary text-sm">
+                <span>
+                  Supply Type
+                </span>
+                <span className="capitalize">
+                  {supplyType}
+                </span>
+              </div>
+              {
+                decimals != undefined && (
+                  <div className="flex items-center justify-between text-secondary text-sm">
+                    <span>
+                      Decimals
+                    </span>
+                    <span>
+                      {numberFormat(`${decimals}`)}
+                    </span>
+                  </div>
+                )
+              }
             </div>
-            {
-              decimals != undefined && (
-                <div className="flex items-center justify-between text-secondary text-sm">
-                  <span>
-                    Decimals
-                  </span>
-                  <span>
-                    {numberFormat(`${decimals}`)}
-                  </span>
-                </div>
-              )
-            }
           </>
         )
       }

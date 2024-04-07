@@ -30,13 +30,13 @@ export const BurnConfirm: FC<BurnConfirmProps> = ({
     <p className="text-sm text-grayText mt-3 text-center break-all">
       You have entered this amount:
       {' '}
-      <span className="text-[#FE6321] font-bold">
+      <span className="text-pumpkinOrange font-bold">
         {amount}
       </span>
       {' '}
       to be burned from the Main Account:
       {' '}
-      <span className="text-[#FE6321] font-bold">
+      <span className="text-pumpkinOrange font-bold">
         {walletAddress}
       </span>
     </p>

@@ -13,25 +13,31 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
       data-testid="header"
     >
       <a
+        class="flex items-end gap-[2px]"
         href="/"
       >
         <svg />
+        <span
+          class=" capitalize text-black text-[8px] font-bold block bg-[#F4DC00] px-[10px] py-[2px] rounded-[5px] mb-[6px]"
+        >
+          testnet
+        </span>
       </a>
       <button
-        class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium text-sm transition hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
+        class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium text-sm transition shadow-logoutButton hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
       >
         0x11...1111
         <svg />
       </button>
-      <dialog
-        class="backdrop:bg-modalBackdropColor rounded-xl p-6"
+      <div
+        class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+        role="dialog"
       >
         <div
-          class="Toastify"
-          id="modal-toast"
+          class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
         />
         <div
-          class=""
+          class="bg-white rounded-xl z-10 p-6"
         >
           <p
             class="text-primary font-semibold text-2xl text-center mt-4"
@@ -52,8 +58,14 @@ exports[`Header: Header with connected state: Snapshot 1`] = `
               Proceed
             </button>
           </div>
+          <button
+            class="absolute top-8 right-8"
+            type="button"
+          >
+            <svg />
+          </button>
         </div>
-      </dialog>
+      </div>
     </div>
   </div>
 </div>

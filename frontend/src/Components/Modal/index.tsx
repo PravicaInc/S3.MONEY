@@ -1,15 +1,16 @@
-import React, { FC, HTMLAttributes, MouseEventHandler, ReactNode, useCallback, useEffect, useRef } from 'react';
+import React, { FC, HTMLAttributes, ReactNode, useEffect } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-import { ToastContainer } from '@/Components/ToastContainer';
+import CloseIcon from '@/../public/images/close.svg?jsx';
 
-export interface ModalProps extends HTMLAttributes<HTMLDialogElement> {
+export interface ModalProps extends HTMLAttributes<HTMLDivElement> {
   visible: boolean;
   onClose: () => void;
 
   closeOnOutsideClick?: boolean;
   children?: ReactNode;
-  contentClassName?: string;
+  containerClassName?: string;
+  withCloseButton?: boolean;
 }
 
 export const Modal: FC<ModalProps> = ({
@@ -18,89 +19,55 @@ export const Modal: FC<ModalProps> = ({
 
   closeOnOutsideClick = true,
   className,
-  contentClassName,
+  containerClassName,
   children,
-  ...props
+  withCloseButton = true,
 }) => {
-  const dialogRef = useRef<HTMLDialogElement>(null);
-  const lastActiveElement = useRef<Element | HTMLInputElement | null>(null);
-
-  const openDialog = useCallback(
+  useEffect(
     () => {
-      lastActiveElement.current = document.activeElement;
-
-      if (dialogRef.current?.showModal) {
-        dialogRef.current.showModal();
+      if (visible) {
+        document.body.style.overflow = 'hidden';
       }
-
-      document.body.classList.add('overflow-hidden');
+      else {
+        document.body.style.overflow = 'auto';
+      }
     },
-    [dialogRef, lastActiveElement]
+    [visible]
   );
-
-  const closeDialog = useCallback(
-    (event?: Event) => {
-      if (event) {
-        event.preventDefault();
-      }
-
-      if (dialogRef.current?.close) {
-        dialogRef.current.close();
-      }
-
-      onClose();
-
-      if (lastActiveElement.current) {
-        lastActiveElement.current && (lastActiveElement.current as HTMLInputElement).focus();
-      }
-
-      document.body.classList.remove('overflow-hidden');
-    },
-    [dialogRef, lastActiveElement, onClose]
-  );
-
-  useEffect(() => {
-    if (visible) {
-      openDialog();
-    }
-    else {
-      closeDialog();
-    }
-  }, [visible, openDialog, closeDialog]);
-
-  useEffect(() => {
-    const dialogNode = dialogRef.current;
-
-    if (dialogNode) {
-      dialogNode.addEventListener('cancel', closeDialog);
-    }
-
-    return () => {
-      if (dialogNode) {
-        dialogNode.removeEventListener('cancel', closeDialog);
-      }
-    };
-  }, [closeDialog, dialogRef]);
-
-  const handleOutsideClick: MouseEventHandler<HTMLDialogElement> = event => {
-    if (closeOnOutsideClick && event.target === dialogRef.current) {
-      closeDialog();
-    }
-  };
 
   return (
-    <dialog
-      ref={dialogRef}
-      className={twMerge('p-4 backdrop:bg-modalBackdropColor rounded-xl', className)}
-      onClick={handleOutsideClick}
-      {...props}
+    <div
+      role="dialog"
+      className={twMerge(
+        'fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0',
+        visible && 'flex',
+        containerClassName
+      )}
     >
-      <ToastContainer
-        containerId="modal-toast"
+      <div
+        className={twMerge(
+          'absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0',
+          visible && 'flex',
+          containerClassName
+        )}
+        onClick={closeOnOutsideClick ? onClose : () => {}}
       />
-      <div className={twMerge('', contentClassName)}>
+      <div
+        className={twMerge('bg-white rounded-xl z-10', className)}
+      >
         {children}
+        {
+          withCloseButton && (
+            <button
+              type="button"
+              onClick={onClose}
+              className="absolute top-8 right-8"
+            >
+              <CloseIcon />
+            </button>
+          )
+        }
       </div>
-    </dialog>
+    </div>
   );
 };

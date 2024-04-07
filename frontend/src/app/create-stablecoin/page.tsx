@@ -111,7 +111,7 @@ export default function CreateStableCoinPage() {
   );
   const runCreateStableCoin = useCallback(
     async () => {
-      if (account?.address && data.name && data.ticker && data.decimals) {
+      if (account?.address && data.name && data.ticker && data.decimals !== undefined) {
         try {
           const { dependencies, modules } = await createStableCoin.create.mutateAsync({
             walletAddress: account.address,
@@ -273,7 +273,7 @@ export default function CreateStableCoinPage() {
             <p className="font-semibold text-2xl text-primary">
               Create New Stablecoin
             </p>
-            <p className="text-sm text-[#475467] mt-4">
+            <p className="text-sm text-riverBed mt-4">
               {stepsDescriptions[currentStep]}
             </p>
           </div>
@@ -326,6 +326,7 @@ export default function CreateStableCoinPage() {
                     fieldName: value,
                     label: label.substring(0, label.indexOf('-')).trim(),
                   }))}
+                  defaultValues={data.roles}
                   onBack={goToPreviousStep}
                 />
               )

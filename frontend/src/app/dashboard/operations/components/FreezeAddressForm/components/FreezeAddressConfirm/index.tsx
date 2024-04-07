@@ -31,7 +31,7 @@ export const FreezeAddressConfirm: FC<FreezeAddressConfirmProps> = ({
       <span className="break-all">
         Address:
         {' '}
-        <span className="text-[#FE6321] font-bold">
+        <span className="text-pumpkinOrange font-bold">
           {walletAddress}
         </span>
       </span>

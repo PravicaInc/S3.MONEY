@@ -24,15 +24,15 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
         fill="currentColor"
       />
     </svg>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -45,7 +45,7 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
           You have entered this amount:
            
           <span
-            class="text-[#FE6321] font-bold"
+            class="text-pumpkinOrange font-bold"
           >
             0 PRV
           </span>
@@ -53,7 +53,7 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
           to be minted for the Main Account:
            
           <span
-            class="text-[#FE6321] font-bold"
+            class="text-pumpkinOrange font-bold"
           >
             0x1111111111111111111111111111111111111111111111111111111111111111
           </span>
@@ -72,17 +72,23 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
             Confirm
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -112,8 +118,14 @@ exports[`Operations/Mint page: Operations/Mint page with connected state: Snapsh
             SUI Tokens
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>
 `;

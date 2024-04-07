@@ -148,6 +148,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
             view={BUTTON_VIEWS.secondary}
             className="h-14 w-full"
             onClick={onBack}
+            type="button"
           >
             Back
           </Button>

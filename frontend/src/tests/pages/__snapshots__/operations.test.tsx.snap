@@ -24,15 +24,15 @@ exports[`Operations page: Operations page with connected state: Snapshot 1`] = `
         fill="currentColor"
       />
     </svg>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl relative p-6 w-[400px]"
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
       >
         <div
           class="absolute top-0 left-0 z-[-1]"
@@ -59,8 +59,14 @@ exports[`Operations page: Operations page with connected state: Snapshot 1`] = `
         >
           OK
         </button>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>
 `;

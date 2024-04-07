@@ -31,11 +31,35 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
     <div
       class="h-full w-full p-10"
     >
-      <p
-        class="font-semibold text-2xl text-primary"
+      <div
+        class="flex items-center justify-between w-full"
       >
-        Create New Stablecoin
-      </p>
+        <div>
+          <p
+            class="font-semibold text-2xl text-primary"
+          >
+            Create New Stablecoin
+          </p>
+          <p
+            class="text-sm text-riverBed mt-4"
+          >
+            
+      Choose a name and ticker for your new stablecoin.
+      You can also upload an icon for your stablecoin, which should be 300x300 pixels.
+    
+          </p>
+        </div>
+        <a
+          class="w-20 rounded-xl"
+          href="/"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-10 w-full text-sm"
+          >
+            Cancel
+          </button>
+        </a>
+      </div>
       <div
         class="flex items-center gap-10 mt-8"
       >
@@ -216,16 +240,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             <div
               class="flex items-center justify-between gap-6 mt-10"
             >
-              <a
-                class="w-full rounded-xl"
-                href="/"
-              >
-                <button
-                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
-                >
-                  Cancel
-                </button>
-              </a>
               <button
                 class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
                 type="submit"
@@ -257,15 +271,15 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
         2024
       </p>
     </div>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -291,17 +305,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             Proceed
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -321,17 +341,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             </button>
           </a>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -361,8 +387,14 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             SUI Tokens
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>
 `;
@@ -398,11 +430,35 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
     <div
       class="h-full w-full p-10"
     >
-      <p
-        class="font-semibold text-2xl text-primary"
+      <div
+        class="flex items-center justify-between w-full"
       >
-        Create New Stablecoin
-      </p>
+        <div>
+          <p
+            class="font-semibold text-2xl text-primary"
+          >
+            Create New Stablecoin
+          </p>
+          <p
+            class="text-sm text-riverBed mt-4"
+          >
+            
+      Core permissions for your stablecoin are presently default, given only to the issuer.
+      Soon, you'll be able to manage them.
+    
+          </p>
+        </div>
+        <a
+          class="w-20 rounded-xl"
+          href="/"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-10 w-full text-sm"
+          >
+            Cancel
+          </button>
+        </a>
+      </div>
       <div
         class="flex items-center gap-10 mt-8"
       >
@@ -583,16 +639,12 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             <div
               class="flex items-center justify-between gap-6 mt-10"
             >
-              <a
-                class="w-full rounded-xl"
-                href="/"
+              <button
+                class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
+                type="button"
               >
-                <button
-                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
-                >
-                  Cancel
-                </button>
-              </a>
+                Back
+              </button>
               <button
                 class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
                 type="submit"
@@ -635,46 +687,50 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
               class="bg-borderPrimary h-[1px] mt-3 mb-4"
             />
             <div
-              class="flex items-center justify-between text-secondary text-sm"
+              class="space-y-3"
             >
-              <span>
-                Initial Supply
-              </span>
-              <span>
-                987
-              </span>
-            </div>
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Max Supply
-              </span>
-              <span>
-                123,456,789
-              </span>
-            </div>
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Supply Type
-              </span>
-              <span
-                class="capitalize"
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
               >
-                finite
-              </span>
-            </div>
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Decimals
-              </span>
-              <span>
-                7
-              </span>
+                <span>
+                  Initial Supply
+                </span>
+                <span>
+                  987
+                </span>
+              </div>
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
+              >
+                <span>
+                  Max Supply
+                </span>
+                <span>
+                  123,456,789
+                </span>
+              </div>
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
+              >
+                <span>
+                  Supply Type
+                </span>
+                <span
+                  class="capitalize"
+                >
+                  finite
+                </span>
+              </div>
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
+              >
+                <span>
+                  Decimals
+                </span>
+                <span>
+                  7
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -700,15 +756,15 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
         2024
       </p>
     </div>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -734,17 +790,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             Proceed
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -764,17 +826,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             </button>
           </a>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -804,8 +872,14 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             SUI Tokens
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>
 `;
@@ -841,11 +915,32 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
     <div
       class="h-full w-full p-10"
     >
-      <p
-        class="font-semibold text-2xl text-primary"
+      <div
+        class="flex items-center justify-between w-full"
       >
-        Create New Stablecoin
-      </p>
+        <div>
+          <p
+            class="font-semibold text-2xl text-primary"
+          >
+            Create New Stablecoin
+          </p>
+          <p
+            class="text-sm text-riverBed mt-4"
+          >
+            Create a new stablecoin on SUI
+          </p>
+        </div>
+        <a
+          class="w-20 rounded-xl"
+          href="/"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-10 w-full text-sm"
+          >
+            Cancel
+          </button>
+        </a>
+      </div>
       <div
         class="flex items-center gap-10 mt-8"
       >
@@ -921,7 +1016,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
         <div
           class="bg-white border border-borderPrimary rounded-xl p-10 col-span-7 h-fit"
         >
-          <form
+          <div
             class=""
           >
             <div
@@ -932,530 +1027,661 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             <div
               class="mt-10 space-y-4 relative"
             >
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Pause
-                </p>
+              <p
+                class="font-medium text-sm text-secondary mb-2"
+              >
+                Pause
+              </p>
+              <div
+                class="relative"
+              >
                 <div
-                  class="grid grid-cols-4 gap-3"
+                  class="border border-borderPrimary py-[10px] px-[14px] rounded-lg cursor-pointer flex items-center justify-between transition-all"
                 >
                   <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                    class="text-sm font-medium space-x-2"
                   >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
+                    <span
+                      class="text-primary"
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
+                      Current Account
+                    </span>
+                    <span
+                      class="text-riverBed text-base font-normal"
                     >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
+                      0x1111111111111111111111111111111111111111111111111111111111111111
+                    </span>
                   </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
+                  <svg />
+                </div>
+                <div
+                  class="border border-borderPrimary p-[5px] rounded-lg bg-white absolute w-[calc(100%+2px)] top-[calc(100%+4px)] left-[-1px] hidden z-50 shadow-rolesDropdown"
+                >
+                  <button
+                    class=" flex items-center justify-between w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md "
+                    type="button"
                   >
-                    <div
-                      class="flex items-center justify-between"
+                    <span
+                      class="text-sm font-medium space-x-2"
+                    >
+                      <span
+                        class="text-primary"
+                      >
+                        Current Account
+                      </span>
+                      <span
+                        class="text-riverBed text-base font-normal"
+                      >
+                        0x1111111111111111111111111111111111111111111111111111111111111111
+                      </span>
+                    </span>
+                    <svg
+                      class="[&>path]:stroke-[#7F56D9]"
                     />
-                    <div
-                      class="relative"
-                    >
-                      <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="pause"
-                        maxlength="66"
-                        name="pause"
-                        placeholder="Other Account"
-                        type="text"
-                      />
-                    </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
+                  </button>
+                  <button
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    type="button"
+                  >
+                    + Assign another account
+                  </button>
                 </div>
               </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Freeze
-                </p>
+              <div
+                class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+                role="dialog"
+              >
                 <div
-                  class="grid grid-cols-4 gap-3"
+                  class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
+                />
+                <div
+                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
                 >
                   <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                    class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
                   >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
+                    <svg />
+                    <div
+                      class=" absolute top-6 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-[#FE63211A] "
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
+                      <svg />
+                    </div>
                   </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  <p
+                    class="text-primary text-lg font-semibold mt-[88px] text-center"
                   >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
+                    Assign another account
+                  </p>
+                  <p
+                    class="mt-1 text-secondary text-center"
+                  >
+                    This address will be granted permission to manage this functionality.
+                  </p>
+                  <form
+                    class="mt-5"
                   >
                     <div
-                      class="flex items-center justify-between"
-                    />
+                      class="flex items-center justify-start mb-2"
+                    >
+                      <p
+                        class="font-medium text-sm text-secondary"
+                      >
+                        Address
+                      </p>
+                    </div>
                     <div
                       class="relative"
                     >
                       <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="freeze"
+                        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full"
+                        id="address"
                         maxlength="66"
-                        name="freeze"
-                        placeholder="Other Account"
+                        name="address"
+                        placeholder="Address"
                         type="text"
                       />
                     </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
+                    <button
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      type="submit"
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
+                      Confirm
+                    </button>
+                  </form>
+                  <button
+                    class="absolute top-8 right-8"
+                    type="button"
+                  >
+                    <svg />
+                  </button>
                 </div>
               </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Mint
-                </p>
+              <p
+                class="font-medium text-sm text-secondary mb-2"
+              >
+                Freeze
+              </p>
+              <div
+                class="relative"
+              >
                 <div
-                  class="grid grid-cols-4 gap-3"
+                  class="border border-borderPrimary py-[10px] px-[14px] rounded-lg cursor-pointer flex items-center justify-between transition-all"
                 >
                   <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                    class="text-sm font-medium space-x-2"
                   >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
+                    <span
+                      class="text-primary"
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
-                  >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
+                      Current Account
+                    </span>
+                    <span
+                      class="text-riverBed text-base font-normal"
                     >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
+                      0x1111111111111111111111111111111111111111111111111111111111111111
+                    </span>
                   </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
+                  <svg />
+                </div>
+                <div
+                  class="border border-borderPrimary p-[5px] rounded-lg bg-white absolute w-[calc(100%+2px)] top-[calc(100%+4px)] left-[-1px] hidden z-50 shadow-rolesDropdown"
+                >
+                  <button
+                    class=" flex items-center justify-between w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md "
+                    type="button"
                   >
-                    <div
-                      class="flex items-center justify-between"
+                    <span
+                      class="text-sm font-medium space-x-2"
+                    >
+                      <span
+                        class="text-primary"
+                      >
+                        Current Account
+                      </span>
+                      <span
+                        class="text-riverBed text-base font-normal"
+                      >
+                        0x1111111111111111111111111111111111111111111111111111111111111111
+                      </span>
+                    </span>
+                    <svg
+                      class="[&>path]:stroke-[#7F56D9]"
                     />
-                    <div
-                      class="relative"
-                    >
-                      <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="mint"
-                        maxlength="66"
-                        name="mint"
-                        placeholder="Other Account"
-                        type="text"
-                      />
-                    </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
-                    >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
+                  </button>
+                  <button
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    type="button"
+                  >
+                    + Assign another account
+                  </button>
                 </div>
               </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Cash In
-                </p>
+              <div
+                class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+                role="dialog"
+              >
                 <div
-                  class="grid grid-cols-4 gap-3"
+                  class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
+                />
+                <div
+                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
                 >
                   <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                    class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
                   >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
+                    <svg />
+                    <div
+                      class=" absolute top-6 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-[#FE63211A] "
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
+                      <svg />
+                    </div>
                   </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  <p
+                    class="text-primary text-lg font-semibold mt-[88px] text-center"
                   >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
-                    >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
-                  <div
-                    class="w-full col-span-3 absolute -z-10"
+                    Assign another account
+                  </p>
+                  <p
+                    class="mt-1 text-secondary text-center"
+                  >
+                    This address will be granted permission to manage this functionality.
+                  </p>
+                  <form
+                    class="mt-5"
                   >
                     <div
-                      class="flex items-center justify-between"
-                    />
+                      class="flex items-center justify-start mb-2"
+                    >
+                      <p
+                        class="font-medium text-sm text-secondary"
+                      >
+                        Address
+                      </p>
+                    </div>
                     <div
                       class="relative"
                     >
                       <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="cashIn"
+                        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full"
+                        id="address"
                         maxlength="66"
-                        name="cashIn"
-                        placeholder="Other Account"
+                        name="address"
+                        placeholder="Address"
                         type="text"
                       />
                     </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
+                    <button
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      type="submit"
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
+                      Confirm
+                    </button>
+                  </form>
+                  <button
+                    class="absolute top-8 right-8"
+                    type="button"
+                  >
+                    <svg />
+                  </button>
                 </div>
               </div>
-              <div>
-                <p
-                  class="font-medium text-sm text-secondary mb-2"
-                >
-                  Burn
-                </p>
+              <p
+                class="font-medium text-sm text-secondary mb-2"
+              >
+                Mint
+              </p>
+              <div
+                class="relative"
+              >
                 <div
-                  class="grid grid-cols-4 gap-3"
+                  class="border border-borderPrimary py-[10px] px-[14px] rounded-lg cursor-pointer flex items-center justify-between transition-all"
                 >
                   <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-1 h-[50px] flex items-center justify-between text-xs font-semibold cursor-pointer "
+                    class="text-sm font-medium space-x-2"
                   >
-                    Current Account
-                    <label
-                      class="relative transition cursor-pointer"
+                    <span
+                      class="text-primary"
                     >
-                      <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
+                      Current Account
+                    </span>
+                    <span
+                      class="text-riverBed text-base font-normal"
+                    >
+                      0x1111111111111111111111111111111111111111111111111111111111111111
+                    </span>
                   </div>
-                  <div
-                    class=" w-full p-4 rounded-xl border border-borderPrimary col-span-3 flex items-center justify-between text-xs font-semibold cursor-pointer "
+                  <svg />
+                </div>
+                <div
+                  class="border border-borderPrimary p-[5px] rounded-lg bg-white absolute w-[calc(100%+2px)] top-[calc(100%+4px)] left-[-1px] hidden z-50 shadow-rolesDropdown"
+                >
+                  <button
+                    class=" flex items-center justify-between w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md "
+                    type="button"
                   >
-                    Other Account
-                    <label
-                      class="relative transition cursor-pointer"
+                    <span
+                      class="text-sm font-medium space-x-2"
                     >
-                      <input
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
-                      />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
+                      <span
+                        class="text-primary"
                       >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
-                  </div>
+                        Current Account
+                      </span>
+                      <span
+                        class="text-riverBed text-base font-normal"
+                      >
+                        0x1111111111111111111111111111111111111111111111111111111111111111
+                      </span>
+                    </span>
+                    <svg
+                      class="[&>path]:stroke-[#7F56D9]"
+                    />
+                  </button>
+                  <button
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    type="button"
+                  >
+                    + Assign another account
+                  </button>
+                </div>
+              </div>
+              <div
+                class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+                role="dialog"
+              >
+                <div
+                  class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
+                />
+                <div
+                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+                >
                   <div
-                    class="w-full col-span-3 absolute -z-10"
+                    class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
+                  >
+                    <svg />
+                    <div
+                      class=" absolute top-6 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-[#FE63211A] "
+                    >
+                      <svg />
+                    </div>
+                  </div>
+                  <p
+                    class="text-primary text-lg font-semibold mt-[88px] text-center"
+                  >
+                    Assign another account
+                  </p>
+                  <p
+                    class="mt-1 text-secondary text-center"
+                  >
+                    This address will be granted permission to manage this functionality.
+                  </p>
+                  <form
+                    class="mt-5"
                   >
                     <div
-                      class="flex items-center justify-between"
-                    />
+                      class="flex items-center justify-start mb-2"
+                    >
+                      <p
+                        class="font-medium text-sm text-secondary"
+                      >
+                        Address
+                      </p>
+                    </div>
                     <div
                       class="relative"
                     >
                       <input
-                        class="text-primary rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full p-4 text-xs font-semibold placeholder:text-primary placeholder:font-semibold"
-                        id="burn"
+                        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full"
+                        id="address"
                         maxlength="66"
-                        name="burn"
-                        placeholder="Other Account"
+                        name="address"
+                        placeholder="Address"
                         type="text"
                       />
                     </div>
-                    <label
-                      class="transition cursor-pointer absolute top-4 right-4"
+                    <button
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
+                  </form>
+                  <button
+                    class="absolute top-8 right-8"
+                    type="button"
+                  >
+                    <svg />
+                  </button>
+                </div>
+              </div>
+              <p
+                class="font-medium text-sm text-secondary mb-2"
+              >
+                Cash In
+              </p>
+              <div
+                class="relative"
+              >
+                <div
+                  class="border border-borderPrimary py-[10px] px-[14px] rounded-lg cursor-pointer flex items-center justify-between transition-all"
+                >
+                  <div
+                    class="text-sm font-medium space-x-2"
+                  >
+                    <span
+                      class="text-primary"
+                    >
+                      Current Account
+                    </span>
+                    <span
+                      class="text-riverBed text-base font-normal"
+                    >
+                      0x1111111111111111111111111111111111111111111111111111111111111111
+                    </span>
+                  </div>
+                  <svg />
+                </div>
+                <div
+                  class="border border-borderPrimary p-[5px] rounded-lg bg-white absolute w-[calc(100%+2px)] top-[calc(100%+4px)] left-[-1px] hidden z-50 shadow-rolesDropdown"
+                >
+                  <button
+                    class=" flex items-center justify-between w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md "
+                    type="button"
+                  >
+                    <span
+                      class="text-sm font-medium space-x-2"
+                    >
+                      <span
+                        class="text-primary"
+                      >
+                        Current Account
+                      </span>
+                      <span
+                        class="text-riverBed text-base font-normal"
+                      >
+                        0x1111111111111111111111111111111111111111111111111111111111111111
+                      </span>
+                    </span>
+                    <svg
+                      class="[&>path]:stroke-[#7F56D9]"
+                    />
+                  </button>
+                  <button
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    type="button"
+                  >
+                    + Assign another account
+                  </button>
+                </div>
+              </div>
+              <div
+                class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+                role="dialog"
+              >
+                <div
+                  class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
+                />
+                <div
+                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+                >
+                  <div
+                    class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
+                  >
+                    <svg />
+                    <div
+                      class=" absolute top-6 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-[#FE63211A] "
+                    >
+                      <svg />
+                    </div>
+                  </div>
+                  <p
+                    class="text-primary text-lg font-semibold mt-[88px] text-center"
+                  >
+                    Assign another account
+                  </p>
+                  <p
+                    class="mt-1 text-secondary text-center"
+                  >
+                    This address will be granted permission to manage this functionality.
+                  </p>
+                  <form
+                    class="mt-5"
+                  >
+                    <div
+                      class="flex items-center justify-start mb-2"
+                    >
+                      <p
+                        class="font-medium text-sm text-secondary"
+                      >
+                        Address
+                      </p>
+                    </div>
+                    <div
+                      class="relative"
                     >
                       <input
-                        checked=""
-                        class="
-  invisible absolute inset-1/2
-  [&+div]:checked:border-actionPrimary [&+div]:checked:bg-actionPrimary
-  [&+div>svg]:checked:block
-"
-                        readonly=""
-                        type="checkbox"
+                        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full"
+                        id="address"
+                        maxlength="66"
+                        name="address"
+                        placeholder="Address"
+                        type="text"
                       />
-                      <div
-                        class="border border-borderPrimary flex items-center justify-center transition rounded-full w-4 h-4 [&>svg]:w-2 [&>svg]:h-2"
-                      >
-                        <svg
-                          class="hidden duration-1000"
-                        />
-                      </div>
-                    </label>
+                    </div>
+                    <button
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
+                  </form>
+                  <button
+                    class="absolute top-8 right-8"
+                    type="button"
+                  >
+                    <svg />
+                  </button>
+                </div>
+              </div>
+              <p
+                class="font-medium text-sm text-secondary mb-2"
+              >
+                Burn
+              </p>
+              <div
+                class="relative"
+              >
+                <div
+                  class="border border-borderPrimary py-[10px] px-[14px] rounded-lg cursor-pointer flex items-center justify-between transition-all"
+                >
+                  <div
+                    class="text-sm font-medium space-x-2"
+                  >
+                    <span
+                      class="text-primary"
+                    >
+                      Current Account
+                    </span>
+                    <span
+                      class="text-riverBed text-base font-normal"
+                    >
+                      0x1111111111111111111111111111111111111111111111111111111111111111
+                    </span>
                   </div>
+                  <svg />
+                </div>
+                <div
+                  class="border border-borderPrimary p-[5px] rounded-lg bg-white absolute w-[calc(100%+2px)] top-[calc(100%+4px)] left-[-1px] hidden z-50 shadow-rolesDropdown"
+                >
+                  <button
+                    class=" flex items-center justify-between w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md "
+                    type="button"
+                  >
+                    <span
+                      class="text-sm font-medium space-x-2"
+                    >
+                      <span
+                        class="text-primary"
+                      >
+                        Current Account
+                      </span>
+                      <span
+                        class="text-riverBed text-base font-normal"
+                      >
+                        0x1111111111111111111111111111111111111111111111111111111111111111
+                      </span>
+                    </span>
+                    <svg
+                      class="[&>path]:stroke-[#7F56D9]"
+                    />
+                  </button>
+                  <button
+                    class=" w-full px-2 py-[10px] cursor-pointer hover:bg-alabaster rounded-md text-left text-pumpkinOrange "
+                    type="button"
+                  >
+                    + Assign another account
+                  </button>
+                </div>
+              </div>
+              <div
+                class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+                role="dialog"
+              >
+                <div
+                  class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
+                />
+                <div
+                  class="bg-white rounded-xl z-10 relative p-6 w-[400px]"
+                >
+                  <div
+                    class="absolute top-0 left-1/2 -translate-x-1/2 z-[-1]"
+                  >
+                    <svg />
+                    <div
+                      class=" absolute top-6 left-1/2 -translate-x-1/2 w-12 h-12 flex items-center justify-center rounded-full bg-[#FE63211A] "
+                    >
+                      <svg />
+                    </div>
+                  </div>
+                  <p
+                    class="text-primary text-lg font-semibold mt-[88px] text-center"
+                  >
+                    Assign another account
+                  </p>
+                  <p
+                    class="mt-1 text-secondary text-center"
+                  >
+                    This address will be granted permission to manage this functionality.
+                  </p>
+                  <form
+                    class="mt-5"
+                  >
+                    <div
+                      class="flex items-center justify-start mb-2"
+                    >
+                      <p
+                        class="font-medium text-sm text-secondary"
+                      >
+                        Address
+                      </p>
+                    </div>
+                    <div
+                      class="relative"
+                    >
+                      <input
+                        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full"
+                        id="address"
+                        maxlength="66"
+                        name="address"
+                        placeholder="Address"
+                        type="text"
+                      />
+                    </div>
+                    <button
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
+                  </form>
+                  <button
+                    class="absolute top-8 right-8"
+                    type="button"
+                  >
+                    <svg />
+                  </button>
                 </div>
               </div>
             </div>
             <div
               class="flex items-center justify-between gap-6 mt-10"
             >
-              <a
-                class="w-full rounded-xl"
-                href="/"
+              <button
+                class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
+                type="button"
               >
-                <button
-                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
-                >
-                  Cancel
-                </button>
-              </a>
+                Back
+              </button>
               <button
                 class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
                 type="submit"
@@ -1463,7 +1689,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 Create
               </button>
             </div>
-          </form>
+          </div>
         </div>
         <div
           class="bg-white border rounded-xl text-primary border-borderPrimary col-span-3 h-fit"
@@ -1498,46 +1724,50 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
               class="bg-borderPrimary h-[1px] mt-3 mb-4"
             />
             <div
-              class="flex items-center justify-between text-secondary text-sm"
+              class="space-y-3"
             >
-              <span>
-                Initial Supply
-              </span>
-              <span>
-                987
-              </span>
-            </div>
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Max Supply
-              </span>
-              <span>
-                123,456,789
-              </span>
-            </div>
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Supply Type
-              </span>
-              <span
-                class="capitalize"
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
               >
-                finite
-              </span>
-            </div>
-            <div
-              class="flex items-center justify-between text-secondary text-sm"
-            >
-              <span>
-                Decimals
-              </span>
-              <span>
-                7
-              </span>
+                <span>
+                  Initial Supply
+                </span>
+                <span>
+                  987
+                </span>
+              </div>
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
+              >
+                <span>
+                  Max Supply
+                </span>
+                <span>
+                  123,456,789
+                </span>
+              </div>
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
+              >
+                <span>
+                  Supply Type
+                </span>
+                <span
+                  class="capitalize"
+                >
+                  finite
+                </span>
+              </div>
+              <div
+                class="flex items-center justify-between text-secondary text-sm"
+              >
+                <span>
+                  Decimals
+                </span>
+                <span>
+                  7
+                </span>
+              </div>
             </div>
             <p
               class="font-semibold mt-5"
@@ -1638,15 +1868,15 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
         2024
       </p>
     </div>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -1672,17 +1902,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             Proceed
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -1702,17 +1938,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             </button>
           </a>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -1742,8 +1984,14 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             SUI Tokens
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>
 `;
@@ -1779,11 +2027,35 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
     <div
       class="h-full w-full p-10"
     >
-      <p
-        class="font-semibold text-2xl text-primary"
+      <div
+        class="flex items-center justify-between w-full"
       >
-        Create New Stablecoin
-      </p>
+        <div>
+          <p
+            class="font-semibold text-2xl text-primary"
+          >
+            Create New Stablecoin
+          </p>
+          <p
+            class="text-sm text-riverBed mt-4"
+          >
+            
+      The initial supply will be transferred to your account upon the completion of your project.
+      Choose a supply type and decimal count that suits your needs.
+    
+          </p>
+        </div>
+        <a
+          class="w-20 rounded-xl"
+          href="/"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-10 w-full text-sm"
+          >
+            Cancel
+          </button>
+        </a>
+      </div>
       <div
         class="flex items-center gap-10 mt-8"
       >
@@ -1969,16 +2241,12 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             <div
               class="flex items-center justify-between gap-6 mt-10"
             >
-              <a
-                class="w-full rounded-xl"
-                href="/"
+              <button
+                class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
+                type="button"
               >
-                <button
-                  class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white h-14 w-full"
-                >
-                  Cancel
-                </button>
-              </a>
+                Back
+              </button>
               <button
                 class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
                 type="submit"
@@ -2036,15 +2304,15 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
         2024
       </p>
     </div>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -2070,17 +2338,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             Proceed
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -2100,17 +2374,23 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             </button>
           </a>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl p-6 w-[520px]"
+    </div>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="Toastify"
-        id="modal-toast"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
       />
       <div
-        class=""
+        class="bg-white rounded-xl z-10 p-6 w-[520px]"
       >
         <p
           class="text-primary font-semibold text-2xl text-center mt-4"
@@ -2140,8 +2420,14 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             SUI Tokens
           </button>
         </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
       </div>
-    </dialog>
+    </div>
   </div>
 </div>
 `;
