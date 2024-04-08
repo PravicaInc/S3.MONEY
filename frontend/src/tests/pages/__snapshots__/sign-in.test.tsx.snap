@@ -27,7 +27,7 @@ exports[`Sign-in page: Sign-in page with disconnected state: Snapshot 1`] = `
             class="mt-5 w-full"
           >
             <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-[48px] p-0 w-full text-sm font-semibold flex items-center justify-center"
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none [&>svg>path]:hover:stroke-actionPrimary h-[48px] p-0 w-full text-sm font-semibold flex items-center justify-center"
             >
               Sign In with Sui Wallet
             </button>

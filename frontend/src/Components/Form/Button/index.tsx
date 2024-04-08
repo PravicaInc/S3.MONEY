@@ -6,6 +6,7 @@ import { Loader } from '@/Components/Loader';
 export enum BUTTON_VIEWS {
   primary = 'primary',
   secondary = 'secondary',
+  red = 'red',
 }
 
 export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -21,8 +22,18 @@ export const primaryButtonClasses = `
   after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute
   hover:bg-buttonBgAfter hover:text-actionPrimary
   transition
-  disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white
+  disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none
   [&>svg>path]:hover:stroke-actionPrimary
+`;
+
+export const redButtonClasses = `
+  text-white rounded-xl border-grapefruit border-solid border font-semibold
+  flex items-center justify-center
+  bg-grapefruit relative overflow-hidden
+  hover:bg-white hover:text-grapefruit
+  transition
+  disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none
+  [&>svg>path]:hover:stroke-grapefruit
 `;
 
 export const secondaryButtonClasses = `
@@ -30,12 +41,13 @@ export const secondaryButtonClasses = `
   flex items-center justify-center
   transition
   hover:border-actionSecondary hover:text-actionPrimary
-  disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white
+  disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none
 `;
 
 const buttonViewsClassNames = {
   [BUTTON_VIEWS.primary]: primaryButtonClasses,
   [BUTTON_VIEWS.secondary]: secondaryButtonClasses,
+  [BUTTON_VIEWS.red]: redButtonClasses,
 };
 
 export const Button = ({

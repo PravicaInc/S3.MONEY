@@ -105,7 +105,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
           href="/dashboard/operations?txid=1"
         >
           <button
-            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white mt-4 w-full h-[48px]"
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none mt-4 w-full h-[48px]"
           >
             Manage
           </button>
@@ -182,7 +182,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
           href="/dashboard/operations?txid=2"
         >
           <button
-            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white mt-4 w-full h-[48px]"
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none mt-4 w-full h-[48px]"
           >
             Manage
           </button>

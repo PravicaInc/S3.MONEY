@@ -1,6 +1,7 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useBuildTransaction } from './useBuildTransaction';
@@ -45,7 +46,7 @@ export const usePauseSystem = () => {
       packageId: string,
       tokenPolicyCap: string,
       tokenPolicy: string
-    }): Promise<void> => {
+    }): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
       const txb = new TransactionBlock();
 
       txb.moveCall({
@@ -59,12 +60,14 @@ export const usePauseSystem = () => {
 
       await buildTransaction.mutateAsync(txb);
 
-      await signAndExecuteTransactionBlock.mutateAsync({
+      const data = await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
       });
 
       queryClient.invalidateQueries({ queryKey: ['is-paused', pauser] });
+
+      return data;
     },
   });
 };
@@ -87,7 +90,7 @@ export const usePlaySystem = () => {
       packageId: string,
       tokenPolicyCap: string,
       tokenPolicy: string
-    }): Promise<void> => {
+    }): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
       const txb = new TransactionBlock();
 
       txb.moveCall({
@@ -101,12 +104,14 @@ export const usePlaySystem = () => {
 
       await buildTransaction.mutateAsync(txb);
 
-      await signAndExecuteTransactionBlock.mutateAsync({
+      const data = await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
       });
 
       queryClient.invalidateQueries({ queryKey: ['is-paused', pauser] });
+
+      return data;
     },
   });
 };
