@@ -12,6 +12,8 @@ import { Button } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
 
+import { PROHIBITED_TICKERS } from '@/utils/const';
+
 import { useUploadImage } from '@/hooks/useUploadImage';
 
 export interface InitialStableCoinData {
@@ -56,8 +58,8 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
       .test(
         'is-exist',
         'A stablecoin with such a ticker has already been created.',
-        value => value && excludeTickerNames
-          ? !excludeTickerNames.includes(value)
+        value => value
+          ? ![...PROHIBITED_TICKERS, ...(excludeTickerNames || [])].includes(value)
           : true
       ),
     icon: yup

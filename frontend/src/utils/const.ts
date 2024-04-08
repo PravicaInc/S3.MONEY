@@ -14,3 +14,19 @@ export const PAGES_URLS = {
 export const WALLETS = {
   SuiWallet: 'Sui Wallet',
 };
+
+export const PROHIBITED_TICKERS = [
+  '$BAG',
+  '$BCS',
+  '$HEX',
+  '$PAY',
+  '$SUI',
+  '$URI',
+  '$COIN',
+  '$MATH',
+  '$CLOCK',
+  '$EVENT',
+  '$TABLE',
+  '$TOKEN',
+  '$TYPES',
+];
