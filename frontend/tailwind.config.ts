@@ -39,6 +39,7 @@ const config: Config = {
         greenishBlue: '#28806F',
         grapefruit: '#D92D20',
         santaGrey: '#98A2B3',
+        shamrockGreen: '#079455',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
