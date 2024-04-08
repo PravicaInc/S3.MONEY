@@ -1,6 +1,7 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { isSuiAddress } from '@/utils/validators';
@@ -25,7 +26,7 @@ export const useFreezeAddress = () => {
       packageId: string,
       tokenPolicyCap: string,
       tokenPolicy: string
-    }): Promise<void> => {
+    }): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
       const txb = new TransactionBlock();
 
       txb.moveCall({
@@ -40,7 +41,7 @@ export const useFreezeAddress = () => {
 
       await buildTransaction.mutateAsync(txb);
 
-      await signAndExecuteTransactionBlock.mutateAsync({
+      return await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
       });

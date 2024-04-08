@@ -2,7 +2,6 @@
 
 import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
@@ -10,15 +9,16 @@ import * as yup from 'yup';
 import LockIcon from '@/../public/images/lock.svg?jsx';
 
 import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
-import { Button } from '@/Components/Form/Button';
+import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
+import { WalletTransactionConfirmModal } from '@/Components/WalletTransactionConfirmModal';
+import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransactionSuccessfulModal';
 
+import { getShortAccountAddress } from '@/utils/string_formats';
 import { suiAddressRegExp } from '@/utils/validators';
 
 import { useFreezeAddress } from '@/hooks/useFreezeAddress';
 import { StableCoin } from '@/hooks/useStableCoinsList';
-
-import { FreezeAddressConfirm } from './components/FreezeAddressConfirm';
 
 export interface FreezeAddressFormData {
   address: string;
@@ -36,7 +36,9 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
   const freezeAddress = useFreezeAddress();
 
   const [showFreezeAddressConfirm, setShowFreezeAddressConfirm] = useState<boolean>(false);
+  const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
+  const [lastTXID, setLastTXID] = useState<string>();
 
   const freezeAddressFormSchema = yup.object().shape({
     address: yup
@@ -56,7 +58,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
   const freezeWalletAddress: SubmitHandler<FreezeAddressFormData> = useCallback(
     async ({ address }) => {
       try {
-        await freezeAddress.mutateAsync({
+        const { digest } = await freezeAddress.mutateAsync({
           walletAddress: address,
           packageName: stableCoin.package_name,
           packageId: stableCoin.deploy_addresses.packageId,
@@ -65,12 +67,8 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
         });
 
         formMethods.reset();
-        toast.success(
-          `You successfully block this account ${address} from sending and receiving tokens`,
-          {
-            className: 'w-[400px]',
-          }
-        );
+        setLastTXID(digest);
+        setShowWalletTransactionSuccessfulModal(true);
         setShowFreezeAddressConfirm(false);
       }
       catch (error) {
@@ -135,19 +133,46 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
           type="submit"
           disabled={formMethods.formState.isSubmitting}
           isLoading={formMethods.formState.isSubmitting}
+          view={BUTTON_VIEWS.secondary}
         >
-          Freeze Account
+          Freeze this account
         </Button>
       </form>
-      <FreezeAddressConfirm
+      <WalletTransactionConfirmModal
+        view="alert"
         visible={showFreezeAddressConfirm}
         onClose={() => {
           setShowFreezeAddressConfirm(false);
           freezeAddress.reset();
         }}
-        walletAddress={walletAddress}
+        header="Are you sure to freeze this account?"
+        description="This actions will block this account from sending and receiving tokens."
         onProceed={() => freezeWalletAddress({ address: walletAddress })}
         inProcess={freezeAddress.isPending}
+        additionContent={(
+          <div className="border border-borderPrimary p-4 rounded-xl mt-5">
+            <div className="flex items-center gap-[2px]">
+              <p className="text-primary font-semibold">
+                Freeze this account
+              </p>
+            </div>
+            <p className="text-xs font-semibold text-actionPrimary">
+              {getShortAccountAddress(walletAddress, 25)}
+            </p>
+          </div>
+        )}
+      />
+      <WalletTransactionSuccessfulModal
+        visible={showWalletTransactionSuccessfulModal}
+        onClose={() => {
+          setShowWalletTransactionSuccessfulModal(false);
+        }}
+        header="Freeze successful"
+        description="
+          You have successfully freeze this wallet.
+          To view the transaction for this operation, please click on the button below
+        "
+        txid={lastTXID}
       />
       <BalanceErrorModal
         visible={showBalanceErrorModal}

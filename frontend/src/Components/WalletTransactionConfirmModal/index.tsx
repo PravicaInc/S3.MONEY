@@ -34,7 +34,7 @@ export const WalletTransactionConfirmModal: FC<WalletTransactionConfirmModalProp
   inCancelDisabled,
   inCancelProgress,
   view = 'positive',
-  processButtonText = 'Proceed',
+  processButtonText = 'Confirm',
   processButtonClassName,
   processButtonView = BUTTON_VIEWS.primary,
   ...props
