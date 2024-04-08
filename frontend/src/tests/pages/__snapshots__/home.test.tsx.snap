@@ -6,49 +6,216 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
     [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
   </style>
   <div
-    class="flex items-center justify-center w-full grow p-5"
+    class="flex items-center gap-2 px-6 min-h-20 border-b border-borderPrimary bg-white justify-between"
   >
     <div
-      class="bg-white shadow-stableCoinForm rounded-xl w-[450px]"
+      class="relative"
+    >
+      <input
+        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white pl-11 w-[460px] text-sm py-[9px]"
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
+      <svg
+        class="absolute top-1/2 left-3 -translate-y-1/2"
+      />
+    </div>
+    <button
+      class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium text-sm transition shadow-logoutButton hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
+    >
+      0x11...1111
+      <svg />
+    </button>
+    <div
+      class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
+      role="dialog"
     >
       <div
-        class="px-6 py-5 flex items-center justify-between border-b border-borderPrimary"
+        class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
+      />
+      <div
+        class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6"
       >
-        <span
-          class="text-lg font-semibold text-primary"
+        <p
+          class="text-primary font-semibold text-2xl text-center mt-4"
         >
-          Select Stablecoin
-        </span>
-        <a
-          class="rounded-xl"
-          href="/create-stablecoin"
+          Confirm Logout?
+        </p>
+        <div
+          class="flex items-center justify-center gap-4 mt-8"
         >
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-sm font-semibold h-[37px] w-[153px]"
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
           >
-            + New Stablecoin
+            Cancel
+          </button>
+          <button
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
+          >
+            Proceed
+          </button>
+        </div>
+        <button
+          class="absolute top-8 right-8"
+          type="button"
+        >
+          <svg />
+        </button>
+      </div>
+    </div>
+  </div>
+  <div
+    class="overflow-auto h-full"
+  >
+    <div
+      class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 m-8 gap-6"
+    >
+      <div
+        class="border border-borderPrimary p-6 bg-white rounded-[10px]"
+      >
+        <div
+          class="flex items-center gap-4"
+        >
+          <div
+            class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+            style="background-image: url(undefined);"
+          />
+          <p
+            class="flex items-center gap-1"
+          >
+            <span
+              class="font-semibold text-primary"
+            >
+              PRV
+            </span>
+            <span
+              class="text-mistBlue text-sm"
+            >
+              Pravica Token
+            </span>
+          </p>
+        </div>
+        <p
+          class="font-semibold mt-5"
+        >
+          Supply details
+        </p>
+        <div
+          class="bg-borderPrimary h-[1px] mt-3 mb-4"
+        />
+        <div
+          class="space-y-3"
+        >
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Current Supply
+            </span>
+            <span>
+              <svg
+                aria-hidden="true"
+                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-4"
+                data-icon="spinner"
+                data-prefix="fas"
+                data-testid="loader"
+                focusable="false"
+                role="img"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <a
+          class="rounded-xl block"
+          href="/dashboard/operations?txid=1"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white mt-5 w-full h-[48px]"
+          >
+            Manage
           </button>
         </a>
       </div>
       <div
-        class="flex h-40 items-center justify-center"
+        class="border border-borderPrimary p-6 bg-white rounded-[10px]"
       >
-        <svg
-          aria-hidden="true"
-          class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-10"
-          data-icon="spinner"
-          data-prefix="fas"
-          data-testid="loader"
-          focusable="false"
-          role="img"
-          viewBox="0 0 512 512"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          class="flex items-center gap-4"
         >
-          <path
-            d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
-            fill="currentColor"
+          <div
+            class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+            style="background-image: url(undefined);"
           />
-        </svg>
+          <p
+            class="flex items-center gap-1"
+          >
+            <span
+              class="font-semibold text-primary"
+            >
+              SSS
+            </span>
+            <span
+              class="text-mistBlue text-sm"
+            >
+              S3 Money Token
+            </span>
+          </p>
+        </div>
+        <p
+          class="font-semibold mt-5"
+        >
+          Supply details
+        </p>
+        <div
+          class="bg-borderPrimary h-[1px] mt-3 mb-4"
+        />
+        <div
+          class="space-y-3"
+        >
+          <div
+            class="flex items-center justify-between text-secondary text-sm"
+          >
+            <span>
+              Current Supply
+            </span>
+            <span>
+              <svg
+                aria-hidden="true"
+                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-4"
+                data-icon="spinner"
+                data-prefix="fas"
+                data-testid="loader"
+                focusable="false"
+                role="img"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                  fill="currentColor"
+                />
+              </svg>
+            </span>
+          </div>
+        </div>
+        <a
+          class="rounded-xl block"
+          href="/dashboard/operations?txid=2"
+        >
+          <button
+            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white mt-5 w-full h-[48px]"
+          >
+            Manage
+          </button>
+        </a>
       </div>
     </div>
   </div>

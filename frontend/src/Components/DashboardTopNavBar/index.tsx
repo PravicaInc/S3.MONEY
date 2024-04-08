@@ -1,6 +1,7 @@
 'use client';
 
 import { FC, HTMLAttributes } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import { LogoutButton } from '@/Components/LogoutButton';
@@ -10,6 +11,7 @@ import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 
 export const DashboardTopNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
   const shortAccountAddress = useShortAccountAddress();
+  const searchParams = useSearchParams();
 
   return (
     <div
@@ -19,7 +21,11 @@ export const DashboardTopNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classNa
       )}
       {...props}
     >
-      <SelectStableCoinDropdown />
+      {
+        searchParams.get('txid') && (
+          <SelectStableCoinDropdown />
+        )
+      }
       {
         shortAccountAddress && (
           <LogoutButton />

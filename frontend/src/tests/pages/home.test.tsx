@@ -5,6 +5,9 @@ import '@testing-library/jest-dom';
 
 import HomePage from '@/app/home/page';
 
+import { useStableCoinsList } from '@/hooks/useStableCoinsList';
+
+import { createMockStableCoinList } from '@/tests/utils/create_mock_stable_coin_list';
 import { createMockAccount } from '@/tests/utils/create_mock_wallet_account';
 import { renderWithProviders } from '@/tests/utils/render_with_providers';
 
@@ -23,12 +26,11 @@ describe('Home page:', () => {
 
       jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
       jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
+      jest.mocked(useStableCoinsList).mockImplementation(
+        createMockStableCoinList()
+      );
 
       renderResult = renderHomePageWithProviders();
-    });
-
-    it('Show stablecoin form', () => {
-      expect(renderResult.queryByText('Select Stablecoin')).toBeVisible();
     });
 
     it('Snapshot', () => {

@@ -67,7 +67,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             1
           </div>
@@ -84,7 +84,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
           >
             2
           </div>
@@ -101,7 +101,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
           >
             3
           </div>
@@ -118,7 +118,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
           >
             4
           </div>
@@ -241,7 +241,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
               class="flex items-center justify-between gap-6 mt-10"
             >
               <button
-                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-14 w-full"
                 type="submit"
               >
                 Next
@@ -357,7 +357,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             Cancel
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
           >
             Proceed
           </button>
@@ -392,7 +392,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             href="/dashboard/operations?txid="
           >
             <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
             >
               GO TO STABLECOIN DASHBOARD
             </button>
@@ -435,7 +435,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
             Close
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[56px] col-span-3"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-[56px] col-span-3"
           >
             Request
              
@@ -527,7 +527,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             1
           </div>
@@ -544,7 +544,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             2
           </div>
@@ -561,7 +561,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             3
           </div>
@@ -578,7 +578,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
           >
             4
           </div>
@@ -707,7 +707,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
                 Back
               </button>
               <button
-                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-14 w-full"
                 type="submit"
               >
                 Next
@@ -743,15 +743,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
               >
                 TEST COIN
               </span>
-            </p>
-            <p
-              class="text-lg font-semibold mt-3"
-            >
-              TEST COIN
-               
-              (
-              $TS
-              )
             </p>
             <p
               class="font-semibold mt-5"
@@ -953,7 +944,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             Cancel
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
           >
             Proceed
           </button>
@@ -988,7 +979,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             href="/dashboard/operations?txid="
           >
             <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
             >
               GO TO STABLECOIN DASHBOARD
             </button>
@@ -1031,7 +1022,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
             Close
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[56px] col-span-3"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-[56px] col-span-3"
           >
             Request
              
@@ -1120,7 +1111,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             1
           </div>
@@ -1137,7 +1128,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             2
           </div>
@@ -1154,7 +1145,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             3
           </div>
@@ -1171,7 +1162,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             4
           </div>
@@ -1314,7 +1305,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       />
                     </div>
                     <button
-                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary mt-8 w-full h-11"
                       type="submit"
                     >
                       Confirm
@@ -1443,7 +1434,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       />
                     </div>
                     <button
-                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary mt-8 w-full h-11"
                       type="submit"
                     >
                       Confirm
@@ -1572,7 +1563,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                       />
                     </div>
                     <button
-                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
+                      class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary mt-8 w-full h-11"
                       type="submit"
                     >
                       Confirm
@@ -1597,7 +1588,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
                 Back
               </button>
               <button
-                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-14 w-full"
                 type="submit"
               >
                 Create
@@ -1633,15 +1624,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
               >
                 TEST COIN
               </span>
-            </p>
-            <p
-              class="text-lg font-semibold mt-3"
-            >
-              TEST COIN
-               
-              (
-              $TS
-              )
             </p>
             <p
               class="font-semibold mt-5"
@@ -1993,7 +1975,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             Cancel
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
           >
             Proceed
           </button>
@@ -2028,7 +2010,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             href="/dashboard/operations?txid="
           >
             <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
             >
               GO TO STABLECOIN DASHBOARD
             </button>
@@ -2071,7 +2053,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
             Close
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[56px] col-span-3"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-[56px] col-span-3"
           >
             Request
              
@@ -2163,7 +2145,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             1
           </div>
@@ -2180,7 +2162,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
+            class="shadow-button border-actionSecondary border-solid border bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none"
           >
             2
           </div>
@@ -2197,7 +2179,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
           >
             3
           </div>
@@ -2214,7 +2196,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           class="flex items-center gap-4"
         >
           <div
-            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
+            class="shadow-button border-solid border relative overflow-hidden after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary pointer-events-none flex items-center justify-center rounded-full font-normal text-base min-w-8 min-h-8 max-w-8 max-h-8 shadow-none bg-none bg-borderPrimary text-snowDrift border-borderPrimary after:content-none"
           >
             4
           </div>
@@ -2348,7 +2330,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                 Back
               </button>
               <button
-                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-14 w-full"
+                class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-14 w-full"
                 type="submit"
               >
                 Next
@@ -2384,15 +2366,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
               >
                 TEST COIN
               </span>
-            </p>
-            <p
-              class="text-lg font-semibold mt-3"
-            >
-              TEST COIN
-               
-              (
-              $TS
-              )
             </p>
           </div>
         </div>
@@ -2486,7 +2459,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             Cancel
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
           >
             Proceed
           </button>
@@ -2521,7 +2494,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             href="/dashboard/operations?txid="
           >
             <button
-              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
+              class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
             >
               GO TO STABLECOIN DASHBOARD
             </button>
@@ -2564,7 +2537,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
             Close
           </button>
           <button
-            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white h-[56px] col-span-3"
+            class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary h-[56px] col-span-3"
           >
             Request
              

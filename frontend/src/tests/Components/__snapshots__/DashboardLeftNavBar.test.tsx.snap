@@ -9,11 +9,35 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
     class="h-screen w-[270px] border-r border-borderPrimary bg-white"
   >
     <a
-      class="ml-6 my-5 block"
+      class="flex items-end gap-[2px] ml-6 my-5"
       href="/"
     >
       <svg />
+      <span
+        class=" capitalize text-black text-[8px] font-bold block bg-[#F4DC00] px-[10px] py-[2px] rounded-[5px] mb-[6px]"
+      >
+        testnet
+      </span>
     </a>
+    <div
+      class="mx-4 pt-5 mb-1"
+    >
+      <a
+        class="rounded-xl w-full"
+        href="/create-stablecoin"
+      >
+        <button
+          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]"
+        >
+          <svg />
+          <span
+            class="mt-[1px]"
+          >
+            Create New Stablecoin
+          </span>
+        </button>
+      </a>
+    </div>
     <div
       class="pt-5 px-4"
     >
@@ -26,14 +50,14 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
         class="flex flex-col gap-1"
       >
         <a
-          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-borderPrimary bg-snowDrift text-primary"
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md [&>svg>path]:stroke-primary border-borderPrimary bg-snowDrift text-primary"
           href="/dashboard/operations?txid=1"
         >
           <svg />
           Operations
         </a>
         <a
-          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary"
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary [&>svg>path]:stroke-secondary"
           href="/dashboard/relations?txid=1"
         >
           <svg />

@@ -48,13 +48,6 @@ export const StableCoinPreview: FC<Partial<StableCoinPreviewProps>> = ({
           {name}
         </span>
       </p>
-      <p className="text-lg font-semibold mt-3">
-        {name}
-        {' '}
-        (
-        {ticker}
-        )
-      </p>
       {
         (initialSupply != undefined || maxSupply != undefined || decimals != undefined) && (
           <>
