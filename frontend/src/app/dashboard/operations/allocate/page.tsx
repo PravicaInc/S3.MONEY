@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAutoConnectWallet, useCurrentAccount, useSuiClient } from '@mysten/dapp-kit';
 import Link from 'next/link';
@@ -16,9 +15,11 @@ import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
 import { Tips } from '@/Components/Tips';
+import { WalletTransactionConfirmModal } from '@/Components/WalletTransactionConfirmModal';
+import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransactionSuccessfulModal';
 
 import { PAGES_URLS } from '@/utils/const';
-import { numberFormat, numberNormalize } from '@/utils/string_formats';
+import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/string_formats';
 import { suiAddressRegExp } from '@/utils/validators';
 
 import { useAllocate } from '@/hooks/useAllocate';
@@ -26,8 +27,6 @@ import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
 import { isFrozenAccount } from '@/hooks/useFreezeAddress';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
-
-import { AllocateConfirm } from './components/AllocateConfirm';
 
 export default function DashboardOperationsAllocatePage() {
   const account = useCurrentAccount();
@@ -43,7 +42,9 @@ export default function DashboardOperationsAllocatePage() {
   const suiClient = useSuiClient();
 
   const [showAllocateConfirm, setShowAllocateConfirm] = useState<boolean>(false);
+  const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
+  const [lastTXID, setLastTXID] = useState<string>();
   const [isCheckFrozenAccountInProgress, setIsCheckFrozenAccountInProgress] = useState<boolean>(false);
 
   const { coins: stableCoins = [] } = data || {};
@@ -146,7 +147,7 @@ export default function DashboardOperationsAllocatePage() {
     async () => {
       try {
         if (currentStableCoin && account?.address && accountAddress) {
-          await allocate.mutateAsync({
+          const { digest } = await allocate.mutateAsync({
             senderAddresses: account.address,
             recipientAddresses: accountAddress,
             packageName: currentStableCoin.package_name,
@@ -160,17 +161,9 @@ export default function DashboardOperationsAllocatePage() {
 
           formMethods.reset();
 
-          toast.success(
-            `
-              You have successfully allocated this amount: ${numberFormat(`${allocateValue}`)} ${currentStableCoin.ticker}
-              to be allocated to: ${accountAddress}
-            `,
-            {
-              className: 'w-[400px]',
-            }
-          );
-
+          setLastTXID(digest);
           setShowAllocateConfirm(false);
+          setShowWalletTransactionSuccessfulModal(true);
         }
       }
       catch (error) {
@@ -204,6 +197,9 @@ export default function DashboardOperationsAllocatePage() {
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
                 Allocate
+              </p>
+              <p className="mt-1 text-sm text-riverBed">
+                Issuers can allocate some authorized tokens to the circulation for public.
               </p>
               <form
                 className="mt-8 grid grid-cols-5 gap-6"
@@ -263,20 +259,9 @@ export default function DashboardOperationsAllocatePage() {
                         This involves transferring tokens from the main account to the Treasury account,
                         preparing them for circulation and delivery to the Related Accounts.
                       `,
-                      (
-                        <>
-                          <span className="font-bold">
-                            Treasury Account
-                          </span>
-                          {' '}
-                          - This is a secondary wallet owned by the issuer.
-                          It acts like a treasury for the token, where the issuer can hold tokens that are
-                          in circulation but not distributed to the public.
-                        </>
-                      ),
                       `
-                        The Treasury Account should be fully verified and operational
-                        before starting the allocation process.
+                        The Treasury Account should be fully verified and operational before starting
+                        the allocation process.
                       `,
                     ]}
                   />
@@ -312,16 +297,48 @@ export default function DashboardOperationsAllocatePage() {
             <Loader className="h-8" />
           )
       }
-      <AllocateConfirm
+      <WalletTransactionConfirmModal
         visible={showAllocateConfirm}
+        view="alert"
         onClose={() => {
           setShowAllocateConfirm(false);
           allocate.reset();
         }}
-        walletAddress={accountAddress}
+        header="Are you sure to allocate this to the address?"
+        description="This actions will start the allocation process to the address with the allocation amount stated."
         onProceed={onAllocate}
         inProcess={allocate.isPending}
-        amount={`${numberFormat(`${allocateValue}`)} ${currentStableCoin?.ticker}`}
+        additionContent={(
+          <div className="border border-borderPrimary p-4 rounded-xl mt-5">
+            <div className="flex items-center justify-between">
+              <p className="text-primary font-semibold">
+                Allocation
+              </p>
+              <p className="text-shamrockGreen text-sm font-semibold">
+                +
+                {numberFormat(`${allocateValue}`)}
+              </p>
+            </div>
+            <p className="text-xs font-semibold text-actionPrimary">
+              {
+                accountAddress
+                  ? getShortAccountAddress(accountAddress, 25)
+                  : ''
+              }
+            </p>
+          </div>
+        )}
+      />
+      <WalletTransactionSuccessfulModal
+        visible={showWalletTransactionSuccessfulModal}
+        onClose={() => {
+          setShowWalletTransactionSuccessfulModal(false);
+        }}
+        header="Allocation successful"
+        description="
+          The operation is successful. To view the transaction for this operation, please click on the button below
+        "
+        txid={lastTXID}
       />
       <BalanceErrorModal
         visible={showBalanceErrorModal}
