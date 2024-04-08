@@ -1,5 +1,6 @@
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import { cleanup, RenderResult } from '@testing-library/react';
+import { ReadonlyURLSearchParams, usePathname, useSearchParams } from 'next/navigation';
 
 import '@testing-library/jest-dom';
 
@@ -20,10 +21,17 @@ describe('Home page:', () => {
 
   describe('Home page with connected state:', () => {
     beforeEach(() => {
+      const domain = 'https://localhost:3001';
+      const url = new URL(`${domain}/`);
+
       if (renderResult?.unmount) {
         renderResult.unmount();
       }
 
+      jest.mocked(usePathname).mockImplementation(() => url.pathname);
+      jest.mocked(useSearchParams).mockImplementation(() => (
+        new URLSearchParams(url.search)
+      ) as ReadonlyURLSearchParams);
       jest.mocked(useAutoConnectWallet).mockImplementation(() => 'attempted');
       jest.mocked(useCurrentAccount).mockImplementation(createMockAccount);
       jest.mocked(useStableCoinsList).mockImplementation(

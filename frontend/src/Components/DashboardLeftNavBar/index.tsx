@@ -39,21 +39,31 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
         groupLinks: [
           {
             href: {
-              pathname: PAGES_URLS.dashboardOperations,
+              pathname: searchParams.get('txid')
+                ? PAGES_URLS.dashboardOperations
+                : PAGES_URLS.operations,
               query: Object.fromEntries(searchParams.entries()),
             },
             icon: <OperationsLinkIcon />,
             text: 'Operations',
-            isActive: pathname.indexOf(PAGES_URLS.dashboardOperations) !== -1,
+            isActive: (
+              pathname.indexOf(PAGES_URLS.dashboardOperations) !== -1
+                || pathname.indexOf(PAGES_URLS.operations) !== -1
+            ),
           },
           {
             href: {
-              pathname: PAGES_URLS.dashboardRelations,
+              pathname: searchParams.get('txid')
+                ? PAGES_URLS.dashboardRelations
+                : PAGES_URLS.relations,
               query: Object.fromEntries(searchParams.entries()),
             },
             icon: <RelationsLinkIcon />,
             text: 'Relations',
-            isActive: pathname.indexOf(PAGES_URLS.dashboardRelations) !== -1,
+            isActive: (
+              pathname.indexOf(PAGES_URLS.dashboardRelations) !== -1
+                || pathname.indexOf(PAGES_URLS.relations) !== -1
+            ),
           },
         ],
       },

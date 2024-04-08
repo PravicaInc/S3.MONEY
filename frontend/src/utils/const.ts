@@ -1,6 +1,8 @@
 export const PAGES_URLS = {
   home: '/',
+  operations: '/operations',
   dashboardOperations: '/dashboard/operations',
+  relations: '/relations',
   dashboardRelations: '/dashboard/relations',
   dashboardOperationsMint: '/dashboard/operations/mint',
   dashboardOperationsCashIn: '/dashboard/operations/allocate',

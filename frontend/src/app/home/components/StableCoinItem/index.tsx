@@ -1,5 +1,6 @@
-import React, { FC, HTMLAttributes } from 'react';
+import React, { FC, HTMLAttributes, useMemo } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import { Delimiter } from '@/Components/Delimiter';
@@ -28,10 +29,24 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
     ticker,
     icon,
   } = stableCoinItem;
+
+  const pathname = usePathname();
+
   const {
     data: stableCoinCurrentSupply = 0,
     isLoading: isLoadingStableCoinCurrentSupply,
   } = useStableCoinCurrentSupply(stableCoinItem);
+
+  const manageLink = useMemo<string>(
+    () => {
+      if (pathname.indexOf(PAGES_URLS.relations) !== -1) {
+        return PAGES_URLS.dashboardRelations;
+      }
+
+      return PAGES_URLS.dashboardOperations;
+    },
+    [pathname]
+  );
 
   return (
     <div
@@ -78,7 +93,7 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
         </div>
       </div>
       <Link
-        href={`${PAGES_URLS.dashboardOperations}?txid=${txid}`}
+        href={`${manageLink}?txid=${txid}`}
         className="rounded-xl block"
       >
         <Button
