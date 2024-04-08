@@ -4,6 +4,7 @@ import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSuiClient } from '@mysten/dapp-kit';
+import { isValidSuiAddress } from '@mysten/sui.js/utils';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -16,7 +17,6 @@ import { WalletTransactionConfirmModal } from '@/Components/WalletTransactionCon
 import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransactionSuccessfulModal';
 
 import { getShortAccountAddress } from '@/utils/string_formats';
-import { suiAddressRegExp } from '@/utils/validators';
 
 import { isFrozenAccount, useFreezeAddress } from '@/hooks/useFreezeAddress';
 import { StableCoin } from '@/hooks/useStableCoinsList';
@@ -50,7 +50,11 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
       .string()
       .trim()
       .required('Wallet address is required.')
-      .matches(suiAddressRegExp, 'Wallet address is incorrect.')
+      .test({
+        name: 'is-valid',
+        test: isValidSuiAddress,
+        message: 'Wallet address is incorrect.',
+      })
       .test({
         name: 'is-frozen',
         test: async value => {

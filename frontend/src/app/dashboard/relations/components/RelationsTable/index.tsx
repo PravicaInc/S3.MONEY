@@ -173,8 +173,7 @@ export const RelationsTable: FC<RelationsTableProps> = ({
   return (
     <div
       className={twMerge(
-        'border border-borderPrimary rounded-xl bg-white',
-        isFetching && 'overflow-hidden',
+        'border border-borderPrimary rounded-xl bg-white overflow-hidden',
         className
       )}
       {...props}

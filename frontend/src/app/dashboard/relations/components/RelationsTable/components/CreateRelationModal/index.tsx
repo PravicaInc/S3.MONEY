@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { isValidSuiAddress } from '@mysten/sui.js/utils';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -10,8 +11,6 @@ import PlusWithCircleIcon from '@/../public/images/plus_with_circle.svg?jsx';
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Modal, ModalProps } from '@/Components/Modal';
-
-import { suiAddressRegExp } from '@/utils/validators';
 
 export interface CreateRelationFormData {
   label: string;
@@ -45,8 +44,12 @@ export const CreateRelationModal: FC<CreateRelationModalProps> = ({
       ),
     walletAddress: yup
       .string()
-      .matches(suiAddressRegExp, 'Wallet address is incorrect.')
-      .required('Wallet address is required.'),
+      .required('Wallet address is required.')
+      .test({
+        name: 'is-valid',
+        test: isValidSuiAddress,
+        message: 'Wallet address is incorrect.',
+      }),
   });
   const formMethods = useForm({
     resolver: yupResolver(createRelationFormSchema),
@@ -78,7 +81,7 @@ export const CreateRelationModal: FC<CreateRelationModalProps> = ({
             Add new relationship
           </p>
           <p className="mt-1 text-tuna">
-            This actions will start add a new wallet relationship
+            This action will add a new sub-wallet to your relations. You can edit the name later on.
           </p>
           <div className="space-y-5 mt-5">
             <div>

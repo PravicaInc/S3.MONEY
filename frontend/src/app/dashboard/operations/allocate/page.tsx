@@ -4,6 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAutoConnectWallet, useCurrentAccount, useSuiClient } from '@mysten/dapp-kit';
+import { isValidSuiAddress } from '@mysten/sui.js/utils';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import qs from 'qs';
@@ -20,7 +21,6 @@ import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransaction
 
 import { PAGES_URLS } from '@/utils/const';
 import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/string_formats';
-import { suiAddressRegExp } from '@/utils/validators';
 
 import { useAllocate } from '@/hooks/useAllocate';
 import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
@@ -81,7 +81,12 @@ export default function DashboardOperationsAllocatePage() {
       }),
     accountAddress: yup
       .string()
-      .matches(suiAddressRegExp, 'Wallet address is incorrect.')
+      .required('Account address is required.')
+      .test({
+        name: 'is-valid',
+        test: isValidSuiAddress,
+        message: 'Wallet address is incorrect.',
+      })
       .test({
         name: 'is-frozen',
         test: async value => {
