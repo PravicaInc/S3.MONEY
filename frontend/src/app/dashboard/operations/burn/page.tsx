@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
@@ -16,16 +15,16 @@ import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
 import { Tips } from '@/Components/Tips';
+import { WalletTransactionConfirmModal } from '@/Components/WalletTransactionConfirmModal';
+import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransactionSuccessfulModal';
 
 import { PAGES_URLS } from '@/utils/const';
-import { numberFormat, numberNormalize } from '@/utils/string_formats';
+import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/string_formats';
 
 import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 import { useBurnFrom, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
-
-import { BurnConfirm } from './components/BurnConfirm';
 
 export default function DashboardOperationsBurnPage() {
   const account = useCurrentAccount();
@@ -40,7 +39,9 @@ export default function DashboardOperationsBurnPage() {
   const burnFrom = useBurnFrom();
 
   const [showBurnConfirm, setShowBurnConfirm] = useState<boolean>(false);
+  const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
+  const [lastTXID, setLastTXID] = useState<string>();
 
   const { coins: stableCoins = [] } = data || {};
 
@@ -88,38 +89,37 @@ export default function DashboardOperationsBurnPage() {
         test: (value: number) => (currentStableCoinBalance || 0) - value >= 0,
         message: () => `You can't burn more than ${numberFormat(`${currentStableCoinBalance}`)} ${currentStableCoin?.ticker}.`,
       }),
-    mainAccountAddress: yup
-      .string(),
   });
   const formMethods = useForm({
     resolver: yupResolver(burnFormSchema),
-    defaultValues: useMemo(
-      () => ({
-        burnValue: 0,
-        mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
-      }),
-      [currentStableCoin]
-    ),
+    defaultValues: {
+      burnValue: 0,
+    },
   });
 
   const burnValue = formMethods.watch('burnValue');
-  const mainAccountAddress = formMethods.watch('mainAccountAddress');
 
   const relatedInformationList = useMemo(
     () => [
       {
-        text: 'Current Supply:',
+        text: 'Total Supply:',
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : `${numberFormat(`${stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`,
       },
       {
-        text: 'Total Supply after Burn:',
+        text: 'Total Supply After Burn:',
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : (
             burnValue && (stableCoinCurrentSupply - burnValue) >= 0
-              ? `${numberFormat(`${stableCoinCurrentSupply - burnValue}`)} ${currentStableCoin?.ticker}`
+              ? (
+                <span className="text-actionPrimary">
+                  {numberFormat(`${stableCoinCurrentSupply - burnValue}`)}
+                  {' '}
+                  {currentStableCoin?.ticker}
+                </span>
+              )
               : '-'
           ),
       },
@@ -141,10 +141,13 @@ export default function DashboardOperationsBurnPage() {
               ? <Loader className="h-4" />
               : (
                 burnValue && (stableCoinCurrentSupply - burnValue) >= 0
-                  ? `
-                    ${numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply + (burnValue || 0)}`)}
-                    ${currentStableCoin?.ticker}
-                  `
+                  ? (
+                    <span className={twMerge(burnValue && 'text-actionPrimary')}>
+                      {numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply + (burnValue || 0)}`)}
+                      {' '}
+                      {currentStableCoin?.ticker}
+                    </span>
+                  )
                   : '-'
               ),
           }
@@ -173,7 +176,6 @@ export default function DashboardOperationsBurnPage() {
   useEffect(() => {
     formMethods.reset({
       burnValue: 0,
-      mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
     });
     setShowBurnConfirm(false);
     setShowBalanceErrorModal(false);
@@ -199,9 +201,9 @@ export default function DashboardOperationsBurnPage() {
   const onBurn = useCallback(
     async () => {
       try {
-        if (currentStableCoin && mainAccountAddress) {
-          await burnFrom.mutateAsync({
-            deployAddresses: mainAccountAddress,
+        if (currentStableCoin) {
+          const { digest } = await burnFrom.mutateAsync({
+            deployAddresses: currentStableCoin?.deploy_addresses.deployer,
             packageName: currentStableCoin.package_name,
             packageId: currentStableCoin.deploy_addresses.packageId,
             treasuryCap: currentStableCoin.deploy_addresses.treasury_cap,
@@ -212,17 +214,9 @@ export default function DashboardOperationsBurnPage() {
 
           formMethods.reset();
 
-          toast.success(
-            `
-              You have successfully entered this amount: ${numberFormat(`${burnValue}`)} ${currentStableCoin.ticker}
-              to be burned for the Main Account: ${mainAccountAddress}
-            `,
-            {
-              className: 'w-[400px]',
-            }
-          );
-
+          setLastTXID(digest);
           setShowBurnConfirm(false);
+          setShowWalletTransactionSuccessfulModal(true);
         }
       }
       catch (error) {
@@ -239,7 +233,7 @@ export default function DashboardOperationsBurnPage() {
         }
       }
     },
-    [currentStableCoin, formMethods, mainAccountAddress, burnFrom, burnValue]
+    [currentStableCoin, formMethods, burnFrom, burnValue]
   );
 
   return (
@@ -256,6 +250,9 @@ export default function DashboardOperationsBurnPage() {
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
                 Burn
+              </p>
+              <p className="mt-1 text-sm text-riverBed">
+                The platform allows issuers to reduce the overall token supply by 'burning' or destroying tokens.
               </p>
               <form
                 className="mt-8 grid grid-cols-5 gap-6"
@@ -296,16 +293,6 @@ export default function DashboardOperationsBurnPage() {
                       }
                     </p>
                   </div>
-                  <div>
-                    <Input
-                      name="mainAccountAddress"
-                      label="Main Account Address"
-                      labelClassName="text-[#696969] mb-4"
-                      placeholder="Main Account Address"
-                      className="w-full appearance-none"
-                      disabled
-                    />
-                  </div>
                   <Tips
                     title="Tips on Burning"
                     tipsList={[
@@ -340,7 +327,7 @@ export default function DashboardOperationsBurnPage() {
                 </div>
                 <div className="bg-white border border-borderPrimary rounded-xl h-fit col-span-2">
                   <p className="text-primary text-lg font-semibold p-5 border-b border-borderPrimary">
-                    Related Information
+                    Detail Information
                   </p>
                   <div className="px-5 py-6 space-y-4">
                     {relatedInformationList.map(({ text, value }) => (
@@ -362,16 +349,48 @@ export default function DashboardOperationsBurnPage() {
             <Loader className="h-8" />
           )
       }
-      <BurnConfirm
+      <WalletTransactionConfirmModal
         visible={showBurnConfirm}
+        view="alert"
         onClose={() => {
           setShowBurnConfirm(false);
           burnFrom.reset();
         }}
-        walletAddress={mainAccountAddress}
+        header="Are you sure to burn this amount?"
+        description="This actions will start the burning process with the amount stated."
         onProceed={onBurn}
         inProcess={burnFrom.isPending}
-        amount={`${numberFormat(`${burnValue}`)} ${currentStableCoin?.ticker}`}
+        additionContent={(
+          <div className="border border-borderPrimary p-4 rounded-xl mt-5">
+            <div className="flex items-center justify-between">
+              <p className="text-primary font-semibold">
+                Mint
+              </p>
+              <p className="text-grapefruit text-sm font-semibold">
+                -
+                {numberFormat(`${burnValue}`)}
+              </p>
+            </div>
+            <p className="text-xs font-semibold text-actionPrimary">
+              {
+                currentStableCoin?.deploy_addresses.deployer
+                  ? getShortAccountAddress(currentStableCoin?.deploy_addresses.deployer, 25)
+                  : ''
+              }
+            </p>
+          </div>
+        )}
+      />
+      <WalletTransactionSuccessfulModal
+        visible={showWalletTransactionSuccessfulModal}
+        onClose={() => {
+          setShowWalletTransactionSuccessfulModal(false);
+        }}
+        header="Burn successful"
+        description="
+          The operation is successful. To view the transaction for this operation, please click on the button below
+        "
+        txid={lastTXID}
       />
       <BalanceErrorModal
         visible={showBalanceErrorModal}
