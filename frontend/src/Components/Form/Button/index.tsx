@@ -22,6 +22,7 @@ export const primaryButtonClasses = `
   hover:bg-buttonBgAfter hover:text-actionPrimary
   transition
   disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white
+  [&>svg>path]:hover:stroke-actionPrimary
 `;
 
 export const secondaryButtonClasses = `

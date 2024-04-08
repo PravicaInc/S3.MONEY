@@ -25,13 +25,13 @@ export const FreezeAddressConfirm: FC<FreezeAddressConfirmProps> = ({
     <p className="text-primary font-semibold text-2xl text-center mt-4">
       Are you sure to freeze this account?
     </p>
-    <p className="text-sm text-grayText mt-3 text-center">
+    <p className="text-sm text-mistBlue mt-3 text-center">
       This actions will block this account from sending and receiving tokens.
       <br />
       <span className="break-all">
         Address:
         {' '}
-        <span className="text-[#FE6321] font-bold">
+        <span className="text-actionPrimary font-bold">
           {walletAddress}
         </span>
       </span>

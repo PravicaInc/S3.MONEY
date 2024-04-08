@@ -2,7 +2,7 @@ import { FC, ReactNode } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import AlertIcon from '@/../public/images/alert_icon.svg?jsx';
-import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative.svg?jsx';
+import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative_left.svg?jsx';
 
 import { Button } from '@/Components/Form/Button';
 import { Modal, ModalProps } from '@/Components/Modal';
@@ -31,11 +31,11 @@ export const Alert: FC<AlertProps> = ({
     <div className="absolute top-0 left-0 z-[-1]">
       <BackgroundModalDecorativeIcon />
 
-      <div className="absolute top-6 left-6 bg-[#FEE4E2] w-12 h-12 flex items-center justify-center rounded-full">
+      <div className="absolute top-6 left-6 bg-mistyRose w-12 h-12 flex items-center justify-center rounded-full">
         <AlertIcon />
       </div>
     </div>
-    <p className="text-primary text-lg font-semibold mt-[88px]">
+    <p className="text-primary text-lg font-semibold mt-16">
       {header}
     </p>
     <p className="mt-1 text-secondary">

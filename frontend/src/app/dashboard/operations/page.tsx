@@ -205,7 +205,7 @@ export default function DashboardOperationsPage() {
                     <p className="text-primary text-lg font-semibold mt-5">
                       {title}
                     </p>
-                    <p className="text-grayText text-sm mt-2">
+                    <p className="text-mistBlue text-sm mt-2">
                       {description}
                     </p>
                   </Link>

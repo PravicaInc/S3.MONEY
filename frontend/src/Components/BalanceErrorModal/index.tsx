@@ -37,7 +37,7 @@ export const BalanceErrorModal: FC<BalanceErrorModalProps> = ({
       <p className="text-primary font-semibold text-2xl text-center mt-4">
         Your balance is too low
       </p>
-      <p className="text-sm text-grayText mt-3 text-center">
+      <p className="text-sm text-mistBlue mt-3 text-center">
         Unfortunately, your balance is too small to create a new StableCoin.
         {
           requestSuiTokensError && (
@@ -59,7 +59,7 @@ export const BalanceErrorModal: FC<BalanceErrorModalProps> = ({
           Close
         </Button>
         {
-          suiClientContext.network === 'testnet' && (
+          ['testnet', 'devnet'].includes(suiClientContext.network) && (
             <Button
               className="h-[56px] col-span-3"
               onClick={requestToken}
@@ -68,12 +68,24 @@ export const BalanceErrorModal: FC<BalanceErrorModalProps> = ({
             >
               {
                 requestSuiTokensSuccess
-                  ? '1 SUI received'
+                  ? (
+                    <>
+                      {
+                        suiClientContext.network === 'testnet'
+                          ? 1
+                          : 10
+                      }
+                      {' '}
+                      SUI received
+                    </>
+                  )
                   : (
                     <>
                       Request
                       {' '}
-                      {suiClientContext.network}
+                      <span className="capitalize">
+                        {suiClientContext.network}
+                      </span>
                       {' '}
                       SUI Tokens
                     </>

@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
-import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative.svg?jsx';
+import BackgroundModalDecorativeIcon from '@/../public/images/background_modal_decorative_left.svg?jsx';
 import PlusWithCircleIcon from '@/../public/images/plus_with_circle.svg?jsx';
 
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
@@ -74,7 +74,7 @@ export const CreateRelationModal: FC<CreateRelationModalProps> = ({
               <PlusWithCircleIcon />
             </div>
           </div>
-          <p className="text-primary text-lg font-semibold mt-[88px]">
+          <p className="text-primary text-lg font-semibold mt-16">
             Add new relationship
           </p>
           <p className="mt-1 text-tuna">

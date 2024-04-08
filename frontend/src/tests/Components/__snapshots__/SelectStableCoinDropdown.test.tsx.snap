@@ -11,12 +11,12 @@ exports[`SelectStableCoinDropdown: SelectStableCoinDropdown with StableCoin list
     <button
       aria-expanded="false"
       aria-haspopup="true"
-      class="szh-menu-button border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-grayText font-medium text-sm transition hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
+      class="szh-menu-button border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-mistBlue font-medium text-sm transition hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
       type="button"
     >
       [PRV] Pravica Token
       <svg
-        class="[&>path]:stroke-grayText"
+        class="[&>path]:stroke-mistBlue"
       />
     </button>
   </div>

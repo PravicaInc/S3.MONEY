@@ -29,7 +29,7 @@ describe('Create stablecoin page:', () => {
     });
 
     it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
+      expect(renderResult.queryAllByTestId('loader').length).toBe(3);
     });
   });
 
@@ -45,7 +45,7 @@ describe('Create stablecoin page:', () => {
     });
 
     it('Show loader', () => {
-      expect(renderResult.queryByTestId('loader')).toBeVisible();
+      expect(renderResult.queryAllByTestId('loader').length).toBe(3);
     });
   });
 
@@ -278,35 +278,7 @@ describe('Create stablecoin page:', () => {
         expect(renderResult.container).toMatchSnapshot();
       });
 
-      it('Check wallet address validation', async () => {
-        const user = userEvent.setup();
-        const otherAccountButton = renderResult.queryAllByText(/Other Account/)[0];
-        const createButton = renderResult.getByRole('button', {
-          name: /Create/i,
-        });
-
-        await user.click(otherAccountButton);
-        await user.click(createButton);
-
-        expect(renderResult.queryByText(/Wallet address is required/)).toBeVisible();
-
-        const otherAccountInput = renderResult.getAllByPlaceholderText(/Other Account/)[0];
-
-        await user.type(otherAccountInput, 'test');
-
-        expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeVisible();
-
-        const currentAccountButton = renderResult.queryAllByText(/Current Account/)[0];
-
-        await user.click(currentAccountButton);
-        await user.click(createButton);
-
-        expect(renderResult.queryByText(/Token Details Review Confirmation/)).toBeVisible();
-        expect(renderResult.queryByText(/Wallet address is required/)).toBeNull();
-        expect(renderResult.queryByText(/Wallet address is incorrect/)).toBeNull();
-      });
-
-      it('Show Token Details Review Confirmation', async () => {
+      it('Show Review Your Token Details', async () => {
         const user = userEvent.setup();
         const createButton = renderResult.getByRole('button', {
           name: /Create/i,
@@ -314,7 +286,7 @@ describe('Create stablecoin page:', () => {
 
         await user.click(createButton);
 
-        expect(renderResult.queryByText(/Token Details Review Confirmation/)).toBeVisible();
+        expect(renderResult.queryByText(/Review Your Token Details/)).toBeVisible();
       });
     });
   });

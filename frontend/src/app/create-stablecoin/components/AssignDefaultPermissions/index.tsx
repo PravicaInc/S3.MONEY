@@ -4,7 +4,6 @@ import { FC, HTMLAttributes } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 import CheckedIcon from '@/../public/images/checked.svg?jsx';
@@ -12,8 +11,6 @@ import CheckedIcon from '@/../public/images/checked.svg?jsx';
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Checkbox, CHECKBOX_VIEWS } from '@/Components/Form/Checkbox';
 import { Tooltip } from '@/Components/Tooltip';
-
-import { PAGES_URLS } from '@/utils/const';
 
 export interface PermissionsStableCoinData {
   permissions: {
@@ -25,12 +22,14 @@ export interface PermissionsStableCoinData {
 
 export interface AssignDefaultPermissionsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: PermissionsStableCoinData) => unknown;
+  onBack: () => void;
   defaultValues?: Partial<PermissionsStableCoinData>;
 }
 
 export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
   className,
   onSubmit,
+  onBack,
   defaultValues,
   ...props
 }) => {
@@ -40,27 +39,27 @@ export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
       permissions: [
         {
           value: 'pause',
-          label: 'Pause - S3-Token-Manager Smart Contract',
+          label: 'Pause - Current Account',
           isActive: true,
         },
         {
           value: 'freeze',
-          label: 'Freeze - S3-Token-Manager Smart Contract',
+          label: 'Freeze - Current Account',
           isActive: true,
         },
         {
           value: 'mint',
-          label: 'Mint - S3-Token-Manager Smart Contract',
+          label: 'Mint - Current Account',
           isActive: true,
         },
         {
           value: 'cashIn',
-          label: 'Cash In - S3-Token-Manager Smart Contract',
+          label: 'Cash In - Current Account',
           isActive: true,
         },
         {
           value: 'burn',
-          label: 'Burn - S3-Token-Manager Smart Contract',
+          label: 'Burn - Current Account',
           isActive: true,
         },
       ],
@@ -103,7 +102,7 @@ export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
                 <div
                   className={twMerge(
                     'w-6 h-6 flex items-center justify-center rounded-full',
-                    isActive ? 'bg-[#EFFEFA]' : 'bg-red-100'
+                    isActive ? 'bg-twilightBlue' : 'bg-red-100'
                   )}
                 >
                   {
@@ -118,14 +117,14 @@ export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
           }
         </div>
         <div className="flex items-center justify-between gap-6 mt-10">
-          <Link href={PAGES_URLS.home} className="w-full rounded-xl">
-            <Button
-              view={BUTTON_VIEWS.secondary}
-              className="h-14 w-full"
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            view={BUTTON_VIEWS.secondary}
+            className="h-14 w-full"
+            onClick={onBack}
+            type="button"
+          >
+            Back
+          </Button>
           <Button
             className="h-14 w-full"
             type="submit"

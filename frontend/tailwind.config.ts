@@ -7,7 +7,7 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        error: '#DC2626',
+        error: '#F04438',
         primary: '#0D0D12',
         secondary: '#808897',
         actionPrimary: '#FE6321',
@@ -19,15 +19,25 @@ const config: Config = {
 
         // custom colors
         seashell: '#F0F0F0',
-        grayText: '#666D80',
         lavenderGrey: '#C1C7CF',
         hitGrey: '#A4ABB8',
         antiqueWhite: '#FFE8D4',
         deepPeach: '#FFCDA8',
         snowDrift: '#F8F9FB',
         mistBlue: '#666D80',
-        bluishGrey: '#808897',
         tuna: '#353849',
+        riverBed: '#475467',
+        alabaster: '#F9FAFB',
+        deepSapphire: '#062863',
+        mistyRose: '#FEE4E2',
+        whiteIce: '#DCFAE6',
+        whiteLilac: '#F6F8FA',
+        ebonyClay: '#272835',
+        twilightBlue: '#EFFEFA',
+        darkMintGreen: '#00C75C',
+        rubyRed: '#FF2B1D',
+        greenishBlue: '#28806F',
+        grapefruit: '#D92D20',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
@@ -38,6 +48,10 @@ const config: Config = {
         button: '1px 2px 4px 0px rgba(13, 13, 18, 0.12)',
         stableCoinForm: '0px 8px 8px -4px #10182808, 0px 20px 24px -4px #10182814',
         backgroundModalDecorative: '0px 1px 2px 0px #1018280D',
+        logoutButton: '1px 2px 4px 0px #0D0D1214',
+        rolesDropdownTriggerActive: '0px 0px 0px 4px #FE63211F',
+        rolesDropdown: '0px 4px 6px -2px #10182808, 0px 12px 16px -4px #10182814',
+
       },
     },
   },

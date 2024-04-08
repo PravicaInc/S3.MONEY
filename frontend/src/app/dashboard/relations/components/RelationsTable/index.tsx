@@ -215,7 +215,7 @@ export const RelationsTable: FC<RelationsTableProps> = ({
                 >
                   <div
                     className={twMerge(
-                      'text-xs !font-medium text-bluishGrey flex items-center gap-3',
+                      'text-xs !font-medium text-secondary flex items-center gap-3',
                       header.column.getCanSort() && 'cursor-pointer select-none'
                     )}
                     onClick={header.column.getToggleSortingHandler()}
@@ -225,8 +225,8 @@ export const RelationsTable: FC<RelationsTableProps> = ({
                       header.getContext()
                     )}
                     {{
-                      asc: <ChevronIcon className="[&>*]:stroke-bluishGrey rotate-180" />,
-                      desc: <ChevronIcon className="[&>*]:stroke-bluishGrey" />,
+                      asc: <ChevronIcon className="[&>*]:stroke-secondary rotate-180" />,
+                      desc: <ChevronIcon className="[&>*]:stroke-secondary" />,
                     }[header.column.getIsSorted() as string] ?? (
                       header.column.getCanSort()
                         ? <SortingChevronIcon />

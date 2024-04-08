@@ -3,7 +3,7 @@ import { twMerge } from 'tailwind-merge';
 
 export const Footer: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => (
   <div
-    className={twMerge('font-medium flex items-center justify-between text-grayText', className)}
+    className={twMerge('font-medium flex items-center justify-between text-mistBlue', className)}
 
     {...props}
   >

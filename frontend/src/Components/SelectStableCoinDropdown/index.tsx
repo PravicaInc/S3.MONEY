@@ -58,13 +58,13 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
                   className="
                     border border-borderPrimary rounded-[10px]
                     h-10 px-4 flex items-center justify-between gap-2
-                    text-grayText font-medium text-sm
+                    text-mistBlue font-medium text-sm
                     transition
                     hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary
                   "
                 >
                   {getStableCoinName(currentStableCoin)}
-                  <ChevronIcon className="[&>path]:stroke-grayText" />
+                  <ChevronIcon className="[&>path]:stroke-mistBlue" />
                 </MenuButton>
               }
               transition
@@ -81,7 +81,7 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
                     })}`}
                     className="
                       block w-full px-4 py-3 cursor-pointer
-                      text-grayText font-medium text-sm
+                      text-mistBlue font-medium text-sm
                       hover:bg-actionPrimary hover:bg-opacity-10
                     "
                   >

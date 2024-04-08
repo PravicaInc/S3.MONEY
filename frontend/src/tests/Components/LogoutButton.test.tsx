@@ -45,7 +45,7 @@ describe('LogoutButton:', () => {
 
       await user.click(logoutButton);
 
-      expect(renderResult.queryByRole('dialog')).toHaveAttribute('open');
+      expect(renderResult.queryByRole('dialog')?.getAttribute('class')).toContain('flex');
     });
 
     it('Snapshot', () => {

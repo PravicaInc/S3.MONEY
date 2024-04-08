@@ -3,7 +3,6 @@
 import { FC, HTMLAttributes } from 'react';
 import { FormProvider, useForm, useWatch } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -11,7 +10,6 @@ import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Select } from '@/Components/Form/Select';
 
-import { PAGES_URLS } from '@/utils/const';
 import { numberFormat, numberNormalize } from '@/utils/string_formats';
 
 export enum SupplyTypes {
@@ -28,10 +26,11 @@ export interface SupplyStableCoinData {
 
 export interface SupplyDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: SupplyStableCoinData) => unknown;
+  onBack: () => void;
   defaultValues?: Partial<SupplyStableCoinData>;
 }
 
-export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, defaultValues, ...props }) => {
+export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onBack, defaultValues, ...props }) => {
   const supplyDetailsFormSchema = yup.object().shape({
     initialSupply: yup
       .number()
@@ -145,14 +144,14 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, def
           </div>
         </div>
         <div className="flex items-center justify-between gap-6 mt-10">
-          <Link href={PAGES_URLS.home} className="w-full rounded-xl">
-            <Button
-              view={BUTTON_VIEWS.secondary}
-              className="h-14 w-full"
-            >
-              Cancel
-            </Button>
-          </Link>
+          <Button
+            view={BUTTON_VIEWS.secondary}
+            className="h-14 w-full"
+            onClick={onBack}
+            type="button"
+          >
+            Back
+          </Button>
           <Button
             className="h-14 w-full"
             type="submit"

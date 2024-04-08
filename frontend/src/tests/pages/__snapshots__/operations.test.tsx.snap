@@ -24,43 +24,6 @@ exports[`Operations page: Operations page with connected state: Snapshot 1`] = `
         fill="currentColor"
       />
     </svg>
-    <dialog
-      class="backdrop:bg-modalBackdropColor rounded-xl relative p-6 w-[400px]"
-    >
-      <div
-        class="Toastify"
-        id="modal-toast"
-      />
-      <div
-        class=""
-      >
-        <div
-          class="absolute top-0 left-0 z-[-1]"
-        >
-          <svg />
-          <div
-            class="absolute top-6 left-6 bg-[#FEE4E2] w-12 h-12 flex items-center justify-center rounded-full"
-          >
-            <svg />
-          </div>
-        </div>
-        <p
-          class="text-primary text-lg font-semibold mt-[88px]"
-        >
-          System is Paused!
-        </p>
-        <p
-          class="mt-1 text-secondary"
-        >
-          You cannot operate this project right now because the system is paused.
-        </p>
-        <button
-          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white mt-8 w-full h-11"
-        >
-          OK
-        </button>
-      </div>
-    </dialog>
   </div>
 </div>
 `;

@@ -2,22 +2,34 @@
 
 import { useCallback, useMemo, useState } from 'react';
 import { SubmitHandler } from 'react-hook-form';
-import { useAutoConnectWallet, useCurrentAccount, useSignAndExecuteTransactionBlock } from '@mysten/dapp-kit';
+import {
+  useAutoConnectWallet,
+  useCurrentAccount,
+  useSignAndExecuteTransactionBlock,
+  useSuiClientContext,
+} from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { AxiosError } from 'axios';
+import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
 import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Footer } from '@/Components/Footer';
+import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
 import { ProgressSteps } from '@/Components/ProgressSteps';
 import { ProgressStepItem } from '@/Components/ProgressSteps/components/ProgressStep';
 
+import { PAGES_URLS } from '@/utils/const';
+
 import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
+import { useCurrentSuiBalance } from '@/hooks/useCurrentBalance';
+import { useRequestSuiTokens } from '@/hooks/useRequestSuiTokens';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
 import { InitialDetails, InitialStableCoinData } from './components/InitialDetails';
+import { InstructionBlock } from './components/InstructionBlock';
 import { RolesAssignment, RolesStableCoinData } from './components/RolesAssignment';
 import { StableCoinPreview } from './components/StableCoinPreview';
 import { SuccessCreatedStableCoinModal } from './components/SuccessCreatedStableCoinModal';
@@ -30,11 +42,30 @@ interface CreateStableCoinData
   }
 
 export default function CreateStableCoinPage() {
+  const stepsDescriptions = [
+    `
+      Choose a name and ticker for your new stablecoin.
+      You can also upload an icon for your stablecoin, which should be 300x300 pixels.
+    `,
+    `
+      The initial supply will be transferred to your account upon the completion of your project.
+      Choose a supply type and decimal count that suits your needs.
+    `,
+    `
+      Core permissions for your stablecoin are presently default, given only to the issuer.
+      Soon, you'll be able to manage them.
+    `,
+    'Create a new stablecoin on SUI',
+  ];
+
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
   const createStableCoin = useCreateStableCoin();
   const signAndExecuteTransactionBlock = useSignAndExecuteTransactionBlock();
   const buildTransaction = useBuildTransaction();
+  const suiClientContext = useSuiClientContext();
+  const requestSuiTokens = useRequestSuiTokens();
+  const currentSuiBalance = useCurrentSuiBalance();
 
   const [data, setData] = useState<Partial<CreateStableCoinData>>({});
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -79,9 +110,19 @@ export default function CreateStableCoinPage() {
     },
     [currentStep, progressSteps]
   );
+  const goToPreviousStep = useCallback(
+    () => {
+      setCurrentStep(currentStep - 1);
+      setProgressSteps(progressSteps.map((step, idx) => ({
+        ...step,
+        isActive: idx <= currentStep - 1,
+      })));
+    },
+    [currentStep, progressSteps]
+  );
   const runCreateStableCoin = useCallback(
     async () => {
-      if (account?.address && data.name && data.ticker && data.decimals) {
+      if (account?.address && data.name && data.ticker && data.decimals !== undefined) {
         try {
           const { dependencies, modules } = await createStableCoin.create.mutateAsync({
             walletAddress: account.address,
@@ -238,9 +279,24 @@ export default function CreateStableCoinPage() {
           (isLoading || isRedirecting) && 'hidden'
         )}
       >
-        <p className="font-semibold text-2xl text-primary">
-          Create New Stablecoin
-        </p>
+        <div className="flex items-center justify-between w-full">
+          <div>
+            <p className="font-semibold text-2xl text-primary">
+              Create New Stablecoin
+            </p>
+            <p className="text-sm text-riverBed mt-4">
+              {stepsDescriptions[currentStep]}
+            </p>
+          </div>
+          <Link href={PAGES_URLS.home} className="w-20 rounded-xl">
+            <Button
+              view={BUTTON_VIEWS.secondary}
+              className="h-10 w-full text-sm"
+            >
+              Cancel
+            </Button>
+          </Link>
+        </div>
         <ProgressSteps
           steps={progressSteps}
           className="mt-8"
@@ -261,6 +317,7 @@ export default function CreateStableCoinPage() {
                 <SupplyDetails
                   onSubmit={onSupplyDetailsSubmit}
                   defaultValues={data}
+                  onBack={goToPreviousStep}
                 />
               )
             }
@@ -268,17 +325,16 @@ export default function CreateStableCoinPage() {
               currentStep === 2 && (
                 <AssignDefaultPermissions
                   onSubmit={onPermissionsSubmit}
+                  onBack={goToPreviousStep}
                 />
               )
             }
             {
-              currentStep === 3 && data.permissions && (
+              currentStep === 3 && (
                 <RolesAssignment
                   onSubmit={onRolesSubmit}
-                  fields={data.permissions.map(({ value, label }) => ({
-                    fieldName: value,
-                    label: label.substring(0, label.indexOf('-')).trim(),
-                  }))}
+                  defaultValues={data.roles}
+                  onBack={goToPreviousStep}
                 />
               )
             }
@@ -291,10 +347,64 @@ export default function CreateStableCoinPage() {
               />
             )
           }
+          {
+            !data.name && currentStep === 0 && (
+              <div className="col-span-3 h-fit space-y-6">
+                <InstructionBlock
+                  header="Connected to the Testnet Network?"
+                  tooltipHeader="Testnet Network"
+                  tooltipDescription="
+                    This platform operates on the Testnet Network for testing purposes.
+                    To switch your network, open the wallet extension, click on the ⚙️ Settings icon,
+                    select 'Network', then choose 'Testnet'.
+                  "
+                  tooltipButtonText="I’m currently on testnet"
+                  onTooltipButtonClick={() => {}}
+                  inProgress={!account?.address}
+                  isDone={account?.chains?.includes('sui:testnet')}
+                />
+                {
+                  ['testnet', 'devnet'].includes(suiClientContext.network) && (
+                    <InstructionBlock
+                      header="Having enough balance to execute?"
+                      tooltipHeader="Balance to Execute"
+                      tooltipDescription={(
+                        <>
+                          Ensure you have sufficient
+                          {' '}
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          SUI Tokens for contract deployment.
+                          If not, you can request additional testnet tokens by clicking the button below.
+                        </>
+                      )}
+                      tooltipButtonText={(
+                        <>
+                          Receive
+                          {' '}
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          SUI Tokens
+                        </>
+                      )}
+                      inProgress={requestSuiTokens.isPending || currentSuiBalance.isLoading}
+                      onTooltipButtonClick={requestSuiTokens.mutateAsync}
+                      isDone={(currentSuiBalance.data || 0) >= 1}
+                    />
+                  )
+                }
+              </div>
+            )
+          }
         </div>
       </div>
       <Footer className="w-full px-6 pb-6" />
       <TokenDetailsReviewConfirm
+        stableCoinData={data}
         visible={showCreateStableCoinConfirm}
         onClose={closeCreateStableCoinConfirm}
         onProceed={runCreateStableCoin}
