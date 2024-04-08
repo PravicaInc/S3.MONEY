@@ -3,6 +3,7 @@
 import { FC, HTMLAttributes, useCallback, useEffect, useState } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSuiClient } from '@mysten/dapp-kit';
 import { twMerge } from 'tailwind-merge';
 import * as yup from 'yup';
 
@@ -17,7 +18,7 @@ import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransaction
 import { getShortAccountAddress } from '@/utils/string_formats';
 import { suiAddressRegExp } from '@/utils/validators';
 
-import { useFreezeAddress } from '@/hooks/useFreezeAddress';
+import { isFrozenAccount, useFreezeAddress } from '@/hooks/useFreezeAddress';
 import { StableCoin } from '@/hooks/useStableCoinsList';
 
 export interface FreezeAddressFormData {
@@ -26,26 +27,44 @@ export interface FreezeAddressFormData {
 
 export interface FreezeAddressFormProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   stableCoin: StableCoin;
+  isPaused?: boolean;
 }
 
 export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
   className,
   stableCoin,
+  isPaused,
   ...props
 }) => {
   const freezeAddress = useFreezeAddress();
+  const suiClient = useSuiClient();
 
   const [showFreezeAddressConfirm, setShowFreezeAddressConfirm] = useState<boolean>(false);
   const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
   const [lastTXID, setLastTXID] = useState<string>();
+  const [isCheckFrozenAccountInProgress, setIsCheckFrozenAccountInProgress] = useState<boolean>(false);
 
   const freezeAddressFormSchema = yup.object().shape({
     address: yup
       .string()
       .trim()
       .required('Wallet address is required.')
-      .matches(suiAddressRegExp, 'Wallet address is incorrect.'),
+      .matches(suiAddressRegExp, 'Wallet address is incorrect.')
+      .test({
+        name: 'is-frozen',
+        test: async value => {
+          try {
+            setIsCheckFrozenAccountInProgress(true);
+
+            return !(await isFrozenAccount(suiClient, stableCoin, value));
+          }
+          finally {
+            setIsCheckFrozenAccountInProgress(false);
+          }
+        },
+        message: 'This account is frozen',
+      }),
   });
   const formMethods = useForm({
     resolver: yupResolver(freezeAddressFormSchema),
@@ -121,17 +140,21 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
           <p className="text-mistBlue mt-4">
             You can freeze the transactions for your token of this particular address.
           </p>
-          <Input
-            name="address"
-            placeholder="Wallet Address"
-            maxLength={66}
-            className="w-full mt-4"
-          />
+          <div className="mt-4">
+            <Input
+              name="address"
+              placeholder="Wallet Address"
+              maxLength={66}
+              className="w-full !bg-transparent"
+              disabled={isPaused}
+              isLoading={isCheckFrozenAccountInProgress}
+            />
+          </div>
         </div>
         <Button
           className="h-[48px] w-full"
           type="submit"
-          disabled={formMethods.formState.isSubmitting}
+          disabled={formMethods.formState.isSubmitting || isPaused}
           isLoading={formMethods.formState.isSubmitting}
           view={BUTTON_VIEWS.secondary}
         >

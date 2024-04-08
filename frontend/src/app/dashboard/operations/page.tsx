@@ -175,7 +175,11 @@ export default function DashboardOperationsPage() {
                   showFreezeBlock && (
                     <FreezeAddressForm
                       stableCoin={currentStableCoin}
-                      className="py-4 px-6 border border-borderPrimary rounded-xl"
+                      className={twMerge(
+                        'py-4 px-6 border border-borderPrimary rounded-xl',
+                        isPaused && 'bg-borderPrimary bg-opacity-30'
+                      )}
+                      isPaused={isPaused}
                     />
                   )
                 }

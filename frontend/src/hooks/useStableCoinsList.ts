@@ -5,6 +5,7 @@ import { ApiManager } from '@/services/api';
 
 interface PackageApiResponse {
   deploy_addresses: {
+    cash_cap: string;
     packageId: string,
     token_policy: string,
     token_supply: string,

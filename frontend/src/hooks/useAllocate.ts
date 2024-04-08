@@ -19,6 +19,7 @@ export const useAllocate = () => {
       senderAddresses,
       recipientAddresses,
       packageName,
+      cashCap,
       packageId,
       treasuryCap,
       tokenPolicy,
@@ -28,6 +29,7 @@ export const useAllocate = () => {
       senderAddresses: string,
       recipientAddresses: string,
       packageName: string,
+      cashCap: string;
       packageId: string,
       treasuryCap: string,
       tokenPolicy: string,
@@ -80,7 +82,7 @@ export const useAllocate = () => {
         target: `${packageId}::${packageName}::allocate`,
         typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
         arguments: [
-          txb.object(treasuryCap),
+          cashCap ? txb.object(cashCap) : txb.object(treasuryCap),
           txb.object(tokenPolicy),
           txb.object(coinForAllocate),
           txb.pure.address(recipientAddresses),

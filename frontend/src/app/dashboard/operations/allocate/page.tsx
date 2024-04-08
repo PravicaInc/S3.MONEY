@@ -150,6 +150,7 @@ export default function DashboardOperationsAllocatePage() {
             senderAddresses: account.address,
             recipientAddresses: accountAddress,
             packageName: currentStableCoin.package_name,
+            cashCap: currentStableCoin.deploy_addresses.cash_cap,
             packageId: currentStableCoin.deploy_addresses.packageId,
             treasuryCap: currentStableCoin.deploy_addresses.treasury_cap,
             tokenPolicy: currentStableCoin.deploy_addresses.token_policy,
