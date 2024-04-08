@@ -11,7 +11,7 @@ runs:
   using: "composite"
   steps:
     - name: Install Dependencies
-      run: cd frontend && npm i && cd ../
+      run: npm i && cd frontend && npm i && cd ../
       shell: bash
 
     - name: Super-linter
