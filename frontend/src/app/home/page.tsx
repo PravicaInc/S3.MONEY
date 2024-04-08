@@ -9,6 +9,7 @@ import BackgroundModalDecorativeFullIcon from '@/../public/images/background_mod
 import PlusIcon from '@/../public/images/plus.svg?jsx';
 import SearchIcon from '@/../public/images/search.svg?jsx';
 
+import { Footer } from '@/Components/Footer';
 import { Button } from '@/Components/Form/Button';
 import { SimpleInput } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
@@ -84,7 +85,7 @@ export default function HomePage() {
           )
         }
       </div>
-      <div className="overflow-auto h-full">
+      <div className="overflow-auto h-full flex flex-col justify-between">
         {
           isLoading || isRedirecting || isStableCoinsListLoading || isStableCoinsListFetching
             ? (
@@ -150,6 +151,9 @@ export default function HomePage() {
                 )
             )
         }
+        <Footer
+          className="pb-7 pl-9 pr-[85px]"
+        />
       </div>
     </>
   );

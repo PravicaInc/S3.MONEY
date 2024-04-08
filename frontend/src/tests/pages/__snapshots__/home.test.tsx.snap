@@ -29,7 +29,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
     </button>
   </div>
   <div
-    class="overflow-auto h-full"
+    class="overflow-auto h-full flex flex-col justify-between"
   >
     <div
       class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 m-8 gap-6"
@@ -188,6 +188,26 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
           </button>
         </a>
       </div>
+    </div>
+    <div
+      class="font-medium flex items-center justify-between text-mistBlue pb-7 pl-9 pr-[85px]"
+    >
+      <p>
+        Powered By
+         
+        <a
+          href="https://pravica.io/"
+          rel="noreferrer"
+          target="_blank"
+        >
+          Pravica
+        </a>
+      </p>
+      <p>
+        Copyright
+         
+        2024
+      </p>
     </div>
   </div>
 </div>
