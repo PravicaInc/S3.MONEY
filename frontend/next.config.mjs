@@ -26,14 +26,32 @@ const nextConfig = {
           loader: '@svgr/webpack',
           options: {
             svgoConfig: {
-              plugins: [{
-                name: 'preset-default',
-                params: {
-                  overrides: {
-                    removeViewBox: false,
+              cleanupIDs: false,
+              plugins: [
+                {
+                  name: 'preset-default',
+                  params: {
+                    overrides: {
+                      removeViewBox: false,
+                      removeTitle: false,
+                      removeDesc: false,
+                    },
                   },
                 },
-              }],
+                {
+                  name: 'removeUnknownsAndDefaults',
+                  params: {
+                    keepRoleAttr: true,
+                  },
+                },
+                'cleanupIds',
+                {
+                  name: 'prefixIds',
+                  params: {
+                    prefix: () => `${Math.trunc(Math.random() * 10e5)}`,
+                  },
+                },
+              ],
             },
           },
         },

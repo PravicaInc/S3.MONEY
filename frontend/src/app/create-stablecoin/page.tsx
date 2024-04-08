@@ -330,7 +330,7 @@ export default function CreateStableCoinPage() {
               )
             }
             {
-              currentStep === 3 && data.permissions && (
+              currentStep === 3 && (
                 <RolesAssignment
                   onSubmit={onRolesSubmit}
                   defaultValues={data.roles}

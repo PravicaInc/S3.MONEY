@@ -11,43 +11,6 @@ exports[`LogoutButton: LogoutButton with connected state via zkLogin: Snapshot 1
     test@email.com
     <svg />
   </button>
-  <div
-    class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
-    role="dialog"
-  >
-    <div
-      class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
-    />
-    <div
-      class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6"
-    >
-      <p
-        class="text-primary font-semibold text-2xl text-center mt-4"
-      >
-        Confirm Logout?
-      </p>
-      <div
-        class="flex items-center justify-center gap-4 mt-8"
-      >
-        <button
-          class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
-        >
-          Cancel
-        </button>
-        <button
-          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
-        >
-          Proceed
-        </button>
-      </div>
-      <button
-        class="absolute top-8 right-8"
-        type="button"
-      >
-        <svg />
-      </button>
-    </div>
-  </div>
 </div>
 `;
 
@@ -62,42 +25,5 @@ exports[`LogoutButton: LogoutButton with connected state: Snapshot 1`] = `
     0x11...1111
     <svg />
   </button>
-  <div
-    class="fixed hidden top-0 left-0 right-0 bottom-0 items-center justify-center z-50 !m-0"
-    role="dialog"
-  >
-    <div
-      class="absolute bg-modalBackdropColor top-0 left-0 right-0 bottom-0 z-0"
-    />
-    <div
-      class="bg-white rounded-xl z-10 max-h-screen overflow-auto p-6"
-    >
-      <p
-        class="text-primary font-semibold text-2xl text-center mt-4"
-      >
-        Confirm Logout?
-      </p>
-      <div
-        class="flex items-center justify-center gap-4 mt-8"
-      >
-        <button
-          class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-slate-300 disabled:border-slate-400 disabled:text-white w-56 h-[56px]"
-        >
-          Cancel
-        </button>
-        <button
-          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border font-semibold flex items-center justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary w-56 h-[56px]"
-        >
-          Proceed
-        </button>
-      </div>
-      <button
-        class="absolute top-8 right-8"
-        type="button"
-      >
-        <svg />
-      </button>
-    </div>
-  </div>
 </div>
 `;

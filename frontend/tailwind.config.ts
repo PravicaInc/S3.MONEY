@@ -31,6 +31,13 @@ const config: Config = {
         deepSapphire: '#062863',
         mistyRose: '#FEE4E2',
         whiteIce: '#DCFAE6',
+        whiteLilac: '#F6F8FA',
+        ebonyClay: '#272835',
+        twilightBlue: '#EFFEFA',
+        darkMintGreen: '#00C75C',
+        rubyRed: '#FF2B1D',
+        greenishBlue: '#28806F',
+        grapefruit: '#D92D20',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',

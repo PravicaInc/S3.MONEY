@@ -19,7 +19,7 @@ import { PAGES_URLS } from '@/utils/const';
 import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
-import { StableCoinItem } from './components/StableCoinItem';
+import { STABLE_COIN_ITEM_BACKGROUNDS, StableCoinItem } from './components/StableCoinItem';
 
 export default function HomePage() {
   const shortAccountAddress = useShortAccountAddress();
@@ -97,10 +97,16 @@ export default function HomePage() {
                 ? (
                   <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 m-8 gap-6">
                     {
-                      filteredStableCoins.map(stableCoin => (
+                      filteredStableCoins.map((stableCoin, idx) => (
                         <StableCoinItem
                           key={stableCoin.txid}
                           stableCoinItem={stableCoin}
+                          bg={
+                            idx % 2 == 0
+                              ? STABLE_COIN_ITEM_BACKGROUNDS[1]
+                              : STABLE_COIN_ITEM_BACKGROUNDS[2]
+
+                          }
                         />
                       ))
                     }
@@ -109,7 +115,7 @@ export default function HomePage() {
                 : (
                   <div className="flex h-full items-center justify-center">
                     <div className="flex flex-col items-center">
-                      <div className="relative -mt-[200px]">
+                      <div className="relative -mt-[200px] z-0">
                         <BackgroundModalDecorativeFullIcon />
                         <div
                           className="
@@ -121,22 +127,24 @@ export default function HomePage() {
                           <SearchIcon />
                         </div>
                       </div>
-                      <p className="text-primary font-semibold -mt-[200px]">
-                        No projects found
-                      </p>
-                      <p className="text-center text-riverBed text-sm mt-1">
-                        You currently do not have any stablecoin created.
-                        <br />
-                        Please click “new project” to create one
-                      </p>
-                      <Link href={PAGES_URLS.createStableCoin} className="rounded-xl mt-6">
-                        <Button className="text-sm font-semibold h-[44px] w-[254px] flex items-center gap-[10px]">
-                          <PlusIcon />
-                          <span className="mt-[1px]">
-                            Create New Stablecoin
-                          </span>
-                        </Button>
-                      </Link>
+                      <div className="relative z-10 -mt-[200px] flex flex-col items-center">
+                        <p className="text-primary font-semibold">
+                          No projects found
+                        </p>
+                        <p className="text-center text-riverBed text-sm mt-1">
+                          You currently do not have any stablecoin created.
+                          <br />
+                          Please click “new project” to create one
+                        </p>
+                        <Link href={PAGES_URLS.createStableCoin} className="rounded-xl mt-6">
+                          <Button className="text-sm font-semibold h-[44px] w-[254px] flex items-center gap-[10px]">
+                            <PlusIcon />
+                            <span className="mt-[1px]">
+                              Create New Stablecoin
+                            </span>
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 )

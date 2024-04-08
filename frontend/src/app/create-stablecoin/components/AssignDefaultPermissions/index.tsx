@@ -102,7 +102,7 @@ export const AssignDefaultPermissions: FC<AssignDefaultPermissionsProps> = ({
                 <div
                   className={twMerge(
                     'w-6 h-6 flex items-center justify-center rounded-full',
-                    isActive ? 'bg-[#EFFEFA]' : 'bg-red-100'
+                    isActive ? 'bg-twilightBlue' : 'bg-red-100'
                   )}
                 >
                   {
