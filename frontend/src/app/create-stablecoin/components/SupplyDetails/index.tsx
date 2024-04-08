@@ -26,7 +26,7 @@ export interface SupplyStableCoinData {
 
 export interface SupplyDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: SupplyStableCoinData) => unknown;
-  onBack: () => void;
+  onBack: (newData: SupplyStableCoinData) => void;
   defaultValues?: Partial<SupplyStableCoinData>;
 }
 
@@ -54,8 +54,10 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
   const formMethods = useForm({
     resolver: yupResolver(supplyDetailsFormSchema),
     defaultValues: {
-      supplyType: undefined,
-      ...defaultValues,
+      initialSupply: defaultValues?.initialSupply || undefined,
+      maxSupply: defaultValues?.maxSupply || undefined,
+      supplyType: defaultValues?.supplyType || undefined,
+      decimals: defaultValues?.decimals || undefined,
     },
   });
   const supplyType = useWatch({
@@ -140,6 +142,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
               onChange={({ target }) => {
                 target.value = target.value ? numberFormat(target.value) : target.value;
               }}
+              maxLength={2}
             />
           </div>
         </div>
@@ -147,7 +150,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
           <Button
             view={BUTTON_VIEWS.secondary}
             className="h-14 w-full"
-            onClick={onBack}
+            onClick={() => onBack(formMethods.getValues())}
             type="button"
           >
             Back

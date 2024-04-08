@@ -70,8 +70,9 @@ export const InitialDetails: FC<InitialDetailsProps> = ({
     resolver: yupResolver(initialDetailsFormSchema),
     mode: defaultValues ? 'all' : 'onChange',
     defaultValues: {
-      icon: '',
-      ...defaultValues,
+      name: defaultValues?.name || '',
+      ticker: defaultValues?.ticker || '',
+      icon: defaultValues?.icon || '',
     },
   });
 

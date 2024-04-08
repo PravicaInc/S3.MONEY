@@ -1451,6 +1451,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                   <input
                     class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white w-full appearance-none"
                     id="decimals"
+                    maxlength="2"
                     name="decimals"
                     placeholder="Decimals"
                     type="text"

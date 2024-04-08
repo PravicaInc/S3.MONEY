@@ -68,6 +68,7 @@ export default function CreateStableCoinPage() {
   const currentSuiBalance = useCurrentSuiBalance();
 
   const [data, setData] = useState<Partial<CreateStableCoinData>>({});
+  const [preliminaryData, setPreliminaryData] = useState<Partial<CreateStableCoinData>>({});
   const [currentStep, setCurrentStep] = useState<number>(0);
   const [progressSteps, setProgressSteps] = useState<Omit<ProgressStepItem, 'number'>[]>([
     {
@@ -111,12 +112,16 @@ export default function CreateStableCoinPage() {
     [currentStep, progressSteps]
   );
   const goToPreviousStep = useCallback(
-    () => {
+    (newData: Partial<CreateStableCoinData> = {}) => {
       setCurrentStep(currentStep - 1);
       setProgressSteps(progressSteps.map((step, idx) => ({
         ...step,
         isActive: idx <= currentStep - 1,
       })));
+      setPreliminaryData(currentValue => ({
+        ...currentValue,
+        ...newData,
+      }));
     },
     [currentStep, progressSteps]
   );
@@ -235,6 +240,10 @@ export default function CreateStableCoinPage() {
       ...currentValue,
       ...initialStableCoinData,
     }));
+    setPreliminaryData(currentValue => ({
+      ...currentValue,
+      ...initialStableCoinData,
+    }));
     goToNextStep();
   };
 
@@ -244,6 +253,10 @@ export default function CreateStableCoinPage() {
       ...supplyStableCoinData,
       supplyType: supplyStableCoinData.supplyType || SupplyTypes.Infinite,
     }));
+    setPreliminaryData(currentValue => ({
+      ...currentValue,
+      ...supplyStableCoinData,
+    }));
     goToNextStep();
   };
 
@@ -252,11 +265,19 @@ export default function CreateStableCoinPage() {
       ...currentValue,
       ...permissionsStableCoinData,
     }));
+    setPreliminaryData(currentValue => ({
+      ...currentValue,
+      ...permissionsStableCoinData,
+    }));
     goToNextStep();
   };
 
   const onRolesSubmit: SubmitHandler<RolesStableCoinData> = rolesStableCoinData => {
     setData(currentValue => ({
+      ...currentValue,
+      roles: rolesStableCoinData,
+    }));
+    setPreliminaryData(currentValue => ({
       ...currentValue,
       roles: rolesStableCoinData,
     }));
@@ -316,7 +337,10 @@ export default function CreateStableCoinPage() {
               currentStep === 1 && (
                 <SupplyDetails
                   onSubmit={onSupplyDetailsSubmit}
-                  defaultValues={data}
+                  defaultValues={{
+                    ...data,
+                    ...preliminaryData,
+                  }}
                   onBack={goToPreviousStep}
                 />
               )
@@ -333,7 +357,10 @@ export default function CreateStableCoinPage() {
               currentStep === 3 && (
                 <RolesAssignment
                   onSubmit={onRolesSubmit}
-                  defaultValues={data.roles}
+                  defaultValues={{
+                    ...data.roles,
+                    ...preliminaryData.roles,
+                  }}
                   onBack={goToPreviousStep}
                 />
               )
