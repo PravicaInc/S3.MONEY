@@ -121,7 +121,7 @@ async function getTokenEvents(module: string, token: string): Promise<[string, o
   if ('data' in result && 'events' in result.data!) {
     const new_token = result.data.events!['pageInfo'].endCursor
     const events = result.data.events!['nodes'] ?? []
-    const done = !result.data.events!['pageInfo'].hasNextPage ?? true
+    const done = !result.data.events!['pageInfo'].hasNextPage || true
     return [new_token, events, done]
   } else {
     return ['', [], true]

@@ -21,7 +21,7 @@ export async function handleGetBalances(req: Request, res: Response) {
   }
 }
 
-export async function HandleGetPackageEvents(req: Request, res: Response) {
+export async function handleGetPackageEvents(req: Request, res: Response) {
   const {address, ticker} = req.params
   if (Checks.isValidPackage(address)) {
     res.status(200).json({
