@@ -34,7 +34,7 @@ export default function SignInPage() {
           <div className="flex flex-col items-center mx-20 max-w-4xl text-center">
             <LogoSVG />
             <p className="mt-4 text-primary text-[32px] leading-[40px]">
-              StableCoin Studio on Sui
+              Stablecoin Studio on Sui
             </p>
             <div className="mt-5 w-full">
               <WalletConnectButton
@@ -69,11 +69,11 @@ export default function SignInPage() {
         <div className="bg-deepPeach h-full border-[10px] border-white flex items-center justify-center py-5">
           <div className="text-center mx-5 md:mx-10 lg:mx-20 max-w-4xl">
             <p className="text-[40px] leading-[44px] font-semibold text-primary">
-              Gateway to Code-Free StableCoin Creation
+              Gateway to Code-Free Stablecoin Creation
             </p>
             <p className="mt-5 text-tuna text-opacity-70">
-              Just connect your Sui wallet and step into the wonderfully simple world of StableCoin Studio on
-              the Sui Blockchain. You'll be able to create and manage your own stable coins with just a few clicks.
+              Just connect your Sui wallet and step into the wonderfully simple world of Stablecoin Studio on
+              the Sui blockchain. You'll be able to create and manage your own stable coins with just a few clicks.
               And the best part? No coding is required! It's a platform designed just for you.
             </p>
             <NextImage
