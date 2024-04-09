@@ -55,7 +55,7 @@ app.delete('/related/:pkgAddress/:slug', relations.handleDeleteRelation)
 app.patch('/related/:pkgAddress/:slug', relations.handleRenameRelation)
 
 // events and balances
-app.get('/package-events/:address/:ticker', events.HandleGetPackageEvents)
+app.get('/package-events/:address/:ticker', events.handleGetPackageEvents)
 app.get('/address-events/:address', events.handleGetAddressEvents)
 app.get('/balances/:address', events.handleGetBalances)
 
