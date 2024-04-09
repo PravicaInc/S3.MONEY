@@ -1,6 +1,7 @@
 import { FC } from 'react';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useCurrentAccount } from '@mysten/dapp-kit';
 import { twMerge } from 'tailwind-merge';
 
 import CheckedIcon from '@/../public/images/checked.svg?jsx';
@@ -15,9 +16,7 @@ import { PermissionsStableCoinData } from '@/app/create-stablecoin/components/As
 import { InitialStableCoinData } from '@/app/create-stablecoin/components/InitialDetails';
 import { SupplyStableCoinData, SupplyTypes } from '@/app/create-stablecoin/components/SupplyDetails';
 
-import { numberFormat } from '@/utils/string_formats';
-
-import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
+import { getShortAccountAddress, numberFormat } from '@/utils/string_formats';
 
 interface NewStableCoinData extends InitialStableCoinData, SupplyStableCoinData, PermissionsStableCoinData {}
 
@@ -38,7 +37,7 @@ export const TokenDetailsReviewConfirm: FC<TokenDetailsReviewConfirmProps> = ({
   },
   ...props
 }) => {
-  const shortAccountAddress = useShortAccountAddress();
+  const account = useCurrentAccount();
 
   return (
     <WalletTransactionConfirmModal
@@ -47,10 +46,10 @@ export const TokenDetailsReviewConfirm: FC<TokenDetailsReviewConfirmProps> = ({
       additionContent={(
         <>
           {
-            name && ticker && shortAccountAddress && (
+            name && ticker && account?.address && (
               <div className="flex items-center gap-4 border border-borderPrimary p-4 rounded-xl mt-5">
                 <div
-                  className="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
+                  className="min-w-12 min-h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
                   style={{
                     backgroundImage: `url(${icon})`,
                   }}
@@ -65,7 +64,7 @@ export const TokenDetailsReviewConfirm: FC<TokenDetailsReviewConfirmProps> = ({
                     </span>
                   </div>
                   <p className="text-sm font-semibold text-actionPrimary">
-                    {shortAccountAddress}
+                    {getShortAccountAddress(account.address, 15)}
                   </p>
                 </div>
               </div>

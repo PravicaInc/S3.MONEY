@@ -38,6 +38,7 @@ jobs:
         uses: ./.github/actions/frontend_deploy
         with:
           NEXT_PUBLIC_API_DOMAIN: ${{ vars.PROD__NEXT_PUBLIC_API_DOMAIN }}
+          NEXT_PUBLIC_DEFAULT_NETWORK: ${{ vars.PROD__NEXT_PUBLIC_DEFAULT_NETWORK }}
           S3_BUCKET: ${{ vars.PROD_S3_BUCKET }}
           S3_BUCKET_REGION: ${{ vars.PROD_S3_BUCKET_REGION }}
           CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.PROD_CLOUDFRONT_DISTRIBUTION_ID }}

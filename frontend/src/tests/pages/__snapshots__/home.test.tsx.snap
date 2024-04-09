@@ -44,7 +44,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
             Contract Transaction
             <a
               class="text-secondary underline"
-              href="https://suiscan.xyz/testnet/tx/1"
+              href="https://suiscan.xyz/devnet/tx/1"
               rel="noreferrer"
               target="_blank"
             >
@@ -121,7 +121,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
             Contract Transaction
             <a
               class="text-secondary underline"
-              href="https://suiscan.xyz/testnet/tx/2"
+              href="https://suiscan.xyz/devnet/tx/2"
               rel="noreferrer"
               target="_blank"
             >

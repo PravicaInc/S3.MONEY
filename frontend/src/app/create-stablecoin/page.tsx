@@ -377,19 +377,59 @@ export default function CreateStableCoinPage() {
           {
             !data.name && currentStep === 0 && (
               <div className="col-span-3 h-fit space-y-6">
-                <InstructionBlock
-                  header="Connected to the Testnet Network?"
-                  tooltipHeader="Testnet Network"
-                  tooltipDescription="
-                    This platform operates on the Testnet Network for testing purposes.
-                    To switch your network, open the wallet extension, click on the ⚙️ Settings icon,
-                    select 'Network', then choose 'Testnet'.
-                  "
-                  tooltipButtonText="I’m currently on testnet"
-                  onTooltipButtonClick={() => {}}
-                  inProgress={!account?.address}
-                  isDone={account?.chains?.includes('sui:testnet')}
-                />
+                {
+                  ['testnet', 'devnet'].includes(process.env.NEXT_PUBLIC_DEFAULT_NETWORK || '') && (
+                    <InstructionBlock
+                      header={(
+                        <>
+                          Connected to the
+                          {' '}
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          Network?
+                        </>
+                      )}
+                      tooltipHeader={(
+                        <>
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          Network
+                        </>
+                      )}
+                      tooltipDescription={(
+                        <>
+                          This platform operates on the
+                          {' '}
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          {' '}
+                          Network for testing purposes.
+                          To switch your network, open the wallet extension, click on the ⚙️ Settings icon,
+                          select 'Network', then choose '
+                          <span className="capitalize">
+                            {suiClientContext.network}
+                          </span>
+                          '.
+                        </>
+                      )}
+                      tooltipButtonText={(
+                        <>
+                          I’m currently on
+                          {' '}
+                          {suiClientContext.network}
+                        </>
+                      )}
+                      onTooltipButtonClick={() => {}}
+                      inProgress={!account?.address}
+                      isDone={account?.chains?.includes(`sui:${process.env.NEXT_PUBLIC_DEFAULT_NETWORK}`)}
+                    />
+                  )
+                }
                 {
                   ['testnet', 'devnet'].includes(suiClientContext.network) && (
                     <InstructionBlock
