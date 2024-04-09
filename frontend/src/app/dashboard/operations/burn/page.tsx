@@ -364,7 +364,7 @@ export default function DashboardOperationsBurnPage() {
           <div className="border border-borderPrimary p-4 rounded-xl mt-5">
             <div className="flex items-center justify-between">
               <p className="text-primary font-semibold">
-                Mint
+                Burn
               </p>
               <p className="text-grapefruit text-sm font-semibold">
                 -
