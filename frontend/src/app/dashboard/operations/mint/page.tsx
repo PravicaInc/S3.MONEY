@@ -2,7 +2,6 @@
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useAutoConnectWallet, useCurrentAccount } from '@mysten/dapp-kit';
 import Link from 'next/link';
@@ -16,15 +15,15 @@ import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Input } from '@/Components/Form/Input';
 import { Loader } from '@/Components/Loader';
 import { Tips } from '@/Components/Tips';
+import { WalletTransactionConfirmModal } from '@/Components/WalletTransactionConfirmModal';
+import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransactionSuccessfulModal';
 
 import { PAGES_URLS } from '@/utils/const';
-import { numberFormat, numberNormalize } from '@/utils/string_formats';
+import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/string_formats';
 
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 import { useMintTo, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
-
-import { MintConfirm } from './components/MintConfirm';
 
 export default function DashboardOperationsMintPage() {
   const account = useCurrentAccount();
@@ -39,7 +38,9 @@ export default function DashboardOperationsMintPage() {
   const mintTo = useMintTo();
 
   const [showMintConfirm, setShowMintConfirm] = useState<boolean>(false);
+  const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
   const [showBalanceErrorModal, setShowBalanceErrorModal] = useState<boolean>(false);
+  const [lastTXID, setLastTXID] = useState<string>();
 
   const { coins: stableCoins = [] } = data || {};
 
@@ -77,38 +78,39 @@ export default function DashboardOperationsMintPage() {
         test: (value: number) => (stableCoinMaxSupply || Infinity) >= value + stableCoinCurrentSupply,
         message: 'You have exceeded Max Supply.',
       }),
-    mainAccountAddress: yup
-      .string(),
   });
   const formMethods = useForm({
     resolver: yupResolver(mintFormSchema),
-    defaultValues: useMemo(
-      () => ({
-        mintValue: 0,
-        mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
-      }),
-      [currentStableCoin]
-    ),
+    defaultValues: {
+      mintValue: 0,
+    },
   });
 
   const mintValue = formMethods.watch('mintValue');
-  const mainAccountAddress = formMethods.watch('mainAccountAddress');
 
   const relatedInformationList = useMemo(
     () => [
       {
-        text: 'Current Supply:',
+        text: 'Total Supply:',
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : `${numberFormat(`${stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`,
       },
       {
-        text: 'Total Supply after Mint:',
+        text: 'Total Supply After Mint:',
         value: isLoadingStableCoinCurrentSupply
           ? <Loader className="h-4" />
           : (
             mintValue && (mintValue + stableCoinCurrentSupply) <= (stableCoinMaxSupply || Infinity)
-              ? `${numberFormat(`${mintValue + stableCoinCurrentSupply}`)} ${currentStableCoin?.ticker}`
+              ? (
+                <span className="text-actionPrimary">
+                  {numberFormat(`${mintValue + stableCoinCurrentSupply}`)}
+                  /
+                  {numberFormat(`${stableCoinMaxSupply}`)}
+                  {' '}
+                  {currentStableCoin?.ticker}
+                </span>
+              )
               : '-'
           ),
       },
@@ -130,10 +132,13 @@ export default function DashboardOperationsMintPage() {
               ? <Loader className="h-4" />
               : (
                 stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0) >= 0
-                  ? `
-                    ${numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0)}`)}
-                    ${currentStableCoin?.ticker}
-                  `
+                  ? (
+                    <span className={twMerge(mintValue && 'text-actionPrimary')}>
+                      {numberFormat(`${stableCoinMaxSupply - stableCoinCurrentSupply - (mintValue || 0)}`)}
+                      {' '}
+                      {currentStableCoin?.ticker}
+                    </span>
+                  )
                   : '-'
               ),
           }
@@ -179,7 +184,6 @@ export default function DashboardOperationsMintPage() {
   useEffect(() => {
     formMethods.reset({
       mintValue: 0,
-      mainAccountAddress: currentStableCoin?.deploy_addresses.deployer,
     });
     setShowMintConfirm(false);
     setShowBalanceErrorModal(false);
@@ -188,9 +192,9 @@ export default function DashboardOperationsMintPage() {
   const onMint = useCallback(
     async () => {
       try {
-        if (currentStableCoin && mainAccountAddress) {
-          await mintTo.mutateAsync({
-            deployAddresses: mainAccountAddress,
+        if (currentStableCoin) {
+          const { digest } = await mintTo.mutateAsync({
+            deployAddresses: currentStableCoin?.deploy_addresses.deployer,
             packageName: currentStableCoin.package_name,
             packageId: currentStableCoin.deploy_addresses.packageId,
             treasuryCap: currentStableCoin.deploy_addresses.treasury_cap,
@@ -201,17 +205,9 @@ export default function DashboardOperationsMintPage() {
 
           formMethods.reset();
 
-          toast.success(
-            `
-              You have successfully entered this amount: ${numberFormat(`${mintValue}`)} ${currentStableCoin.ticker}
-              to be minted for the Main Account: ${mainAccountAddress}
-            `,
-            {
-              className: 'w-[400px]',
-            }
-          );
-
+          setLastTXID(digest);
           setShowMintConfirm(false);
+          setShowWalletTransactionSuccessfulModal(true);
         }
       }
       catch (error) {
@@ -228,7 +224,7 @@ export default function DashboardOperationsMintPage() {
         }
       }
     },
-    [currentStableCoin, formMethods, mainAccountAddress, mintTo, mintValue]
+    [currentStableCoin, formMethods, mintTo, mintValue]
   );
 
   return (
@@ -245,6 +241,9 @@ export default function DashboardOperationsMintPage() {
             <FormProvider {...formMethods}>
               <p className="text-2xl text-primary font-semibold">
                 Mint
+              </p>
+              <p className="mt-1 text-sm text-riverBed">
+                Issuers can effortlessly create new tokens, increasing the total supply of the stablecoin.
               </p>
               <form
                 className="mt-8 grid grid-cols-5 gap-6"
@@ -273,24 +272,11 @@ export default function DashboardOperationsMintPage() {
                       suffix={currentStableCoin.ticker}
                     />
                   </div>
-                  <div>
-                    <Input
-                      name="mainAccountAddress"
-                      label="Main Account Address"
-                      labelClassName="text-[#696969] mb-4"
-                      placeholder="Main Account Address"
-                      className="w-full appearance-none"
-                      disabled
-                    />
-                  </div>
                   <Tips
                     title="Tips on Minting"
                     tipsList={[
-                      'If your stable coin has a finite supply type, you can mint tokens up to the maximum supply.',
-                      `
-                        All minted tokens will be transferred to the Main account,
-                        which is the account that issued the stablecoin contracts in the first place.
-                      `,
+                      'If your stablecoin has a finite supply type, you can mint tokens up to the maximum supply.',
+                      'All minted tokens will be transferred to the connected account.',
                     ]}
                   />
                   <div className="flex items-center justify-between gap-6 mt-10">
@@ -320,7 +306,7 @@ export default function DashboardOperationsMintPage() {
                 </div>
                 <div className="bg-white border border-borderPrimary rounded-xl h-fit col-span-2">
                   <p className="text-primary text-lg font-semibold p-5 border-b border-borderPrimary">
-                    Related Information
+                    Detail Information
                   </p>
                   <div className="px-5 py-6 space-y-4">
                     {relatedInformationList.map(({ text, value }) => (
@@ -342,16 +328,48 @@ export default function DashboardOperationsMintPage() {
             <Loader className="h-8" />
           )
       }
-      <MintConfirm
+      <WalletTransactionConfirmModal
         visible={showMintConfirm}
+        view="alert"
         onClose={() => {
           setShowMintConfirm(false);
           mintTo.reset();
         }}
-        walletAddress={mainAccountAddress}
+        header="Are you sure to mint this amount?"
+        description="This actions will start the minting process with the amount stated."
         onProceed={onMint}
         inProcess={mintTo.isPending}
-        amount={`${numberFormat(`${mintValue}`)} ${currentStableCoin?.ticker}`}
+        additionContent={(
+          <div className="border border-borderPrimary p-4 rounded-xl mt-5">
+            <div className="flex items-center justify-between">
+              <p className="text-primary font-semibold">
+                Mint
+              </p>
+              <p className="text-shamrockGreen text-sm font-semibold">
+                +
+                {numberFormat(`${mintValue}`)}
+              </p>
+            </div>
+            <p className="text-xs font-semibold text-actionPrimary">
+              {
+                currentStableCoin?.deploy_addresses.deployer
+                  ? getShortAccountAddress(currentStableCoin?.deploy_addresses.deployer, 25)
+                  : ''
+              }
+            </p>
+          </div>
+        )}
+      />
+      <WalletTransactionSuccessfulModal
+        visible={showWalletTransactionSuccessfulModal}
+        onClose={() => {
+          setShowWalletTransactionSuccessfulModal(false);
+        }}
+        header="Mint successful"
+        description="
+          The operation is successful. To view the transaction for this operation, please click on the button below
+        "
+        txid={lastTXID}
       />
       <BalanceErrorModal
         visible={showBalanceErrorModal}

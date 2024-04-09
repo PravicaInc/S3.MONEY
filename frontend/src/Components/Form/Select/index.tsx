@@ -17,6 +17,7 @@ export interface SimpleSelectProps extends SelectHTMLAttributes<HTMLSelectElemen
   className?: string;
   placeholder?: string;
   wrapperClassName?: string;
+  disabledDefaultValue?: boolean;
 }
 
 export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(({
@@ -25,6 +26,7 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(({
   className,
   wrapperClassName,
   placeholder = 'Select ...',
+  disabledDefaultValue,
   ...props
 }, ref) => (
   <div className={twMerge('relative', wrapperClassName)}>
@@ -41,7 +43,7 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(({
     >
       <option
         value=""
-        disabled={isRequired}
+        disabled={isRequired || disabledDefaultValue}
         className="text-hitGrey"
       >
         {placeholder}

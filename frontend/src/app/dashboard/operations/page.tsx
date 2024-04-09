@@ -84,7 +84,7 @@ export default function DashboardOperationsPage() {
       ...[
         showCashInBlock
           ? {
-            title: 'Cash In',
+            title: 'Allocate',
             icon: <CashInIcon />,
             description: 'Issuers can allocate some authorized tokens to the circulation for public.',
             link: {
@@ -173,10 +173,19 @@ export default function DashboardOperationsPage() {
                 }
                 {
                   showFreezeBlock && (
-                    <FreezeAddressForm
-                      stableCoin={currentStableCoin}
-                      className="py-4 px-6 border border-borderPrimary rounded-xl"
-                    />
+                    <div
+                      className="rounded-xl"
+                      onClick={isPaused ? () => setShowSystemIsPausedAlert(true) : () => {}}
+                    >
+                      <FreezeAddressForm
+                        stableCoin={currentStableCoin}
+                        className={twMerge(
+                          'py-4 px-6 border border-borderPrimary rounded-xl h-full',
+                          isPaused && 'bg-borderPrimary bg-opacity-30'
+                        )}
+                        isPaused={isPaused}
+                      />
+                    </div>
                   )
                 }
               </div>
@@ -189,26 +198,31 @@ export default function DashboardOperationsPage() {
                 )}
               >
                 {actions.map(({ title, icon, description, link }) => (
-                  <Link
+                  <div
                     key={title}
-                    className={twMerge(
-                      'border border-borderPrimary rounded-[10px] bg-white p-6',
-                      isPaused && 'pointer-events-none bg-borderPrimary bg-opacity-30'
-                    )}
-                    href={link}
+                    className="rounded-[10px]"
+                    onClick={isPaused ? () => setShowSystemIsPausedAlert(true) : () => {}}
                   >
-                    <div
-                      className="bg-deepPeach w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
+                    <Link
+                      className={twMerge(
+                        'border border-borderPrimary rounded-[10px] bg-white p-6 block',
+                        isPaused && 'pointer-events-none bg-borderPrimary bg-opacity-30'
+                      )}
+                      href={link}
                     >
-                      {icon}
-                    </div>
-                    <p className="text-primary text-lg font-semibold mt-5">
-                      {title}
-                    </p>
-                    <p className="text-mistBlue text-sm mt-2">
-                      {description}
-                    </p>
-                  </Link>
+                      <div
+                        className="bg-antiqueWhite w-10 h-10 flex items-center justify-center rounded-full shadow-operationIcon"
+                      >
+                        {icon}
+                      </div>
+                      <p className="text-primary text-lg font-semibold mt-5">
+                        {title}
+                      </p>
+                      <p className="text-mistBlue text-sm mt-2">
+                        {description}
+                      </p>
+                    </Link>
+                  </div>
                 ))}
               </div>
             </>

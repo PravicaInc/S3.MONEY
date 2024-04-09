@@ -19,6 +19,9 @@ export interface WalletTransactionConfirmModalProps extends ModalProps {
   inCancelDisabled?: boolean;
   inCancelProgress?: boolean;
   view?: WALLET_TRANSACTION_CONFIRM_MODAL_VIEW;
+  processButtonText?: string;
+  processButtonClassName?: string;
+  processButtonView?: BUTTON_VIEWS;
 }
 
 export const WalletTransactionConfirmModal: FC<WalletTransactionConfirmModalProps> = ({
@@ -31,6 +34,9 @@ export const WalletTransactionConfirmModal: FC<WalletTransactionConfirmModalProp
   inCancelDisabled,
   inCancelProgress,
   view = 'positive',
+  processButtonText = 'Confirm',
+  processButtonClassName,
+  processButtonView = BUTTON_VIEWS.primary,
   ...props
 }) => (
   <Modal
@@ -83,12 +89,13 @@ export const WalletTransactionConfirmModal: FC<WalletTransactionConfirmModalProp
         Cancel
       </Button>
       <Button
-        className="w-56 h-[56px]"
+        className={twMerge('w-56 h-[56px]', processButtonClassName)}
         onClick={onProceed}
         isLoading={inProcess}
         disabled={inProcess}
+        view={processButtonView}
       >
-        Proceed
+        {processButtonText}
       </Button>
     </div>
   </Modal>

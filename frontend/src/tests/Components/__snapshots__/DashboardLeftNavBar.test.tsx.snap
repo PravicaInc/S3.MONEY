@@ -27,7 +27,7 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
         href="/create-stablecoin"
       >
         <button
-          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-slate-300 disabled:bg-none disabled:border-slate-400 disabled:text-white [&>svg>path]:hover:stroke-actionPrimary text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]"
+          class="text-white rounded-xl shadow-button border-actionSecondary border-solid border justify-center bg-buttonBgMain relative overflow-hidden after:content-[''] after:bg-buttonBgAfter after:w-full after:h-full after:absolute hover:bg-buttonBgAfter hover:text-actionPrimary transition disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none [&>svg>path]:hover:stroke-actionPrimary text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]"
         >
           <svg />
           <span
@@ -44,20 +44,29 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
       <p
         class="text-xs font-semibold text-hitGrey pl-3 pb-3"
       >
-        Main Menu
+        MAIN MENU
       </p>
       <div
         class="flex flex-col gap-1"
       >
         <a
-          class="flex items-center gap-[10px] py-2 px-3 border rounded-md [&>svg>path]:stroke-primary border-borderPrimary bg-snowDrift text-primary"
-          href="/dashboard/operations?txid=1"
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary [&>svg>path]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+          href="/"
         >
           <svg />
+          Overview
+        </a>
+        <a
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md [&>svg>path]:stroke-primary [&>svg>path[fill]]:fill-primary border-borderPrimary bg-snowDrift text-primary"
+          href="/dashboard/operations?txid=1"
+        >
+          <svg
+            fill="none"
+          />
           Operations
         </a>
         <a
-          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary [&>svg>path]:stroke-secondary"
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary [&>svg>path]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
           href="/dashboard/relations?txid=1"
         >
           <svg />

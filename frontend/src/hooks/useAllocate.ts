@@ -1,5 +1,6 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useStableCoinEvents } from './useStableCoinEvents';
@@ -19,6 +20,7 @@ export const useAllocate = () => {
       senderAddresses,
       recipientAddresses,
       packageName,
+      cashCap,
       packageId,
       treasuryCap,
       tokenPolicy,
@@ -28,12 +30,13 @@ export const useAllocate = () => {
       senderAddresses: string,
       recipientAddresses: string,
       packageName: string,
+      cashCap: string;
       packageId: string,
       treasuryCap: string,
       tokenPolicy: string,
       tokenSupply: string,
       amount: number,
-    }): Promise<void> => {
+    }): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
       const coins = (await getAllOwnedObjects(suiClient, { owner: senderAddresses }))
         .filter(
           obj => obj.data?.content?.dataType === 'moveObject'
@@ -80,7 +83,7 @@ export const useAllocate = () => {
         target: `${packageId}::${packageName}::allocate`,
         typeArguments: [`${packageId}::${packageName}::${packageName.toUpperCase()}`],
         arguments: [
-          txb.object(treasuryCap),
+          cashCap ? txb.object(cashCap) : txb.object(treasuryCap),
           txb.object(tokenPolicy),
           txb.object(coinForAllocate),
           txb.pure.address(recipientAddresses),
@@ -89,7 +92,7 @@ export const useAllocate = () => {
 
       await buildTransaction.mutateAsync(txb);
 
-      await signAndExecuteTransactionBlock.mutateAsync({
+      const data = await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
       });
@@ -112,6 +115,8 @@ export const useAllocate = () => {
       queryClient.invalidateQueries({
         queryKey: ['last-allocated-date-to-account', recipientAddresses],
       });
+
+      return data;
     },
   });
 };

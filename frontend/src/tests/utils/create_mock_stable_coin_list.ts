@@ -9,6 +9,7 @@ export const TEST_STABLE_COIN1: Partial<StableCoin> = {
   ticker: 'PRV',
   name: 'Pravica Token',
   deploy_addresses: {
+    cash_cap: TEST_WALLET_ACCOUNT_ADDRESS,
     packageId: TEST_WALLET_ACCOUNT_ADDRESS,
     token_policy: TEST_WALLET_ACCOUNT_ADDRESS,
     token_supply: TEST_WALLET_ACCOUNT_ADDRESS,
@@ -25,6 +26,7 @@ export const TEST_STABLE_COIN2: Partial<StableCoin> = {
   ticker: 'SSS',
   name: 'S3 Money Token',
   deploy_addresses: {
+    cash_cap: TEST_WALLET_ACCOUNT_ADDRESS,
     packageId: TEST_WALLET_ACCOUNT_ADDRESS,
     token_policy: TEST_WALLET_ACCOUNT_ADDRESS,
     token_supply: TEST_WALLET_ACCOUNT_ADDRESS,

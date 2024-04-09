@@ -14,7 +14,7 @@ export interface TipsProps extends Omit<HTMLAttributes<HTMLDivElement>, 'title'>
 export const Tips: FC<TipsProps> = ({ title, tipsList, tip, className, ...props }) => (
   <div
     className={twMerge(
-      'border border-borderPrimary rounded-xl bg-[#FFE8D4] p-3',
+      'border border-borderPrimary rounded-xl bg-alabaster p-3',
       className
     )}
     {...props}

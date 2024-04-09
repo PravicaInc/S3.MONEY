@@ -1,6 +1,7 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 import { UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { useBuildTransaction } from './useBuildTransaction';
@@ -136,7 +137,7 @@ export const useMintTo = () => {
       tokenPolicy: string,
       tokenSupply: string,
       amount: number,
-    }): Promise<void> => {
+    }): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
       const txb = new TransactionBlock();
 
       txb.moveCall({
@@ -153,7 +154,7 @@ export const useMintTo = () => {
 
       await buildTransaction.mutateAsync(txb);
 
-      await signAndExecuteTransactionBlock.mutateAsync({
+      const data = await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
       });
@@ -170,6 +171,8 @@ export const useMintTo = () => {
       queryClient.invalidateQueries({
         queryKey: ['current-stable-coin-balance'],
       });
+
+      return data;
     },
   });
 };
@@ -197,7 +200,7 @@ export const useBurnFrom = () => {
       tokenPolicy: string,
       tokenSupply: string,
       amount: number,
-    }): Promise<void> => {
+    }): Promise<SuiSignAndExecuteTransactionBlockOutput> => {
       const coins = (await getAllOwnedObjects(suiClient, { owner: deployAddresses }))
         .filter(
           obj => obj.data?.content?.dataType === 'moveObject'
@@ -252,7 +255,7 @@ export const useBurnFrom = () => {
 
       await buildTransaction.mutateAsync(txb);
 
-      await signAndExecuteTransactionBlock.mutateAsync({
+      const data = await signAndExecuteTransactionBlock.mutateAsync({
         transactionBlock: txb,
         requestType: 'WaitForLocalExecution',
       });
@@ -269,6 +272,8 @@ export const useBurnFrom = () => {
       queryClient.invalidateQueries({
         queryKey: ['current-stable-coin-balance'],
       });
+
+      return data;
     },
   });
 };

@@ -20,13 +20,13 @@ export enum SupplyTypes {
 export interface SupplyStableCoinData {
   initialSupply: number;
   maxSupply?: number;
-  supplyType?: SupplyTypes;
+  supplyType?: SupplyTypes | string | '';
   decimals: number;
 }
 
 export interface SupplyDetailsProps extends Omit<HTMLAttributes<HTMLFormElement>, 'onSubmit'> {
   onSubmit: (data: SupplyStableCoinData) => unknown;
-  onBack: () => void;
+  onBack: (newData: SupplyStableCoinData) => void;
   defaultValues?: Partial<SupplyStableCoinData>;
 }
 
@@ -41,7 +41,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
       .typeError('Max Supply is required.')
       .moreThan(yup.ref('initialSupply'), 'The maximum supply should be more than the initial supply.'),
     supplyType: yup.string().oneOf(
-      [SupplyTypes.Infinite, SupplyTypes.Finite],
+      [SupplyTypes.Infinite, SupplyTypes.Finite, ''],
       'Supply type must be one of the following values: Infinite, Finite'
     ),
     decimals: yup
@@ -54,8 +54,10 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
   const formMethods = useForm({
     resolver: yupResolver(supplyDetailsFormSchema),
     defaultValues: {
-      supplyType: undefined,
-      ...defaultValues,
+      initialSupply: defaultValues?.initialSupply || undefined,
+      maxSupply: defaultValues?.maxSupply || undefined,
+      supplyType: defaultValues?.supplyType || undefined,
+      decimals: defaultValues?.decimals || undefined,
     },
   });
   const supplyType = useWatch({
@@ -105,7 +107,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
               ]}
               placeholder="Infinite/Finite"
               className="w-full"
-              isRequired
+              disabledDefaultValue
             />
           </div>
           {
@@ -140,6 +142,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
               onChange={({ target }) => {
                 target.value = target.value ? numberFormat(target.value) : target.value;
               }}
+              maxLength={2}
             />
           </div>
         </div>
@@ -147,7 +150,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
           <Button
             view={BUTTON_VIEWS.secondary}
             className="h-14 w-full"
-            onClick={onBack}
+            onClick={() => onBack(formMethods.getValues())}
             type="button"
           >
             Back

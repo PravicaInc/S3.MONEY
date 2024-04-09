@@ -12,7 +12,7 @@ export interface RolesStableCoinData extends Record<string, string> {}
 
 export interface RolesAssignmentProps {
   onSubmit: (data: RolesStableCoinData) => unknown;
-  onBack: () => void;
+  onBack: (newData: { roles: RolesStableCoinData }) => void;
   className?: string;
   defaultValues?: Record<string, string>;
 }
@@ -75,7 +75,7 @@ export const RolesAssignment: FC<RolesAssignmentProps> = ({
           type="button"
           view={BUTTON_VIEWS.secondary}
           className="h-14 w-full"
-          onClick={onBack}
+          onClick={() => onBack({ roles: values })}
         >
           Back
         </Button>

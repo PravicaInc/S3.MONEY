@@ -7,13 +7,9 @@ export const Footer: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
 
     {...props}
   >
-    <p>
-      Powered By
-      {' '}
-      <a href="https://pravica.io/" target="_blank" rel="noreferrer">
-        Pravica
-      </a>
-    </p>
+    <a href="https://pravica.io/privacy" target="_blank" rel="noreferrer">
+      Privacy Policy
+    </a>
     <p>
       Copyright
       {' '}
