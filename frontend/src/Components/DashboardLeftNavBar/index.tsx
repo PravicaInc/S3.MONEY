@@ -11,7 +11,7 @@ import OverviewLinkIcon from '@/../public/images/overview_link_icon.svg?jsx';
 import PlusIcon from '@/../public/images/plus.svg?jsx';
 import RelationsLinkIcon from '@/../public/images/relations_icon.svg?jsx';
 
-import { Button } from '@/Components/Form/Button';
+import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
 import { Logo } from '@/Components/Logo';
 
@@ -99,9 +99,12 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
           )
           : (
             <>
-              <div className="mx-4 pt-5 mb-1">
+              <div className="mx-4 pt-5">
                 <Link href={PAGES_URLS.createStableCoin} className="rounded-xl w-full">
-                  <Button className="text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]">
+                  <Button
+                    className="text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]"
+                    view={BUTTON_VIEWS.flatPrimary}
+                  >
                     <PlusIcon />
                     <span className="mt-[1px]">
                       Create New Stablecoin
@@ -111,7 +114,7 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
               </div>
               {
                 links.map(({ groupName, groupLinks }) => (
-                  <div key={groupName} className="pt-5 px-4">
+                  <div key={groupName} className="pt-6 px-4">
                     <p className="text-xs font-semibold text-hitGrey pl-3 pb-3">
                       {groupName}
                     </p>
@@ -122,11 +125,11 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
                           href={href}
                           className={twMerge(
                             'flex items-center gap-[10px] py-2 px-3',
-                            'border rounded-md border-transparent text-secondary',
+                            'border rounded-md border-transparent text-secondary font-medium',
                             isActive
                               ? '[&>svg>path]:stroke-primary [&>svg>path[fill]]:fill-primary'
                               : '[&>svg>path]:stroke-secondary [&>svg>path[fill]]:fill-secondary',
-                            isActive && 'border-borderPrimary bg-snowDrift text-primary'
+                            isActive && 'border-borderPrimary bg-snowDrift text-primary font-semibold'
                           )}
                         >
                           {icon}

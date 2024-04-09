@@ -20,7 +20,10 @@ export function Providers({ children }: PropsWithChildren) {
 
   return (
     <QueryClientProvider client={client}>
-      <SuiClientProvider networks={networkConfig} defaultNetwork="testnet">
+      <SuiClientProvider
+        networks={networkConfig}
+        defaultNetwork={process.env.NEXT_PUBLIC_DEFAULT_NETWORK as 'devnet' | 'mainnet' | 'testnet' | 'localnet'}
+      >
         <WalletProvider autoConnect>
           <Suspense>
             {children}

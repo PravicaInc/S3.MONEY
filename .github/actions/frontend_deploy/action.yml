@@ -6,6 +6,9 @@ inputs:
   NEXT_PUBLIC_API_DOMAIN:
     description: 'API_DOMAIN'
     required: true
+  NEXT_PUBLIC_DEFAULT_NETWORK:
+    description: 'DEFAULT_NETWORK'
+    required: true
   S3_BUCKET:
     description: 'S3_BUCKET'
     required: true
@@ -28,6 +31,7 @@ runs:
       shell: bash
       env:
         NEXT_PUBLIC_API_DOMAIN: ${{ inputs.NEXT_PUBLIC_API_DOMAIN }}
+        NEXT_PUBLIC_DEFAULT_NETWORK: ${{ inputs.NEXT_PUBLIC_DEFAULT_NETWORK }}
 
     - name: Deploy
       uses: reggionick/s3-deploy@v4

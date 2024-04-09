@@ -128,12 +128,12 @@ export default function HomePage() {
                         <BackgroundModalDecorativeFullIcon />
                         <div
                           className="
-                            w-12 h-12 rounded-[10px] border border-[#EAECF0]
+                            w-12 h-12 rounded-[10px] border border-dawnPink
                             flex items-center justify-center
                             absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
                           "
                         >
-                          <SearchIcon />
+                          <SearchIcon className="[&>*]:stroke-pickledBluewood" />
                         </div>
                       </div>
                       <div className="relative z-10 -mt-[200px] flex flex-col items-center">

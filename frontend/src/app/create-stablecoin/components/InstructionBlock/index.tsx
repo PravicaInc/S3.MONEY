@@ -61,7 +61,9 @@ export const InstructionBlock: FC<InstructionBlockProps> = ({
     >
       <div className="flex items-center gap-3 text-sm font-medium text-[#15161E]">
         <QuestionIcon />
-        {header}
+        <p>
+          {header}
+        </p>
       </div>
       <Tooltip
         placement="bottom"
