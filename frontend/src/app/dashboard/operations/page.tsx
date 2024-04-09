@@ -205,7 +205,7 @@ export default function DashboardOperationsPage() {
                   >
                     <Link
                       className={twMerge(
-                        'border border-borderPrimary rounded-[10px] bg-white p-6 block',
+                        'border border-borderPrimary rounded-[10px] bg-white p-6 block h-full',
                         isPaused && 'pointer-events-none bg-borderPrimary bg-opacity-30'
                       )}
                       href={link}

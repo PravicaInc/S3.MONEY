@@ -105,8 +105,14 @@ export default function DashboardOperationsMintPage() {
               ? (
                 <span className="text-actionPrimary">
                   {numberFormat(`${mintValue + stableCoinCurrentSupply}`)}
-                  /
-                  {numberFormat(`${stableCoinMaxSupply}`)}
+                  {
+                    stableCoinMaxSupply && (
+                      <>
+                        /
+                        {numberFormat(`${stableCoinMaxSupply}`)}
+                      </>
+                    )
+                  }
                   {' '}
                   {currentStableCoin?.ticker}
                 </span>
