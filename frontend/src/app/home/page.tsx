@@ -60,18 +60,26 @@ export default function HomePage() {
       <div
         className={twMerge(
           'flex items-center gap-2 px-6 min-h-20 border-b border-borderPrimary bg-white',
-          isLoading || isRedirecting ? 'justify-end' : 'justify-between'
+          isLoading || isRedirecting || (stableCoins.length === 0 && !isStableCoinsListLoading)
+            ? 'justify-end'
+            : 'justify-between'
         )}
       >
         {
           shortAccountAddress && (
-            <SimpleInput
-              className="w-[460px] text-sm py-[9px]"
-              value={searchValue}
-              onChange={changeSearchValue}
-              placeholder="Search..."
-              icon={<SearchIcon />}
-            />
+            isStableCoinsListLoading
+              ? (
+                <Loader className="h-8" />
+              )
+              : !!stableCoins.length && (
+                <SimpleInput
+                  className="w-[460px] text-sm py-[9px]"
+                  value={searchValue}
+                  onChange={changeSearchValue}
+                  placeholder="Search..."
+                  icon={<SearchIcon />}
+                />
+              )
           )
         }
         {
@@ -135,7 +143,7 @@ export default function HomePage() {
                         <p className="text-center text-riverBed text-sm mt-1">
                           You currently do not have any stablecoin created.
                           <br />
-                          Please click “new project” to create one
+                          Please click “Create New Stablecoin” to create one
                         </p>
                         <Link href={PAGES_URLS.createStableCoin} className="rounded-xl mt-6">
                           <Button className="text-sm font-semibold h-[44px] w-[254px] flex items-center gap-[10px]">

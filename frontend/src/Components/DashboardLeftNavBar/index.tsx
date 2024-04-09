@@ -7,6 +7,7 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import OperationsLinkIcon from '@/../public/images/operations_link_icon.svg?jsx';
+import OverviewLinkIcon from '@/../public/images/overview_link_icon.svg?jsx';
 import PlusIcon from '@/../public/images/plus.svg?jsx';
 import RelationsLinkIcon from '@/../public/images/relations_icon.svg?jsx';
 
@@ -35,8 +36,16 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
   const links = useMemo(
     () => [
       {
-        groupName: 'Main Menu',
+        groupName: 'MAIN MENU',
         groupLinks: [
+          {
+            href: {
+              pathname: PAGES_URLS.home,
+            },
+            icon: <OverviewLinkIcon />,
+            text: 'Overview',
+            isActive: pathname === PAGES_URLS.home,
+          },
           {
             href: {
               pathname: searchParams.get('txid')
@@ -44,7 +53,7 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
                 : PAGES_URLS.operations,
               query: Object.fromEntries(searchParams.entries()),
             },
-            icon: <OperationsLinkIcon />,
+            icon: <OperationsLinkIcon fill="none" />,
             text: 'Operations',
             isActive: (
               pathname.indexOf(PAGES_URLS.dashboardOperations) !== -1
@@ -114,7 +123,9 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
                           className={twMerge(
                             'flex items-center gap-[10px] py-2 px-3',
                             'border rounded-md border-transparent text-secondary',
-                            isActive ? '[&>svg>path]:stroke-primary' : '[&>svg>path]:stroke-secondary',
+                            isActive
+                              ? '[&>svg>path]:stroke-primary [&>svg>path[fill]]:fill-primary'
+                              : '[&>svg>path]:stroke-secondary [&>svg>path[fill]]:fill-secondary',
                             isActive && 'border-borderPrimary bg-snowDrift text-primary'
                           )}
                         >

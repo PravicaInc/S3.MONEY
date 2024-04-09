@@ -20,7 +20,7 @@ export enum SupplyTypes {
 export interface SupplyStableCoinData {
   initialSupply: number;
   maxSupply?: number;
-  supplyType?: SupplyTypes;
+  supplyType?: SupplyTypes | string | '';
   decimals: number;
 }
 
@@ -41,7 +41,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
       .typeError('Max Supply is required.')
       .moreThan(yup.ref('initialSupply'), 'The maximum supply should be more than the initial supply.'),
     supplyType: yup.string().oneOf(
-      [SupplyTypes.Infinite, SupplyTypes.Finite],
+      [SupplyTypes.Infinite, SupplyTypes.Finite, ''],
       'Supply type must be one of the following values: Infinite, Finite'
     ),
     decimals: yup
@@ -107,7 +107,7 @@ export const SupplyDetails: FC<SupplyDetailsProps> = ({ className, onSubmit, onB
               ]}
               placeholder="Infinite/Finite"
               className="w-full"
-              isRequired
+              disabledDefaultValue
             />
           </div>
           {

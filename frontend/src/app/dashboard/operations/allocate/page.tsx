@@ -216,7 +216,7 @@ export default function DashboardOperationsAllocatePage() {
                       name="accountAddress"
                       label="Address"
                       labelClassName="font-semibold text-primary mb-4"
-                      placeholder="Address"
+                      placeholder="Wallet Address"
                       className="w-full appearance-none"
                       isRequired
                       maxLength={66}

@@ -115,6 +115,7 @@ export const RelationsTable: FC<RelationsTableProps> = ({
       {
         accessorKey: 'slug',
         id: 'actions',
+        header: '',
         cell: info => (
           <button
             className="

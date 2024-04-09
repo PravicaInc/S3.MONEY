@@ -147,7 +147,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
           <div className="mt-4">
             <Input
               name="address"
-              placeholder="Wallet Address"
+              placeholder="Wallet address"
               maxLength={66}
               className="w-full !bg-transparent"
               disabled={isPaused}
@@ -162,7 +162,7 @@ export const FreezeAddressForm: FC<FreezeAddressFormProps> = ({
           isLoading={formMethods.formState.isSubmitting}
           view={BUTTON_VIEWS.secondary}
         >
-          Freeze this account
+          Freeze This Address
         </Button>
       </form>
       <WalletTransactionConfirmModal

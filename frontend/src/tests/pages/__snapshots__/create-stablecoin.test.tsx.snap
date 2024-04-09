@@ -301,17 +301,13 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "I
     <div
       class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
-      <p>
-        Powered By
-         
-        <a
-          href="https://pravica.io/"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Pravica
-        </a>
-      </p>
+      <a
+        href="https://pravica.io/privacy"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
       <p>
         Copyright
          
@@ -667,17 +663,13 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
     <div
       class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
-      <p>
-        Powered By
-         
-        <a
-          href="https://pravica.io/"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Pravica
-        </a>
-      </p>
+      <a
+        href="https://pravica.io/privacy"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
       <p>
         Copyright
          
@@ -1195,17 +1187,13 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
     <div
       class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
-      <p>
-        Powered By
-         
-        <a
-          href="https://pravica.io/"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Pravica
-        </a>
-      </p>
+      <a
+        href="https://pravica.io/privacy"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
       <p>
         Copyright
          
@@ -1396,7 +1384,6 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
                   class="font-medium text-sm text-secondary mb-2"
                 >
                   Supply Type
-                  *
                 </p>
                 <div
                   class="relative"
@@ -1513,17 +1500,13 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
     <div
       class="font-medium flex items-center justify-between text-mistBlue w-full px-6 pb-6"
     >
-      <p>
-        Powered By
-         
-        <a
-          href="https://pravica.io/"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Pravica
-        </a>
-      </p>
+      <a
+        href="https://pravica.io/privacy"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
       <p>
         Copyright
          

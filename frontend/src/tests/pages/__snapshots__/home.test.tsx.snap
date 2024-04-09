@@ -192,17 +192,13 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
     <div
       class="font-medium flex items-center justify-between text-mistBlue pb-7 pl-9 pr-[85px]"
     >
-      <p>
-        Powered By
-         
-        <a
-          href="https://pravica.io/"
-          rel="noreferrer"
-          target="_blank"
-        >
-          Pravica
-        </a>
-      </p>
+      <a
+        href="https://pravica.io/privacy"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
       <p>
         Copyright
          
