@@ -48,7 +48,7 @@ export const BalanceErrorModal: FC<BalanceErrorModalProps> = ({
         Your balance is too low
       </p>
       <p className="mt-1 text-secondary">
-        Unfortunately, your balance is too small to create a new StableCoin.
+        Unfortunately, your balance is too small to create a new Stablecoin.
         {
           requestSuiTokensError && (
             <>

@@ -21,7 +21,7 @@ exports[`Sign-in page: Sign-in page with disconnected state: Snapshot 1`] = `
           <p
             class="mt-4 text-primary text-[32px] leading-[40px]"
           >
-            StableCoin Studio on Sui
+            Stablecoin Studio on Sui
           </p>
           <div
             class="mt-5 w-full"
@@ -57,12 +57,12 @@ exports[`Sign-in page: Sign-in page with disconnected state: Snapshot 1`] = `
           <p
             class="text-[40px] leading-[44px] font-semibold text-primary"
           >
-            Gateway to Code-Free StableCoin Creation
+            Gateway to Code-Free Stablecoin Creation
           </p>
           <p
             class="mt-5 text-tuna text-opacity-70"
           >
-            Just connect your Sui wallet and step into the wonderfully simple world of StableCoin Studio on the Sui Blockchain. You'll be able to create and manage your own stable coins with just a few clicks. And the best part? No coding is required! It's a platform designed just for you.
+            Just connect your Sui wallet and step into the wonderfully simple world of Stablecoin Studio on the Sui blockchain. You'll be able to create and manage your own stable coins with just a few clicks. And the best part? No coding is required! It's a platform designed just for you.
           </p>
           <img
             alt="Sui wallet login screen"
