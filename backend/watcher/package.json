@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
+    "build-local": "esbuild src/standalone.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/standalone.js",
     "build-lambda": "esbuild src/index.ts --bundle --minify --sourcemap --platform=node --target=es2020 --outfile=dist/index.js",
     "start": "node dist/standalone.js"
   },
