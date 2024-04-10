@@ -571,7 +571,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "P
           >
             <div
               class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
-              style="background-image: url();"
+              style="background-image: url(http://localhost/img.jpg);"
             />
             <p
               class="flex items-center gap-1"
@@ -1020,7 +1020,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "R
           >
             <div
               class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
-              style="background-image: url();"
+              style="background-image: url(http://localhost/img.jpg);"
             />
             <p
               class="flex items-center gap-1"
@@ -1462,7 +1462,7 @@ exports[`Create stablecoin page: Create stablecoin page with connected state: "S
           >
             <div
               class="w-12 h-12 rounded-full bg-seashell bg-no-repeat bg-center bg-cover"
-              style="background-image: url();"
+              style="background-image: url(http://localhost/img.jpg);"
             />
             <p
               class="flex items-center gap-1"
