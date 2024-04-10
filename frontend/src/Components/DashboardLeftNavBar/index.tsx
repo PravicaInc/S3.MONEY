@@ -6,9 +6,12 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
+import DocsIcon from '@/../public/images/docs_icon.svg?jsx';
+import ExternalLinkIcon from '@/../public/images/external_link.svg?jsx';
 import OperationsLinkIcon from '@/../public/images/operations_link_icon.svg?jsx';
 import OverviewLinkIcon from '@/../public/images/overview_link_icon.svg?jsx';
 import PlusIcon from '@/../public/images/plus.svg?jsx';
+import QuestionIcon from '@/../public/images/question.svg?jsx';
 import RelationsLinkIcon from '@/../public/images/relations_icon.svg?jsx';
 
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
@@ -76,6 +79,37 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
           },
         ],
       },
+      {
+        groupName: 'Support',
+        groupLinks: [
+          {
+            href: 'https://github.com/PravicaInc/S3.MONEY/issues/new',
+            icon: <QuestionIcon />,
+            text: (
+              <>
+                Help
+                <ExternalLinkIcon className="ml-[5px]" />
+              </>
+            ),
+            isActive: false,
+            target: '_blank',
+            rel: 'noreferrer',
+          },
+          {
+            href: 'https://docs.s3.money/docs/stablecoin',
+            icon: <DocsIcon stroke="none" />,
+            text: (
+              <>
+                Docs
+                <ExternalLinkIcon className="ml-[5px]" />
+              </>
+            ),
+            isActive: false,
+            target: '_blank',
+            rel: 'noreferrer',
+          },
+        ],
+      },
     ],
     [searchParams, pathname]
   );
@@ -119,18 +153,19 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
                       {groupName}
                     </p>
                     <div className="flex flex-col gap-1">
-                      {groupLinks.map(({ text, href, icon, isActive }) => (
+                      {groupLinks.map(({ text, href, icon, isActive, ...linkProps }, idx) => (
                         <Link
-                          key={text}
+                          key={idx}
                           href={href}
                           className={twMerge(
                             'flex items-center gap-[10px] py-2 px-3',
                             'border rounded-md border-transparent text-secondary font-medium',
                             isActive
-                              ? '[&>svg>path]:stroke-primary [&>svg>path[fill]]:fill-primary'
-                              : '[&>svg>path]:stroke-secondary [&>svg>path[fill]]:fill-secondary',
+                              ? '[&>svg>path[stroke]]:stroke-primary [&>svg>path[fill]]:fill-primary'
+                              : '[&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary',
                             isActive && 'border-borderPrimary bg-snowDrift text-primary font-semibold'
                           )}
+                          {...linkProps}
                         >
                           {icon}
                           {text}
