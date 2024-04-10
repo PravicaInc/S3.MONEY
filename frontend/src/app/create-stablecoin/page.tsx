@@ -460,7 +460,7 @@ export default function CreateStableCoinPage() {
                       )}
                       inProgress={requestSuiTokens.isPending || currentSuiBalance.isLoading}
                       onTooltipButtonClick={requestSuiTokens.mutateAsync}
-                      isDone={(currentSuiBalance.data || 0) >= 1}
+                      isDone={(currentSuiBalance.data || 0) >= 0.1}
                     />
                   )
                 }

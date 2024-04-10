@@ -29,6 +29,7 @@ export const SuccessCreatedStableCoinModal: FC<SuccessCreatedStableCoinModalProp
     <Modal
       onClose={onClose}
       className="relative p-6 w-[480px]"
+      withCloseButton={false}
       {...props}
     >
       <div className="absolute top-0 left-0 z-[-1]">
