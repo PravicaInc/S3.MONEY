@@ -2,7 +2,7 @@ import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-ki
 import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 import { useBuildTransaction } from './useBuildTransaction';
 
@@ -17,10 +17,14 @@ const is_paused = async (suiClient: SuiClient, txid: string): Promise<boolean> =
     : false;
 };
 
-export const useIsSystemPaused = (txid?: string) => {
+export const useIsSystemPaused = (
+  txid?: string,
+  queryOption?: Omit<UseQueryOptions<boolean, Error, boolean>, 'queryKey'>
+) => {
   const suiClient = useSuiClient();
 
   return useQuery<boolean>({
+    ...queryOption,
     queryKey: ['is-paused', txid],
     queryFn: () => suiClient && txid
       ? is_paused(suiClient, txid)

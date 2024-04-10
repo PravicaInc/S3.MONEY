@@ -2,7 +2,7 @@ import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-ki
 import { SuiClient } from '@mysten/sui.js/client';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
-import { UndefinedInitialDataOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 import { useBuildTransaction } from './useBuildTransaction';
 import { getAllOwnedObjects } from './useCurrentBalance';
@@ -87,7 +87,7 @@ const getStableCoinMaxSupply = async (suiClient: SuiClient, txid: string): Promi
 
 export const useStableCoinCurrentSupply = (
   stableCoin?: StableCoin,
-  queryOption?: Omit<UndefinedInitialDataOptions<number, Error, number>, 'queryKey'>
+  queryOption?: Omit<UseQueryOptions<number, Error, number>, 'queryKey'>
 ) => {
   const suiClient = useSuiClient();
 
@@ -102,7 +102,7 @@ export const useStableCoinCurrentSupply = (
 
 export const useStableCoinMaxSupply = (
   stableCoin?: StableCoin,
-  queryOption?: Omit<UndefinedInitialDataOptions<number, Error, number>, 'queryKey'>
+  queryOption?: Omit<UseQueryOptions<number, Error, number>, 'queryKey'>
 ) => {
   const suiClient = useSuiClient();
 
