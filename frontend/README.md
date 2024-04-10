@@ -3,7 +3,7 @@
 ## Requirements
 
 * [Node Js v20.x.x](https://nodejs.org/en/download)
-* [Yarn v1.xx](https://yarnpkg.com/getting-started/install) // TODO: Upgrade yarn version
+* [Yarn v4.xx](https://yarnpkg.com/getting-started/install)
 
 ## Getting Started
 

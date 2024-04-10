@@ -47,8 +47,18 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
   const {
     data: stableCoinCurrentSupply = 0,
     isLoading: isLoadingStableCoinCurrentSupply,
-  } = useStableCoinCurrentSupply(stableCoinItem);
-  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(stableCoinItem.deploy_addresses.pauser);
+  } = useStableCoinCurrentSupply(
+    stableCoinItem,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
+  const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(
+    stableCoinItem.deploy_addresses.pauser,
+    {
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const manageLink = useMemo<string>(
     () => {

@@ -13,6 +13,8 @@ import { AxiosError } from 'axios';
 import Link from 'next/link';
 import { twMerge } from 'tailwind-merge';
 
+import defaultStableCoinIcon from '@/../public/images/default_stablecoin_icon.svg';
+
 import { BalanceErrorModal } from '@/Components/BalanceErrorModal';
 import { Footer } from '@/Components/Footer';
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
@@ -133,7 +135,7 @@ export default function CreateStableCoinPage() {
             walletAddress: account.address,
             ticker: data.ticker,
             decimals: data.decimals,
-            icon: data.icon || undefined,
+            icon: data.icon || `${location.origin}${defaultStableCoinIcon.src}`,
             name: data.name,
             description: 'Created via S3.MONEY',
             maxSupply: data.maxSupply,
@@ -243,6 +245,7 @@ export default function CreateStableCoinPage() {
     setPreliminaryData(currentValue => ({
       ...currentValue,
       ...initialStableCoinData,
+      icon: initialStableCoinData.icon || `${location.origin}${defaultStableCoinIcon.src}`,
     }));
     goToNextStep();
   };
@@ -371,6 +374,7 @@ export default function CreateStableCoinPage() {
               <StableCoinPreview
                 className="col-span-3 h-fit"
                 {...data}
+                icon={data.icon || preliminaryData.icon}
               />
             )
           }
@@ -471,7 +475,10 @@ export default function CreateStableCoinPage() {
       </div>
       <Footer className="w-full px-6 pb-6" />
       <TokenDetailsReviewConfirm
-        stableCoinData={data}
+        stableCoinData={{
+          ...data,
+          icon: data.icon || `${location.origin}${defaultStableCoinIcon.src}`,
+        }}
         visible={showCreateStableCoinConfirm}
         onClose={closeCreateStableCoinConfirm}
         onProceed={runCreateStableCoin}
