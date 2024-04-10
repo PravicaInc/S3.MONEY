@@ -4,7 +4,7 @@ import { themes as prismThemes } from 'prism-react-renderer';
 
 const config: Config = {
   title: 'StableCoin ',
-  favicon: '/img/logo.svg',
+  favicon: '/img/favicon.ico',
   url: 'https://docs.s3.money.com',
   baseUrl: '/',
 
