@@ -16,6 +16,7 @@ export interface PackageCreateRequest {
   description: string
   decimals: number
   icon_url: string // substituted in the contract
+  raw_icon_url?: string // saved in the db
 }
 export interface PackageCreateResponse {
   status: string // 'ok' or 'error'

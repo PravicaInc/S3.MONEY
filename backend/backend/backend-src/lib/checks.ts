@@ -92,6 +92,7 @@ export async function validCreate(data: IFace.ContractCreate): Promise<IFace.IVa
       console.log(`invalid icon_url: ${data.icon_url}`)
       return {error: `invalid icon_url: ${data.icon_url}`}
     }
+    data.raw_icon_url = data.icon_url
     data.icon_url = `option::some(url::new_unsafe_from_bytes(b"${data.icon_url}"))`
   } else {
     data.icon_url = 'option::none()'
