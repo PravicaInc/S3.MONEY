@@ -19,11 +19,10 @@ import SortingChevronIcon from '@/../public/images/sorting_chevron.svg?jsx';
 import { Button } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
 
-import { getShortAccountAddress } from '@/utils/string_formats';
-
 import { Relation, useCreateRelation, useEditRelation } from '@/hooks/useRelations';
 import { StableCoin } from '@/hooks/useStableCoinsList';
 
+import { AddressCell } from './components/AddressCell';
 import { AllocatedAmountCell } from './components/AllocatedAmountCell';
 import { BalanceCell } from './components/BalanceCell';
 import { CreateRelationFormData, CreateRelationModal } from './components/CreateRelationModal';
@@ -65,7 +64,11 @@ export const RelationsTable: FC<RelationsTableProps> = ({
         accessorKey: 'wallet_address',
         id: 'address',
         header: 'Address',
-        cell: info => getShortAccountAddress(info.getValue() as string),
+        cell: info => (
+          <AddressCell
+            accountAddress={info.getValue() as string}
+          />
+        ),
         enableSorting: false,
         minSize: 0,
         size: 160,
