@@ -32,58 +32,54 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
     class="overflow-auto h-full flex flex-col justify-between"
   >
     <div
-      class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 m-8 gap-6"
+      class="m-8 space-y-3"
     >
-      <div
-        class="border border-borderPrimary p-4 bg-white rounded-2xl flex flex-col justify-between"
+      <a
+        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden"
+        href="/dashboard/operations?txid=1"
       >
-        <div>
-          <p
-            class="text-primary font-medium flex items-center justify-between"
+        <span
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <span
+            class="react-loading-skeleton w-full h-[7px] block rounded-none"
           >
-            Contract Transaction
-            <a
-              class="text-secondary underline"
-              href="https://suiscan.xyz/devnet/tx/1"
-              rel="noreferrer"
-              target="_blank"
-            >
-              1
-            </a>
-          </p>
+            ‌
+          </span>
+        </span>
+        <div
+          class="flex items-center justify-between pl-4 pr-5 pt-4"
+        >
           <div
-            class="border border-borderPrimary rounded-lg overflow-hidden mt-4"
+            class="flex items-center gap-4"
           >
             <div
-              class="flex items-center gap-2 py-2 px-4 bg-whiteLilac border-b border-borderPrimary relative z-10"
-            >
-              <div
-                class="w-7 h-7 rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
-                style="background-image: url(undefined);"
-              />
+              class="min-w-[60px] min-h-[60px] rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
+              style="background-image: url(/img.jpg);"
+            />
+            <div>
               <p
-                class="flex items-center gap-1 text-ebonyClay text-sm font-medium"
+                class="text-primary text-[25px] font-semibold leading-[25px]"
               >
-                <span
-                  class=""
-                >
-                  Pravica Token
-                </span>
-                <span
-                  class=""
-                >
-                  (
-                  PRV
-                  )
-                </span>
+                PRV
+              </p>
+              <p
+                class="text-mistBlue text-sm"
+              >
+                Pravica Token
               </p>
             </div>
-            <div
-              class="h-[176px] flex items-center justify-center"
+          </div>
+          <div
+            class="text-right"
+          >
+            <p
+              class="text-primary text-[25px] font-semibold leading-[25px]"
             >
               <svg
                 aria-hidden="true"
-                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-10"
+                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-[25px]"
                 data-icon="spinner"
                 data-prefix="fas"
                 data-testid="loader"
@@ -97,70 +93,118 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
                   fill="currentColor"
                 />
               </svg>
-            </div>
+            </p>
+            <p
+              class="text-mistBlue text-sm"
+            >
+              Total Supply
+            </p>
           </div>
         </div>
-        <a
-          class="rounded-xl block"
-          href="/dashboard/operations?txid=1"
+        <div
+          class="px-4 pb-5 mt-8"
         >
-          <button
-            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none mt-4 w-full h-[48px]"
-          >
-            Manage
-          </button>
-        </a>
-      </div>
-      <div
-        class="border border-borderPrimary p-4 bg-white rounded-2xl flex flex-col justify-between"
-      >
-        <div>
           <p
-            class="text-primary font-medium flex items-center justify-between"
+            class="text-primary font-semibold"
           >
-            Contract Transaction
-            <a
-              class="text-secondary underline"
-              href="https://suiscan.xyz/devnet/tx/2"
-              rel="noreferrer"
-              target="_blank"
-            >
-              2
-            </a>
+            Supply details
           </p>
           <div
-            class="border border-borderPrimary rounded-lg overflow-hidden mt-4"
+            class="bg-borderPrimary h-[1px] mt-3"
+          />
+          <div
+            class="text-mistBlue text-sm mt-4 space-y-3"
+          >
+            <p
+              class="flex items-center justify-between"
+            >
+              Contract Transaction
+              <span
+                class="underline"
+              >
+                1
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Supply Type
+              <span>
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-5"
+                  data-icon="spinner"
+                  data-prefix="fas"
+                  data-testid="loader"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Allocated
+              <span>
+                0
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
+      <a
+        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden"
+        href="/dashboard/operations?txid=2"
+      >
+        <span
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <span
+            class="react-loading-skeleton w-full h-[7px] block rounded-none"
+          >
+            ‌
+          </span>
+        </span>
+        <div
+          class="flex items-center justify-between pl-4 pr-5 pt-4"
+        >
+          <div
+            class="flex items-center gap-4"
           >
             <div
-              class="flex items-center gap-2 py-2 px-4 bg-whiteLilac border-b border-borderPrimary relative z-10"
-            >
-              <div
-                class="w-7 h-7 rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
-                style="background-image: url(undefined);"
-              />
+              class="min-w-[60px] min-h-[60px] rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
+              style="background-image: url(/img.jpg);"
+            />
+            <div>
               <p
-                class="flex items-center gap-1 text-ebonyClay text-sm font-medium"
+                class="text-primary text-[25px] font-semibold leading-[25px]"
               >
-                <span
-                  class=""
-                >
-                  S3 Money Token
-                </span>
-                <span
-                  class=""
-                >
-                  (
-                  SSS
-                  )
-                </span>
+                SSS
+              </p>
+              <p
+                class="text-mistBlue text-sm"
+              >
+                S3 Money Token
               </p>
             </div>
-            <div
-              class="h-[176px] flex items-center justify-center"
+          </div>
+          <div
+            class="text-right"
+          >
+            <p
+              class="text-primary text-[25px] font-semibold leading-[25px]"
             >
               <svg
                 aria-hidden="true"
-                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-10"
+                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-[25px]"
                 data-icon="spinner"
                 data-prefix="fas"
                 data-testid="loader"
@@ -174,20 +218,72 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
                   fill="currentColor"
                 />
               </svg>
-            </div>
+            </p>
+            <p
+              class="text-mistBlue text-sm"
+            >
+              Total Supply
+            </p>
           </div>
         </div>
-        <a
-          class="rounded-xl block"
-          href="/dashboard/operations?txid=2"
+        <div
+          class="px-4 pb-5 mt-8"
         >
-          <button
-            class="bg-white text-primary rounded-xl shadow-button border-borderPrimary border-solid border font-semibold flex items-center justify-center transition hover:border-actionSecondary hover:text-actionPrimary disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none mt-4 w-full h-[48px]"
+          <p
+            class="text-primary font-semibold"
           >
-            Manage
-          </button>
-        </a>
-      </div>
+            Supply details
+          </p>
+          <div
+            class="bg-borderPrimary h-[1px] mt-3"
+          />
+          <div
+            class="text-mistBlue text-sm mt-4 space-y-3"
+          >
+            <p
+              class="flex items-center justify-between"
+            >
+              Contract Transaction
+              <span
+                class="underline"
+              >
+                2
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Supply Type
+              <span>
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-5"
+                  data-icon="spinner"
+                  data-prefix="fas"
+                  data-testid="loader"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Allocated
+              <span>
+                0
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
     </div>
     <div
       class="font-medium flex items-center justify-between text-mistBlue pb-7 pl-9 pr-[85px]"

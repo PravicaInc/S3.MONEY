@@ -1,7 +1,7 @@
 import { useSignAndExecuteTransactionBlock, useSuiClient } from '@mysten/dapp-kit';
 import { TransactionBlock } from '@mysten/sui.js/transactions';
 import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, UseQueryOptions } from '@tanstack/react-query';
 
 import { useStableCoinEvents } from './useStableCoinEvents';
 import { useBuildTransaction } from './useBuildTransaction';
@@ -113,11 +113,39 @@ export const useAllocate = () => {
         queryKey: ['current-allocated-amount-to-account', recipientAddresses],
       });
       queryClient.invalidateQueries({
+        queryKey: ['current-allocated', `$${packageName}`],
+      });
+      queryClient.invalidateQueries({
         queryKey: ['last-allocated-date-to-account', recipientAddresses],
       });
 
       return data;
     },
+  });
+};
+
+export const useCurrentAllocated = (
+  stableCoin?: StableCoin,
+  excludeWalletAddress?: string[],
+  queryOption?: Omit<UseQueryOptions<number, Error, number>, 'queryKey'>
+) => {
+  const stableCoinEvents = useStableCoinEvents(stableCoin);
+
+  return useQuery<number>({
+    ...queryOption,
+    queryKey: ['current-allocated', stableCoin?.ticker, stableCoinEvents.data],
+    queryFn: async () => (
+      stableCoin && stableCoinEvents.data
+        ? stableCoinEvents.data
+          .filter(({ parsedJson }) => (
+            parsedJson.recipient
+              && (excludeWalletAddress ? !excludeWalletAddress.includes(parsedJson.recipient) : true)
+          ))
+          .map(({ parsedJson: { amount } }) => parseFloat(amount))
+          .reduce((accumulator, next) => accumulator + next)
+        : Promise.resolve(0)
+    ),
+    enabled: !!stableCoinEvents.data,
   });
 };
 

@@ -41,7 +41,6 @@ runs:
         bucket-region: ${{ inputs.S3_BUCKET_REGION }}
         dist-id: ${{ inputs.CLOUDFRONT_DISTRIBUTION_ID }}
         invalidation: /*.html
-        delete-removed: true
         no-cache: true
         private: true
         files-to-include: '{.*/**,**}'

@@ -43,6 +43,7 @@ const config: Config = {
         mangoOrange: '#FF7C38',
         pickledBluewood: '#344054',
         dawnPink: '#EAECF0',
+        freshGreen: '#42DB64',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
@@ -56,7 +57,6 @@ const config: Config = {
         logoutButton: '1px 2px 4px 0px #0D0D1214',
         rolesDropdownTriggerActive: '0px 0px 0px 4px #FE63211F',
         rolesDropdown: '0px 4px 6px -2px #10182808, 0px 12px 16px -4px #10182814',
-
       },
     },
   },

@@ -43,14 +43,6 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
         groupLinks: [
           {
             href: {
-              pathname: PAGES_URLS.home,
-            },
-            icon: <OverviewLinkIcon />,
-            text: 'Overview',
-            isActive: pathname === PAGES_URLS.home,
-          },
-          {
-            href: {
               pathname: searchParams.get('txid')
                 ? PAGES_URLS.dashboardOperations
                 : PAGES_URLS.operations,
@@ -76,6 +68,14 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
               pathname.indexOf(PAGES_URLS.dashboardRelations) !== -1
                 || pathname.indexOf(PAGES_URLS.relations) !== -1
             ),
+          },
+          {
+            href: {
+              pathname: PAGES_URLS.home,
+            },
+            icon: <OverviewLinkIcon />,
+            text: 'Details',
+            isActive: pathname === PAGES_URLS.home,
           },
         ],
       },

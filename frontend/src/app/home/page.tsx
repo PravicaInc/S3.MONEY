@@ -20,7 +20,7 @@ import { PAGES_URLS } from '@/utils/const';
 import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
-import { STABLE_COIN_ITEM_BACKGROUNDS, StableCoinItem } from './components/StableCoinItem';
+import { StableCoinItem } from './components/StableCoinItem';
 
 export default function HomePage() {
   const shortAccountAddress = useShortAccountAddress();
@@ -104,18 +104,12 @@ export default function HomePage() {
             : (
               filteredStableCoins.length
                 ? (
-                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 m-8 gap-6">
+                  <div className="m-8 space-y-3">
                     {
-                      filteredStableCoins.map((stableCoin, idx) => (
+                      filteredStableCoins.map(stableCoin => (
                         <StableCoinItem
                           key={stableCoin.txid}
                           stableCoinItem={stableCoin}
-                          bg={
-                            idx % 2 == 0
-                              ? STABLE_COIN_ITEM_BACKGROUNDS[1]
-                              : STABLE_COIN_ITEM_BACKGROUNDS[2]
-
-                          }
                         />
                       ))
                     }
