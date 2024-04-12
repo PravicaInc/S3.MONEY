@@ -1,37 +1,30 @@
-import React, { FC, HTMLAttributes, ReactNode, useMemo } from 'react';
-import { useSuiClientContext } from '@mysten/dapp-kit';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import React, { FC, useMemo } from 'react';
+import Skeleton from 'react-loading-skeleton';
+import Link, { LinkProps } from 'next/link';
+import { usePathname, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
-import StablecoinBgIcon1 from '@/../public/images/stablecoin_bg_1.svg?jsx';
-import StablecoinBgIcon2 from '@/../public/images/stablecoin_bg_2.svg?jsx';
+import defaultStableCoinIcon from '@/../public/images/default_stablecoin_icon.svg';
 
-import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
+import { Delimiter } from '@/Components/Delimiter';
 import { Loader } from '@/Components/Loader';
 
 import { PAGES_URLS } from '@/utils/const';
 import { numberFormat } from '@/utils/string_formats';
 
+import { useCurrentAllocated } from '@/hooks/useAllocate';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { StableCoin } from '@/hooks/useStableCoinsList';
-import { useStableCoinCurrentSupply } from '@/hooks/useStableCoinSupply';
+import { useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
 
-export const STABLE_COIN_ITEM_BACKGROUNDS = {
-  1: <StablecoinBgIcon1 className="absolute right-0 -bottom-4 z-0" />,
-  2: <StablecoinBgIcon2 className="absolute right-0 -bottom-4 z-0" />,
-};
-
-export interface StableCoinItemProps extends HTMLAttributes<HTMLDivElement> {
+export interface StableCoinItemProps extends Omit<LinkProps, 'href'> {
   stableCoinItem: StableCoin;
-  isSelected?: boolean;
-  bg?: ReactNode;
+  className?: string;
 }
 
 export const StableCoinItem: FC<StableCoinItemProps> = ({
   stableCoinItem,
   className,
-  bg = STABLE_COIN_ITEM_BACKGROUNDS[2],
   ...props
 }) => {
   const {
@@ -42,20 +35,43 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
   } = stableCoinItem;
 
   const pathname = usePathname();
-  const suiClientContext = useSuiClientContext();
+  const searchParams = useSearchParams();
 
   const {
     data: stableCoinCurrentSupply = 0,
-    isLoading: isLoadingStableCoinCurrentSupply,
+    isLoading: isStableCoinCurrentSupplyLoading,
   } = useStableCoinCurrentSupply(
     stableCoinItem,
     {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const {
+    data: stableCoinMaxSupply = 0,
+    isLoading: isStableCoinMaxSupplyLoading,
+  } = useStableCoinMaxSupply(
+    stableCoinItem,
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+  const {
+    data: stableCoinCurrentAllocated,
+    isLoading: isStableCoinCurrentAllocatedLoading,
+  } = useCurrentAllocated(
+    stableCoinItem,
+    [stableCoinItem.deploy_addresses.deployer],
+    {
+      refetchOnMount: false,
       refetchOnWindowFocus: false,
     }
   );
   const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(
     stableCoinItem.deploy_addresses.pauser,
     {
+      refetchOnMount: false,
       refetchOnWindowFocus: false,
     }
   );
@@ -72,94 +88,115 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
   );
 
   return (
-    <div
+    <Link
+      {...props}
+      href={{
+        pathname: manageLink,
+        query: {
+          txid,
+          ...(searchParams ? Object.fromEntries(searchParams.entries()) : {}),
+        },
+      }}
       className={twMerge(
-        'border border-borderPrimary p-4 bg-white rounded-2xl flex flex-col justify-between',
+        'block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden',
         className
       )}
-      {...props}
     >
-      <div>
-        <p className="text-primary font-medium flex items-center justify-between">
-          Contract Transaction
-          <a
-            href={`https://suiscan.xyz/${suiClientContext.network}/tx/${txid}`}
-            target="_blank"
-            rel="noreferrer"
-            className="text-secondary underline"
-          >
-            {txid.substring(0, 5)}
-          </a>
-        </p>
-        <div className="border border-borderPrimary rounded-lg overflow-hidden mt-4">
-          <div
-            className="flex items-center gap-2 py-2 px-4 bg-whiteLilac border-b border-borderPrimary relative z-10"
-          >
+      {
+        isPausedLoading
+          ? (
+            <Skeleton className="w-full h-[7px] block rounded-none" inline />
+          )
+          : (
             <div
-              className="w-7 h-7 rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
-              style={{
-                backgroundImage: `url(${icon})`,
-              }}
+              className={twMerge(
+                'h-[7px]',
+                isPaused ? 'bg-rubyRed' : 'bg-freshGreen'
+              )}
             />
-            <p className="flex items-center gap-1 text-ebonyClay text-sm font-medium">
-              <span className="">
-                {name}
-              </span>
-              <span className="">
-                (
-                {ticker}
-                )
-              </span>
+          )
+      }
+      <div className="flex items-center justify-between pl-4 pr-5 pt-4">
+        <div className="flex items-center gap-4">
+          <div
+            className="min-w-[60px] min-h-[60px] rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
+            style={{
+              backgroundImage: `url(${icon || defaultStableCoinIcon.src})`,
+            }}
+          />
+          <div>
+            <p className="text-primary text-[25px] font-semibold leading-[25px]">
+              {ticker}
+            </p>
+            <p className="text-mistBlue text-sm">
+              {name}
             </p>
           </div>
-          {
-            isLoadingStableCoinCurrentSupply || isPausedLoading
-              ? (
-                <div className="h-[176px] flex items-center justify-center">
-                  <Loader className="h-10" />
-                </div>
-              )
-              : (
-                <div className="relative">
-                  <p className="text-primary text-[40px] font-medium mx-4 mt-9">
-                    {numberFormat(`${stableCoinCurrentSupply}`)}
-                  </p>
-                  <div
-                    className={twMerge(
-                      'mt-8 h-8 flex items-center justify-between mx-4 mb-4 px-4 rounded-md text-xs font-medium',
-                      'relative z-10',
-                      isPaused ? 'bg-mistyRose text-grapefruit' : 'bg-twilightBlue text-greenishBlue'
-                    )}
-                  >
-                    {
-                      isPaused
-                        ? 'Paused'
-                        : 'Active'
-                    }
-                    <div
-                      className={twMerge(
-                        'w-3 h-3 rounded-full',
-                        isPaused ? 'bg-rubyRed' : 'bg-darkMintGreen'
-                      )}
-                    />
-                  </div>
-                  {bg}
-                </div>
-              )
-          }
+        </div>
+        <div className="text-right">
+          <p className="text-primary text-[25px] font-semibold leading-[25px]">
+            {
+              isStableCoinCurrentSupplyLoading
+                ? (
+                  <Loader className="h-[25px]" />
+                )
+                : numberFormat(`${stableCoinCurrentSupply}`)
+            }
+          </p>
+          <p className="text-mistBlue text-sm">
+            Total Supply
+          </p>
         </div>
       </div>
-      <Link
-        href={`${manageLink}?txid=${txid}`}
-        className="rounded-xl block"
-      >
-        <Button
-          view={BUTTON_VIEWS.secondary}
-          className="mt-4 w-full h-[48px]"
-        >
-          Manage
-        </Button>
-      </Link>
-    </div>
+      <div className="px-4 pb-5 mt-8">
+        <p className="text-primary font-semibold">
+          Supply details
+        </p>
+        <Delimiter className="mt-3" />
+        <div className="text-mistBlue text-sm mt-4 space-y-3">
+          <p className="flex items-center justify-between">
+            Contract Transaction
+            <span className="underline">
+              {txid.substring(0, 7)}
+            </span>
+          </p>
+          <p className="flex items-center justify-between">
+            Supply Type
+            <span>
+              {
+                isStableCoinMaxSupplyLoading
+                  ? (
+                    <Loader className="h-5" />
+                  )
+                  : (
+                    stableCoinMaxSupply
+                      ? (
+                        <>
+                          Finite (max.
+                          {' '}
+                          {numberFormat(`${stableCoinMaxSupply}`)}
+                          )
+                        </>
+                      )
+                      : 'Infinite'
+                  )
+              }
+            </span>
+          </p>
+          <p className="flex items-center justify-between">
+            Allocated
+            <span>
+              {
+                isStableCoinCurrentAllocatedLoading
+                  ? (
+                    <Loader className="h-4" />
+                  )
+                  : numberFormat(`${stableCoinCurrentAllocated}`)
+              }
+            </span>
+          </p>
+        </div>
+      </div>
+    </Link>
   );
 };
