@@ -185,7 +185,7 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                         ({ dataKey, payload: currentPayload }) => numberFormat(`${currentPayload[dataKey as string]}`)
                       );
 
-                      return (
+                      return payload?.length && (
                         <div
                           className="text-white text-xs font-medium py-2 px-[5px] bg-black rounded-[5px] block"
                         >

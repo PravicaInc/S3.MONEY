@@ -168,7 +168,35 @@ export const AddressesByHoldings: FC<AddressesByHoldingsProps> = ({
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="name" />
                     <YAxis />
-                    <Tooltip />
+                    <Tooltip
+                      content={({ payload }) => {
+                        if (payload?.length) {
+                          const date = moment(payload[0].payload.label);
+                          const value1 = payload[0].payload.value1;
+                          const value2 = payload[0].payload.value2;
+
+                          return (
+                            <div
+                              className="flex items-center gap-6 p-2 border border-borderPrimary bg-white rounded-md"
+                            >
+                              <p className="text-xs text-mistBlue">
+                                {date.format('MMM DD')}
+                              </p>
+                              <div className="text-xs font-semibold text-right space-y-1">
+                                <p className="text-actionPrimary">
+                                  {value1}
+                                </p>
+                                <p className="text-primary">
+                                  {value2}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        }
+
+                        return null;
+                      }}
+                    />
                     <Area type="monotone" dataKey="value1" stroke="#FE6321" fill="url(#colorValue)" />
                     <Area type="monotone" dataKey="value2" stroke="#0D0D12" fill="none" />
                   </AreaChart>
