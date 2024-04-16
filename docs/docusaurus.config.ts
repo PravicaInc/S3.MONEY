@@ -45,7 +45,7 @@ const config: Config = {
           label: 'Support',
           href: 'https://github.com/PravicaInc/S3.MONEY/issues',
           position: 'right',
-        }
+        },
       ],
     },
 
