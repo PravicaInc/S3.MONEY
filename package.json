@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "devDependencies": {
-    "husky": "^9.0.11",
     "@typescript-eslint/eslint-plugin": "^6.19.0",
     "@typescript-eslint/parser": "^6.19.0",
     "eslint": "^8",
@@ -13,9 +12,13 @@
     "eslint-plugin-jsx-max-len": "^1.0.0",
     "eslint-plugin-no-relative-import-paths": "^1.5.3",
     "eslint-plugin-react": "^7.33.2",
-    "eslint-plugin-simple-import-sort": "^10.0.0"
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^9.0.11"
   },
   "scripts": {
     "prepare": "husky"
+  },
+  "dependencies": {
+    "typescript": "^5.4.5"
   }
 }

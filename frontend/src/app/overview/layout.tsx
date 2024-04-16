@@ -4,10 +4,10 @@ import type { Metadata } from 'next';
 import HomeLayout from '@/app/home/layout';
 
 export const metadata: Metadata = {
-  title: 'S3 - Overview',
+  title: 'S3 - Operations',
 };
 
-export default function OverviewLayout(props: PropsWithChildren) {
+export default function OperationsLayout(props: PropsWithChildren) {
   return (
     <HomeLayout {...props} />
   );

@@ -237,6 +237,7 @@ export default function DashboardOperationsPage() {
         onOkClick={() => setShowSystemIsPausedAlert(false)}
         header="System is Paused!"
         description="You cannot operate this project right now because the system is paused."
+        withCloseButton={false}
       />
     </div>
   );

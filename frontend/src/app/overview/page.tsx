@@ -2,7 +2,7 @@
 
 import HomePage from '@/app/home/page';
 
-export default function OverviewPage() {
+export default function OperationsPage() {
   return (
     <HomePage />
   );
