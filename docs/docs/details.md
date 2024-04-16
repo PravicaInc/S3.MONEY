@@ -11,6 +11,6 @@ Here, they can initiate the creation of their first stablecoin by selecting the 
 
 If the user has already created stablecoins, they will be displayed on the dashboard. 
 
-![Details](../static/img/details.png)
-
 Each stablecoin will show its current status (active, paused, or frozen), along with details like the total supply and supply details. Upon clicking on the card, it takes the user to the Operations tab for that particular stablecoin.
+
+![Details](../static/img/details.png)
