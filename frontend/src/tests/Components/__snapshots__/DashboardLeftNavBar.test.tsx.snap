@@ -50,6 +50,15 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
         class="flex flex-col gap-1"
       >
         <a
+          class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+          href="/dashboard/overview?txid=1"
+        >
+          <svg
+            fill="none"
+          />
+          Overview
+        </a>
+        <a
           class="flex items-center gap-[10px] py-2 px-3 border rounded-md [&>svg>path[stroke]]:stroke-primary [&>svg>path[fill]]:fill-primary border-borderPrimary bg-snowDrift text-primary font-semibold"
           href="/dashboard/operations?txid=1"
         >
