@@ -26,7 +26,11 @@ export async function validCreate(data: IFace.ContractCreate): Promise<IFace.IVa
     return {error: `invalid address: ${data.address}`}
   }
 
-  if (data.decimals < 0 || data.decimals > 16) {
+  if (typeof data.decimals !== 'number') {
+    data.decimals = parseInt(data.decimals, 10)
+  }
+
+  if (data.decimals < 0 || data.decimals > 16 || isNaN(data.decimals)) {
     console.log(`wrong number of decimals: ${data.decimals}`)
     return {error: `wrong number of decimals: ${data.decimals}`}
   }
