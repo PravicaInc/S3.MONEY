@@ -80,8 +80,8 @@ export interface CreatePackageRequest {
   address: string
   // coin metadata
   ticker: string // short name, usually five or fewer characters (uppercase)
-  decimals: number
   name: string
+  decimals: number
   roles?: RoleMap
   icon_url?: string // substituted in the contract
   // for supply-constrainted contracts
@@ -97,7 +97,10 @@ export interface CreatePackageRequest {
 export interface IPackageCreated {
   address: string
   ticker: string
+  decimals: number
   created: boolean
+  initialSupply: string
+  maxSupply: string
   // sent if created is true
   txid?: string
   data?: object
@@ -129,10 +132,13 @@ export function reqToCreated(data: CreatePackageRequest, s3key: string | undefin
   return {
     address: data.address,
     ticker: data.ticker,
+    ticker_name: data.name,
+    decimals: data.decimals,
+    initialSupply: data.initialSupply ?? '0',
+    maxSupply: data.maxSupply ?? '0',
     created: true,
     packageName: data.packageName,
     packageRoles: data.roles,
-    ticker_name: data.name,
     icon_url: data.raw_icon_url,
     package_zip: s3key ?? '',
   }
