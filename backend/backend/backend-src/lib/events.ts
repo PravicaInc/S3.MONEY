@@ -21,6 +21,21 @@ export async function handleGetBalances(req: Request, res: Response) {
   }
 }
 
+export async function handleGetAllocations(req: Request, res: Response) {
+  const {address, ticker} = req.params
+  if (Checks.isValidPackage(address)) {
+    res.status(200).json({
+      status: 'ok',
+      events: await dbEvents.getAllocations(address, ticker),
+    })
+  } else {
+    res.status(400).json({
+      status: 'error',
+      message: `invalid address: ${address}`,
+    })
+  }
+}
+
 export async function handleGetPackageEvents(req: Request, res: Response) {
   const {address, ticker} = req.params
   if (Checks.isValidPackage(address)) {

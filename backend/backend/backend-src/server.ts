@@ -58,6 +58,7 @@ app.patch('/related/:pkgAddress/:slug', relations.handleRenameRelation)
 app.get('/package-events/:address/:ticker', events.handleGetPackageEvents)
 app.get('/address-events/:address', events.handleGetAddressEvents)
 app.get('/balances/:address', events.handleGetBalances)
+app.get('/allocations/:address/:ticker', events.handleGetAllocations)
 
 // for dev/testing and as a heartbeat
 app.get('/t/env', async (req, res) => {

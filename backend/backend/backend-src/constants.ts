@@ -16,6 +16,7 @@ export const DB = {
   ADDRESS_EVENTS_TABLE: 's3m-address-events-dev',
   CONTRACT_EVENTS_TABLE: 's3m-contracts-events-dev',
   BALANCES_TABLE: 's3m-balances-dev',
+  ALLOCATIONS_TABLE: 's3m-allocation-dev',
   LASTFETCH_TABLE: 's3m-contracts-lastfetch-dev',
   // table for related wallet addresses
   RELATED_TABLE: 's3m-related-dev',

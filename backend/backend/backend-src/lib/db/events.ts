@@ -76,4 +76,27 @@ export async function getBalances(address: string) {
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 
+/**
+ * Get allocation details for a package.
+ *
+ * @param {string} pkgAddress - package address
+ * @param {string} ticker - smart contract ticker
+ */
+export async function getAllocations(pkgAddress: string, ticker: string) {
+  const addressPackage = `${pkgAddress}::${tickerToPackageName(ticker)}`
+
+  const command = new QueryCommand({
+    TableName: DB.ALLOCATIONS_TABLE,
+    KeyConditionExpression: 'address_package = :address_package',
+    ExpressionAttributeValues: marshall({
+      ':address_package': addressPackage,
+    }),
+  })
+
+  const response = await DB_CLIENT.send(command)
+
+  if (response.Items === undefined) return []
+  else return response.Items?.map(item => unmarshall(item)) ?? []
+}
+
 // eof
