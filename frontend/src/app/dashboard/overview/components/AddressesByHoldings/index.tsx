@@ -91,7 +91,7 @@ export const AddressesByHoldings: FC<AddressesByHoldingsProps> = ({
           .reduce((current, next) => current + next, 0),
         all: filteredTransactions
           .map(({ parsedJson: { amount } }) => parseFloat(amount || '0'))
-          .reduce((current, next) => current + next, 0),
+          .reduce((current, next) => current + next, 0) || 1,
       };
       const areaData = filteredTransactions
         .map(({ timestampMs }) => ({
@@ -247,27 +247,37 @@ export const AddressesByHoldings: FC<AddressesByHoldingsProps> = ({
                     </div>
                   </div>
                 </div>
-                <PieChart width={254} height={254} className="mx-auto mt-6 -mb-2">
-                  <Pie
-                    data={[
-                      { name: `0-1K ${stableCoinItem.ticker}`, value: pieChartData.small },
-                      { name: `1K-100K ${stableCoinItem.ticker}`, value: pieChartData.medium },
-                      { name: `100K+ ${stableCoinItem.ticker}`, value: pieChartData.large },
-                    ]}
-                    cx={122}
-                    cy={122}
-                    innerRadius={90}
-                    outerRadius={122}
-                    fill="green"
-                    dataKey="value"
-                    startAngle={90}
-                    endAngle={-270}
-                  >
-                    <Cell fill="#FE6321" />
-                    <Cell fill="#0D0D12" />
-                    <Cell fill="#DFE1E6" />
-                  </Pie>
-                </PieChart>
+                <div className="relative">
+                  <div
+                    className="
+                      absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+                      rounded-full w-[244px] h-[244px] bg-gray-100
+                      after:contents-[''] after:w-[180px] after:h-[180px] after:bg-snowDrift after:rounded-full
+                      after:absolute after:top-1/2 after:left-1/2 after:-translate-x-1/2 after:-translate-y-1/2
+                    "
+                  />
+                  <PieChart width={254} height={254} className="mx-auto mt-6 -mb-2">
+                    <Pie
+                      data={[
+                        { name: `0-1K ${stableCoinItem.ticker}`, value: pieChartData.small },
+                        { name: `1K-100K ${stableCoinItem.ticker}`, value: pieChartData.medium },
+                        { name: `100K+ ${stableCoinItem.ticker}`, value: pieChartData.large },
+                      ]}
+                      cx={122}
+                      cy={122}
+                      innerRadius={90}
+                      outerRadius={122}
+                      fill="green"
+                      dataKey="value"
+                      startAngle={90}
+                      endAngle={-270}
+                    >
+                      <Cell fill="#FE6321" />
+                      <Cell fill="#0D0D12" />
+                      <Cell fill="#DFE1E6" />
+                    </Pie>
+                  </PieChart>
+                </div>
               </div>
             </div>
           )
