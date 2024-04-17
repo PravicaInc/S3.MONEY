@@ -38,3 +38,12 @@ bun dev
 Open [https://localhost:3001](https://localhost:3001) with your browser to see the result.
 
 To change the port on which the project is launched, change the corresponding parameter in the project launch command [here](/frontend/package.json#L6).
+
+### Version Upgrade
+To update the version , run the following command 
+
+```
+npm version <major|minor|patch>
+```
+
+
