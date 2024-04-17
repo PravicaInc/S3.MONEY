@@ -28,6 +28,7 @@ export const WalletTransactionSuccessfulModal: FC<WalletTransactionSuccessfulMod
     <Modal
       onClose={onClose}
       className={twMerge('relative p-6 w-[400px]', className)}
+      withCloseButton={false}
       {...props}
     >
       <div className="absolute top-0 left-0 z-[-1]">
@@ -49,7 +50,7 @@ export const WalletTransactionSuccessfulModal: FC<WalletTransactionSuccessfulMod
           view={BUTTON_VIEWS.secondary}
           onClick={onClose}
         >
-          Cancel
+          Close
         </Button>
         <a
           href={`https://suiscan.xyz/${suiClientContext.network}/tx/${txid}`}

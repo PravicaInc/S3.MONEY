@@ -81,6 +81,9 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
       if (pathname.indexOf(PAGES_URLS.relations) !== -1) {
         return PAGES_URLS.dashboardRelations;
       }
+      if (pathname.indexOf(PAGES_URLS.overview) !== -1) {
+        return PAGES_URLS.dashboardOverview;
+      }
 
       return PAGES_URLS.dashboardOperations;
     },

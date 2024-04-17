@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
+import ChartsLinkIcon from '@/../public/images/charts_icon.svg?jsx';
 import DocsIcon from '@/../public/images/docs_icon.svg?jsx';
 import ExternalLinkIcon from '@/../public/images/external_link.svg?jsx';
 import OperationsLinkIcon from '@/../public/images/operations_link_icon.svg?jsx';
@@ -41,6 +42,20 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
       {
         groupName: 'MAIN MENU',
         groupLinks: [
+          {
+            href: {
+              pathname: searchParams.get('txid')
+                ? PAGES_URLS.dashboardOverview
+                : PAGES_URLS.overview,
+              query: Object.fromEntries(searchParams.entries()),
+            },
+            icon: <ChartsLinkIcon fill="none" />,
+            text: 'Overview',
+            isActive: (
+              pathname.indexOf(PAGES_URLS.dashboardOverview) !== -1
+                || pathname.indexOf(PAGES_URLS.overview) !== -1
+            ),
+          },
           {
             href: {
               pathname: searchParams.get('txid')

@@ -77,6 +77,7 @@ module.exports = {
       {
         'vars': 'all',
         'args': 'all',
+        'argsIgnorePattern': '^_$',
       },
     ],
     'no-use-before-define': [

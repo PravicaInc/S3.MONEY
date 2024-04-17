@@ -68,7 +68,7 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
                 </MenuButton>
               }
               transition
-              menuClassName="!mt-4 !p-0 overflow-hidden"
+              menuClassName="!mt-4 !p-0 overflow-auto h-[calc(100vh-200px)]"
               onItemClick={({ value: link }) => router.push(link)}
             >
               {

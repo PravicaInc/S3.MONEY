@@ -7,6 +7,8 @@ export const PAGES_URLS = {
   dashboardOperationsMint: '/dashboard/operations/mint',
   dashboardOperationsCashIn: '/dashboard/operations/allocate',
   dashboardOperationsBurn: '/dashboard/operations/burn',
+  overview: '/overview',
+  dashboardOverview: '/dashboard/overview',
   signIn: '/sign-in',
   createStableCoin: '/create-stablecoin',
 };

@@ -211,7 +211,7 @@ export const RelationsTable: FC<RelationsTableProps> = ({
                 <th
                   key={header.id}
                   colSpan={header.colSpan}
-                  className="bg-[#F8F9FB] py-[11px] px-4 border-t border-borderPrimary"
+                  className="bg-snowDrift py-[11px] px-4 border-t border-borderPrimary"
                   style={{
                     width: `${header.column.getSize()}px`,
                   }}

@@ -1,6 +1,6 @@
 import { useSuiClient } from '@mysten/dapp-kit';
 import { QueryEventsParams, SuiClient } from '@mysten/sui.js/client';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, UseQueryOptions } from '@tanstack/react-query';
 
 import { StableCoin } from './useStableCoinsList';
 
@@ -23,7 +23,10 @@ export interface StableCoinEventObject {
   timestampMs: string;
 }
 
-export const useStableCoinEvents = (stableCoin?: StableCoin) => {
+export const useStableCoinEvents = (
+  stableCoin?: StableCoin,
+  queryOption?: Omit<UseQueryOptions<StableCoinEventObject[], Error, StableCoinEventObject[]>, 'queryKey'>
+) => {
   const suiClient = useSuiClient();
 
   return useQuery<StableCoinEventObject[]>({
@@ -40,6 +43,7 @@ export const useStableCoinEvents = (stableCoin?: StableCoin) => {
         }))
         : Promise.resolve([])
     ),
+    ...queryOption,
   });
 };
 
