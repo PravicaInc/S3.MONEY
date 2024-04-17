@@ -242,6 +242,19 @@ export async function validPublish(data: IFace.IPackageCreated): Promise<IFace.I
     }
   }
 
+  if (typeof pkg.decimals !== 'number') {
+    data.decimals = parseInt(pkg.decimals, 10)
+    if (isNaN(data.decimals)) {
+      console.log(`invalid decimals: ${pkg.decimals}`)
+      return {error: `invalid decimals: ${pkg.decimals}`}
+    }
+  } else {
+    data.decimals = pkg.decimals
+  }
+
+  data.initialSupply = pkg.initialSupply
+  data.maxSupply = pkg.maxSupply
+
   return {error: '', data: data}
 }
 
