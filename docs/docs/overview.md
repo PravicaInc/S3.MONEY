@@ -4,8 +4,7 @@ sidebar_position: 6
 
 # Overview
 This page provides information about the selected stablecoin. The information consists of the following: 
-- **Allocation Ratio**: The graphical representation of the allocation ratio visually displays the allocated and non-allocated amounts of a specific stablecoin.
-This graphical depiction offers a clear and intuitive view of how funds are distributed, making it easier for users to understand the allocation strategy behind the stablecoin and how much of its value is supported by reserves versus unallocated assets.
+- **Allocation Ratio**: The graphical representation of the allocation ratio between allocated and unallocated funds in a stablecoin visually illustrates the distribution of funds. Allocated funds are those that have already been distributed, typically held in reserves or backing assets. On the other hand, unallocated funds are still in the possession of the stablecoin owner, ready to be deployed or used as needed. This graph provides a clear and intuitive overview of how funds are managed within the stablecoin ecosystem.
 
 - **Stablecoin Details**: The stablecoin details are listed for users to view, encompassing several key metrics such as the 24-hour trading volume, total supply, allocated supply, maximum supply, and non-allocated supply. These metrics provide users with a comprehensive overview of the stablecoin's current status and distribution of its coin supply.
 
