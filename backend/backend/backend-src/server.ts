@@ -9,6 +9,7 @@ import {TOKEN_SUPPLY_PATH} from './constants'
 import * as events from './lib/events'
 import * as packages from './lib/packages'
 import * as relations from './lib/relations'
+import * as txvol from './lib/txvol'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()
@@ -60,6 +61,9 @@ app.get('/package-events/:address/:ticker', events.handleGetPackageEvents)
 app.get('/address-events/:address', events.handleGetAddressEvents)
 app.get('/balances/:address', events.handleGetBalances)
 app.get('/allocations/:address/:ticker', events.handleGetAllocations)
+
+// transaction volumes
+app.get('/txvol/:address/:ticker', txvol.handleGetTxVol)
 
 // for dev/testing and as a heartbeat
 app.get('/t/env', async (req, res) => {

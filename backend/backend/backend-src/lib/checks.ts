@@ -355,3 +355,23 @@ export function isValidTicker(ticker: string): string {
 export function isValidDigest(digest: string): boolean {
   return isValidTransactionDigest(digest)
 }
+
+export function isValidDateRange(range: string): boolean {
+  const validSuffixes = ['d', 'm', 'y']
+  const maxNums: Record<string, number> = {d: 31, m: 12, y: 10} // revisit if needed
+
+  if (range === undefined || range === null) return false
+
+  range = range.toLowerCase().trim()
+  if (range === '') return false
+
+  const suffix = range.slice(-1)
+  if (!validSuffixes.includes(suffix)) return false
+
+  const num = parseInt(range.slice(0, -1), 10)
+  if (isNaN(num)) return false
+
+  if (num < 1 || num > maxNums[suffix]) return false
+
+  return true
+}
