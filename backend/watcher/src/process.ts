@@ -1,5 +1,3 @@
-import fs from 'fs'
-
 import {
   DynamoDBClient,
   ScanCommand,
@@ -21,24 +19,16 @@ const gclient = createClient({
 })
 const dbclient = new DynamoDBClient()
 
-async function sleep(secs) {
+async function sleep(secs: number) {
   // console.log(`sleeping for ${secs} seconds`)
   return new Promise(resolve => setTimeout(resolve, secs * 1000))
 }
 
-function packageSummary(objectChanges) {
-  for (const obj of objectChanges) {
-    if (obj.type === 'published') {
-      return obj.packageId
-    }
-  }
-  return '' // shouldn't happen
-}
-
 // FIXME: instead of scanning the whole table, we use the lastfetch table
 // change the backend to store the last fetch details
-async function getPackageModules(): Promise<string[]> {
-  const packages: string[] = []
+// key: address_package (deplyoyer :: package_name), value: (packageId :: package_name)
+async function getPackageModules(): Promise<Record<string, string>> {
+  let packages: Record<string, string> = {}
 
   const command = new ScanCommand({
     TableName: C.TABLE_DEPLOYED,
@@ -55,7 +45,9 @@ async function getPackageModules(): Promise<string[]> {
     const deploy_data = item.deploy_data
     for (const obj of deploy_data?.objectChanges ?? []) {
       if (obj.type === 'published') {
-        packages.push(`${obj.packageId}::${item.package_name}`)
+        const address_package = `${item.address}::${item.package_name}`
+        const package_address = `${obj.packageId}::${item.package_name}`
+        packages[address_package] = package_address
         break
       }
     }
@@ -81,8 +73,6 @@ async function lastFetchEventTime(pkg: string): Promise<string> {
 }
 
 async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
-  // console.log(`fetching ${module}`)
-
   let cancel = () => {}
   const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
     let innerResult
@@ -121,7 +111,7 @@ async function getTokenEvents(module: string, token: string): Promise<[string, o
   if ('data' in result && 'events' in result.data!) {
     const new_token = result.data.events!['pageInfo'].endCursor
     const events = result.data.events!['nodes'] ?? []
-    const done = !result.data.events!['pageInfo'].hasNextPage || true
+    const done = !result.data.events!['pageInfo'].hasNextPage
     return [new_token, events, done]
   } else {
     return ['', [], true]
@@ -133,8 +123,6 @@ async function getTokenEventsBackwards(
   token: string,
   stopTime: string,
 ): Promise<[string, object[], boolean]> {
-  // console.log(`fetching ${module} backwards`)
-
   let cancel = () => {}
   const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
     let innerResult
@@ -171,17 +159,17 @@ async function getTokenEventsBackwards(
   }
 
   /*
-   assume our page size is 5
-   on the first run there are 4 events and we fetch 2024-01-01, 2024-01-02, 2024-01-03, 2024-01-04
-   set stopTime to 2024-01-04
-   two more events occur
-   on the next run, when we go fetch 5 events backwards, we fetch
-   2024-01-02, 2024-01-03, 2024-01-04, 2024-01-05, 2024-01-06
-   reverse them: 2024-01-06, 2024-01-05, 2024-01-04, 2024-01-03, 2024-01-02
-   the last event in our reversed list is 2024-01-02
-   is stopTime >= lastEvent?  yes, so we're done
-   later on, we reverse all the events and filter out events that are <= stopTime
-   which leaves us with 2024-01-05, 2024-01-06
+   * assume our page size is 5
+   * on the first run there are 4 events and we fetch 2024-01-01, 2024-01-02, 2024-01-03, 2024-01-04
+   * set lastFetch to 2024-01-04
+   * two more events occur
+   * on the next run, when we go fetch 5 events backwards, we fetch
+   * 2024-01-02, 2024-01-03, 2024-01-04, 2024-01-05, 2024-01-06
+   * reverse them: 2024-01-06, 2024-01-05, 2024-01-04, 2024-01-03, 2024-01-02
+   * the last event in our reversed list is 2024-01-02
+   * is lastFetch >= lastEvent?  yes, so we're done fetching events
+   * we reverse all the events and filter out events that are <= lastFetch
+   * which leaves us with 2024-01-05, 2024-01-06
    */
   if ('data' in result && 'events' in result.data!) {
     const new_token = result.data.events!['pageInfo'].startCursor
@@ -190,17 +178,21 @@ async function getTokenEventsBackwards(
     const events = (result.data.events!['nodes'] ?? []).reverse()
     const etime = events[events.length - 1].timestamp
     const done = stopTime >= etime
-    // console.log(JSON.stringify(events, null, 2))
+
     return [new_token, events, done]
   } else {
     return ['', [], true]
   }
 }
 
-async function saveEvents(pkg: string, events: Record<string, any>[], new_token: string) {
+async function saveEvents(
+  address_package: string,
+  package_address: string,
+  events: Record<string, any>[],
+  new_token: string,
+) {
   const ltimestamp = events[events.length - 1].timestamp
-  console.log(`saving for ${pkg}, ts ${ltimestamp}, events: ${events.length}`)
-  fs.writeFileSync(`/tmp/${pkg}`, JSON.stringify(events))
+  console.log(`saving for ${address_package}, ts ${ltimestamp}, events: ${events.length}`)
 
   // balance changes
   // sender = 0x0 should show up in mint only
@@ -212,7 +204,7 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
       Update: {
         TableName: C.LASTFETCH_TABLE,
         Key: {
-          address_package: {S: pkg},
+          address_package: {S: address_package},
         },
         UpdateExpression: 'SET last_timestamp = :ltimestamp',
         ExpressionAttributeValues: {
@@ -222,9 +214,9 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
     },
   ]
 
-  // put events in CONTRACT_EVENTS_TABLE and ADDRESS_EVENTS_TABLE
-  // this is more complicated than necessary because when
-  // multiple events are fired in the same txb, they all have the same timestamp
+  // put events in dynamodb
+  // this is more complicated than necessary because when multiple
+  // events are fired in the same txb, they all have the same timestamp
   const packageEventsToSave = {}
   const addressEventsToSave = {}
   const allocationEventsToSave = {}
@@ -237,7 +229,7 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
 
   for (const event of events) {
     // address_package, event_timestamp
-    const key = `${pkg}____${event.timestamp}`
+    const key = `${address_package}____${event.timestamp}`
     if (!(key in packageEventsToSave)) {
       packageEventsToSave[key] = []
     }
@@ -266,6 +258,8 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
       sender: '',
       recipient: '',
       amount: 0,
+      address_package: address_package,
+      package_address: package_address,
     }
 
     switch (item.event) {
@@ -275,7 +269,7 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         item.amount = parseInt(event.json.amount, 10)
         balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
         if (item.sender == item.recipient) {
-          allocationEventsToSave[pkg].push(item)
+          allocationEventsToSave[address_package].push(item)
         }
 
         txVolYear[key_yyyy] += item.amount
@@ -385,7 +379,7 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
       TransactItems: items.slice(i, i + 100),
     })
     await dbclient.send(txWriteCommand)
-    console.log(`wrote items: ${items.slice(i, i + 100).length}`)
+    console.log(`wrote contract + address event items: ${items.slice(i, i + 100).length}`)
     await sleep(C.DB_WRITE_SLEEP)
   }
 
@@ -460,8 +454,15 @@ async function saveTxVolumes(
 
   if (writeItems.length == 0) return
 
-  // save balances only after everything else has been saved
-  await saveBalances(balances, pkg, ltimestamp)
+  // transactions are limited to 100 objects each
+  for (let i = 0; i < writeItems.length; i += 100) {
+    const txWriteCommand = new TransactWriteItemsCommand({
+      TransactItems: writeItems.slice(i, i + 100),
+    })
+    await dbclient.send(txWriteCommand)
+    console.log(`wrote txvols: ${writeItems.slice(i, i + 100).length}`)
+    await sleep(C.DB_WRITE_SLEEP)
+  }
 }
 
 async function saveAllocations(allocations: Record<string, object[]>, ltimestamp: string) {
@@ -533,24 +534,27 @@ async function saveAllocations(allocations: Record<string, object[]>, ltimestamp
   }
 }
 
-async function saveBalances(balances: Record<string, number>, pkg: string, ltimestamp: string) {
-  const items: TransactWriteItem[] = Object.entries(balances).map(([address, balance]) => {
-    console.log(`${address}: ${balance} $${pkg.split('::')[1].toUpperCase()}`)
-    return {
-      Update: {
-        TableName: C.BALANCES_TABLE,
-        Key: {
-          ticker: {S: `$${pkg.split('::')[1].toUpperCase()}`},
-          address: {S: address},
+async function saveBalances(balances: Record<string, number>, address_package: string, ltimestamp: string) {
+  const items: TransactWriteItem[] = Object.entries(balances)
+    .filter(([_, balance]) => balance > 0)
+    .map(([address, balance]) => {
+      // console.log(`balance ${address} $${address_package.split('::')[1].toUpperCase()}: ${balance}`)
+      return {
+        Update: {
+          TableName: C.BALANCES_TABLE,
+          Key: {
+            address: {S: address},
+            address_package: {S: address_package},
+          },
+          UpdateExpression: 'ADD balance :balance SET last_timestamp = :ltimestamp, ticker = :ticker',
+          ExpressionAttributeValues: {
+            ':balance': {N: `${balance}`},
+            ':ltimestamp': {S: ltimestamp},
+            ':ticker': {S: `$${address_package.split('::')[1].toUpperCase()}`},
+          },
         },
-        UpdateExpression: 'ADD balance :balance SET last_timestamp = :ltimestamp',
-        ExpressionAttributeValues: {
-          ':balance': {N: `${balance}`},
-          ':ltimestamp': {S: ltimestamp},
-        },
-      },
-    }
-  })
+      }
+    })
 
   if (items.length == 0) return
 
@@ -567,31 +571,34 @@ async function saveBalances(balances: Record<string, number>, pkg: string, ltime
 
 export async function processEvents(_ignore: any) {
   const packages = await getPackageModules()
-  console.log(JSON.stringify(packages, null, 2))
+  // console.log(JSON.stringify(packages, null, 2))
+  console.log(`processing up to ${Object.keys(packages).length} packages`)
 
-  // for (const pkg of ['0xffa422771a3d41c8c2b97570d2ccf916e25aa4c42de21c1167256a377a57393d::play']) {
-  // for (const pkg of ['0x06f021fa63f1d47346e3c9c1cb06306b33cc7e6c4e3ae1180000af9599f21a50::mint1']) {
-  for (const pkg of packages) {
-    let ltime = await lastFetchEventTime(pkg)
+  for (const [address_package, package_address] of Object.entries(packages)) {
+    let ltime = await lastFetchEventTime(address_package)
     let packageEvents: object[] = []
     let packageDone = false
     const forward = ltime == ''
 
     let token = ''
     while (!packageDone) {
-      await sleep(C.API_FETCH_SLEEP)
       let new_token = ''
       let events: object[]
       let done = false
       if (forward) {
-        ;[new_token, events, done] = await getTokenEvents(pkg, token)
+        ;[new_token, events, done] = await getTokenEvents(package_address, token)
       } else {
-        ;[new_token, events, done] = await getTokenEventsBackwards(pkg, token, ltime)
+        ;[new_token, events, done] = await getTokenEventsBackwards(package_address, token, ltime)
       }
-      packageEvents.push(...events)
       packageDone = done
       token = new_token
-      console.log(`fetched events for ${pkg}: ${events.length}, new token is ${token} done ${packageDone}`)
+      if (events.length > 0) {
+        packageEvents.push(...events)
+        console.log(
+          `fetched events for ${address_package}: ${events.length}, new token is ${token} done ${packageDone}`,
+        )
+        await sleep(C.API_FETCH_SLEEP)
+      }
 
       if (packageDone) {
         if (!forward) {
@@ -599,10 +606,7 @@ export async function processEvents(_ignore: any) {
           packageEvents = packageEvents.filter(event => event['timestamp'] > ltime)
         }
         if (packageEvents.length > 0) {
-          const ltimestamp = packageEvents[packageEvents.length - 1]['timestamp'] ?? 'XXX'
-          fs.writeFileSync(`/tmp/${pkg}`, JSON.stringify(packageEvents))
-
-          await saveEvents(pkg, packageEvents, new_token)
+          await saveEvents(address_package, package_address, packageEvents, new_token)
           await sleep(C.DB_WRITE_SLEEP)
         }
       }
