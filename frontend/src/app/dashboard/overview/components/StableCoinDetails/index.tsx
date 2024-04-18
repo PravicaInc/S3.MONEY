@@ -28,13 +28,22 @@ export const StableCoinDetails: FC<StableCoinDetailsProps> = ({
   const {
     data: stableCoinMaxSupply = 0,
     isLoading: isStableCoinMaxSupplyLoading,
-  } = useStableCoinMaxSupply(stableCoinItem);
+  } = useStableCoinMaxSupply(
+    stableCoinItem,
+    {
+      initialData: stableCoinItem.maxSupply,
+    }
+  );
   const {
     data: stableCoinCurrentAllocated,
     isLoading: isStableCoinCurrentAllocatedLoading,
   } = useCurrentAllocated(
     stableCoinItem,
-    [stableCoinItem.deploy_addresses.deployer]
+    [stableCoinItem.deploy_addresses.deployer],
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   const details = useMemo(

@@ -30,6 +30,8 @@ interface PackageApiResponse {
     cashOut: string
   },
   address_roles: string[],
+  decimals: number;
+  maxSupply: number;
 }
 
 export interface StableCoin extends Omit<PackageApiResponse, 'ticker_name' | 'icon_url'> {

@@ -6,7 +6,7 @@ import { twMerge } from 'tailwind-merge';
 import { Loader } from '@/Components/Loader';
 import { PeriodSelector } from '@/Components/PeriodSelector';
 
-import { numberFormat } from '@/utils/string_formats';
+import { numberFormat, shortNumberFormat } from '@/utils/string_formats';
 
 import { StableCoinEventObject, useStableCoinEvents } from '@/hooks/useStableCoinEvents';
 import { StableCoin } from '@/hooks/useStableCoinsList';
@@ -30,7 +30,13 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
   const {
     data: stableCoinEvents = [],
     isLoading: isStableCoinEventsLoading,
-  } = useStableCoinEvents(stableCoinItem);
+  } = useStableCoinEvents(
+    stableCoinItem,
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const [selectedPeriod, setSelectedPeriod] = useState<Periods>(Periods.month);
 
@@ -197,7 +203,7 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
             </div>
           )
           : (
-            <div className="p-5 -ml-10 mt-5 h-[380px]">
+            <div className="p-5 -ml-1 mt-5 h-[380px]">
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart
                   width={500}
@@ -206,7 +212,9 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                 >
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="label" />
-                  <YAxis />
+                  <YAxis
+                    tickFormatter={value => shortNumberFormat(parseFloat(value), 0)}
+                  />
                   <Tooltip
                     cursor={false}
                     content={({ payload }) => {

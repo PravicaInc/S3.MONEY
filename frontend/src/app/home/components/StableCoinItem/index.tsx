@@ -5,6 +5,8 @@ import { usePathname, useSearchParams } from 'next/navigation';
 import { twMerge } from 'tailwind-merge';
 
 import defaultStableCoinIcon from '@/../public/images/default_stablecoin_icon.svg';
+import LeftStablecoinBgIcon from '@/../public/images/left_stablecoin_bg_icon.svg?jsx';
+import RightStablecoinBgIcon from '@/../public/images/right_stablecoin_bg_icon.svg?jsx';
 
 import { Delimiter } from '@/Components/Delimiter';
 import { Loader } from '@/Components/Loader';
@@ -55,6 +57,7 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
     {
       refetchOnMount: false,
       refetchOnWindowFocus: false,
+      initialData: stableCoinItem.maxSupply,
     }
   );
   const {
@@ -101,25 +104,27 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
         },
       }}
       className={twMerge(
-        'block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden',
+        'block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative',
         className
       )}
     >
+      <LeftStablecoinBgIcon className="absolute left-0 bottom-0 z-0" />
+      <RightStablecoinBgIcon className="absolute right-0 top-0 z-0" />
       {
         isPausedLoading
           ? (
-            <Skeleton className="w-full h-[7px] block rounded-none" inline />
+            <Skeleton className="w-full h-[7px] block rounded-none relative z-10" inline />
           )
           : (
             <div
               className={twMerge(
-                'h-[7px]',
+                'h-[7px] relative z-10',
                 isPaused ? 'bg-rubyRed' : 'bg-freshGreen'
               )}
             />
           )
       }
-      <div className="flex items-center justify-between pl-4 pr-5 pt-4">
+      <div className="flex items-center justify-between pl-4 pr-5 pt-4 relative z-10">
         <div className="flex items-center gap-4">
           <div
             className="min-w-[60px] min-h-[60px] rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
@@ -151,7 +156,7 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
           </p>
         </div>
       </div>
-      <div className="px-4 pb-5 mt-8">
+      <div className="px-4 pb-5 mt-8 relative z-10">
         <p className="text-primary font-semibold">
           Supply details
         </p>
@@ -186,6 +191,16 @@ export const StableCoinItem: FC<StableCoinItemProps> = ({
               }
             </span>
           </p>
+          {
+            stableCoinItem.decimals !== undefined && (
+              <p className="flex items-center justify-between">
+                Decimals
+                <span>
+                  {stableCoinItem.decimals}
+                </span>
+              </p>
+            )
+          }
           <p className="flex items-center justify-between">
             Allocated
             <span>

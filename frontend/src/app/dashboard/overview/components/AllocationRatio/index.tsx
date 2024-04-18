@@ -28,7 +28,11 @@ export const AllocationRatio: FC<AllocationRatioProps> = ({
     isLoading: isStableCoinCurrentAllocatedLoading,
   } = useCurrentAllocated(
     stableCoinItem,
-    [stableCoinItem.deploy_addresses.deployer]
+    [stableCoinItem.deploy_addresses.deployer],
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   return (

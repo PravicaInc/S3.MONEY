@@ -70,7 +70,12 @@ export default function DashboardOperationsBurnPage() {
   const {
     data: stableCoinMaxSupply = 0,
     isFetching: isLoadingStableCoinMaxSupply,
-  } = useStableCoinMaxSupply(currentStableCoin);
+  } = useStableCoinMaxSupply(
+    currentStableCoin,
+    {
+      initialData: currentStableCoin?.maxSupply,
+    }
+  );
   const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(currentStableCoin?.deploy_addresses.pauser);
 
   const burnFormSchema = yup.object().shape({

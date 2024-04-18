@@ -35,21 +35,27 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
       class="m-8 space-y-3"
     >
       <a
-        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden"
+        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative"
         href="/dashboard/operations?txid=1"
       >
+        <svg
+          class="absolute left-0 bottom-0 z-0"
+        />
+        <svg
+          class="absolute right-0 top-0 z-0"
+        />
         <span
           aria-busy="true"
           aria-live="polite"
         >
           <span
-            class="react-loading-skeleton w-full h-[7px] block rounded-none"
+            class="react-loading-skeleton w-full h-[7px] block rounded-none relative z-10"
           >
             ‌
           </span>
         </span>
         <div
-          class="flex items-center justify-between pl-4 pr-5 pt-4"
+          class="flex items-center justify-between pl-4 pr-5 pt-4 relative z-10"
         >
           <div
             class="flex items-center gap-4"
@@ -102,7 +108,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
           </div>
         </div>
         <div
-          class="px-4 pb-5 mt-8"
+          class="px-4 pb-5 mt-8 relative z-10"
         >
           <p
             class="text-primary font-semibold"
@@ -160,21 +166,27 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
         </div>
       </a>
       <a
-        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden"
+        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative"
         href="/dashboard/operations?txid=2"
       >
+        <svg
+          class="absolute left-0 bottom-0 z-0"
+        />
+        <svg
+          class="absolute right-0 top-0 z-0"
+        />
         <span
           aria-busy="true"
           aria-live="polite"
         >
           <span
-            class="react-loading-skeleton w-full h-[7px] block rounded-none"
+            class="react-loading-skeleton w-full h-[7px] block rounded-none relative z-10"
           >
             ‌
           </span>
         </span>
         <div
-          class="flex items-center justify-between pl-4 pr-5 pt-4"
+          class="flex items-center justify-between pl-4 pr-5 pt-4 relative z-10"
         >
           <div
             class="flex items-center gap-4"
@@ -227,7 +239,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
           </div>
         </div>
         <div
-          class="px-4 pb-5 mt-8"
+          class="px-4 pb-5 mt-8 relative z-10"
         >
           <p
             class="text-primary font-semibold"
