@@ -66,25 +66,38 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
           return (new Array(moment().hour() + 1))
             .fill(0)
             .map((_, idx) => {
-              const date = moment().hours(idx)
+              const startDate = moment().hours(idx)
+                .minute(0);
+              const endDate = moment().hours(idx + 1)
                 .minute(0);
 
               return {
-                label: date.format('HH:mm'),
-                value: filteredTransactions.filter(({ timestampMs }) => parseInt(timestampMs) <= date.valueOf()).length,
+                label: endDate.format('HH:mm'),
+                value: filteredTransactions
+                  .filter(
+                    ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
+                      && parseInt(timestampMs) <= endDate.valueOf()
+                  ).length,
               };
             });
         case Periods.week:
           return (new Array(7))
             .fill(0)
             .map((_, idx) => {
-              const date = moment().day(moment().day() - 6 + idx)
+              const startDate = moment().day(moment().day() - 6 + idx)
+                .hours(0)
+                .minute(0);
+              const endDate = moment().day(moment().day() - 5 + idx)
                 .hours(0)
                 .minute(0);
 
               return {
-                label: date.format('DD MMM'),
-                value: filteredTransactions.filter(({ timestampMs }) => parseInt(timestampMs) <= date.valueOf()).length,
+                label: startDate.format('DD MMM'),
+                value: filteredTransactions
+                  .filter(
+                    ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
+                      && parseInt(timestampMs) <= endDate.valueOf()
+                  ).length,
               };
             });
         case Periods.month:
@@ -95,27 +108,35 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                 .hours(0)
                 .minute(0);
               const endDate = moment().day(moment().day() - 7 * (3 - idx))
-                .hours(0)
-                .minute(0);
+                .hours(23)
+                .minute(59);
 
               return {
                 label: `${startDate.format('DD MMM')} - ${endDate.format('DD MMM')}`,
                 value: filteredTransactions
-                  .filter(({ timestampMs }) => parseInt(timestampMs) <= endDate.valueOf()).length,
+                  .filter(
+                    ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
+                      && parseInt(timestampMs) <= endDate.valueOf()
+                  ).length,
               };
             });
         case Periods.six_months:
           return (new Array(6))
             .fill(0)
             .map((_, idx) => {
-              const date = moment().month(moment().month() - 6 + idx + 1)
+              const startDate = moment().month(moment().month() - 6 + idx)
                 .hours(0)
                 .minute(0);
+              const endDate = moment().month(moment().month() - 6 + idx + 1)
+                .hours(23)
+                .minute(59);
 
               return {
-                label: date.format('MMM YYYY'),
-                value: filteredTransactions.filter(({ timestampMs }) => parseInt(timestampMs) <= date.valueOf()).length,
-                amt: 100,
+                label: endDate.format('MMM YYYY'),
+                value: filteredTransactions.filter(
+                  ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
+                      && parseInt(timestampMs) <= endDate.valueOf()
+                ).length,
               };
             });
         default:
