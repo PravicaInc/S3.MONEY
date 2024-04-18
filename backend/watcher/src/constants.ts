@@ -1,8 +1,8 @@
 export const ZERO_ADDRESS = '0x0000000000000000000000000000000000000000000000000000000000000000'
 
 // in seconds
-export const DB_WRITE_SLEEP = 1
-export const API_FETCH_SLEEP = 1
+export const DB_WRITE_SLEEP = 0.1
+export const API_FETCH_SLEEP = 0.5
 
 export const TESTNET_ENDPOINT = 'https://sui-testnet.mystenlabs.com/graphql'
 export const TABLE_DEPLOYED = 's3m-contracts-dev'
@@ -15,8 +15,8 @@ export const CONTRACT_EVENTS_TABLE = 's3m-contracts-events-dev'
 // rest: list of events
 export const ADDRESS_EVENTS_TABLE = 's3m-address-events-dev'
 
-// key: (address, ticker)
-// rest: balance (upsert row)
+// key: (address, address_package)
+// rest: balance, ticker, last_timestamp (upsert row)
 export const BALANCES_TABLE = 's3m-balances-dev'
 
 // key: (address, 'allocated' | 'unallocated')
