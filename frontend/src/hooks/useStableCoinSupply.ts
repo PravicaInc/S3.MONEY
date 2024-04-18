@@ -171,6 +171,9 @@ export const useMintTo = () => {
       queryClient.invalidateQueries({
         queryKey: ['current-stable-coin-balance'],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['use-stable-coin-events', packageId],
+      });
 
       return data;
     },
@@ -271,6 +274,9 @@ export const useBurnFrom = () => {
       });
       queryClient.invalidateQueries({
         queryKey: ['current-stable-coin-balance'],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['use-stable-coin-events', packageId],
       });
 
       return data;
