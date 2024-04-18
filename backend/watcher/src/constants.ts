@@ -19,7 +19,7 @@ export const ADDRESS_EVENTS_TABLE = 's3m-address-events-dev'
 // rest: balance, ticker, last_timestamp (upsert row)
 export const BALANCES_TABLE = 's3m-balances-dev'
 
-// key: (address, 'allocated' | 'unallocated')
+// key: (address_package, 'allocated' | 'unallocated')
 // rest: amount, last_timestamp (upsert row)
 export const ALLOCATION_TABLE = 's3m-allocation-dev'
 
