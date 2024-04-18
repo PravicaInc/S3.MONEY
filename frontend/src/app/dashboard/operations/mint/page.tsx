@@ -64,7 +64,12 @@ export default function DashboardOperationsMintPage() {
   const {
     data: stableCoinMaxSupply = 0,
     isFetching: isLoadingStableCoinMaxSupply,
-  } = useStableCoinMaxSupply(currentStableCoin);
+  } = useStableCoinMaxSupply(
+    currentStableCoin,
+    {
+      initialData: currentStableCoin?.maxSupply,
+    }
+  );
   const { data: isPaused, isLoading: isPausedLoading } = useIsSystemPaused(currentStableCoin?.deploy_addresses.pauser);
 
   const mintFormSchema = yup.object().shape({
