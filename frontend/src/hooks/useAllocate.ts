@@ -118,6 +118,9 @@ export const useAllocate = () => {
       queryClient.invalidateQueries({
         queryKey: ['last-allocated-date-to-account', recipientAddresses],
       });
+      queryClient.invalidateQueries({
+        queryKey: ['use-stable-coin-events', packageId],
+      });
 
       return data;
     },

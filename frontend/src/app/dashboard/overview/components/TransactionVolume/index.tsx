@@ -77,7 +77,9 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                   .filter(
                     ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
                       && parseInt(timestampMs) <= endDate.valueOf()
-                  ).length,
+                  )
+                  .map(({ parsedJson: { amount } }) => parseFloat(amount || '0'))
+                  .reduce((current, next) => current + next, 0),
               };
             });
         case Periods.week:
@@ -97,7 +99,9 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                   .filter(
                     ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
                       && parseInt(timestampMs) <= endDate.valueOf()
-                  ).length,
+                  )
+                  .map(({ parsedJson: { amount } }) => parseFloat(amount || '0'))
+                  .reduce((current, next) => current + next, 0),
               };
             });
         case Periods.month:
@@ -117,7 +121,9 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                   .filter(
                     ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
                       && parseInt(timestampMs) <= endDate.valueOf()
-                  ).length,
+                  )
+                  .map(({ parsedJson: { amount } }) => parseFloat(amount || '0'))
+                  .reduce((current, next) => current + next, 0),
               };
             });
         case Periods.six_months:
@@ -136,7 +142,9 @@ export const TransactionVolume: FC<TransactionVolumeProps> = ({
                 value: filteredTransactions.filter(
                   ({ timestampMs }) => parseInt(timestampMs) >= startDate.valueOf()
                       && parseInt(timestampMs) <= endDate.valueOf()
-                ).length,
+                )
+                  .map(({ parsedJson: { amount } }) => parseFloat(amount || '0'))
+                  .reduce((current, next) => current + next, 0),
               };
             });
         default:
