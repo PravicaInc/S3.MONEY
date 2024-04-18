@@ -13,11 +13,11 @@ const DB_CLIENT = new DynamoDBClient()
 /**
  * Get all events for a package.
  *
- * @param {string} pkgAddress - package address
+ * @param {string} address - address of package deployer
  * @param {string} ticker - smart contract ticker
  */
-export async function getPackageEvents(pkgAddress: string, ticker: string) {
-  const addressPackage = `${pkgAddress}::${tickerToPackageName(ticker)}`
+export async function getPackageEvents(address: string, ticker: string) {
+  const addressPackage = `${address}::${tickerToPackageName(ticker)}`
   console.log(addressPackage)
 
   const command = new QueryCommand({
@@ -68,7 +68,7 @@ export async function getBalances(address: string) {
     ExpressionAttributeValues: marshall({
       ':address': address,
     }),
-    ProjectionExpression: 'ticker, balance, last_timestamp',
+    ProjectionExpression: 'address_package, ticker, balance, last_timestamp',
   })
 
   const response = await DB_CLIENT.send(command)
@@ -79,11 +79,11 @@ export async function getBalances(address: string) {
 /**
  * Get allocation details for a package.
  *
- * @param {string} pkgAddress - package address
+ * @param {string} address - address of package deployer
  * @param {string} ticker - smart contract ticker
  */
-export async function getAllocations(pkgAddress: string, ticker: string) {
-  const addressPackage = `${pkgAddress}::${tickerToPackageName(ticker)}`
+export async function getAllocations(address: string, ticker: string) {
+  const addressPackage = `${address}::${tickerToPackageName(ticker)}`
 
   const command = new QueryCommand({
     TableName: DB.ALLOCATIONS_TABLE,
