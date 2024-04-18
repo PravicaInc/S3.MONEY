@@ -132,8 +132,8 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
   return (
     <div
       className={twMerge(
-        'h-screen w-[270px] border-r border-borderPrimary bg-white',
-        (isLoading || isRedirecting) && 'overflow-hidden flex flex-col',
+        'h-screen w-[270px] border-r border-borderPrimary bg-white flex flex-col',
+        (isLoading || isRedirecting) && 'overflow-hidden',
         className
       )}
       {...props}
@@ -161,35 +161,37 @@ export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ classN
                   </Button>
                 </Link>
               </div>
-              {
-                links.map(({ groupName, groupLinks }) => (
-                  <div key={groupName} className="pt-6 px-4">
-                    <p className="text-xs font-semibold text-hitGrey pl-3 pb-3">
-                      {groupName}
-                    </p>
-                    <div className="flex flex-col gap-1">
-                      {groupLinks.map(({ text, href, icon, isActive, ...linkProps }, idx) => (
-                        <Link
-                          key={idx}
-                          href={href}
-                          className={twMerge(
-                            'flex items-center gap-[10px] py-2 px-3',
-                            'border rounded-md border-transparent text-secondary font-medium',
-                            isActive
-                              ? '[&>svg>path[stroke]]:stroke-primary [&>svg>path[fill]]:fill-primary'
-                              : '[&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary',
-                            isActive && 'border-borderPrimary bg-snowDrift text-primary font-semibold'
-                          )}
-                          {...linkProps}
-                        >
-                          {icon}
-                          {text}
-                        </Link>
-                      ))}
+              <div className="h-full overflow-auto">
+                {
+                  links.map(({ groupName, groupLinks }) => (
+                    <div key={groupName} className="pt-6 px-4">
+                      <p className="text-xs font-semibold text-hitGrey pl-3 pb-3">
+                        {groupName}
+                      </p>
+                      <div className="flex flex-col gap-1">
+                        {groupLinks.map(({ text, href, icon, isActive, ...linkProps }, idx) => (
+                          <Link
+                            key={idx}
+                            href={href}
+                            className={twMerge(
+                              'flex items-center gap-[10px] py-2 px-3',
+                              'border rounded-md border-transparent text-secondary font-medium',
+                              isActive
+                                ? '[&>svg>path[stroke]]:stroke-primary [&>svg>path[fill]]:fill-primary'
+                                : '[&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary',
+                              isActive && 'border-borderPrimary bg-snowDrift text-primary font-semibold'
+                            )}
+                            {...linkProps}
+                          >
+                            {icon}
+                            {text}
+                          </Link>
+                        ))}
+                      </div>
                     </div>
-                  </div>
-                ))
-              }
+                  ))
+                }
+              </div>
             </>
           )
       }

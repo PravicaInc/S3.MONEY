@@ -34,7 +34,11 @@ export const StableCoinDetails: FC<StableCoinDetailsProps> = ({
     isLoading: isStableCoinCurrentAllocatedLoading,
   } = useCurrentAllocated(
     stableCoinItem,
-    [stableCoinItem.deploy_addresses.deployer]
+    [stableCoinItem.deploy_addresses.deployer],
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
   );
 
   const details = useMemo(

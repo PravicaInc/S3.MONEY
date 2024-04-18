@@ -39,7 +39,13 @@ export const AddressesByHoldings: FC<AddressesByHoldingsProps> = ({
   const {
     data: stableCoinEvents = [],
     isLoading: isStableCoinEventsLoading,
-  } = useStableCoinEvents(stableCoinItem);
+  } = useStableCoinEvents(
+    stableCoinItem,
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
 
   const [selectedPeriod, setSelectedPeriod] = useState<Periods>(Periods.month);
 
