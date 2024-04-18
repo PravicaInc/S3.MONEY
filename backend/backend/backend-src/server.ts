@@ -51,7 +51,8 @@ app.get('/packages/:address/:param', packages.handleGetFilteredPackages)
 // creating wallet relationships
 app.get('/related/:pkgAddress', relations.handleGetRelations)
 app.post('/related/:pkgAddress', relations.handleCreateRelation)
-app.delete('/related/:pkgAddress/:slug', relations.handleDeleteRelation)
+// implemented, but not part of the current deliverable
+// app.delete('/related/:pkgAddress/:slug', relations.handleDeleteRelation)
 app.patch('/related/:pkgAddress/:slug', relations.handleRenameRelation)
 
 // events and balances
