@@ -20,6 +20,10 @@ export const DB = {
   LASTFETCH_TABLE: 's3m-contracts-lastfetch-dev',
   // table for related wallet addresses
   RELATED_TABLE: 's3m-related-dev',
+  // tables for transaction volumes
+  TXVOL_YEAR_TABLE: 's3m-txvol-yyyy-dev',
+  TXVOL_YEARMONTH_TABLE: 's3m-txvol-yyyymm-dev',
+  TXVOL_YEARMONTHDAY_TABLE: 's3m-txvol-yyyymmdd-dev',
 }
 
 // supply-constrained token template
