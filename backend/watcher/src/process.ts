@@ -229,14 +229,35 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
   const addressEventsToSave = {}
   const allocationEventsToSave = {}
 
+  // transfer events by yyyy, yyyy-mm, yyyy-mm-dd
+  // for analytics
+  const txVolYear = {}
+  const txVolYearMonth = {}
+  const txVolYearMonthDay = {}
+
   for (const event of events) {
     // address_package, event_timestamp
     const key = `${pkg}____${event.timestamp}`
     if (!(key in packageEventsToSave)) {
       packageEventsToSave[key] = []
     }
-    if (!(pkg in packageEventsToSave)) {
-      allocationEventsToSave[pkg] = []
+    if (!(address_package in packageEventsToSave)) {
+      allocationEventsToSave[address_package] = []
+    }
+
+    // key: address_package, period
+    const key_yyyy = `${address_package}____${event.timestamp.slice(0, 4)}`
+    const key_yyyymm = `${address_package}____${event.timestamp.slice(0, 7)}`
+    const key_yyyymmdd = `${address_package}____${event.timestamp.slice(0, 10)}`
+
+    if (!(key_yyyy in txVolYear)) {
+      txVolYear[key_yyyy] = 0
+    }
+    if (!(key_yyyymm in txVolYearMonth)) {
+      txVolYearMonth[key_yyyymm] = 0
+    }
+    if (!(key_yyyymmdd in txVolYearMonthDay)) {
+      txVolYearMonthDay[key_yyyymmdd] = 0
     }
 
     const item = {
@@ -256,6 +277,10 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         if (item.sender == item.recipient) {
           allocationEventsToSave[pkg].push(item)
         }
+
+        txVolYear[key_yyyy] += item.amount
+        txVolYearMonth[key_yyyymm] += item.amount
+        txVolYearMonthDay[key_yyyymmdd] += item.amount
         break
       case 'EventBurn':
         item.sender = event.sender.address
@@ -273,6 +298,10 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         item.amount = parseInt(event.json.amount, 10)
         balances[item.sender] = (balances[item.sender] ?? 0) - item.amount
         balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
+
+        txVolYear[key_yyyy] += item.amount
+        txVolYearMonth[key_yyyymm] += item.amount
+        txVolYearMonthDay[key_yyyymmdd] += item.amount
         break
       case 'EventAllocation':
         item.sender = event.json.sender
@@ -280,7 +309,11 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
         item.amount = parseInt(event.json.amount, 10)
         balances[item.sender] = (balances[item.sender] ?? 0) - item.amount
         balances[item.recipient] = (balances[item.recipient] ?? 0) + item.amount
-        allocationEventsToSave[pkg].push(item)
+        allocationEventsToSave[address_package].push(item)
+
+        txVolYear[key_yyyy] += item.amount
+        txVolYearMonth[key_yyyymm] += item.amount
+        txVolYearMonthDay[key_yyyymmdd] += item.amount
       case 'EventPaused':
       case 'EventUnpaused':
         item.sender = event.sender.address
@@ -356,7 +389,76 @@ async function saveEvents(pkg: string, events: Record<string, any>[], new_token:
     await sleep(C.DB_WRITE_SLEEP)
   }
 
+  await saveTxVolumes(txVolYear, txVolYearMonth, txVolYearMonthDay)
   await saveAllocations(allocationEventsToSave, ltimestamp)
+  await saveBalances(balances, address_package, ltimestamp)
+}
+
+async function saveTxVolumes(
+  txVolYear: Record<string, number>,
+  txVolYearMonth: Record<string, number>,
+  txVolYearMonthDay: Record<string, number>,
+) {
+  let writeItems: TransactWriteItem[] = []
+
+  let items: TransactWriteItem[] = Object.entries(txVolYear)
+    .filter(([_, volume]) => volume > 0)
+    .map(([pkg_date, volume]) => {
+      return {
+        Update: {
+          TableName: C.TXVOL_YEAR_TABLE,
+          Key: {
+            address_package: {S: pkg_date.split('____')[0]},
+            period: {S: pkg_date.split('____')[1]},
+          },
+          UpdateExpression: 'ADD volume :volume',
+          ExpressionAttributeValues: {
+            ':volume': {N: `${volume}`},
+          },
+        },
+      }
+    })
+  if (items.length > 0) writeItems.push(...items)
+
+  items = Object.entries(txVolYearMonth)
+    .filter(([_, volume]) => volume > 0)
+    .map(([pkg_date, volume]) => {
+      return {
+        Update: {
+          TableName: C.TXVOL_YEARMONTH_TABLE,
+          Key: {
+            address_package: {S: pkg_date.split('____')[0]},
+            period: {S: pkg_date.split('____')[1]},
+          },
+          UpdateExpression: 'ADD volume :volume',
+          ExpressionAttributeValues: {
+            ':volume': {N: `${volume}`},
+          },
+        },
+      }
+    })
+  if (items.length > 0) writeItems.push(...items)
+
+  items = Object.entries(txVolYearMonthDay)
+    .filter(([_, volume]) => volume > 0)
+    .map(([pkg_date, volume]) => {
+      return {
+        Update: {
+          TableName: C.TXVOL_YEARMONTHDAY_TABLE,
+          Key: {
+            address_package: {S: pkg_date.split('____')[0]},
+            period: {S: pkg_date.split('____')[1]},
+          },
+          UpdateExpression: 'ADD volume :volume',
+          ExpressionAttributeValues: {
+            ':volume': {N: `${volume}`},
+          },
+        },
+      }
+    })
+  if (items.length > 0) writeItems.push(...items)
+
+  if (writeItems.length == 0) return
 
   // save balances only after everything else has been saved
   await saveBalances(balances, pkg, ltimestamp)
