@@ -27,6 +27,7 @@ import { PAGES_URLS } from '@/utils/const';
 import { useBuildTransaction } from '@/hooks/useBuildTransaction';
 import { useCreateStableCoin } from '@/hooks/useCreateStableCoin';
 import { useCurrentSuiBalance } from '@/hooks/useCurrentBalance';
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useRequestSuiTokens } from '@/hooks/useRequestSuiTokens';
 
 import { AssignDefaultPermissions, PermissionsStableCoinData } from './components/AssignDefaultPermissions';
@@ -68,6 +69,11 @@ export default function CreateStableCoinPage() {
   const suiClientContext = useSuiClientContext();
   const requestSuiTokens = useRequestSuiTokens();
   const currentSuiBalance = useCurrentSuiBalance();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const [data, setData] = useState<Partial<CreateStableCoinData>>({});
   const [preliminaryData, setPreliminaryData] = useState<Partial<CreateStableCoinData>>({});
@@ -95,12 +101,12 @@ export default function CreateStableCoinPage() {
   const [isStableCoinCreatedButNotPublished, setIsStableCoinCreatedButNotPublished] = useState<boolean>(false);
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
 
   const goToNextStep = useCallback(
@@ -477,7 +483,7 @@ export default function CreateStableCoinPage() {
       <TokenDetailsReviewConfirm
         stableCoinData={{
           ...data,
-          icon: data.icon || `${location.origin}${defaultStableCoinIcon.src}`,
+          icon: data.icon || (location && `${location.origin}${defaultStableCoinIcon.src}`),
         }}
         visible={showCreateStableCoinConfirm}
         onClose={closeCreateStableCoinConfirm}

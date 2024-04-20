@@ -14,6 +14,7 @@ import { Loader } from '@/Components/Loader';
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
 export interface SelectStableCoinDropdownProps extends HTMLAttributes<HTMLDivElement> {}
@@ -28,16 +29,21 @@ export const SelectStableCoinDropdown: FC<SelectStableCoinDropdownProps> = ({ cl
     data,
     isLoading: isStableCoinsListLoading,
   } = useStableCoinsList(account?.address);
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const { coins: stableCoins = [] } = data || {};
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
   const currentStableCoin = useMemo(
     () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),

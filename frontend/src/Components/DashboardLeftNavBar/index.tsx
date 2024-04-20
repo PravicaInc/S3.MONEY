@@ -21,20 +21,27 @@ import { Logo } from '@/Components/Logo';
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
+
 export const DashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
 
   const links = useMemo(

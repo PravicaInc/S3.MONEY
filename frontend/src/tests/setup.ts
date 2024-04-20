@@ -40,3 +40,18 @@ jest.mock('../hooks/useStableCoinsList', () => {
     })),
   };
 });
+
+jest.mock('../hooks/useHasUserAccessToApp', () => {
+  const originalModule = jest.requireActual('../hooks/useHasUserAccessToApp');
+
+  return {
+    __esModule: true,
+    ...originalModule,
+    useHasUserAccessToApp: jest.fn(() => ({
+      data: true,
+      isPending: false,
+      isFetching: false,
+      isLoading: false,
+    })),
+  };
+});

@@ -25,6 +25,7 @@ import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/s
 import { useAllocate } from '@/hooks/useAllocate';
 import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
 import { isFrozenAccount } from '@/hooks/useFreezeAddress';
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 
@@ -40,6 +41,11 @@ export default function DashboardOperationsAllocatePage() {
   } = useStableCoinsList(account?.address);
   const allocate = useAllocate();
   const suiClient = useSuiClient();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const [showAllocateConfirm, setShowAllocateConfirm] = useState<boolean>(false);
   const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
@@ -50,12 +56,12 @@ export default function DashboardOperationsAllocatePage() {
   const { coins: stableCoins = [] } = data || {};
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
   const currentStableCoin = useMemo(
     () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),

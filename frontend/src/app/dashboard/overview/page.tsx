@@ -11,6 +11,7 @@ import { RelationsTable } from '@/app/dashboard/relations/components/RelationsTa
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useRelationsList } from '@/hooks/useRelations';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 
@@ -29,16 +30,21 @@ export default function DashboardOverviewPage() {
     isLoading: isStableCoinsListLoading,
     isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const { coins: stableCoins = [] } = stableCoinsList || {};
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
   const currentStableCoin = useMemo(
     () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),

@@ -21,6 +21,7 @@ import { WalletTransactionSuccessfulModal } from '@/Components/WalletTransaction
 import { PAGES_URLS } from '@/utils/const';
 import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/string_formats';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 import { useMintTo, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
@@ -36,6 +37,11 @@ export default function DashboardOperationsMintPage() {
     isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
   const mintTo = useMintTo();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const [showMintConfirm, setShowMintConfirm] = useState<boolean>(false);
   const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
@@ -45,12 +51,12 @@ export default function DashboardOperationsMintPage() {
   const { coins: stableCoins = [] } = data || {};
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
   const currentStableCoin = useMemo(
     () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),
