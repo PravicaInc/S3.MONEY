@@ -21,14 +21,18 @@ export default function AccessDeniedPage() {
   const searchParams = useSearchParams();
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
-  const { data: hasUserAccessToApp, isLoading: isHasUserAccessToAppLoading } = useHasUserAccessToApp(account?.address);
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
   const disconnectWallet = useDisconnectWallet();
 
   const [showTotalLogoutInstruction, setShowTotalLogoutInstruction] = useState<boolean>(false);
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppLoading,
-    [autoConnectionStatus, isHasUserAccessToAppLoading]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppFetching, isHasUserAccessToAppPending]
   );
   const isRedirecting = useMemo(
     () => autoConnectionStatus === 'attempted' && account?.address && hasUserAccessToApp,
