@@ -8,123 +8,133 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
   <div
     class="h-screen w-[270px] border-r border-borderPrimary bg-white flex flex-col"
   >
-    <a
-      class="flex items-end gap-[2px] ml-6 my-5"
-      href="/"
-    >
-      <svg />
-      <span
-        class=" capitalize text-black text-[8px] font-bold block bg-[#F4DC00] px-[10px] py-[2px] rounded-[5px] mb-[6px]"
-      >
-        devnet
-      </span>
-    </a>
     <div
-      class="mx-4 pt-5"
+      class="h-full"
     >
       <a
-        class="rounded-xl w-full"
-        href="/create-stablecoin"
+        class="flex items-end gap-[2px] ml-6 my-5"
+        href="/"
       >
-        <button
-          class="text-white rounded-xl shadow-button border-mangoOrange border-solid border justify-center bg-mangoOrange relative overflow-hidden hover:text-mangoOrange hover:bg-white transition disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none [&>svg>path]:hover:stroke-mangoOrange text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]"
+        <svg />
+        <span
+          class=" capitalize text-black text-[8px] font-bold block bg-[#F4DC00] px-[10px] py-[2px] rounded-[5px] mb-[6px]"
         >
-          <svg />
-          <span
-            class="mt-[1px]"
-          >
-            Create New Stablecoin
-          </span>
-        </button>
+          devnet
+        </span>
       </a>
+      <div
+        class="mx-4 pt-5"
+      >
+        <a
+          class="rounded-xl w-full"
+          href="/create-stablecoin"
+        >
+          <button
+            class="text-white rounded-xl shadow-button border-mangoOrange border-solid border justify-center bg-mangoOrange relative overflow-hidden hover:text-mangoOrange hover:bg-white transition disabled:bg-alabaster disabled:bg-none disabled:border-borderPrimary disabled:text-santaGrey disabled:shadow-none [&>svg>path]:hover:stroke-mangoOrange text-sm font-semibold h-[48px] w-full flex items-center gap-[10px]"
+          >
+            <svg />
+            <span
+              class="mt-[1px]"
+            >
+              Create New Stablecoin
+            </span>
+          </button>
+        </a>
+      </div>
+      <div
+        class="overflow-auto"
+      >
+        <div
+          class="pt-6 px-4"
+        >
+          <p
+            class="text-xs font-semibold text-hitGrey pl-3 pb-3"
+          >
+            MAIN MENU
+          </p>
+          <div
+            class="flex flex-col gap-1"
+          >
+            <a
+              class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+              href="/dashboard/overview?txid=1"
+            >
+              <svg
+                fill="none"
+              />
+              Overview
+            </a>
+            <a
+              class="flex items-center gap-[10px] py-2 px-3 border rounded-md [&>svg>path[stroke]]:stroke-primary [&>svg>path[fill]]:fill-primary border-borderPrimary bg-snowDrift text-primary font-semibold"
+              href="/dashboard/operations?txid=1"
+            >
+              <svg
+                fill="none"
+              />
+              Operations
+            </a>
+            <a
+              class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+              href="/dashboard/relations?txid=1"
+            >
+              <svg />
+              Relations
+            </a>
+            <a
+              class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+              href="/"
+            >
+              <svg />
+              Details
+            </a>
+          </div>
+        </div>
+        <div
+          class="pt-6 px-4"
+        >
+          <p
+            class="text-xs font-semibold text-hitGrey pl-3 pb-3"
+          >
+            Support
+          </p>
+          <div
+            class="flex flex-col gap-1"
+          >
+            <a
+              class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+              href="https://github.com/PravicaInc/S3.MONEY/issues/new"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <svg />
+              Help
+              <svg
+                class="ml-[5px]"
+              />
+            </a>
+            <a
+              class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
+              href="https://docs.s3.money/docs/stablecoin"
+              rel="noreferrer"
+              target="_blank"
+            >
+              <svg
+                stroke="none"
+              />
+              Docs
+              <svg
+                class="ml-[5px]"
+              />
+            </a>
+          </div>
+        </div>
+      </div>
     </div>
     <div
-      class="h-full overflow-auto"
+      class="text-mistBlue text-sm m-4"
     >
-      <div
-        class="pt-6 px-4"
-      >
-        <p
-          class="text-xs font-semibold text-hitGrey pl-3 pb-3"
-        >
-          MAIN MENU
-        </p>
-        <div
-          class="flex flex-col gap-1"
-        >
-          <a
-            class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-            href="/dashboard/overview?txid=1"
-          >
-            <svg
-              fill="none"
-            />
-            Overview
-          </a>
-          <a
-            class="flex items-center gap-[10px] py-2 px-3 border rounded-md [&>svg>path[stroke]]:stroke-primary [&>svg>path[fill]]:fill-primary border-borderPrimary bg-snowDrift text-primary font-semibold"
-            href="/dashboard/operations?txid=1"
-          >
-            <svg
-              fill="none"
-            />
-            Operations
-          </a>
-          <a
-            class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-            href="/dashboard/relations?txid=1"
-          >
-            <svg />
-            Relations
-          </a>
-          <a
-            class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-            href="/"
-          >
-            <svg />
-            Details
-          </a>
-        </div>
-      </div>
-      <div
-        class="pt-6 px-4"
-      >
-        <p
-          class="text-xs font-semibold text-hitGrey pl-3 pb-3"
-        >
-          Support
-        </p>
-        <div
-          class="flex flex-col gap-1"
-        >
-          <a
-            class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-            href="https://github.com/PravicaInc/S3.MONEY/issues/new"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <svg />
-            Help
-            <svg
-              class="ml-[5px]"
-            />
-          </a>
-          <a
-            class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-            href="https://docs.s3.money/docs/stablecoin"
-            rel="noreferrer"
-            target="_blank"
-          >
-            <svg
-              stroke="none"
-            />
-            Docs
-            <svg
-              class="ml-[5px]"
-            />
-          </a>
-        </div>
-      </div>
+      v
+      0.1.0
     </div>
   </div>
 </div>
