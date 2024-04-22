@@ -21,16 +21,24 @@ import { Logo } from '@/Components/Logo';
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useStableCoinsList } from '@/hooks/useStableCoinsList';
+
 export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
+  const {
+    data,
+    isLoading: isStableCoinsListLoading,
+  } = useStableCoinsList(account?.address);
+
+  const { coins: stableCoins = [] } = data || {};
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isStableCoinsListLoading,
+    [autoConnectionStatus, isStableCoinsListLoading]
   );
   const isRedirecting = useMemo(
     () => autoConnectionStatus === 'attempted' && !account?.address,
@@ -52,10 +60,11 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
           },
           {
             href: {
-              pathname: searchParams.get('txid')
-                ? PAGES_URLS.dashboardOperations
-                : PAGES_URLS.operations,
-              query: Object.fromEntries(searchParams.entries()),
+              pathname: PAGES_URLS.dashboardOperations,
+              query: {
+                ...Object.fromEntries(searchParams.entries()),
+                txid: searchParams.get('txid') || stableCoins[0]?.txid,
+              },
             },
             icon: <OperationsLinkIcon fill="none" />,
             text: 'Operations',
@@ -66,10 +75,11 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
           },
           {
             href: {
-              pathname: searchParams.get('txid')
-                ? PAGES_URLS.dashboardRelations
-                : PAGES_URLS.relations,
-              query: Object.fromEntries(searchParams.entries()),
+              pathname: PAGES_URLS.dashboardRelations,
+              query: {
+                ...Object.fromEntries(searchParams.entries()),
+                txid: searchParams.get('txid') || stableCoins[0]?.txid,
+              },
             },
             icon: <RelationsLinkIcon />,
             text: 'Relations',
@@ -80,10 +90,11 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
           },
           {
             href: {
-              pathname: searchParams.get('txid')
-                ? PAGES_URLS.dashboardDetails
-                : PAGES_URLS.details,
-              query: Object.fromEntries(searchParams.entries()),
+              pathname: PAGES_URLS.dashboardDetails,
+              query: {
+                ...Object.fromEntries(searchParams.entries()),
+                txid: searchParams.get('txid') || stableCoins[0]?.txid,
+              },
             },
             icon: <ChartsLinkIcon fill="none" />,
             text: 'Details',
@@ -126,7 +137,7 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
         ],
       },
     ],
-    [searchParams, pathname]
+    [pathname, searchParams, stableCoins]
   );
 
   return (
