@@ -44,10 +44,12 @@ const config: Config = {
         pickledBluewood: '#344054',
         dawnPink: '#EAECF0',
         freshGreen: '#42DB64',
+        hawkesBlue: '#CBE6F7',
       },
       backgroundImage: {
         buttonBgMain: 'linear-gradient(0deg, #FE6321, #FE6321)',
         buttonBgAfter: 'linear-gradient(180deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 100%)',
+        gradientsGraphCards: 'linear-gradient(176deg, #D2EBFA 51.68%, #D5F7EE 100%)',
       },
       boxShadow: {
         operationIcon: '0px 1.6666666269302368px 3.3333332538604736px 0px #0D0D121F',
