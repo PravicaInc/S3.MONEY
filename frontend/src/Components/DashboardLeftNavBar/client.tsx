@@ -143,7 +143,7 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
   return (
     <div
       className={twMerge(
-        'h-full',
+        'flex flex-col',
         (isLoading || isRedirecting) && 'overflow-hidden',
         className
       )}
@@ -172,7 +172,7 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
                   </Button>
                 </Link>
               </div>
-              <div className="overflow-auto">
+              <div className="h-full overflow-auto">
                 {
                   links.map(({ groupName, groupLinks }) => (
                     <div key={groupName} className="pt-6 px-4">
