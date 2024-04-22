@@ -4,10 +4,10 @@ import type { Metadata } from 'next';
 import { DashboardLayout } from '@/Components/DashboardLayout';
 
 export const metadata: Metadata = {
-  title: 'S3 - Dashboard - Overview',
+  title: 'S3 - Dashboard - Details',
 };
 
-export default function DashboardOverviewLayout({ ...props }: PropsWithChildren) {
+export default function DashboardDetailsLayout({ ...props }: PropsWithChildren) {
   return (
     <DashboardLayout
       {...props}

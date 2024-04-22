@@ -57,11 +57,9 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
           >
             <a
               class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-              href="/dashboard/overview?txid=1"
+              href="/"
             >
-              <svg
-                fill="none"
-              />
+              <svg />
               Overview
             </a>
             <a
@@ -82,9 +80,11 @@ exports[`DashboardLeftNavBar: Snapshot 1`] = `
             </a>
             <a
               class="flex items-center gap-[10px] py-2 px-3 border rounded-md border-transparent text-secondary font-medium [&>svg>path[stroke]]:stroke-secondary [&>svg>path[fill]]:fill-secondary"
-              href="/"
+              href="/dashboard/details?txid=1"
             >
-              <svg />
+              <svg
+                fill="none"
+              />
               Details
             </a>
           </div>

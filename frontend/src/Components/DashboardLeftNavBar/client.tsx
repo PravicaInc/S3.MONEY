@@ -44,17 +44,11 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
         groupLinks: [
           {
             href: {
-              pathname: searchParams.get('txid')
-                ? PAGES_URLS.dashboardOverview
-                : PAGES_URLS.overview,
-              query: Object.fromEntries(searchParams.entries()),
+              pathname: PAGES_URLS.home,
             },
-            icon: <ChartsLinkIcon fill="none" />,
+            icon: <OverviewLinkIcon />,
             text: 'Overview',
-            isActive: (
-              pathname.indexOf(PAGES_URLS.dashboardOverview) !== -1
-                || pathname.indexOf(PAGES_URLS.overview) !== -1
-            ),
+            isActive: pathname === PAGES_URLS.home,
           },
           {
             href: {
@@ -86,11 +80,17 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
           },
           {
             href: {
-              pathname: PAGES_URLS.home,
+              pathname: searchParams.get('txid')
+                ? PAGES_URLS.dashboardDetails
+                : PAGES_URLS.details,
+              query: Object.fromEntries(searchParams.entries()),
             },
-            icon: <OverviewLinkIcon />,
+            icon: <ChartsLinkIcon fill="none" />,
             text: 'Details',
-            isActive: pathname === PAGES_URLS.home,
+            isActive: (
+              pathname.indexOf(PAGES_URLS.dashboardDetails) !== -1
+                || pathname.indexOf(PAGES_URLS.details) !== -1
+            ),
           },
         ],
       },
