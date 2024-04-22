@@ -8,20 +8,26 @@ import { Loader } from '@/Components/Loader';
 import { Logo } from '@/Components/Logo';
 import { LogoutButton } from '@/Components/LogoutButton';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 
 export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props }) => {
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
   const shortAccountAddress = useShortAccountAddress();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
 
   return (
@@ -43,7 +49,7 @@ export const Header: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
           )
         }
         {
-          shortAccountAddress && (
+          shortAccountAddress && hasUserAccessToApp && (
             <LogoutButton />
           )
         }

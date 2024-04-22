@@ -17,6 +17,7 @@ import { LogoutButton } from '@/Components/LogoutButton';
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useShortAccountAddress } from '@/hooks/useShortAccountAddress';
 import { StableCoin, useStableCoinsList } from '@/hooks/useStableCoinsList';
 
@@ -31,6 +32,11 @@ export default function HomePage() {
     isLoading: isStableCoinsListLoading,
     isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const [searchValue, setSearchValue] = useState<string>('');
 
@@ -41,12 +47,12 @@ export default function HomePage() {
     [stableCoins, searchValue]
   );
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
 
   const changeSearchValue = (event: ChangeEvent<HTMLInputElement>) => {
@@ -66,7 +72,7 @@ export default function HomePage() {
         )}
       >
         {
-          shortAccountAddress && (
+          shortAccountAddress && hasUserAccessToApp && (
             isStableCoinsListLoading
               ? (
                 <Loader className="h-8" />
@@ -88,7 +94,7 @@ export default function HomePage() {
           )
         }
         {
-          shortAccountAddress && (
+          shortAccountAddress && hasUserAccessToApp && (
             <LogoutButton />
           )
         }

@@ -22,6 +22,7 @@ import { PAGES_URLS } from '@/utils/const';
 import { getShortAccountAddress, numberFormat, numberNormalize } from '@/utils/string_formats';
 
 import { useCurrentStableCoinBalance } from '@/hooks/useCurrentBalance';
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
 import { useIsSystemPaused } from '@/hooks/usePlayPauseSystem';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 import { useBurnFrom, useStableCoinCurrentSupply, useStableCoinMaxSupply } from '@/hooks/useStableCoinSupply';
@@ -37,6 +38,11 @@ export default function DashboardOperationsBurnPage() {
     isFetching: isStableCoinsListFetching,
   } = useStableCoinsList(account?.address);
   const burnFrom = useBurnFrom();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   const [showBurnConfirm, setShowBurnConfirm] = useState<boolean>(false);
   const [showWalletTransactionSuccessfulModal, setShowWalletTransactionSuccessfulModal] = useState<boolean>(false);
@@ -46,12 +52,12 @@ export default function DashboardOperationsBurnPage() {
   const { coins: stableCoins = [] } = data || {};
 
   const isLoading = useMemo(
-    () => autoConnectionStatus === 'idle',
-    [autoConnectionStatus]
+    () => autoConnectionStatus === 'idle' || isHasUserAccessToAppPending || isHasUserAccessToAppFetching,
+    [autoConnectionStatus, isHasUserAccessToAppPending, isHasUserAccessToAppFetching]
   );
   const isRedirecting = useMemo(
-    () => autoConnectionStatus === 'attempted' && !account?.address,
-    [autoConnectionStatus, account?.address]
+    () => (autoConnectionStatus === 'attempted' && !account?.address) || !hasUserAccessToApp,
+    [autoConnectionStatus, account?.address, hasUserAccessToApp]
   );
   const currentStableCoin = useMemo(
     () => stableCoins.find(({ txid }) => txid === searchParams.get('txid')),

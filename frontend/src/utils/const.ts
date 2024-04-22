@@ -11,6 +11,7 @@ export const PAGES_URLS = {
   dashboardOverview: '/dashboard/overview',
   signIn: '/sign-in',
   createStableCoin: '/create-stablecoin',
+  accessDenied: '/access-denied',
 };
 
 export const WALLETS = {

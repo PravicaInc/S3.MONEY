@@ -60,9 +60,10 @@ export const useCurrentStableCoinBalance = (walletAddress?: string, stableCoin?:
               && obj.data?.content?.type == `0x2::token::Token<${stableCoin.deploy_addresses.packageId}::${stableCoin.package_name}::${stableCoin.package_name.toUpperCase()}>`
           )
           .map(coin => parseFloat(coin.data.content.fields.balance as string))
-          .reduce((sum, next) => sum + next)
+          .reduce((sum, next) => sum + next, 0)
         : Promise.resolve(0)
     ),
+    enabled: !!(walletAddress && stableCoin),
   });
 };
 

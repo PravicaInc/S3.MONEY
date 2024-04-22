@@ -7,6 +7,8 @@ import qs from 'qs';
 
 import { PAGES_URLS } from '@/utils/const';
 
+import { useHasUserAccessToApp } from '@/hooks/useHasUserAccessToApp';
+
 const pagesUrlsWithoutAuthorization = [
   PAGES_URLS.signIn,
 ];
@@ -18,13 +20,25 @@ export const ClientLayout: FC<PropsWithChildren> = ({ children }) => {
 
   const autoConnectionStatus = useAutoConnectWallet();
   const account = useCurrentAccount();
+  const {
+    data: hasUserAccessToApp,
+    isPending: isHasUserAccessToAppPending,
+    isFetching: isHasUserAccessToAppFetching,
+  } = useHasUserAccessToApp(account?.address);
 
   useEffect(
     () => {
       if (
         autoConnectionStatus === 'attempted'
           && account?.address
-          && pagesUrlsWithoutAuthorization.includes(pathname)
+          && (
+            pagesUrlsWithoutAuthorization.includes(pathname)
+              || (
+                !(isHasUserAccessToAppPending || isHasUserAccessToAppFetching)
+                  && hasUserAccessToApp
+                  && pathname === PAGES_URLS.accessDenied
+              )
+          )
       ) {
         router.replace(searchParams.get('next') || PAGES_URLS.home);
       }
@@ -37,8 +51,28 @@ export const ClientLayout: FC<PropsWithChildren> = ({ children }) => {
           next: `${pathname}?${qs.stringify(Object.fromEntries(searchParams.entries()))}`,
         })}`);
       }
+      if (
+        autoConnectionStatus === 'attempted'
+          && account?.address
+          && !(isHasUserAccessToAppPending || isHasUserAccessToAppFetching)
+          && !hasUserAccessToApp
+          && pathname !== PAGES_URLS.accessDenied
+      ) {
+        router.replace(`${PAGES_URLS.accessDenied}?${qs.stringify({
+          next: `${pathname}?${qs.stringify(Object.fromEntries(searchParams.entries()))}`,
+        })}`);
+      }
     },
-    [autoConnectionStatus, account, router, pathname, searchParams]
+    [
+      autoConnectionStatus,
+      account,
+      router,
+      pathname,
+      searchParams,
+      isHasUserAccessToAppPending,
+      hasUserAccessToApp,
+      isHasUserAccessToAppFetching,
+    ]
   );
 
   return children;
