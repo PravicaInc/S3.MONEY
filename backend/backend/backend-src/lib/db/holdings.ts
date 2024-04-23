@@ -50,7 +50,14 @@ export async function getHoldings(address: string, ticker: string, range: string
   const response = await DB_CLIENT.send(command)
 
   if (response.Items === undefined) return []
-  else return response.Items?.map(item => unmarshall(item)) ?? []
+  else
+    return (
+      response.Items?.map(item => {
+        let {date, holdings} = unmarshall(item)
+        holdings.date = date
+        return holdings
+      }) ?? []
+    )
 }
 
 // eof
