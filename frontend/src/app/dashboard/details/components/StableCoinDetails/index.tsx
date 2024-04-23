@@ -55,6 +55,7 @@ export const StableCoinDetails: FC<StableCoinDetailsProps> = ({
       //       ? (
       //         <Loader className="h-4" />
       //       )
+      //       // TODO: Add real data
       //       : priceFormat(`${stableCoinCurrentSupply}`)
       //   ),
       // },

@@ -88,6 +88,7 @@ export default function DashboardOverviewPage() {
                   className="flex flex-col justify-between"
                 />
               </div>
+              {/* TODO: Add real data */}
               {/* <TransactionVolume
                 stableCoinItem={currentStableCoin}
                 className="mt-6"
