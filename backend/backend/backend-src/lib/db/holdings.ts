@@ -1,8 +1,8 @@
 /**
- * @file Functions related to DynamoDB operations for transaction volumes.
+ * @file Functions related to DynamoDB operations for holdings over time.
  */
 
-import {DynamoDBClient, QueryCommand} from '@aws-sdk/client-dynamodb'
+import {DynamoDBClient, QueryCommand, QueryCommandInput} from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 import * as df from 'date-fns'
 
@@ -18,39 +18,35 @@ const DB_CLIENT = new DynamoDBClient()
  * @param {string} ticker - smart contract ticker
  * @param {string} range - '1d', '7d', '1m', '3m', '6m', '1y', etc.
  */
-export async function getTxVol(address: string, ticker: string, range: string) {
+export async function getHoldings(address: string, ticker: string, range: string) {
   const addressPackage = `${address}::${tickerToPackageName(ticker)}`
   range = range.toLowerCase().trim()
   const suffix = range.slice(-1)
   const amount = parseInt(range.slice(0, -1), 10)
 
-  let table: string = ''
   let rangeStart: string = ''
   switch (suffix) {
     case 'd':
-      table = DB.TXVOL_YEARMONTHDAY_TABLE
       rangeStart = df.sub(new Date(), {days: amount}).toISOString().slice(0, 10)
       break
     case 'm':
-      table = DB.TXVOL_YEARMONTH_TABLE
-      rangeStart = df.sub(new Date(), {months: amount}).toISOString().slice(0, 7)
+      rangeStart = df.sub(new Date(), {months: amount}).toISOString().slice(0, 7) + '-01'
       break
     case 'y':
-      table = DB.TXVOL_YEAR_TABLE
-      rangeStart = df.sub(new Date(), {years: amount}).toISOString().slice(0, 4)
+      rangeStart = df.sub(new Date(), {years: amount}).toISOString().slice(0, 4) + '-01-01'
       break
   }
 
   const command = new QueryCommand({
-    TableName: table,
-    KeyConditionExpression: 'address_package = :address_package AND period >= :start',
+    TableName: DB.HOLDINGS_TABLE,
+    KeyConditionExpression: 'address_package = :address_package AND #date >= :start',
+    ExpressionAttributeNames: {'#date': 'date'},
     ExpressionAttributeValues: marshall({
       ':address_package': addressPackage,
       ':start': rangeStart,
     }),
-    ProjectionExpression: 'period, volume',
+    ProjectionExpression: '#date, holdings',
   })
-
   const response = await DB_CLIENT.send(command)
 
   if (response.Items === undefined) return []
