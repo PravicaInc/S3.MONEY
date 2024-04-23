@@ -122,7 +122,7 @@ export const ClientDashboardLeftNavBar: FC<HTMLAttributes<HTMLDivElement>> = ({ 
             rel: 'noreferrer',
           },
           {
-            href: 'https://docs.s3.money/docs/stablecoin',
+            href: 'https://docs.s3.money',
             icon: <DocsIcon stroke="none" />,
             text: (
               <>
