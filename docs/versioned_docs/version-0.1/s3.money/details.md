@@ -1,16 +1,13 @@
 ---
-sidebar_position: 3
+sidebar_position: 5
 ---
 
 # Details
-In the details page, if the user has not created any stablecoins yet, they will see the following screen.
 
-![Create Stablecoin](@site/static/img/create-stablecoin.png)
+This page provides information about the selected stablecoin. The information consists of the following:
 
-Here, they can initiate the creation of their first stablecoin by selecting the **Create New Stablecoin** button.
+- **Allocation Ratio**: The graphical representation of the allocation ratio between allocated and unallocated funds in a stablecoin visually illustrates the distribution of funds. Allocated funds are those that have already been distributed, typically held in reserves or backing assets. On the other hand, unallocated funds are still in the possession of the stablecoin owner, ready to be deployed or used as needed. This graph provides a clear and intuitive overview of how funds are managed within the stablecoin ecosystem.
 
-If the user has already created stablecoins, they will be displayed on the dashboard. 
+- **Stablecoin Details**: The stablecoin details are listed for users to view, encompassing several key metrics such as total supply, allocated supply, maximum supply, and non-allocated supply. These metrics provide users with a comprehensive overview of the stablecoin's current status and distribution of its coin supply.
 
-Each stablecoin will show its current status (active, paused, or frozen), along with details like the total supply and supply details. Upon clicking on the card, it takes the user to the Operations tab for that particular stablecoin.
-
-![Details](@site/static/img/details.png)
+- **Related wallets**: At the end, a list of related wallets is displayed, showing their name, address, balance, volume, and updated status. This information provides users with a comprehensive overview of each wallet's details.
