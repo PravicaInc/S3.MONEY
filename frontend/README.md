@@ -78,6 +78,6 @@ The project has a typical structure for a NextJS@14 project, namely:
   - `Components` - the folder where all common components are located
   - `hooks` - the folder where all react hooks are located
   - `services` - the folder where all services are located
-  - `styles` - the folder where all utils are located
+  - `styles` - the folder where all styles are located
   - `tests` - the folder where all tests are located
   - `utils` - the folder where all utils are located
