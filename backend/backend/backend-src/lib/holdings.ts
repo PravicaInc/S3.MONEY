@@ -24,7 +24,7 @@ export async function handleGetHoldings(req: Request, res: Response) {
       status: 'ok',
       addressPackage: `${address}::${tickerToPackageName(ticker)}`,
       fields: HOLDINGS_BUCKETS,
-      volumes: await dbHoldings.getHoldings(address, ticker, range as string),
+      holdings: await dbHoldings.getHoldings(address, ticker, range as string),
     })
   } else if (!a) {
     res.status(400).json({
