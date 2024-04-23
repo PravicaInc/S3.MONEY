@@ -10,6 +10,7 @@ import * as events from './lib/events'
 import * as packages from './lib/packages'
 import * as relations from './lib/relations'
 import * as txvol from './lib/txvol'
+import * as holdings from './lib/holdings'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()
@@ -61,6 +62,9 @@ app.get('/package-events/:address/:ticker', events.handleGetPackageEvents)
 app.get('/address-events/:address', events.handleGetAddressEvents)
 app.get('/balances/:address', events.handleGetBalances)
 app.get('/allocations/:address/:ticker', events.handleGetAllocations)
+
+// balances in buckets (0-1k, etc.) over time
+app.get('/holdings/:address/:ticker', holdings.handleGetHoldings)
 
 // transaction volumes
 app.get('/txvol/:address/:ticker', txvol.handleGetTxVol)
