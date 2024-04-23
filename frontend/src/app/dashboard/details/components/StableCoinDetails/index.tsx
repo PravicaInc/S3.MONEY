@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import { Button, BUTTON_VIEWS } from '@/Components/Form/Button';
 import { Loader } from '@/Components/Loader';
 
-import { numberFormat, priceFormat } from '@/utils/string_formats';
+import { numberFormat/* , priceFormat */ } from '@/utils/string_formats';
 
 import { useCurrentAllocated } from '@/hooks/useAllocate';
 import { StableCoin } from '@/hooks/useStableCoinsList';
@@ -48,16 +48,17 @@ export const StableCoinDetails: FC<StableCoinDetailsProps> = ({
 
   const details = useMemo(
     () => [
-      {
-        title: 'Volume of (24h):',
-        content: (
-          isStableCoinCurrentSupplyLoading
-            ? (
-              <Loader className="h-4" />
-            )
-            : priceFormat(`${stableCoinCurrentSupply}`)
-        ),
-      },
+      // {
+      //   title: 'Volume of (24h):',
+      //   content: (
+      //     isStableCoinCurrentSupplyLoading
+      //       ? (
+      //         <Loader className="h-4" />
+      //       )
+      //       // TODO: Add real data
+      //       : priceFormat(`${stableCoinCurrentSupply}`)
+      //   ),
+      // },
       {
         title: 'Total Supply:',
         content: (
