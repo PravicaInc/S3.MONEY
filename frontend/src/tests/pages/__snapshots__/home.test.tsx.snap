@@ -301,7 +301,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
       class="font-medium flex items-center justify-between text-mistBlue pb-7 pl-9 pr-[85px]"
     >
       <a
-        href="https://pravica.io/privacy"
+        href="https://www.s3.money/privacy-policy"
         rel="noreferrer"
         target="_blank"
       >

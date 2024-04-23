@@ -7,7 +7,7 @@ export const Footer: FC<HTMLAttributes<HTMLDivElement>> = ({ className, ...props
 
     {...props}
   >
-    <a href="https://pravica.io/privacy" target="_blank" rel="noreferrer">
+    <a href="https://www.s3.money/privacy-policy" target="_blank" rel="noreferrer">
       Privacy Policy
     </a>
     <p>
