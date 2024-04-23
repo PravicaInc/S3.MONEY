@@ -1,6 +1,7 @@
 import type * as Preset from '@docusaurus/preset-classic';
 import type { Config } from '@docusaurus/types';
 import { themes as prismThemes } from 'prism-react-renderer';
+import versions from './versions.json';
 
 const config: Config = {
   title: 'StableCoin ',
@@ -46,7 +47,13 @@ const config: Config = {
           href: 'https://github.com/PravicaInc/S3.MONEY/issues',
           position: 'right',
         },
+        {
+          type: 'docsVersion',
+          position: 'right',
+          label: `v${versions[0]}`,
+        },
       ],
+
     },
 
     prism: {
