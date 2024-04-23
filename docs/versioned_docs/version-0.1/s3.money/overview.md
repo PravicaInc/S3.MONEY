@@ -1,16 +1,17 @@
 ---
-sidebar_position: 5
+sidebar_position: 3
 ---
 
 # Overview
-This page provides information about the selected stablecoin. The information consists of the following: 
-- **Allocation Ratio**: The graphical representation of the allocation ratio between allocated and unallocated funds in a stablecoin visually illustrates the distribution of funds. Allocated funds are those that have already been distributed, typically held in reserves or backing assets. On the other hand, unallocated funds are still in the possession of the stablecoin owner, ready to be deployed or used as needed. This graph provides a clear and intuitive overview of how funds are managed within the stablecoin ecosystem.
 
-- **Stablecoin Details**: The stablecoin details are listed for users to view, encompassing several key metrics such as the 24-hour trading volume, total supply, allocated supply, maximum supply, and non-allocated supply. These metrics provide users with a comprehensive overview of the stablecoin's current status and distribution of its coin supply.
+In the overview page, if the user has not created any stablecoins yet, they will see the following screen.
 
-- **Transaction Volume**: The transaction volume is visualized using a bar graph, providing users with the ability to access statistics for different time frames such as 1 day, 1 week, 1 month, and 6 months. 
-This graphical representation allows users to track and analyze changes in transaction volume over varying periods, aiding in their understanding of the stablecoin's trading activity and market trends.
+![Create Stablecoin](@site/static/img/create-stablecoin.png)
 
-- **Address by holdings**: The graph displays addresses based on their holdings, providing a visual representation of how different addresses are allocated in terms of the stablecoin's holdings.
+Here, they can initiate the creation of their first stablecoin by selecting the **Create New Stablecoin** button.
 
-- **Related wallets**: At the end, a list of related wallets is displayed, showing their name, address, balance, volume, and updated status. This information provides users with a comprehensive overview of each wallet's details.
+If the user has already created stablecoins, they will be displayed on the dashboard.
+
+Each stablecoin will show its current status (active, paused, or frozen), along with details like the total supply and supply details. Upon clicking on the card, it takes the user to the Operations tab for that particular stablecoin.
+
+![Details](@site/static/img/details.png)
