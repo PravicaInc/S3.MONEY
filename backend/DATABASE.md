@@ -86,3 +86,11 @@ The period is a year in the first table ('2024', etc.), a year and a month in th
 
 * Primary key: *address_package*
 * Sort key: *period*
+
+## HOLDINGS_TABLE: s3m-holdings-dev
+
+This maps (address-package, period) to the number of account balances in each bucket on that
+day.
+
+* Primary key: *address_package*
+* Sort key: *period*

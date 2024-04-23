@@ -24,6 +24,7 @@ export const DB = {
   TXVOL_YEAR_TABLE: 's3m-txvol-yyyy-dev',
   TXVOL_YEARMONTH_TABLE: 's3m-txvol-yyyymm-dev',
   TXVOL_YEARMONTHDAY_TABLE: 's3m-txvol-yyyymmdd-dev',
+  HOLDINGS_TABLE: 's3m-holdings-dev',
 }
 
 // supply-constrained token template
@@ -46,5 +47,8 @@ export const RESERVED_TICKERS = [
   '$TOKEN',
   '$TYPES',
 ]
+
+// keep these in sync with watcher/src/constants.ts and keep them sorted
+export const HOLDINGS_BUCKETS = ['0k-1k', '1k-100k', '100k-1m', '1m+']
 
 // eof
