@@ -6,9 +6,10 @@ import {
   TransactWriteItemsCommand,
 } from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
+import {SendMessageCommand, SQSClient, GetQueueUrlCommand} from '@aws-sdk/client-sqs'
 
 import {ExecutionResult} from 'graphql'
-import {createClient, RequestParams} from 'graphql-http'
+import {createClient} from 'graphql-http'
 
 import * as C from './constants'
 import * as Q from './queries'
@@ -19,7 +20,7 @@ const gclient = createClient({
 })
 const dbclient = new DynamoDBClient()
 
-async function sleep(secs: number) {
+export async function sleep(secs: number) {
   // console.log(`sleeping for ${secs} seconds`)
   return new Promise(resolve => setTimeout(resolve, secs * 1000))
 }
@@ -27,7 +28,7 @@ async function sleep(secs: number) {
 // FIXME: instead of scanning the whole table, we use the lastfetch table
 // change the backend to store the last fetch details
 // key: address_package (deplyoyer :: package_name), value: (packageId :: package_name)
-async function getPackageModules(): Promise<Record<string, string>> {
+export async function getPackageModules(): Promise<Record<string, string>> {
   let packages: Record<string, string> = {}
 
   const command = new ScanCommand({
@@ -72,7 +73,7 @@ async function lastFetchEventTime(pkg: string): Promise<string> {
   return item.last_timestamp ?? ''
 }
 
-async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
+export async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
   let cancel = () => {}
   const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
     let innerResult
@@ -538,7 +539,6 @@ async function saveBalances(balances: Record<string, number>, address_package: s
   const items: TransactWriteItem[] = Object.entries(balances)
     .filter(([_, balance]) => balance > 0)
     .map(([address, balance]) => {
-      // console.log(`balance ${address} $${address_package.split('::')[1].toUpperCase()}: ${balance}`)
       return {
         Update: {
           TableName: C.BALANCES_TABLE,
@@ -547,11 +547,11 @@ async function saveBalances(balances: Record<string, number>, address_package: s
             address_package: {S: address_package},
           },
           UpdateExpression: 'ADD balance :balance SET last_timestamp = :ltimestamp, ticker = :ticker',
-          ExpressionAttributeValues: {
-            ':balance': {N: `${balance}`},
-            ':ltimestamp': {S: ltimestamp},
-            ':ticker': {S: `$${address_package.split('::')[1].toUpperCase()}`},
-          },
+          ExpressionAttributeValues: marshall({
+            balance: balance,
+            ltimestamp: ltimestamp,
+            ticker: `$${address_package.split('::')[1].toUpperCase()}`,
+          }),
         },
       }
     })
@@ -569,47 +569,80 @@ async function saveBalances(balances: Record<string, number>, address_package: s
   }
 }
 
-export async function processEvents(_ignore: any) {
+export async function scheduleEvents() {
+  const packages = await getPackageModules()
+  console.log(`scheduling up to ${Object.keys(packages).length} packages`)
+
+  const sqsClient = new SQSClient()
+  const getQueueCommand = new GetQueueUrlCommand({
+    QueueName: C.FETCH_EVENTS_QUEUE,
+  })
+  const queueUrl = await sqsClient.send(getQueueCommand)
+
+  for (const [address_package, package_address] of Object.entries(packages)) {
+    sqsClient.send(
+      new SendMessageCommand({
+        QueueUrl: queueUrl.QueueUrl,
+        MessageBody: JSON.stringify({
+          action: C.PROCESS_PACKAGE_ACTION,
+          contract: {
+            address_package: address_package,
+            package_address: package_address,
+          },
+        }),
+      }),
+    )
+    // console.log(`scheduled ${address_package}`)
+  }
+}
+
+export async function processEvent(contract: Record<string, string>) {
+  const address_package = contract.address_package
+  const package_address = contract.package_address
+
+  let ltime = await lastFetchEventTime(address_package)
+  // console.log(`processing ${address_package}, last fetch time: ${ltime}`)
+
+  let packageEvents: object[] = []
+  let packageDone = false
+  const forward = ltime == ''
+
+  let token = ''
+  while (!packageDone) {
+    let new_token = ''
+    let events: object[]
+    let done = false
+    if (forward) {
+      ;[new_token, events, done] = await getTokenEvents(package_address, token)
+    } else {
+      ;[new_token, events, done] = await getTokenEventsBackwards(package_address, token, ltime)
+    }
+    packageDone = done
+    token = new_token
+    if (events.length > 0) {
+      packageEvents.push(...events)
+      console.log(`fetched events for ${address_package}: ${events.length}, new token is ${token} done ${packageDone}`)
+    }
+
+    if (packageDone) {
+      if (!forward) {
+        packageEvents = packageEvents.reverse()
+        packageEvents = packageEvents.filter(event => event['timestamp'] > ltime)
+      }
+      if (packageEvents.length > 0) {
+        await saveEvents(address_package, package_address, packageEvents, new_token)
+      }
+    }
+    await sleep(C.API_FETCH_SLEEP)
+  }
+}
+
+export async function processEvents() {
   const packages = await getPackageModules()
   // console.log(JSON.stringify(packages, null, 2))
   console.log(`processing up to ${Object.keys(packages).length} packages`)
 
   for (const [address_package, package_address] of Object.entries(packages)) {
-    let ltime = await lastFetchEventTime(address_package)
-    let packageEvents: object[] = []
-    let packageDone = false
-    const forward = ltime == ''
-
-    let token = ''
-    while (!packageDone) {
-      let new_token = ''
-      let events: object[]
-      let done = false
-      if (forward) {
-        ;[new_token, events, done] = await getTokenEvents(package_address, token)
-      } else {
-        ;[new_token, events, done] = await getTokenEventsBackwards(package_address, token, ltime)
-      }
-      packageDone = done
-      token = new_token
-      if (events.length > 0) {
-        packageEvents.push(...events)
-        console.log(
-          `fetched events for ${address_package}: ${events.length}, new token is ${token} done ${packageDone}`,
-        )
-        await sleep(C.API_FETCH_SLEEP)
-      }
-
-      if (packageDone) {
-        if (!forward) {
-          packageEvents = packageEvents.reverse()
-          packageEvents = packageEvents.filter(event => event['timestamp'] > ltime)
-        }
-        if (packageEvents.length > 0) {
-          await saveEvents(address_package, package_address, packageEvents, new_token)
-          await sleep(C.DB_WRITE_SLEEP)
-        }
-      }
-    }
+    processEvent({address_package, package_address})
   }
 }
