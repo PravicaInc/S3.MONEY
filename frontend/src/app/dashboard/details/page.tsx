@@ -14,10 +14,10 @@ import { PAGES_URLS } from '@/utils/const';
 import { useRelationsList } from '@/hooks/useRelations';
 import { useStableCoinsList } from '@/hooks/useStableCoinsList';
 
-import { AddressesByHoldings } from './components/AddressesByHoldings';
+// import { AddressesByHoldings } from './components/AddressesByHoldings';
 import { AllocationRatio } from './components/AllocationRatio';
 import { StableCoinDetails } from './components/StableCoinDetails';
-import { TransactionVolume } from './components/TransactionVolume';
+// import { TransactionVolume } from './components/TransactionVolume';
 
 export default function DashboardOverviewPage() {
   const account = useCurrentAccount();
@@ -88,14 +88,14 @@ export default function DashboardOverviewPage() {
                   className="flex flex-col justify-between"
                 />
               </div>
-              <TransactionVolume
+              {/* <TransactionVolume
                 stableCoinItem={currentStableCoin}
                 className="mt-6"
               />
               <AddressesByHoldings
                 stableCoinItem={currentStableCoin}
                 className="mt-6"
-              />
+              /> */}
               <RelationsTable
                 className="mt-6"
                 relationsList={relationsList}
