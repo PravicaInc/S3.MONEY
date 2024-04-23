@@ -36,7 +36,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
     >
       <a
         class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative"
-        href="/dashboard/operations?txid=1"
+        href="/dashboard/details?txid=1"
       >
         <svg
           class="absolute left-0 bottom-0 z-0"
@@ -167,7 +167,7 @@ exports[`Home page: Home page with connected state: Snapshot 1`] = `
       </a>
       <a
         class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative"
-        href="/dashboard/operations?txid=2"
+        href="/dashboard/details?txid=2"
       >
         <svg
           class="absolute left-0 bottom-0 z-0"
