@@ -1,0 +1,24 @@
+{
+  "name": "s3.money",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.19.0",
+    "@typescript-eslint/parser": "^6.19.0",
+    "eslint": "^8",
+    "eslint-config-next": "14.1.0",
+    "eslint-plugin-brackets": "^0.1.3",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-max-len": "^1.0.0",
+    "eslint-plugin-no-relative-import-paths": "^1.5.3",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
+    "husky": "^9.0.11"
+  },
+  "scripts": {
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "typescript": "^5.4.5"
+  }
+}

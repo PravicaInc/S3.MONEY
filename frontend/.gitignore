@@ -5,9 +5,12 @@
 /.pnp
 .pnp.js
 .yarn/install-state.gz
+/.yarn
+/.swc
 
 # testing
 /coverage
+junit.xml
 
 # next.js
 /.next/
@@ -34,3 +37,5 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+certificates

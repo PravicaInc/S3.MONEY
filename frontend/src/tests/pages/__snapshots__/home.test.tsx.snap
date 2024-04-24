@@ -1,0 +1,318 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home page: Home page with connected state: Snapshot 1`] = `
+<div>
+  <style>
+    [data-dapp-kit] {--dapp-kit-blurs-modalOverlay:blur(0);--dapp-kit-backgroundColors-primaryButton:#F6F7F9;--dapp-kit-backgroundColors-primaryButtonHover:#F0F2F5;--dapp-kit-backgroundColors-outlineButtonHover:#F4F4F5;--dapp-kit-backgroundColors-modalOverlay:rgba(24 36 53 / 20%);--dapp-kit-backgroundColors-modalPrimary:white;--dapp-kit-backgroundColors-modalSecondary:#F7F8F8;--dapp-kit-backgroundColors-iconButton:transparent;--dapp-kit-backgroundColors-iconButtonHover:#F0F1F2;--dapp-kit-backgroundColors-dropdownMenu:#FFFFFF;--dapp-kit-backgroundColors-dropdownMenuSeparator:#F3F6F8;--dapp-kit-backgroundColors-walletItemSelected:white;--dapp-kit-backgroundColors-walletItemHover:#3C424226;--dapp-kit-borderColors-outlineButton:#E4E4E7;--dapp-kit-colors-primaryButton:#373737;--dapp-kit-colors-outlineButton:#373737;--dapp-kit-colors-iconButton:#000000;--dapp-kit-colors-body:#182435;--dapp-kit-colors-bodyMuted:#767A81;--dapp-kit-colors-bodyDanger:#FF794B;--dapp-kit-radii-small:6px;--dapp-kit-radii-medium:8px;--dapp-kit-radii-large:12px;--dapp-kit-radii-xlarge:16px;--dapp-kit-shadows-primaryButton:0px 4px 12px rgba(0, 0, 0, 0.1);--dapp-kit-shadows-walletItemSelected:0px 2px 6px rgba(0, 0, 0, 0.05);--dapp-kit-fontWeights-normal:400;--dapp-kit-fontWeights-medium:500;--dapp-kit-fontWeights-bold:600;--dapp-kit-fontSizes-small:14px;--dapp-kit-fontSizes-medium:16px;--dapp-kit-fontSizes-large:18px;--dapp-kit-fontSizes-xlarge:20px;--dapp-kit-typography-fontFamily:ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";--dapp-kit-typography-fontStyle:normal;--dapp-kit-typography-lineHeight:1.3;--dapp-kit-typography-letterSpacing:1;}
+  </style>
+  <div
+    class="flex items-center gap-2 px-6 min-h-20 border-b border-borderPrimary bg-white justify-between"
+  >
+    <div
+      class="relative"
+    >
+      <input
+        class="text-primary placeholder:text-hitGrey p-3 rounded-xl border border-borderPrimary focus:border-actionPrimary outline-none disabled:text-[#787878] disabled:bg-white pl-11 w-[460px] text-sm py-[9px]"
+        placeholder="Search..."
+        type="text"
+        value=""
+      />
+      <svg
+        class="absolute top-1/2 left-3 -translate-y-1/2"
+      />
+    </div>
+    <button
+      class="border border-borderPrimary rounded-[10px] h-10 px-4 flex items-center justify-between gap-2 text-secondary font-medium text-sm transition shadow-logoutButton hover:bg-actionPrimary hover:bg-opacity-5 hover:border-actionSecondary"
+    >
+      0x11...1111
+      <svg />
+    </button>
+  </div>
+  <div
+    class="overflow-auto h-full flex flex-col justify-between"
+  >
+    <div
+      class="m-8 space-y-3"
+    >
+      <a
+        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative"
+        href="/dashboard/details?txid=1"
+      >
+        <svg
+          class="absolute left-0 bottom-0 z-0"
+        />
+        <svg
+          class="absolute right-0 top-0 z-0"
+        />
+        <span
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <span
+            class="react-loading-skeleton w-full h-[7px] block rounded-none relative z-10"
+          >
+            ‌
+          </span>
+        </span>
+        <div
+          class="flex items-center justify-between pl-4 pr-5 pt-4 relative z-10"
+        >
+          <div
+            class="flex items-center gap-4"
+          >
+            <div
+              class="min-w-[60px] min-h-[60px] rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
+              style="background-image: url(/img.jpg);"
+            />
+            <div>
+              <p
+                class="text-primary text-[25px] font-semibold leading-[25px]"
+              >
+                PRV
+              </p>
+              <p
+                class="text-mistBlue text-sm"
+              >
+                Pravica Token
+              </p>
+            </div>
+          </div>
+          <div
+            class="text-right"
+          >
+            <p
+              class="text-primary text-[25px] font-semibold leading-[25px]"
+            >
+              <svg
+                aria-hidden="true"
+                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-[25px]"
+                data-icon="spinner"
+                data-prefix="fas"
+                data-testid="loader"
+                focusable="false"
+                role="img"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                  fill="currentColor"
+                />
+              </svg>
+            </p>
+            <p
+              class="text-mistBlue text-sm"
+            >
+              Total Supply
+            </p>
+          </div>
+        </div>
+        <div
+          class="px-4 pb-5 mt-8 relative z-10"
+        >
+          <p
+            class="text-primary font-semibold"
+          >
+            Supply details
+          </p>
+          <div
+            class="bg-borderPrimary h-[1px] mt-3"
+          />
+          <div
+            class="text-mistBlue text-sm mt-4 space-y-3"
+          >
+            <p
+              class="flex items-center justify-between"
+            >
+              Contract Transaction
+              <span
+                class="underline"
+              >
+                1
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Supply Type
+              <span>
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-5"
+                  data-icon="spinner"
+                  data-prefix="fas"
+                  data-testid="loader"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Allocated
+              <span>
+                0
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
+      <a
+        class="block border border-borderPrimary bg-white rounded-[10px] shadow-button overflow-hidden relative"
+        href="/dashboard/details?txid=2"
+      >
+        <svg
+          class="absolute left-0 bottom-0 z-0"
+        />
+        <svg
+          class="absolute right-0 top-0 z-0"
+        />
+        <span
+          aria-busy="true"
+          aria-live="polite"
+        >
+          <span
+            class="react-loading-skeleton w-full h-[7px] block rounded-none relative z-10"
+          >
+            ‌
+          </span>
+        </span>
+        <div
+          class="flex items-center justify-between pl-4 pr-5 pt-4 relative z-10"
+        >
+          <div
+            class="flex items-center gap-4"
+          >
+            <div
+              class="min-w-[60px] min-h-[60px] rounded-full bg-seashell bg-no-repeat bg-center bg-cover shrink-0"
+              style="background-image: url(/img.jpg);"
+            />
+            <div>
+              <p
+                class="text-primary text-[25px] font-semibold leading-[25px]"
+              >
+                SSS
+              </p>
+              <p
+                class="text-mistBlue text-sm"
+              >
+                S3 Money Token
+              </p>
+            </div>
+          </div>
+          <div
+            class="text-right"
+          >
+            <p
+              class="text-primary text-[25px] font-semibold leading-[25px]"
+            >
+              <svg
+                aria-hidden="true"
+                class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-[25px]"
+                data-icon="spinner"
+                data-prefix="fas"
+                data-testid="loader"
+                focusable="false"
+                role="img"
+                viewBox="0 0 512 512"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                  fill="currentColor"
+                />
+              </svg>
+            </p>
+            <p
+              class="text-mistBlue text-sm"
+            >
+              Total Supply
+            </p>
+          </div>
+        </div>
+        <div
+          class="px-4 pb-5 mt-8 relative z-10"
+        >
+          <p
+            class="text-primary font-semibold"
+          >
+            Supply details
+          </p>
+          <div
+            class="bg-borderPrimary h-[1px] mt-3"
+          />
+          <div
+            class="text-mistBlue text-sm mt-4 space-y-3"
+          >
+            <p
+              class="flex items-center justify-between"
+            >
+              Contract Transaction
+              <span
+                class="underline"
+              >
+                2
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Supply Type
+              <span>
+                <svg
+                  aria-hidden="true"
+                  class="svg-inline--fa fa-spinner animate-spin text-actionPrimary h-5"
+                  data-icon="spinner"
+                  data-prefix="fas"
+                  data-testid="loader"
+                  focusable="false"
+                  role="img"
+                  viewBox="0 0 512 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M304 48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zm0 416a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM48 304a48 48 0 1 0 0-96 48 48 0 1 0 0 96zm464-48a48 48 0 1 0 -96 0 48 48 0 1 0 96 0zM142.9 437A48 48 0 1 0 75 369.1 48 48 0 1 0 142.9 437zm0-294.2A48 48 0 1 0 75 75a48 48 0 1 0 67.9 67.9zM369.1 437A48 48 0 1 0 437 369.1 48 48 0 1 0 369.1 437z"
+                    fill="currentColor"
+                  />
+                </svg>
+              </span>
+            </p>
+            <p
+              class="flex items-center justify-between"
+            >
+              Allocated
+              <span>
+                0
+              </span>
+            </p>
+          </div>
+        </div>
+      </a>
+    </div>
+    <div
+      class="font-medium flex items-center justify-between text-mistBlue pb-7 pl-9 pr-[85px]"
+    >
+      <a
+        href="https://www.s3.money/privacy-policy"
+        rel="noreferrer"
+        target="_blank"
+      >
+        Privacy Policy
+      </a>
+      <p>
+        Copyright
+         
+        2024
+      </p>
+    </div>
+  </div>
+</div>
+`;

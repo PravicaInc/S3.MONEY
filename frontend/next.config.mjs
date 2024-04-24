@@ -1,6 +1,8 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   output: 'export',
+  images: { unoptimized: true },
 
   webpack(config) {
     // Grab the existing rule that handles SVG imports
@@ -20,7 +22,39 @@ const nextConfig = {
         test: /\.svg$/i,
         issuer: /\.[jt]sx?$/,
         resourceQuery: /jsx/, // *.svg?jsx
-        use: ['@svgr/webpack'],
+        use: {
+          loader: '@svgr/webpack',
+          options: {
+            svgoConfig: {
+              cleanupIDs: false,
+              plugins: [
+                {
+                  name: 'preset-default',
+                  params: {
+                    overrides: {
+                      removeViewBox: false,
+                      removeTitle: false,
+                      removeDesc: false,
+                    },
+                  },
+                },
+                {
+                  name: 'removeUnknownsAndDefaults',
+                  params: {
+                    keepRoleAttr: true,
+                  },
+                },
+                'cleanupIds',
+                {
+                  name: 'prefixIds',
+                  params: {
+                    prefix: () => `${Math.trunc(Math.random() * 10e5)}`,
+                  },
+                },
+              ],
+            },
+          },
+        },
       }
     );
 

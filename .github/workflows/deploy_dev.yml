@@ -1,0 +1,44 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches:
+      - develop
+  workflow_dispatch:
+
+jobs:
+  deploy_dev:
+    name: Deploy Dev
+    runs-on: ubuntu-latest
+
+    env:
+      AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+    permissions:
+      contents: read
+      actions: read
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Lint
+        uses: ./.github/actions/lint
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Test
+        uses: ./.github/actions/test
+
+      - name: Deploy Dev
+        uses: ./.github/actions/frontend_deploy
+        with:
+          NEXT_PUBLIC_API_DOMAIN: ${{ vars.DEV__NEXT_PUBLIC_API_DOMAIN }}
+          NEXT_PUBLIC_DEFAULT_NETWORK: ${{ vars.DEV__NEXT_PUBLIC_DEFAULT_NETWORK }}
+          S3_BUCKET: ${{ vars.DEV_S3_BUCKET }}
+          S3_BUCKET_REGION: ${{ vars.DEV_S3_BUCKET_REGION }}
+          CLOUDFRONT_DISTRIBUTION_ID: ${{ vars.DEV_CLOUDFRONT_DISTRIBUTION_ID }}

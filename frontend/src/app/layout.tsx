@@ -1,9 +1,17 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 
-import './styles/globals.css';
+import '@szhsin/react-menu/dist/index.css';
+import '@szhsin/react-menu/dist/transitions/slide.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 
-import { Header } from './Components/Header';
+import 'rc-tooltip/assets/bootstrap_white.css';
+
+import { ToastContainer } from '@/Components/ToastContainer';
+
+import '@/styles/globals.css';
+
+import { ClientLayout } from './client_layout';
 import { Providers } from './providers';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -21,10 +29,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <Providers>
-          <Header />
-          <div className="max-w-screen-2xl mx-auto">
+          <ClientLayout>
             {children}
-          </div>
+            <ToastContainer />
+          </ClientLayout>
         </Providers>
       </body>
     </html>
