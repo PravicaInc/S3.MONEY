@@ -37,8 +37,24 @@ app.use((req: Request, res, next) => {
 })
 
 app.get('/', (req, res) => {
+  return res.redirect('/status')
+})
+
+app.get('/status', (req, res) => {
   return res.send({status: 'ok'}).json()
 })
+
+app.use(
+  '/v2',
+  (() => {
+    const router = express.Router()
+    router.use('/packages', packages.createPackagesRouter())
+    router.use('/related', relations.createRelationsRouter())
+    router.use('/events', events.createEventsRouter())
+    router.use('/txvol', txvol.createTxVolRouter())
+    return router
+  })(),
+)
 
 // creating packages
 app.post('/create', packages.handleCreate)
@@ -69,14 +85,6 @@ app.get('/holdings/:address/:ticker', holdings.handleGetHoldings)
 // transaction volumes
 app.get('/txvol/:address/:ticker', txvol.handleGetTxVol)
 
-// for dev/testing and as a heartbeat
-app.get('/t/env', async (req, res) => {
-  res.status(200).json({
-    status: 'ok',
-    env: JSON.stringify(process.env, null, 2),
-  })
-})
-
 // 404 in json
 app.use((_, res) => {
   res.status(404).json({
@@ -84,6 +92,12 @@ app.use((_, res) => {
     message: '404 Not Found',
   })
 })
+
+// Error handling middleware
+app.use(((error, req, res, next) => {
+  res.status(500)
+  res.json({error: error.toString(), stack: (error as Error).stack}).end()
+}) as express.ErrorRequestHandler)
 
 app.listen(PORT, () => {
   console.log(`[server]: Server is running at port ${PORT}`)
