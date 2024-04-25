@@ -6,11 +6,12 @@ import cors from 'cors'
 import express, {Express, Request} from 'express'
 
 import {TOKEN_SUPPLY_PATH} from './constants'
+import {S3MoneyError} from './lib/error'
 import * as events from './lib/events'
+import * as holdings from './lib/holdings'
 import * as packages from './lib/packages'
 import * as relations from './lib/relations'
 import * as txvol from './lib/txvol'
-import * as holdings from './lib/holdings'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()
@@ -101,8 +102,13 @@ app.use((_, res) => {
 
 // Error handling middleware
 app.use(((error, req, res, next) => {
-  res.status(500)
-  res.json({error: error.toString(), stack: (error as Error).stack}).end()
+  if (error instanceof S3MoneyError) {
+    res.status(error.errorCode)
+    res.json({error: error.errorMessage, detail: error.details}).end()
+  } else {
+    res.status(500)
+    res.json({error: error.toString(), stack: (error as Error).stack}).end()
+  }
 }) as express.ErrorRequestHandler)
 
 app.listen(PORT, () => {
