@@ -6,6 +6,7 @@ import {DynamoDBClient, QueryCommand} from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 
 import {DB} from '../../constants'
+import {ErrorType, S3MoneyError} from '../error'
 import {tickerToPackageName} from '../utils'
 
 const DB_CLIENT = new DynamoDBClient()
@@ -31,7 +32,8 @@ export async function getPackageEvents(address: string, ticker: string) {
 
   const response = await DB_CLIENT.send(command)
 
-  if (response.Items === undefined) return []
+  if (response.Items === undefined)
+    throw new S3MoneyError(ErrorType.BadGateway, `No events found for package ${addressPackage}`)
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 
@@ -52,7 +54,8 @@ export async function getAddressEvents(address: string) {
 
   const response = await DB_CLIENT.send(command)
 
-  if (response.Items === undefined) return []
+  if (response.Items === undefined)
+    throw new S3MoneyError(ErrorType.BadGateway, `No events found for address ${address}`)
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 
@@ -72,7 +75,8 @@ export async function getBalances(address: string) {
   })
 
   const response = await DB_CLIENT.send(command)
-  if (response.Items === undefined) return []
+  if (response.Items === undefined)
+    throw new S3MoneyError(ErrorType.BadGateway, `No balance found for wallet address ${address}`)
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 
@@ -95,7 +99,8 @@ export async function getAllocations(address: string, ticker: string) {
 
   const response = await DB_CLIENT.send(command)
 
-  if (response.Items === undefined) return []
+  if (response.Items === undefined)
+    throw new S3MoneyError(ErrorType.BadGateway, `No allocation details found for package ${addressPackage}`)
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 

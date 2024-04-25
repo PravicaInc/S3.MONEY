@@ -5,6 +5,7 @@
 import {Request, Response, Router} from 'express'
 import * as Checks from './checks'
 import * as dbEvents from './db/events'
+import {ErrorType, invalidAddressErrorDetail, S3MoneyError} from './error'
 
 export function createEventsRouter(): Router {
   const router = Router()
@@ -49,10 +50,7 @@ export async function handleGetBalances(req: Request, res: Response) {
       balances: await dbEvents.getBalances(address),
     })
   } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
   }
 }
 
@@ -64,10 +62,7 @@ export async function handleGetAllocations(req: Request, res: Response) {
       events: await dbEvents.getAllocations(address, ticker),
     })
   } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
   }
 }
 
@@ -79,10 +74,7 @@ export async function handleGetPackageEvents(req: Request, res: Response) {
       events: await dbEvents.getPackageEvents(address, ticker),
     })
   } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
   }
 }
 
@@ -94,10 +86,7 @@ export async function handleGetAddressEvents(req: Request, res: Response) {
       events: await dbEvents.getAddressEvents(address),
     })
   } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
   }
 }
 
