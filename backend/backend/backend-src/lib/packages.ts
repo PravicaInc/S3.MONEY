@@ -8,12 +8,13 @@ import {Zip} from 'zip-lib'
 
 import * as child from 'child_process'
 import fs from 'fs'
+import {TOKEN_SUPPLY_PATH} from './../constants'
 import * as Checks from './checks'
 import * as dbPackages from './db/packages'
+import {ErrorType, invalidAddressErrorDetail, S3MoneyError} from './error'
 import * as IFace from './interfaces'
 import * as storage from './storage'
 import {tickerToPackageName} from './utils'
-import {TOKEN_SUPPLY_PATH} from './../constants'
 
 const CWD = process.cwd()
 const TOKEN_PATH = `${CWD}/${TOKEN_SUPPLY_PATH}`
@@ -129,15 +130,8 @@ export async function handleCancel(req: Request, res: Response<IFace.PackageCanc
  */
 export async function handlePublished(req: Request, res: Response) {
   const v = await Checks.validPublish(req.body)
-  if (v.error === '') {
-    await savePackage(v.data! as IFace.IPackageCreated)
-    res.status(200).json({status: 'ok', message: 'saved'})
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  }
+  await savePackage(v.data! as IFace.IPackageCreated)
+  res.status(200).json({status: 'ok', message: 'saved'})
 }
 
 /**
@@ -148,15 +142,8 @@ export async function handlePublished(req: Request, res: Response) {
  */
 export async function handleIconUrlRequest(req: Request, res: Response) {
   const v = Checks.validIconRequest(req.body)
-  if (v.error === '') {
-    const url = await storage.createPresignedUrlForIcon(v.data as IFace.IPackageIcon)
-    res.status(200).json({status: 'ok', url: url})
-  } else {
-    res.status(400).json({
-      status: 'error',
-      message: v.error,
-    })
-  }
+  const url = await storage.createPresignedUrlForIcon(v.data as IFace.IPackageIcon)
+  res.status(200).json({status: 'ok', url: url})
 }
 
 /**
@@ -257,10 +244,7 @@ export async function handleGetPackages(req: Request, res: Response) {
       packages: await packageData(address, undefined, summary),
     })
   } else {
-    res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
   }
 }
 
@@ -283,17 +267,11 @@ export async function handleGetFilteredPackages(req: Request, res: Response) {
   const digestCheck = Checks.isValidDigest(param)
 
   if (!addressCheck) {
-    return res.status(400).json({
-      status: 'error',
-      message: `invalid address: ${address}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
   }
 
   if (tickerCheck !== '' && !digestCheck) {
-    return res.status(400).json({
-      status: 'error',
-      message: `invalid field: ${param}`,
-    })
+    throw new S3MoneyError(ErrorType.BadRequest, `invalid field: ${param}`)
   }
 
   const filter: IFace.PackageFilter = {digest: '', packageName: ''}
