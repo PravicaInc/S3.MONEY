@@ -3,28 +3,28 @@
  */
 
 export const S3 = {
-  BUCKET: 's3m-contracts-dev',
+  BUCKET: process.env.BUCKET,
   ICON_URL_TTL: 3600,
 }
 
 export const DB = {
   // tables for deployed contracts
-  DEPLOYED_TABLE: 's3m-contracts-dev',
-  ROLES_TABLE: 's3m-roles-dev',
-  ROLES_INDEX: 's3m-roles-by-address-index-dev',
+  DEPLOYED_TABLE: process.env.DEPLOYED_TABLE || '',
+  ROLES_TABLE: process.env.ROLES_TABLE || '',
+  ROLES_INDEX: process.env.ROLES_INDEX || '',
   // tables for events and things derived from balance
-  ADDRESS_EVENTS_TABLE: 's3m-address-events-dev',
-  CONTRACT_EVENTS_TABLE: 's3m-contracts-events-dev',
-  BALANCES_TABLE: 's3m-balances-dev',
-  ALLOCATIONS_TABLE: 's3m-allocation-dev',
-  LASTFETCH_TABLE: 's3m-contracts-lastfetch-dev',
+  ADDRESS_EVENTS_TABLE: process.env.ADDRESS_EVENTS_TABLE || '',
+  CONTRACT_EVENTS_TABLE: process.env.CONTRACT_EVENTS_TABLE || '',
+  BALANCES_TABLE: process.env.BALANCES_TABLE || '',
+  ALLOCATIONS_TABLE: process.env.ALLOCATIONS_TABLE || '',
+  LASTFETCH_TABLE: process.env.LASTFETCH_TABLE || '',
   // table for related wallet addresses
-  RELATED_TABLE: 's3m-related-dev',
+  RELATED_TABLE: process.env.RELATED_TABLE || '',
   // tables for transaction volumes
-  TXVOL_YEAR_TABLE: 's3m-txvol-yyyy-dev',
-  TXVOL_YEARMONTH_TABLE: 's3m-txvol-yyyymm-dev',
-  TXVOL_YEARMONTHDAY_TABLE: 's3m-txvol-yyyymmdd-dev',
-  HOLDINGS_TABLE: 's3m-holdings-dev',
+  TXVOL_YEAR_TABLE: process.env.TXVOL_YEAR_TABLE || '',
+  TXVOL_YEARMONTH_TABLE: process.env.TXVOL_YEARMONTH_TABLE || '',
+  TXVOL_YEARMONTHDAY_TABLE: process.env.TXVOL_YEARMONTHDAY_TABLE || '',
+  HOLDINGS_TABLE: process.env.HOLDINGS_TABLE || '',
 }
 
 // supply-constrained token template
