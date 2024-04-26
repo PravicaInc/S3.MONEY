@@ -15,7 +15,6 @@ import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 import slug from 'slug'
 
 import {DB} from '../../constants'
-import {ErrorType, S3MoneyError} from '../error'
 import * as IFace from '../interfaces'
 
 const DB_CLIENT = new DynamoDBClient()
@@ -37,8 +36,7 @@ export async function getRelations(pkgAddress: string) {
 
   const response = await DB_CLIENT.send(command)
 
-  if (response.Items === undefined)
-    throw new S3MoneyError(ErrorType.BadGateway, `Relations not found for package ${pkgAddress}`)
+  if (response.Items === undefined) return []
   else return response.Items?.map(item => unmarshall(item)) ?? []
 }
 
@@ -58,8 +56,7 @@ export async function getRelation(pkgAddress: string, slug: string) {
   })
 
   const response = await DB_CLIENT.send(command)
-  if (response.Item === undefined)
-    throw new S3MoneyError(ErrorType.BadGateway, `Relations not found for address ${pkgAddress} and slug ${slug}`)
+  if (response.Item === undefined) return null
 
   return unmarshall(response.Item)
 }
@@ -74,11 +71,7 @@ export async function createRelation(pkgAddress: string, data: IFace.IRelationCr
   // check for existing labels -- cannot create multiple relations with the same label
   const labelSlug = slug(data.label)
   const existing = await getRelation(pkgAddress, labelSlug)
-  if (existing !== null)
-    throw new S3MoneyError(
-      ErrorType.BadRequest,
-      `label '${data.label}' already exists for address: ${existing.address}`,
-    )
+  if (existing !== null) return {error: `label '${data.label}' already exists for address: ${existing.address}`}
 
   const command = new PutItemCommand({
     TableName: DB.RELATED_TABLE,
@@ -124,13 +117,12 @@ export async function deleteRelation(pkgAddress: string, slug: string) {
  */
 export async function renameRelation(pkgAddress: string, existingSlug: string, data: IFace.IRelationRename) {
   const existing = await getRelation(pkgAddress, existingSlug)
-  if (existing == null)
-    throw new S3MoneyError(ErrorType.BadRequest, `entry '${existingSlug}' does not exist for address: ${pkgAddress}`)
+  if (existing == null) return {error: `entry '${existingSlug}' does not exist for address: ${pkgAddress}`}
+
   // check if the new label already exists
   const newSlug = slug(data.label)
   const maybe = await getRelation(pkgAddress, newSlug)
-  if (maybe !== null)
-    throw new S3MoneyError(ErrorType.BadRequest, `label '${data.label}' already exists for address: ${pkgAddress}`)
+  if (maybe !== null) return {error: `label '${data.label}' already exists for address: ${pkgAddress}`}
 
   let items: TransactWriteItem[] = [
     {
