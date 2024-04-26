@@ -15,7 +15,6 @@ import {
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 
 import {DB} from '../../constants'
-import {ErrorType, S3MoneyError} from '../error'
 import {IPackageCreated, IPackageDeployed, PackageFilter, PackageStatus, packageSummary} from '../interfaces'
 
 const DB_CLIENT = new DynamoDBClient()
@@ -37,7 +36,7 @@ export async function getPackage(address: string, packageName: string) {
   })
 
   const response = await DB_CLIENT.send(command)
-  if (response.Item === undefined) throw new S3MoneyError(ErrorType.BadGateway, `Package ${packageName} not found`)
+  if (response.Item === undefined) return null
 
   return unmarshall(response.Item)
 }
@@ -66,8 +65,7 @@ export async function getPackages(address: string, filter: PackageFilter | undef
   })
 
   const response = await DB_CLIENT.send(command)
-  if (response.Items === undefined || response.Items.length === 0)
-    throw new S3MoneyError(ErrorType.BadGateway, `Packages not found for address ${address}`)
+  if (response.Items === undefined || response.Items.length === 0) return []
   const retlist = response.Items.map(item => unmarshall(item))
 
   // map role to wallet address
