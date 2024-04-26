@@ -52,6 +52,7 @@ app.use(
     router.use('/related', relations.createRelationsRouter())
     router.use('/events', events.createEventsRouter())
     router.use('/txvol', txvol.createTxVolRouter())
+    router.use('/holdings', holdings.createHoldingsRouter())
     return router
   })(),
 )
@@ -84,6 +85,11 @@ app.get('/holdings/:address/:ticker', holdings.handleGetHoldings)
 
 // transaction volumes
 app.get('/txvol/:address/:ticker', txvol.handleGetTxVol)
+
+// for dev/testing and as a heartbeat
+app.get('/t/env', async (req, res) => {
+  res.status(200).json({status: 'ok'})
+})
 
 // 404 in json
 app.use((_, res) => {

@@ -2,11 +2,23 @@
  * @file Handlers related to balance holdings over time.
  */
 
-import {Request, Response} from 'express'
+import {Request, Response, Router} from 'express'
 import * as Checks from './checks'
 import * as dbHoldings from './db/holdings'
 import {HOLDINGS_BUCKETS} from '../constants'
 import {tickerToPackageName} from './utils'
+
+export function createHoldingsRouter(): Router {
+  const router = Router()
+  router.get('/:address/:ticker', async (req, res, next) => {
+    try {
+      await handleGetHoldings(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+  return router
+}
 
 /**
  * Handler that returns a list of holdings by period.
