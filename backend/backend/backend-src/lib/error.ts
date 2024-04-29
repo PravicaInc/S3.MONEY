@@ -3,7 +3,6 @@ export const missingFieldErrorDetail = (field: string) => `missing field: ${fiel
 
 export enum ErrorType {
   BadRequest,
-  BadGateway,
 }
 
 interface ErrorInterface {
@@ -16,10 +15,6 @@ const Errors: Record<ErrorType, ErrorInterface> = {
   [ErrorType.BadRequest]: {
     errorCode: 400,
     errorMessage: 'Bad Request',
-  },
-  [ErrorType.BadGateway]: {
-    errorCode: 502,
-    errorMessage: 'Bad Gateway',
   },
 }
 
