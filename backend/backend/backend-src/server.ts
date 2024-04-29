@@ -6,11 +6,12 @@ import cors from 'cors'
 import express, {Express, Request} from 'express'
 
 import {TOKEN_SUPPLY_PATH} from './constants'
+import {S3MoneyError} from './lib/error'
 import * as events from './lib/events'
+import * as holdings from './lib/holdings'
 import * as packages from './lib/packages'
 import * as relations from './lib/relations'
 import * as txvol from './lib/txvol'
-import * as holdings from './lib/holdings'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()
@@ -37,8 +38,25 @@ app.use((req: Request, res, next) => {
 })
 
 app.get('/', (req, res) => {
+  return res.redirect('/status')
+})
+
+app.get('/status', (req, res) => {
   return res.send({status: 'ok'}).json()
 })
+
+app.use(
+  '/v2',
+  (() => {
+    const router = express.Router()
+    router.use('/packages', packages.createPackagesRouter())
+    router.use('/related', relations.createRelationsRouter())
+    router.use('/events', events.createEventsRouter())
+    router.use('/txvol', txvol.createTxVolRouter())
+    router.use('/holdings', holdings.createHoldingsRouter())
+    return router
+  })(),
+)
 
 // creating packages
 app.post('/create', packages.handleCreate)
@@ -71,10 +89,7 @@ app.get('/txvol/:address/:ticker', txvol.handleGetTxVol)
 
 // for dev/testing and as a heartbeat
 app.get('/t/env', async (req, res) => {
-  res.status(200).json({
-    status: 'ok',
-    env: JSON.stringify(process.env, null, 2),
-  })
+  res.status(200).json({status: 'ok'})
 })
 
 // 404 in json
@@ -84,6 +99,17 @@ app.use((_, res) => {
     message: '404 Not Found',
   })
 })
+
+// Error handling middleware
+app.use(((error, req, res, next) => {
+  if (error instanceof S3MoneyError) {
+    res.status(error.errorCode)
+    res.json({error: error.errorMessage, detail: error.details}).end()
+  } else {
+    res.status(500)
+    res.json({error: error.toString(), stack: (error as Error).stack}).end()
+  }
+}) as express.ErrorRequestHandler)
 
 app.listen(PORT, () => {
   console.log(`[server]: Server is running at port ${PORT}`)

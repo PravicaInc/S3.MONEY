@@ -2,10 +2,22 @@
  * @file Handlers related to transaction volumes.
  */
 
-import {Request, Response} from 'express'
+import {Request, Response, Router} from 'express'
 import * as Checks from './checks'
 import * as dbTxVol from './db/txvol'
 import {tickerToPackageName} from './utils'
+
+export function createTxVolRouter(): Router {
+  const router = Router()
+  router.get('/:address/:ticker', async (req, res, next) => {
+    try {
+      await handleGetTxVol(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+  return router
+}
 
 /**
  * Handler that returns a list of transaction volumes by period.
