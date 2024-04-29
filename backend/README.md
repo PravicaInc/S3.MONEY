@@ -102,3 +102,17 @@ Build and deploy the watcher:
     docker push 22043219.dkr.ecr.us-east-1.amazonaws.com/s3m-watcher-dev:latest
 
 Enable EventBridge's scheduler and the AWS Lambda trigger on SQS messages if needed.
+
+
+## Environment Variables
+To run the server, you need to set up environment variables. These variables are stored in a file named .env in the root directory of the project. A sample .env.example file is provided with all the required variables.
+
+##### Setting Up .env File
+Start by copying the .env.example file to create your .env file.
+You can do this manually or use a command-line tool:
+``` bash
+cp .env.example .env
+```
+Open the .env file in a text editor and fill in the values for each variable according to your environment and configuration. After filling in the required variables, save the .env file.
+##### Important Notes: 
+Treat .env file as confidential and do not commit it to version control systems like Git.
