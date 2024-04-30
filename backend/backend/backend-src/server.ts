@@ -5,12 +5,14 @@
 import cors from 'cors'
 import express, {Express, Request} from 'express'
 
+import swaggerUi from 'swagger-ui-express'
 import {TOKEN_SUPPLY_PATH} from './constants'
+import docs from './docs'
 import * as events from './lib/events'
+import * as holdings from './lib/holdings'
 import * as packages from './lib/packages'
 import * as relations from './lib/relations'
 import * as txvol from './lib/txvol'
-import * as holdings from './lib/holdings'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()
@@ -43,6 +45,8 @@ app.get('/', (req, res) => {
 app.get('/status', (req, res) => {
   return res.send({status: 'ok'}).json()
 })
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(docs))
 
 app.use(
   '/v2',

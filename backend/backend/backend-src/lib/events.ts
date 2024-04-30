@@ -15,14 +15,6 @@ export function createEventsRouter(): Router {
       next(error)
     }
   })
-  
-  router.get('/:address/:ticker', async (req, res, next) => {
-    try {
-      await handleGetPackageEvents(req, res)
-    } catch (error) {
-      next(error)
-    }
-  })
 
   router.get('/:address', async (req, res, next) => {
     try {
