@@ -7,6 +7,41 @@ import * as Checks from './checks'
 import * as dbEvents from '../db/events'
 import {ErrorType, invalidAddressErrorDetail, S3MoneyError} from '../interfaces/error'
 
+export function createEventsRouter(): Router {
+  const router = Router()
+  router.get('/:address/:ticker', async (req, res, next) => {
+    try {
+      await handleGetPackageEvents(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+  router.get('/:address', async (req, res, next) => {
+    try {
+      await handleGetAddressEvents(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+  router.get('/balances/:address', async (req, res, next) => {
+    try {
+      await handleGetBalances(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+  router.get('/allocations/:address/:ticker', async (req, res, next) => {
+    try {
+      await handleGetAllocations(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+
+  return router
+}
+
 export async function handleGetBalances(req: Request, res: Response) {
   const {address} = req.params
   if (Checks.isValidAddress(address)) {
