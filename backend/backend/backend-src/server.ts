@@ -5,8 +5,10 @@
 import cors from 'cors'
 import express, {Express, Request} from 'express'
 
+import swaggerUi from 'swagger-ui-express'
 import {TOKEN_SUPPLY_PATH} from './constants'
 import {S3MoneyError} from './interfaces/error'
+import docs from './docs'
 import * as events from './lib/events'
 import * as holdings from './lib/holdings'
 import * as packages from './lib/packages'
@@ -51,6 +53,8 @@ app.get('/', (req, res) => {
 app.get('/status', (req, res) => {
   return res.send({status: 'ok'}).json()
 })
+
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(docs))
 
 app.use(
   '/v2',
