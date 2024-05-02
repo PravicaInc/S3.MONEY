@@ -1,6 +1,7 @@
 export default module.exports = {
   post: {
     tags: ['Package'],
+    deprecated: true,
     requestBody: {
       content: {
         'application/json': {
@@ -103,7 +104,7 @@ export default module.exports = {
       },
     },
     responses: {
-      '200': {
+      '201': {
         description: 'Successful Package creation',
         content: {
           'application/json': {
