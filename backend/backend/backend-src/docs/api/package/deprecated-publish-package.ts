@@ -1,45 +1,29 @@
 export default module.exports = {
   post: {
     tags: ['Package'],
+    deprecated: true,
     requestBody: {
       content: {
         'application/json': {
           schema: {
             type: 'object',
-            required: [
-              'address',
-              'decimals',
-              'description',
-              'fileName',
-              'icon_url',
-              'initialSupply',
-              'maxSupply',
-              'name',
-              'network',
-              'packageName',
-              'roles',
-              'ticker',
-            ],
+            required: ['address', 'ticker', 'decimals', 'created', 'initialSupply', 'maxSupply', 'packageRoles'],
             properties: {
+              address: {
+                type: 'string',
+                example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+              },
               ticker: {
                 type: 'string',
                 example: '$TCs',
-              },
-              network: {
-                type: 'string',
-                example: 'mainnet',
-              },
-              name: {
-                type: 'string',
-                example: 'Test Stablecoin',
               },
               decimals: {
                 type: 'integer',
                 example: 8,
               },
-              address: {
-                type: 'string',
-                example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+              created: {
+                type: 'boolean',
+                example: true,
               },
               initialSupply: {
                 type: 'string',
@@ -49,11 +33,7 @@ export default module.exports = {
                 type: 'string',
                 example: '1000000',
               },
-              fileName: {
-                type: 'string',
-                example: 'kakk.png',
-              },
-              roles: {
+              packageRoles: {
                 type: 'object',
                 required: ['burn', 'cashIn', 'cashOut', 'freeze', 'mint', 'pause'],
                 properties: {
@@ -84,18 +64,6 @@ export default module.exports = {
                 },
                 additionalProperties: false,
               },
-              packageName: {
-                type: 'string',
-                example: 'test-package',
-              },
-              description: {
-                type: 'string',
-                example: 'Test description',
-              },
-              icon_url: {
-                type: 'string',
-                example: 'https://example.com/icon.png',
-              },
             },
             additionalProperties: false,
           },
@@ -110,14 +78,22 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {
-                  type: 'string',
-                  example: 'ok',
-                },
-                error: {
-                  type: 'string',
-                  example: '',
-                },
+                status: {type: 'string', example: 'ok'},
+                message: {type: 'string', example: 'saved'},
+              },
+            },
+          },
+        },
+      },
+      '400': {
+        description: 'Error in package creation',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                status: {type: 'string', example: 'error'},
+                message: {type: 'string'},
               },
             },
           },
