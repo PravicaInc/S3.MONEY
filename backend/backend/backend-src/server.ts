@@ -6,12 +6,19 @@ import cors from 'cors'
 import express, {Express, Request} from 'express'
 
 import {TOKEN_SUPPLY_PATH} from './constants'
-import {S3MoneyError} from './lib/error'
+import {S3MoneyError} from './interfaces/error'
 import * as events from './lib/events'
 import * as holdings from './lib/holdings'
 import * as packages from './lib/packages'
 import * as relations from './lib/relations'
 import * as txvol from './lib/txvol'
+import {
+  createPackagesRouter,
+  createRelationsRouter,
+  createEventsRouter,
+  createTxVolRouter,
+  createHoldingsRouter,
+} from './routes'
 
 const PORT = process.env.PORT || 3000
 const app: Express = express()
@@ -49,11 +56,11 @@ app.use(
   '/v2',
   (() => {
     const router = express.Router()
-    router.use('/packages', packages.createPackagesRouter())
-    router.use('/related', relations.createRelationsRouter())
-    router.use('/events', events.createEventsRouter())
-    router.use('/txvol', txvol.createTxVolRouter())
-    router.use('/holdings', holdings.createHoldingsRouter())
+    router.use('/packages', createPackagesRouter())
+    router.use('/related', createRelationsRouter())
+    router.use('/events', createEventsRouter())
+    router.use('/txvol', createTxVolRouter())
+    router.use('/holdings', createHoldingsRouter())
     return router
   })(),
 )
