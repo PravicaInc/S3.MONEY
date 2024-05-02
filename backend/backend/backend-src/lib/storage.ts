@@ -7,7 +7,7 @@ import {getSignedUrl} from '@aws-sdk/s3-request-presigner'
 import {createHmac} from 'crypto'
 import fs from 'fs'
 import {S3} from '../constants'
-import {IPackageIcon} from './interfaces'
+import {IPackageIcon} from '../interfaces'
 
 const S3_CLIENT = new S3Client()
 
