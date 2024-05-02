@@ -2,6 +2,9 @@
  * @file Common constants used by the backend.
  */
 
+import dotenv from 'dotenv';
+dotenv.config();
+
 export const S3 = {
   BUCKET: process.env.BUCKET,
   ICON_URL_TTL: 3600,
