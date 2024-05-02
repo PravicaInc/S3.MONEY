@@ -35,10 +35,6 @@ export default module.exports = {
                 type: 'string',
                 example: '0x1234567890abcdef',
               },
-              data: {
-                type: 'object',
-                example: {},
-              },
               package_zip: {
                 type: 'string',
                 example: 'https://example.com/package.zip',
@@ -46,10 +42,6 @@ export default module.exports = {
               packageName: {
                 type: 'string',
                 example: 'test-package',
-              },
-              packageRoles: {
-                type: 'object',
-                example: {},
               },
               icon_url: {
                 type: 'string',

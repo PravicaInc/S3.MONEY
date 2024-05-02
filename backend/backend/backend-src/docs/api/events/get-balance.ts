@@ -26,7 +26,6 @@ export default module.exports = {
                   properties: {
                     token1: {type: 'number', example: 100},
                     token2: {type: 'number', example: 200},
-                    // Add more properties for different tokens as needed
                   },
                 },
               },
