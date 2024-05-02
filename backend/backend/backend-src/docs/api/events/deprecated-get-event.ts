@@ -35,7 +35,15 @@ export default module.exports = {
                   type: 'array',
                   items: {
                     type: 'object',
-                    properties: {},
+                    properties: {
+                      address_package: 'string',
+                      ticker: 'string',
+                      amount: 'number',
+                      sender: 'string',
+                      package_address: 'string',
+                      recipient: 'string',
+                      event: 'string',
+                    },
                   },
                 },
               },
