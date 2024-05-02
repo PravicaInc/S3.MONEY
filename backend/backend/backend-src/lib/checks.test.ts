@@ -6,11 +6,12 @@ import {
   validPublish,
   validRelatedCreate,
   validRelatedDelete,
-  validRelatedModify
+  validRelatedModify,
 } from './checks'
 import * as packageOps from './db/packages'
+import {S3MoneyError} from './error'
 import * as IFace from './interfaces'
-import { IRelationCreate, PackageRoles, PackageStatus } from './interfaces'
+import {IRelationCreate, PackageRoles, PackageStatus} from './interfaces'
 
 jest.mock('./db/packages', () => ({
   getPackage: jest.fn(),
@@ -24,7 +25,7 @@ describe('validCreate function', () => {
   // Test case for a valid input
   it('should return no error for valid input', async () => {
     // Mock the return value of getPackage function
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.CREATED,
     })
 
@@ -74,15 +75,20 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toContain('missing field: address')
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('missing field: address')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for invalid role address
   it('should return an error for invalid role address', async () => {
     // Mock the return value of getPackage function
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.CREATED,
     })
 
@@ -105,9 +111,14 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toContain('invalid role address: 0x1234567890123456789012345678901234567890')
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('invalid role address: 0x1234567890123456789012345678901234567890')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for invalid ticker
@@ -131,15 +142,20 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toContain('ticker must start with $: TC')
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('ticker must start with $: TC')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for already published package
   it('should return an error when package is already published', async () => {
     // Mock the return value of getPackage function
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.PUBLISHED,
     })
 
@@ -162,16 +178,21 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toContain(
-      'package already published: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e/tc',
-    )
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe(
+        'package already published: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e/tc',
+      )
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   //Test case for mismatching mint and burn addresses
   it('should return an error when mint and burn address are not same  ', async () => {
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.CREATED,
     })
 
@@ -194,16 +215,21 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toBe(
-      'mint and burn roles must be the same: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e, 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
-    )
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe(
+        'mint and burn roles must be the same: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e, 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+      )
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   //Test case for mismatching freeze and pause  addresses
   it('should return an error when freeze and pause  address are not same  ', async () => {
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.CREATED,
     })
 
@@ -226,11 +252,16 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toBe(
-      'freeze and pause roles must be the same: 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73, 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-    )
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe(
+        'freeze and pause roles must be the same: 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73, 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      )
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for invalid decimals
@@ -254,9 +285,14 @@ describe('validCreate function', () => {
       description: 'Test description',
       icon_url: 'https://example.com/icon.png',
     }
-
-    const result = await validCreate(testData as IFace.ContractCreate)
-    expect(result.error).toContain('wrong number of decimals: 20')
+    try {
+      await validCreate(testData as IFace.ContractCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('wrong number of decimals: 20')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 })
 
@@ -268,7 +304,7 @@ describe('validCancel function', () => {
   // Test case for a valid input
   it('should return no error for valid input', async () => {
     // Mock the return value of getPackage function
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.CREATED,
     })
 
@@ -295,8 +331,14 @@ describe('validCancel function', () => {
       maxSupply: '1000000',
     }
 
-    const result = await validCancel(testData as IFace.IPackageCreated)
-    expect(result.error).toContain('missing field')
+    try {
+      await validCancel(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('missing field: ticker')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for invalid address
@@ -310,8 +352,14 @@ describe('validCancel function', () => {
       maxSupply: '1000000',
     }
 
-    const result = await validCancel(testData)
-    expect(result.error).toContain('invalid address')
+    try {
+      await validCancel(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('invalid address')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for incorrect 'created' field
@@ -325,14 +373,20 @@ describe('validCancel function', () => {
       maxSupply: '1000000',
     }
 
-    const result = await validCancel(testData)
-    expect(result.error).toContain('created should be false')
+    try {
+      await validCancel(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('created should be false')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for attempting to cancel a published package
   it('should return an error for attempting to cancel a published package', async () => {
     // Mock getPackage to return a published package
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValue({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValue({
       deploy_status: PackageStatus.PUBLISHED,
     })
 
@@ -345,8 +399,14 @@ describe('validCancel function', () => {
       maxSupply: '1000000',
     }
 
-    const result = await validCancel(testData)
-    expect(result.error).toContain('package already published')
+    try {
+      await validCancel(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('package already published')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 })
 
@@ -358,7 +418,7 @@ describe('validPublish function', () => {
   // Test case for a valid input
   it('should return no error for valid input', async () => {
     // Mock the return value of getPackage function
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       decimals: 8,
     })
 
@@ -396,8 +456,14 @@ describe('validPublish function', () => {
       data: {},
     }
 
-    const result = await validPublish(testData as IFace.IPackageCreated)
-    expect(result.error).toContain('missing field')
+    try {
+      await validPublish(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('missing field: created')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for invalid address
@@ -413,8 +479,14 @@ describe('validPublish function', () => {
       maxSupply: '1000000',
     }
 
-    const result = await validPublish(testData)
-    expect(result.error).toContain('invalid address')
+    try {
+      await validPublish(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('invalid address')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for incorrect `created` field'
@@ -430,13 +502,19 @@ describe('validPublish function', () => {
       maxSupply: '1000000',
     }
 
-    const result = await validPublish(testData)
-    expect(result.error).toContain('created should be true')
+    try {
+      await validPublish(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('created should be true')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for already published package
   it('should return an error for already published package', async () => {
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValueOnce({
       deploy_status: PackageStatus.PUBLISHED,
     })
     const testData: IFace.IPackageCreated = {
@@ -459,16 +537,22 @@ describe('validPublish function', () => {
       },
     }
 
-    const result = await validPublish(testData)
-    expect(result.error).toContain(
-      'package already published: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e/tc',
-    )
+    try {
+      await validPublish(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe(
+        'package already published: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e/tc',
+      )
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   // Test case for package not created
   it('should return an error for package not created', async () => {
     // Mock getPackage to return null indicating package not created
-    ; (packageOps.getPackage as jest.Mock).mockResolvedValue(null)
+    ;(packageOps.getPackage as jest.Mock).mockResolvedValue(null)
 
     const testData: IFace.IPackageCreated = {
       address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
@@ -489,9 +573,16 @@ describe('validPublish function', () => {
         },
       },
     }
-
-    const result = await validPublish(testData)
-    expect(result.error).toContain('package not created')
+    try {
+      await validPublish(testData as IFace.IPackageCreated)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe(
+        'package not created: 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e/tc',
+      )
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 })
 
@@ -502,9 +593,14 @@ describe('validRelatedCreate function', () => {
       address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
     }
 
-    const result = await validRelatedCreate(testData as IRelationCreate)
-    expect(result.error).toBeTruthy()
-    expect(result.error).toContain('missing field: label')
+    try {
+      await validRelatedCreate(testData as IRelationCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toBe('missing field: label')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   it('should return an error for invalid address', async () => {
@@ -513,9 +609,14 @@ describe('validRelatedCreate function', () => {
       address: 'invalidAddress',
     }
 
-    const result = await validRelatedCreate(testData as IRelationCreate)
-    expect(result.error).toBeTruthy()
-    expect(result.error).toContain('invalid address:')
+    try {
+      await validRelatedCreate(testData as IRelationCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('invalid address:')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   it('should return no error when all fields are valid', async () => {
@@ -536,9 +637,14 @@ describe('validRelatedDelete function', () => {
       label: '', // Missing label field
     }
 
-    const result = await validRelatedDelete(testData as IFace.IRelationDelete)
-    expect(result.error).toBeTruthy()
-    expect(result.error).toContain('missing field: label')
+    try {
+      await validRelatedDelete(testData as IRelationCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('missing field: label')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   it('should return no error when label field is provided', async () => {
@@ -558,9 +664,14 @@ describe('validRelatedModify function', () => {
       label: '', // Missing label field
     }
 
-    const result = await validRelatedModify(testData as IFace.IRelationRename)
-    expect(result.error).toBeTruthy()
-    expect(result.error).toContain('missing field: label')
+    try {
+      await validRelatedModify(testData as IRelationCreate)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('missing field: label')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   it('should return no error when label field is provided', async () => {
@@ -568,7 +679,7 @@ describe('validRelatedModify function', () => {
       label: 'Test Label',
     }
 
-    const result = await validRelatedDelete(testData as IFace.IRelationDelete)
+    const result = await validRelatedModify(testData as IFace.IRelationDelete)
     expect(result.error).toBe('')
     expect(result.data).toEqual(testData)
   })
@@ -585,14 +696,22 @@ describe('validIconRequest function', () => {
       address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       // Missing fileName field
     }
-
-    const resultMissingAddress = validIconRequest(testDataMissingAddress as IFace.IPackageIcon)
-    expect(resultMissingAddress.error).toBeTruthy()
-    expect(resultMissingAddress.error).toContain('missing field: address')
-
-    const resultMissingFileName = validIconRequest(testDataMissingFileName as IFace.IPackageIcon)
-    expect(resultMissingFileName.error).toBeTruthy()
-    expect(resultMissingFileName.error).toContain('missing field: fileName')
+    try {
+      validIconRequest(testDataMissingAddress as IFace.IPackageIcon)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('missing field: address')
+      expect((error as any).errorCode).toBe(400)
+    }
+    try {
+      validIconRequest(testDataMissingFileName as IFace.IPackageIcon)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('missing field: fileName')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   it('should return an error when address field is invalid', () => {
@@ -601,9 +720,14 @@ describe('validIconRequest function', () => {
       fileName: 'icon.png',
     }
 
-    const resultInvalidAddress = validIconRequest(testDataInvalidAddress as IFace.IPackageIcon)
-    expect(resultInvalidAddress.error).toBeTruthy()
-    expect(resultInvalidAddress.error).toContain('invalid address')
+    try {
+      validIconRequest(testDataInvalidAddress as IFace.IPackageIcon)
+    } catch (error) {
+      expect(error instanceof S3MoneyError).toBeTruthy()
+      expect((error as any).errorMessage).toBe('Bad Request')
+      expect((error as any).details).toContain('invalid address')
+      expect((error as any).errorCode).toBe(400)
+    }
   })
 
   it('should return no error when all fields are valid', () => {
