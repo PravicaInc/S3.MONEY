@@ -18,7 +18,7 @@ export default module.exports = {
         required: true,
         schema: {
           type: 'string',
-          example: 'TOKEN',
+          example: '$TC',
         },
       },
       {

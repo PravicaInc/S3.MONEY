@@ -17,7 +17,7 @@ export default module.exports = {
         required: true,
         schema: {
           type: 'string',
-          example: 'TOKEN',
+          example: '$TCs',
         },
       },
       {
@@ -43,7 +43,7 @@ export default module.exports = {
                   type: 'string',
                   example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e::Token A',
                 },
-                fields: {type: 'array', items: {type: 'string', example: 'field1'}},
+                fields: {type: 'array', items: {type: 'string', example: '0k-1k,1k-100k'}},
                 holdings: {
                   type: 'array',
                   items: {

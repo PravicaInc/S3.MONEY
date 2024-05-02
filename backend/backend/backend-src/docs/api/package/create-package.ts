@@ -51,7 +51,7 @@ export default module.exports = {
               },
               fileName: {
                 type: 'string',
-                example: 'kakk.png',
+                example: 'file.png',
               },
               roles: {
                 type: 'object',
@@ -113,6 +113,16 @@ export default module.exports = {
                 status: {
                   type: 'string',
                   example: 'ok',
+                },
+                modules: {
+                  type: 'string',
+                  example:
+                    '[LgQICDIMCGw2eAgIOoAICAAUBBgELAQwAAAwBAAEBAQwBAAECAwQAAwICAAAKAAEBAAAHAgMBAAIJBQYAAwYLAQEJAAUHCAMBCwABCQABBgsAAQkAAQUAAQcIAwEIAgEJAAlDYXNoSW5DYXALVHJlYXN1cnlDYXAJVHhDb250ZXh0A1VJRAdhZGRyZXNzBWNhc2hfBGNvaW4LZ2V0X2FkZHJlc3MCaWQDbmV3Cm5ld19jYXNoaW4Gb2JqZWN0CnR4X2NvbnRleHQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAICCAgCBAUABwABAAAEB]',
+                },
+                dependencies: {
+                  type: 'string',
+                  example:
+                    '["0x0000000000000000000000000000000000000000000000000000000000000001","0x0000000000000000000000000000000000000000000000000000000000000002"]',
                 },
                 error: {
                   type: 'string',

@@ -21,7 +21,7 @@ export default module.exports = {
           type: 'string',
           description: 'The ticker symbol of the token',
         },
-        example: 'TOKEN',
+        example: '$TC',
       },
     ],
     responses: {
@@ -33,13 +33,18 @@ export default module.exports = {
               type: 'object',
               properties: {
                 status: {type: 'string', example: 'ok'},
-                allocations: {
+                events: {
                   type: 'array',
                   items: {
                     type: 'object',
                     properties: {
-                      tokenName: {type: 'string', example: 'Token A'},
+                      allocation_type: {type: 'string', example: 'allocated'},
                       amount: {type: 'number', example: 100},
+                      last_timestamp: {type: 'string', example: '2024-04-15T14:10:21.688Z'},
+                      address_package: {
+                        type: 'string',
+                        example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e::tc',
+                      },
                     },
                   },
                 },
