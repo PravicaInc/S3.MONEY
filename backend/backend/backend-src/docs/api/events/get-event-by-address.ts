@@ -26,7 +26,13 @@ export default module.exports = {
                   items: {
                     type: 'object',
                     properties: {
-                      // Define properties for events
+                      address_package: 'string',
+                      ticker: 'string',
+                      amount: 'number',
+                      sender: 'string',
+                      package_address: 'string',
+                      recipient: 'string',
+                      event: 'string',
                     },
                   },
                 },
