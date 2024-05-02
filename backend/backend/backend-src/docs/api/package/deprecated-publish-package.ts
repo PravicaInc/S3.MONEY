@@ -7,7 +7,16 @@ export default module.exports = {
         'application/json': {
           schema: {
             type: 'object',
-            required: ['address', 'ticker', 'decimals', 'created', 'initialSupply', 'maxSupply', 'packageRoles'],
+            required: [
+              'address',
+              'ticker',
+              'decimals',
+              'created',
+              'initialSupply',
+              'maxSupply',
+              'packageRoles',
+              'data',
+            ],
             properties: {
               address: {
                 type: 'string',
@@ -20,6 +29,41 @@ export default module.exports = {
               decimals: {
                 type: 'integer',
                 example: 8,
+              },
+              txid: {
+                type: 'string',
+                example: '0x1234567890abcdef',
+              },
+              data: {
+                type: 'object',
+                properties: {
+                  digest: {
+                    type: 'string',
+                    example: '9kdu2wsxGzcf9iKU29y9VSqUDLud9n51SmA72Y6obh2j',
+                  },
+                  confirmedLocalExecution: {
+                    type: 'boolean',
+                    example: true,
+                  },
+                  transaction: {
+                    type: 'object',
+                    properties: {
+                      data: {
+                        type: 'object',
+                        properties: {
+                          messageVersion: {
+                            type: 'string',
+                            example: 'v1',
+                          },
+                          sender: {
+                            type: 'string',
+                            example: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
               created: {
                 type: 'boolean',

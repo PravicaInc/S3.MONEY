@@ -1,12 +1,12 @@
 import heartbeat from './enviroment/heartbeat'
+import deprecatedGetEventByAddress from './events/deprecated-get-address-event'
 import deprecatedGetAllocation from './events/deprecated-get-allocation'
 import deprecatedGetBalance from './events/deprecated-get-balance'
-import deprecatedGetEvent from './events/deprecated-get-event'
-import deprecatedGetEventByAddress from './events/deprecated-get-event-by-address'
+import deprecatedGetEvent from './events/deprecated-get-package-event'
+import getAddressEvent from './events/get-address-event'
 import getAllocation from './events/get-allocation'
 import getBalance from './events/get-balance'
-import getEvent from './events/get-event'
-import getEventByAddress from './events/get-event-by-address'
+import getPackageEvent from './events/get-package-event'
 import deprecatedGetHoldings from './holdings/deprecated-get-holdings'
 import getHoldings from './holdings/get-holdings'
 import cancelPackage from './package/cancel-package'
@@ -73,11 +73,11 @@ export default module.exports = {
     '/v2/related/{pkgAddress}/{slug}': {
       ...renameRelations,
     },
-    '/v2/events/{address}/{ticker}': {
-      ...getEvent,
+    '/v2/events/package/{address}/{ticker}': {
+      ...getPackageEvent,
     },
-    '/v2/events/{address}': {
-      ...getEventByAddress,
+    '/v2/events/address/{address}': {
+      ...getAddressEvent,
     },
     '/v2/events/balances/{address}': {
       ...getBalance,
