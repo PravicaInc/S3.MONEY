@@ -2,9 +2,9 @@ import fs from 'fs'
 
 import {isValidSuiAddress, isValidSuiObjectId, isValidTransactionDigest} from '@mysten/sui.js/utils'
 import {RESERVED_TICKERS} from '../constants'
-import * as packageOps from './db/packages'
-import {ErrorType, invalidAddressErrorDetail, missingFieldErrorDetail, S3MoneyError} from './error'
-import * as IFace from './interfaces'
+import * as packageOps from '../db/packages'
+import {ErrorType, invalidAddressErrorDetail, missingFieldErrorDetail, S3MoneyError} from '../interfaces/error'
+import * as IFace from '../interfaces'
 import {tickerToPackageName} from './utils'
 
 const CWD = process.cwd()

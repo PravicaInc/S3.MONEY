@@ -1,5 +1,5 @@
 /**
- * @file Interfaces and types.
+ * @file packages Interfaces and types.
  */
 
 import {SuiSignAndExecuteTransactionBlockOutput} from '@mysten/wallet-standard'
@@ -112,22 +112,6 @@ export interface IPackageCreated {
   ticker_name?: string
 }
 
-export interface IRelatedItem {
-  label: string
-  address: string
-}
-export interface IRelationCreate {
-  label: string
-  address: string
-}
-export interface IRelationDelete {
-  label: string
-}
-
-export interface IRelationRename {
-  label: string
-}
-
 export function reqToCreated(data: CreatePackageRequest, s3key: string | undefined): IPackageCreated {
   return {
     address: data.address,
@@ -142,11 +126,6 @@ export function reqToCreated(data: CreatePackageRequest, s3key: string | undefin
     icon_url: data.raw_icon_url,
     package_zip: s3key ?? '',
   }
-}
-
-export interface IValid {
-  error: string
-  data?: object
 }
 
 export enum PackageStatus {

@@ -14,7 +14,7 @@ import {
 } from '@aws-sdk/client-dynamodb'
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 
-import {DB} from '../../constants'
+import {DB} from '../constants'
 import {IPackageCreated, IPackageDeployed, PackageFilter, PackageStatus, packageSummary} from '../interfaces'
 
 const DB_CLIENT = new DynamoDBClient()

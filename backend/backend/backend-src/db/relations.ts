@@ -14,7 +14,7 @@ import {
 import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
 import slug from 'slug'
 
-import {DB} from '../../constants'
+import {DB} from '../constants'
 import * as IFace from '../interfaces'
 
 const DB_CLIENT = new DynamoDBClient()
