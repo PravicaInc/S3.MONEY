@@ -8,6 +8,7 @@ import express, {Express, Request} from 'express'
 import swaggerUi from 'swagger-ui-express'
 import {TOKEN_SUPPLY_PATH} from './constants'
 import docs from './docs'
+import {S3MoneyError} from './lib/error'
 import * as events from './lib/events'
 import * as holdings from './lib/holdings'
 import * as packages from './lib/packages'
@@ -105,8 +106,13 @@ app.use((_, res) => {
 
 // Error handling middleware
 app.use(((error, req, res, next) => {
-  res.status(500)
-  res.json({error: error.toString(), stack: (error as Error).stack}).end()
+  if (error instanceof S3MoneyError) {
+    res.status(error.errorCode)
+    res.json({error: error.errorMessage, detail: error.details}).end()
+  } else {
+    res.status(500)
+    res.json({error: error.toString(), stack: (error as Error).stack}).end()
+  }
 }) as express.ErrorRequestHandler)
 
 app.listen(PORT, () => {
