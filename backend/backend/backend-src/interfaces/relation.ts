@@ -1,5 +1,5 @@
 /**
- * @file related Interfaces and types.
+ * @file Related Interfaces and types.
  */
 
 export interface IRelatedItem {
