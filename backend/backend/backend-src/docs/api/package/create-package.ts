@@ -23,7 +23,7 @@ export default module.exports = {
             properties: {
               ticker: {
                 type: 'string',
-                example: '$TCs',
+                example: '$TSC',
               },
               network: {
                 type: 'string',
@@ -127,6 +127,26 @@ export default module.exports = {
                 error: {
                   type: 'string',
                   example: '',
+                },
+              },
+            },
+          },
+        },
+      },
+      '400': {
+        description: 'Package already published',
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                status: {
+                  type: 'string',
+                  example: 'Bad Request',
+                },
+                message: {
+                  type: 'string',
+                  example: 'package already published',
                 },
               },
             },
