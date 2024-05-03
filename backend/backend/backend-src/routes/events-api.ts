@@ -7,6 +7,15 @@ import {handleGetAddressEvents, handleGetAllocations, handleGetBalances, handleG
 
 export function createEventsRouter(): Router {
   const router = Router()
+
+  router.get('/balances/:address', async (req, res, next) => {
+    try {
+      await handleGetBalances(req, res)
+    } catch (error) {
+      next(error)
+    }
+  })
+
   router.get('/:address/:ticker', async (req, res, next) => {
     try {
       await handleGetPackageEvents(req, res)
@@ -23,14 +32,6 @@ export function createEventsRouter(): Router {
     }
   })
 
-  router.get('/balances/:address', async (req, res, next) => {
-    try {
-      await handleGetBalances(req, res)
-    } catch (error) {
-      next(error)
-    }
-  })
-  
   router.get('/allocations/:address/:ticker', async (req, res, next) => {
     try {
       await handleGetAllocations(req, res)
