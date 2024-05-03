@@ -49,7 +49,7 @@ export default module.exports = {
                   items: {
                     type: 'object',
                     properties: {
-                      timestamp: {type: 'string', example: '2024-04-29T12:00:00Z'},
+                      period: {type: 'string', example: '2022'},
                       volume: {type: 'number', example: 100},
                     },
                   },
