@@ -3,15 +3,15 @@
  */
 
 import ejs from 'ejs'
-import {Request, Response, Router} from 'express'
+import {Request, Response} from 'express'
 import {Zip} from 'zip-lib'
 
 import * as child from 'child_process'
 import fs from 'fs'
-import * as Checks from './checks'
 import * as dbPackages from '../db/packages'
-import {ErrorType, invalidAddressErrorDetail, S3MoneyError} from '../interfaces/error'
 import * as IFace from '../interfaces'
+import {ErrorType, invalidAddressErrorDetail, invalidPackageErrorDetail, S3MoneyError} from '../interfaces/error'
+import * as Checks from './checks'
 import * as storage from './storage'
 import {tickerToPackageName} from './utils'
 
@@ -186,7 +186,7 @@ export async function handleGetPackages(req: Request, res: Response) {
       packages: await packageData(address, undefined, summary),
     })
   } else {
-    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
+    throw new S3MoneyError(ErrorType.BadRequest, invalidPackageErrorDetail(address))
   }
 }
 

@@ -1,5 +1,6 @@
 export const invalidAddressErrorDetail = (address: string) => `invalid address: ${address}`
 export const missingFieldErrorDetail = (field: string) => `missing field: ${field}`
+export const invalidPackageErrorDetail = (pkg: string) => `invalid package address: ${pkg}`
 
 export enum ErrorType {
   BadRequest,
