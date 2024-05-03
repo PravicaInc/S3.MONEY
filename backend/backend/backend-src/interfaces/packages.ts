@@ -1,5 +1,5 @@
 /**
- * @file packages Interfaces and types.
+ * @file Package Interfaces and types.
  */
 
 import {SuiSignAndExecuteTransactionBlockOutput} from '@mysten/wallet-standard'
