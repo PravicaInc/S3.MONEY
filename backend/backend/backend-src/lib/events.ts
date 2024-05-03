@@ -3,9 +3,9 @@
  */
 
 import {Request, Response} from 'express'
-import * as Checks from './checks'
 import * as dbEvents from '../db/events'
-import {ErrorType, invalidAddressErrorDetail, S3MoneyError} from '../interfaces/error'
+import {ErrorType, invalidAddressErrorDetail, invalidPackageErrorDetail, S3MoneyError} from '../interfaces/error'
+import * as Checks from './checks'
 
 export function createEventsRouter(): Router {
   const router = Router()
@@ -62,7 +62,7 @@ export async function handleGetAllocations(req: Request, res: Response) {
       events: await dbEvents.getAllocations(address, ticker),
     })
   } else {
-    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
+    throw new S3MoneyError(ErrorType.BadRequest, invalidPackageErrorDetail(address))
   }
 }
 
@@ -74,7 +74,7 @@ export async function handleGetPackageEvents(req: Request, res: Response) {
       events: await dbEvents.getPackageEvents(address, ticker),
     })
   } else {
-    throw new S3MoneyError(ErrorType.BadRequest, invalidAddressErrorDetail(address))
+    throw new S3MoneyError(ErrorType.BadRequest, invalidPackageErrorDetail(address))
   }
 }
 
