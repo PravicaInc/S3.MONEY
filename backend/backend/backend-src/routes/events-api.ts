@@ -7,7 +7,8 @@ import {handleGetAddressEvents, handleGetAllocations, handleGetBalances, handleG
 
 export function createEventsRouter(): Router {
   const router = Router()
-  router.get('/:address/:ticker', async (req, res, next) => {
+
+  router.get('/package/:address/:ticker', async (req, res, next) => {
     try {
       await handleGetPackageEvents(req, res)
     } catch (error) {
@@ -15,7 +16,7 @@ export function createEventsRouter(): Router {
     }
   })
 
-  router.get('/:address', async (req, res, next) => {
+  router.get('/address/:address', async (req, res, next) => {
     try {
       await handleGetAddressEvents(req, res)
     } catch (error) {
