@@ -2,7 +2,7 @@
  * @file Handlers related to events and balances.
  */
 
-import {Request, Response} from 'express'
+import {Request, Response, Router} from 'express'
 import * as dbEvents from '../db/events'
 import {ErrorType, invalidAddressErrorDetail, invalidPackageErrorDetail, S3MoneyError} from '../interfaces/error'
 import * as Checks from './checks'
