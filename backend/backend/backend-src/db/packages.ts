@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 /**
  * @file Functions related to DynamoDB operations for packages.
  */
@@ -11,13 +12,13 @@ import {
   TransactGetItemsCommand,
   TransactWriteItem,
   TransactWriteItemsCommand,
-} from '@aws-sdk/client-dynamodb'
-import {marshall, unmarshall} from '@aws-sdk/util-dynamodb'
+} from '@aws-sdk/client-dynamodb';
+import { marshall, unmarshall } from '@aws-sdk/util-dynamodb';
 
-import {DB} from '../constants'
-import {IPackageCreated, IPackageDeployed, PackageFilter, PackageStatus, packageSummary} from '../interfaces'
+import { DB } from '../constants';
+import { IPackageCreated, IPackageDeployed, PackageFilter, PackageStatus, packageSummary } from '../interfaces';
 
-const DB_CLIENT = new DynamoDBClient()
+const DB_CLIENT = new DynamoDBClient();
 
 /**
  * Get a package by address and package name.
@@ -33,12 +34,15 @@ export async function getPackage(address: string, packageName: string) {
       address: address,
       package_name: packageName,
     }),
-  })
+  });
 
-  const response = await DB_CLIENT.send(command)
-  if (response.Item === undefined) return null
+  const response = await DB_CLIENT.send(command);
 
-  return unmarshall(response.Item)
+  if (response.Item === undefined) {
+    return null;
+  }
+
+  return unmarshall(response.Item);
 }
 
 /**
@@ -62,33 +66,43 @@ export async function getPackages(address: string, filter: PackageFilter | undef
       ':role_address': address,
     }),
     ProjectionExpression: 'address_package, package_role',
-  })
+  });
 
-  const response = await DB_CLIENT.send(command)
-  if (response.Items === undefined || response.Items.length === 0) return []
-  const retlist = response.Items.map(item => unmarshall(item))
+  const response = await DB_CLIENT.send(command);
+
+  if (response.Items === undefined || response.Items.length === 0) {
+    return [];
+  }
+  const retlist = response.Items.map(item => unmarshall(item));
 
   // map role to wallet address
-  const pkgRoleMap: Record<string, string[]> = {}
+  const pkgRoleMap: Record<string, string[]> = {};
 
   for (const item of retlist) {
     if ('address_package' in item) {
-      const [address, pkg] = item.address_package.split('::')
-      if (filter !== undefined && filter.packageName !== '' && pkg !== filter.packageName) continue
+      const [pkg] = item.address_package.split('::');
+
+      if (filter !== undefined && filter.packageName !== '' && pkg !== filter.packageName) {
+        continue;
+      }
 
       if (!(item.address_package in pkgRoleMap)) {
-        pkgRoleMap[item.address_package] = []
+        pkgRoleMap[item.address_package] = [];
       }
-      pkgRoleMap[item.address_package].push(item.package_role)
+      pkgRoleMap[item.address_package].push(item.package_role);
     }
   }
 
-  if (Object.keys(pkgRoleMap).length === 0) return []
+  if (Object.keys(pkgRoleMap).length === 0) {
+    return [];
+  }
 
   // now we can get the package data
-  let items: TransactGetItem[] = []
+  const items: TransactGetItem[] = [];
+
   for (const pkg of Object.keys(pkgRoleMap)) {
-    const [address, package_name] = pkg.split('::')
+    const [address, package_name] = pkg.split('::');
+
     items.push({
       Get: {
         TableName: DB.DEPLOYED_TABLE,
@@ -97,45 +111,50 @@ export async function getPackages(address: string, filter: PackageFilter | undef
           package_name: package_name,
         }),
       },
-    })
+    });
   }
 
   const txGetCommand = new TransactGetItemsCommand({
     TransactItems: items,
-  })
-  const txResponse = await DB_CLIENT.send(txGetCommand)
-  if (txResponse.Responses === undefined || txResponse.Responses.length === 0) return []
+  });
+  const txResponse = await DB_CLIENT.send(txGetCommand);
 
-  const responses = txResponse.Responses.filter(resp => resp.Item !== undefined).map(resp =>
-    unmarshall(resp.Item as Record<string, AttributeValue>),
-  )
+  if (txResponse.Responses === undefined || txResponse.Responses.length === 0) {
+    return [];
+  }
+
+  const responses = txResponse.Responses.filter(resp => resp.Item !== undefined).map(
+    resp => unmarshall(resp.Item as Record<string, AttributeValue>)
+  );
 
   let pkgItems = responses
     .sort((x, y) => y['deploy_date'].localeCompare(x['deploy_date'])) // reverse sort
     .map(item => {
-      const key = `${item.address}::${item.package_name}`
-      item.address_roles = pkgRoleMap[key]
-      delete item.address
+      const key = `${item.address}::${item.package_name}`;
 
-      return item
-    })
+      item.address_roles = pkgRoleMap[key];
+      delete item.address;
+
+      return item;
+    });
 
   // we've already filtered for the packageName from the roles table
   if (filter !== undefined && filter.digest !== '') {
-    pkgItems = pkgItems.filter(item => item.txid === filter.digest)
+    pkgItems = pkgItems.filter(item => item.txid === filter.digest);
   }
 
   if (summary) {
     pkgItems = pkgItems.map(item => {
-      const deploy_data: IPackageDeployed = item.deploy_data
-      item.deploy_addresses = packageSummary(deploy_data.objectChanges ?? [])
-      delete item.deploy_data
+      const deploy_data: IPackageDeployed = item.deploy_data;
 
-      return item
-    })
+      item.deploy_addresses = packageSummary(deploy_data.objectChanges ?? []);
+      delete item.deploy_data;
+
+      return item;
+    });
   }
 
-  return pkgItems
+  return pkgItems;
 }
 
 /**
@@ -148,15 +167,16 @@ export async function getPackages(address: string, filter: PackageFilter | undef
  * @param {string} status - either 'created' or 'published'
  */
 export async function savePackage(data: IPackageCreated, status: PackageStatus) {
-  const deployData = data.data ?? {}
-  const packageRoles = data.packageRoles ?? {}
-  const addressPackage = `${data.address}::${data.packageName}`
-  let iconUrl = ''
+  const deployData = data.data ?? {};
+  const packageRoles = data.packageRoles ?? {};
+  const addressPackage = `${data.address}::${data.packageName}`;
+  let iconUrl = '';
+
   if (data.icon_url !== undefined && data.icon_url !== 'option::none()') {
-    iconUrl = data.icon_url
+    iconUrl = data.icon_url;
   }
 
-  let items: TransactWriteItem[] = [
+  const items: TransactWriteItem[] = [
     {
       Put: {
         TableName: DB.DEPLOYED_TABLE,
@@ -177,7 +197,7 @@ export async function savePackage(data: IPackageCreated, status: PackageStatus) 
             package_roles: packageRoles,
             package_zip: data.package_zip,
           },
-          {removeUndefinedValues: true},
+          { removeUndefinedValues: true }
         ),
       },
     },
@@ -201,7 +221,7 @@ export async function savePackage(data: IPackageCreated, status: PackageStatus) 
         }),
       },
     },
-  ]
+  ];
 
   if (packageRoles !== undefined) {
     for (const [role, address] of Object.entries(packageRoles)) {
@@ -214,7 +234,7 @@ export async function savePackage(data: IPackageCreated, status: PackageStatus) 
             role_address: address || data.address,
           }),
         },
-      })
+      });
     }
   }
 
@@ -222,8 +242,9 @@ export async function savePackage(data: IPackageCreated, status: PackageStatus) 
   for (let i = 0; i < items.length; i += 100) {
     const txWriteCommand = new TransactWriteItemsCommand({
       TransactItems: items.slice(i, i + 100),
-    })
-    await DB_CLIENT.send(txWriteCommand)
+    });
+
+    await DB_CLIENT.send(txWriteCommand);
   }
 }
 
@@ -235,7 +256,7 @@ export async function savePackage(data: IPackageCreated, status: PackageStatus) 
  * @param {string} packageName - name of the package
  */
 export async function deletePackage(address: string, packageName: string) {
-  let items: TransactWriteItem[] = [
+  const items: TransactWriteItem[] = [
     {
       Delete: {
         TableName: DB.DEPLOYED_TABLE,
@@ -245,7 +266,7 @@ export async function deletePackage(address: string, packageName: string) {
         }),
       },
     },
-  ]
+  ];
 
   for (const role of await getRoles(address, packageName)) {
     items.push({
@@ -256,14 +277,14 @@ export async function deletePackage(address: string, packageName: string) {
           package_role: role,
         }),
       },
-    })
+    });
   }
 
   const txWriteCommand = new TransactWriteItemsCommand({
     TransactItems: items,
-  })
+  });
 
-  return await DB_CLIENT.send(txWriteCommand)
+  return await DB_CLIENT.send(txWriteCommand);
 }
 
 /**
@@ -281,11 +302,11 @@ async function getRoles(address: string, packageName: string): Promise<string[]>
       ':address_package': `${address}::${packageName}`,
     }),
     ProjectionExpression: 'package_role',
-  })
+  });
 
-  const response = await DB_CLIENT.send(command!)
+  const response = await DB_CLIENT.send(command!);
 
-  return response.Items?.map(item => unmarshall(item).package_role) ?? []
+  return response.Items?.map(item => unmarshall(item).package_role) ?? [];
 }
 
 /**
@@ -295,7 +316,7 @@ async function getRoles(address: string, packageName: string): Promise<string[]>
  * @param {string} packageName - name of the package
  */
 export async function deleteRoles(address: string, packageName: string) {
-  let items: TransactWriteItem[] = []
+  const items: TransactWriteItem[] = [];
 
   for (const role of await getRoles(address, packageName)) {
     items.push({
@@ -306,16 +327,18 @@ export async function deleteRoles(address: string, packageName: string) {
           package_role: role,
         }),
       },
-    })
+    });
   }
 
-  if (items.length === 0) return
+  if (items.length === 0) {
+    return;
+  }
 
   const txWriteCommand = new TransactWriteItemsCommand({
     TransactItems: items,
-  })
+  });
 
-  return await DB_CLIENT.send(txWriteCommand)
+  return await DB_CLIENT.send(txWriteCommand);
 }
 
 // eof

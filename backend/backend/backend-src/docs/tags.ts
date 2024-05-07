@@ -19,4 +19,4 @@ export default module.exports = {
       name: 'Environment',
     },
   ],
-}
+};

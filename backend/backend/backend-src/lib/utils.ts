@@ -5,7 +5,8 @@
  * @returns {string} - package name, e.g. sui
  */
 export function tickerToPackageName(ticker: string): string {
-  return ticker.toLowerCase().trim().slice(1)
+  return ticker.toLowerCase().trim()
+    .slice(1);
 }
 
 // eof

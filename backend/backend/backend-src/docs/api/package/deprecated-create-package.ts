@@ -136,4 +136,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

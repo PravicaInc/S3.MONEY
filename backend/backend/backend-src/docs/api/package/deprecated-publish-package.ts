@@ -122,8 +122,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
-                message: {type: 'string', example: 'saved'},
+                status: { type: 'string', example: 'ok' },
+                message: { type: 'string', example: 'saved' },
               },
             },
           },
@@ -136,8 +136,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string' },
               },
             },
           },
@@ -145,4 +145,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

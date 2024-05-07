@@ -30,16 +30,16 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
+                status: { type: 'string', example: 'ok' },
                 packages: {
                   type: 'array',
                   items: {
                     type: 'object',
                     properties: {
-                      package_name: {type: 'string', example: 'test-package'},
-                      decimals: {type: 'number', example: 8},
-                      maxSupply: {type: 'string', example: '1000000'},
-                      initialSupply: {type: 'string', example: '1000'},
+                      package_name: { type: 'string', example: 'test-package' },
+                      decimals: { type: 'number', example: 8 },
+                      maxSupply: { type: 'string', example: '1000000' },
+                      initialSupply: { type: 'string', example: '1000' },
                       address_roles: {
                         type: 'string',
                         example: '[burn,cashOut,freeze,deployer,cashIn,mint,pause]',
@@ -48,11 +48,11 @@ export default module.exports = {
                         type: 'string',
                         example: 'packages/0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e/tcs.zip',
                       },
-                      icon_url: {type: 'string', example: 'https://example.com/icon.png'},
-                      ticker: {type: 'string', example: '$TCs'},
-                      txid: {type: 'string', example: '0x1234567890abcdef'},
-                      deploy_status: {type: 'string', example: 'published'},
-                      deploy_date: {type: 'string', example: '2024-05-02T11:56:52.087Z'},
+                      icon_url: { type: 'string', example: 'https://example.com/icon.png' },
+                      ticker: { type: 'string', example: '$TCs' },
+                      txid: { type: 'string', example: '0x1234567890abcdef' },
+                      deploy_status: { type: 'string', example: 'published' },
+                      deploy_date: { type: 'string', example: '2024-05-02T11:56:52.087Z' },
                       package_roles: {
                         type: 'object',
                         required: ['burn', 'cashIn', 'cashOut', 'freeze', 'mint', 'pause'],
@@ -131,8 +131,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string', example: 'invalid address: <address>'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string', example: 'invalid address: <address>' },
               },
             },
           },
@@ -140,4 +140,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

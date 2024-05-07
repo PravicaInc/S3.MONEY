@@ -20,7 +20,7 @@ export default module.exports = {
           schema: {
             type: 'object',
             properties: {
-              label: {type: 'string', example: 'Treasury'},
+              label: { type: 'string', example: 'Treasury' },
               address: {
                 type: 'string',
                 format: 'address',
@@ -40,7 +40,7 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
+                status: { type: 'string', example: 'ok' },
               },
             },
           },
@@ -53,8 +53,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string' },
               },
             },
           },
@@ -62,4 +62,4 @@ export default module.exports = {
       },
     },
   },
-}
+};
