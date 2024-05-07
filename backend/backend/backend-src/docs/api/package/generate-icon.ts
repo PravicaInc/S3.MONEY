@@ -30,8 +30,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
-                url: {type: 'string', format: 'uri', example: 'https://example.com/presigned-url'},
+                status: { type: 'string', example: 'ok' },
+                url: { type: 'string', format: 'uri', example: 'https://example.com/presigned-url' },
               },
             },
           },
@@ -44,8 +44,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string' },
               },
             },
           },
@@ -53,4 +53,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

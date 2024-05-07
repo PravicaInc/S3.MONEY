@@ -9,7 +9,7 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
+                status: { type: 'string', example: 'ok' },
               },
             },
           },
@@ -17,4 +17,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

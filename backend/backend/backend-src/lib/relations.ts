@@ -2,10 +2,12 @@
  * @file Handlers related to wallet relationships.
  */
 
-import {Request, Response} from 'express'
-import * as Checks from './checks'
-import * as dbRelations from '../db/relations'
-import * as IFace from '../interfaces'
+import { Request, Response } from 'express';
+
+import * as dbRelations from '../db/relations';
+import * as IFace from '../interfaces';
+
+import * as Checks from './checks';
 
 /**
  * Handler that returns a list of relations for a package.
@@ -14,17 +16,19 @@ import * as IFace from '../interfaces'
  * @param {Response} res
  */
 export async function handleGetRelations(req: Request, res: Response) {
-  const {pkgAddress} = req.params
+  const { pkgAddress } = req.params;
+
   if (Checks.isValidPackage(pkgAddress)) {
     res.status(200).json({
       status: 'ok',
       related: await dbRelations.getRelations(pkgAddress),
-    })
-  } else {
+    });
+  }
+  else {
     res.status(400).json({
       status: 'error',
       message: `invalid package address: ${pkgAddress}`,
-    })
+    });
   }
 }
 
@@ -35,30 +39,35 @@ export async function handleGetRelations(req: Request, res: Response) {
  * @param {Response} res
  */
 export async function handleCreateRelation(req: Request, res: Response) {
-  const {pkgAddress} = req.params
-  const v = await Checks.validRelatedCreate(req.body)
+  const { pkgAddress } = req.params;
+  const v = await Checks.validRelatedCreate(req.body);
+
   if (Checks.isValidPackage(pkgAddress) && v.error === '') {
-    const ret = await dbRelations.createRelation(pkgAddress, v.data as IFace.IRelationCreate)
+    const ret = await dbRelations.createRelation(pkgAddress, v.data as IFace.IRelationCreate);
+
     if (ret !== undefined && 'error' in ret) {
       res.status(400).json({
         status: 'error',
         message: ret.error,
-      })
-    } else {
+      });
+    }
+    else {
       res.status(200).json({
         status: 'ok',
-      })
+      });
     }
-  } else if (v.error != '') {
+  }
+  else if (v.error != '') {
     res.status(400).json({
       status: 'error',
       message: v.error,
-    })
-  } else {
+    });
+  }
+  else {
     res.status(400).json({
       status: 'error',
       message: `invalid address: ${pkgAddress}`,
-    })
+    });
   }
 }
 
@@ -69,17 +78,19 @@ export async function handleCreateRelation(req: Request, res: Response) {
  * @param {Response} res
  */
 export async function handleDeleteRelation(req: Request, res: Response) {
-  const {pkgAddress, slug} = req.params
+  const { pkgAddress, slug } = req.params;
+
   if (Checks.isValidPackage(pkgAddress) && slug.trim() != '') {
-    await dbRelations.deleteRelation(pkgAddress, slug)
+    await dbRelations.deleteRelation(pkgAddress, slug);
     res.status(200).json({
       status: 'ok',
-    })
-  } else {
+    });
+  }
+  else {
     res.status(400).json({
       status: 'error',
       message: `invalid address: ${pkgAddress}`,
-    })
+    });
   }
 }
 
@@ -90,30 +101,35 @@ export async function handleDeleteRelation(req: Request, res: Response) {
  * @param {Response} res
  */
 export async function handleRenameRelation(req: Request, res: Response) {
-  const {pkgAddress, slug} = req.params
-  const v = await Checks.validRelatedModify(req.body)
+  const { pkgAddress, slug } = req.params;
+  const v = await Checks.validRelatedModify(req.body);
+
   if (Checks.isValidPackage(pkgAddress) && v.error === '') {
-    const ret = await dbRelations.renameRelation(pkgAddress, slug, v.data as IFace.IRelationRename)
+    const ret = await dbRelations.renameRelation(pkgAddress, slug, v.data as IFace.IRelationRename);
+
     if (ret !== undefined && 'error' in ret) {
       res.status(400).json({
         status: 'error',
         message: ret.error,
-      })
-    } else {
+      });
+    }
+    else {
       res.status(200).json({
         status: 'ok',
-      })
+      });
     }
-  } else if (v.error != '') {
+  }
+  else if (v.error != '') {
     res.status(400).json({
       status: 'error',
       message: v.error,
-    })
-  } else {
+    });
+  }
+  else {
     res.status(400).json({
       status: 'error',
       message: `invalid address: ${pkgAddress}`,
-    })
+    });
   }
 }
 

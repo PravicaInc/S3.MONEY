@@ -21,18 +21,18 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
+                status: { type: 'string', example: 'ok' },
                 related: {
                   type: 'array',
                   items: {
                     type: 'object',
                     properties: {
-                      slug: {type: 'string', example: 'treasury'},
+                      slug: { type: 'string', example: 'treasury' },
                       wallet_address: {
                         type: 'string',
                         example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
                       },
-                      label: {type: 'string', example: 'Treasury'},
+                      label: { type: 'string', example: 'Treasury' },
                     },
                   },
                 },
@@ -48,8 +48,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string' },
               },
             },
           },
@@ -57,4 +57,4 @@ export default module.exports = {
       },
     },
   },
-}
+};
