@@ -2,52 +2,12 @@
  * @file Handlers related to events and balances.
  */
 
-import { Request, Response, Router } from 'express';
+import { Request, Response } from 'express';
 
 import * as dbEvents from '../db/events';
 import { ErrorType, invalidAddressErrorDetail, invalidPackageErrorDetail, S3MoneyError } from '../interfaces/error';
 
 import * as Checks from './checks';
-
-export function createEventsRouter(): Router {
-  const router = Router();
-
-  router.get('/package/:address/:ticker', async (req, res, next) => {
-    try {
-      await handleGetPackageEvents(req, res);
-    }
-    catch (error) {
-      next(error);
-    }
-  });
-
-  router.get('/address/:address', async (req, res, next) => {
-    try {
-      await handleGetAddressEvents(req, res);
-    }
-    catch (error) {
-      next(error);
-    }
-  });
-  router.get('/balances/:address', async (req, res, next) => {
-    try {
-      await handleGetBalances(req, res);
-    }
-    catch (error) {
-      next(error);
-    }
-  });
-  router.get('/allocations/:address/:ticker', async (req, res, next) => {
-    try {
-      await handleGetAllocations(req, res);
-    }
-    catch (error) {
-      next(error);
-    }
-  });
-
-  return router;
-}
 
 export async function handleGetBalances(req: Request, res: Response) {
   const { address } = req.params;

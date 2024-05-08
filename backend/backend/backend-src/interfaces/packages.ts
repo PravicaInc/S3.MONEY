@@ -4,6 +4,19 @@
 
 import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
 
+export enum PackageRoles {
+  BURN = 'burn',
+  MINT = 'mint', // should be same as burn
+  CASH_IN = 'cashIn',
+  CASH_OUT = 'cashOut',
+  FREEZE = 'freeze',
+  PAUSE = 'pause',
+}
+
+export type RoleMap = {
+  [key in PackageRoles]: string
+}
+
 export interface PackageCreateRequest {
   address: string // creator's address
   network: string
@@ -52,19 +65,6 @@ export interface PackagePublishRequest {
 export interface PackagePublishResponse {
   status: string
   message: string
-}
-
-export enum PackageRoles {
-  BURN = 'burn',
-  MINT = 'mint', // should be same as burn
-  CASH_IN = 'cashIn',
-  CASH_OUT = 'cashOut',
-  FREEZE = 'freeze',
-  PAUSE = 'pause',
-}
-
-export type RoleMap = {
-  [key in PackageRoles]: string
 }
 
 export enum PackageFilterKeys {
@@ -152,13 +152,6 @@ export interface IPackageSummary {
   cash_cap: string
 }
 
-export interface IPackageDeployed {
-  digest: string
-  events: IPackageEvent[]
-  objectChanges: IPackageObjectChange[]
-  confirmedLocalExecution: boolean
-}
-
 interface IPackageEvent {
   packageId: string
   sender: string
@@ -172,6 +165,13 @@ export interface IPackageObjectChange {
   objectId: string
   packageId?: string
   sender?: string
+}
+
+export interface IPackageDeployed {
+  digest: string
+  events: IPackageEvent[]
+  objectChanges: IPackageObjectChange[]
+  confirmedLocalExecution: boolean
 }
 
 export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageSummary {

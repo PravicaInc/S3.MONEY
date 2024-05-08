@@ -1,6 +1,5 @@
 import {
   DynamoDBClient,
-  GetItemCommand,
   QueryCommand,
   ScanCommand,
   TransactWriteItem,
@@ -56,8 +55,8 @@ export function toHoldings(items: Record<string, any>[]) {
     holdings[bucket] = 0;
   }
   for (const item of items) {
-    const address = item.address;
     const balance = item.balance;
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     const bucket = Object.keys(C.HOLDINGS_BUCKETS).find(bucket => {
       const [min, max] = C.HOLDINGS_BUCKETS[bucket];
 

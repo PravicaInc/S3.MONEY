@@ -32,23 +32,23 @@ export default module.exports = {
                         type: 'string',
                         example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e::tc',
                       },
-                      ticker:  {
+                      ticker: {
                         type: 'string',
                         example: '$TC',
                       },
-                      amount:  {
+                      amount: {
                         type: 'number',
                         example: 29999999990,
                       },
-                      sender:  {
+                      sender: {
                         type: 'string',
                         example: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
                       },
-                      package_address:  {
+                      package_address: {
                         type: 'string',
                         example: '0x5b4bb859db014ea8bb75c87f2cd03e4b90a3182f92ff1f13d1975204f34cb863::tc',
                       },
-                      recipient:  {
+                      recipient: {
                         type: 'string',
                         example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
                       },

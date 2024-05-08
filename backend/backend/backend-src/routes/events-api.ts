@@ -18,7 +18,7 @@ export function createEventsRouter(): Router {
     }
   });
 
-  router.get('/:address/:ticker', async (req, res, next) => {
+  router.get('/package/:address/:ticker', async (req, res, next) => {
     try {
       await handleGetPackageEvents(req, res);
     }
@@ -27,7 +27,7 @@ export function createEventsRouter(): Router {
     }
   });
 
-  router.get('/:address', async (req, res, next) => {
+  router.get('/address/:address', async (req, res, next) => {
     try {
       await handleGetAddressEvents(req, res);
     }

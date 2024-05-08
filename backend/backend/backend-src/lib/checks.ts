@@ -338,8 +338,6 @@ export async function validRelatedDelete(data: IFace.IRelationDelete): Promise<I
 }
 
 export async function validRelatedModify(data: IFace.IRelationRename): Promise<IFace.IValid> {
-  const stringFields = ['label', 'new_label'];
-
   if (!('label' in data) || data.label.trim() == '') {
     console.log('missing field: label');
 

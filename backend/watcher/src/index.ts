@@ -1,9 +1,10 @@
-import { Callback, Context, EventBridgeEvent, Handler, ScheduledHandler } from 'aws-lambda';
+import { Callback, Context, Handler } from 'aws-lambda';
 
 import * as C from './constants';
 import { storeHoldings } from './holdings';
 import { processEvent, scheduleEvents } from './process';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const handler: Handler = async (event: any, context: Context, callback: Callback): Promise<void> => {
   // if the message is from EventBridge, it is an object that looks like {action: 'the-event'}
   const action: string | boolean = 'action' in event && event.action;

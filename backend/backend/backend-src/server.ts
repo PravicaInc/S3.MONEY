@@ -110,7 +110,7 @@ app.use((_, res) => {
 });
 
 // Error handling middleware
-app.use(((error, req, res, next) => {
+app.use(((error, req, res) => {
   if (error instanceof S3MoneyError) {
     res.status(error.errorCode);
     res.json({ error: error.errorMessage, detail: error.details }).end();
