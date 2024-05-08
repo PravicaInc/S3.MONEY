@@ -78,6 +78,7 @@ async function lastFetchEventTime(pkg: string): Promise<string> {
 }
 
 export async function getTokenEvents(module: string, token: string): Promise<[string, object[], boolean]> {
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
   let cancel = () => {};
   const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
     let innerResult;
@@ -132,6 +133,7 @@ async function getTokenEventsBackwards(
   token: string,
   stopTime: string
 ): Promise<[string, object[], boolean]> {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   let cancel = () => {};
   const result: ExecutionResult<Record<string, unknown>, unknown> = await new Promise((resolve, reject) => {
     let innerResult;
@@ -201,6 +203,7 @@ async function saveEvents(
   address_package: string,
   package_address: string,
   events: Record<string, any>[],
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   new_token: string
 ) {
   const ltimestamp = events[events.length - 1].timestamp;
@@ -323,7 +326,9 @@ async function saveEvents(
         txVolYear[key_yyyy] += item.amount;
         txVolYearMonth[key_yyyymm] += item.amount;
         txVolYearMonthDay[key_yyyymmdd] += item.amount;
+        break;
       case 'EventPaused':
+        break;
       case 'EventUnpaused':
         item.sender = event.sender.address;
         break;
