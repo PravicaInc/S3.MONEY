@@ -21,13 +21,13 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'ok'},
+                status: { type: 'string', example: 'ok' },
                 balances: {
                   type: 'object',
                   properties: {
-                    balance: {type: 'number', example: 29000},
-                    last_timestamp: {type: 'string', example: '2024-04-15T14:10:21.688Z'},
-                    ticker: {type: 'string', example: '$TC'},
+                    balance: { type: 'number', example: 29000 },
+                    last_timestamp: { type: 'string', example: '2024-04-15T14:10:21.688Z' },
+                    ticker: { type: 'string', example: '$TC' },
                     address_package: {
                       type: 'string',
                       example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e::tc',
@@ -46,8 +46,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string', example: 'invalid address: <address>'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string', example: 'invalid address: <address>' },
               },
             },
           },
@@ -55,4 +55,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

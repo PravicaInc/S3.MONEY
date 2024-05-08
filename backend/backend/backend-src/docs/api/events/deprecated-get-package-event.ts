@@ -33,7 +33,7 @@ export default module.exports = {
                 events: {
                   type: 'object',
                   properties: {
-                    status: {type: 'string', example: 'ok'},
+                    status: { type: 'string', example: 'ok' },
                     events: {
                       type: 'array',
                       items: {
@@ -92,8 +92,8 @@ export default module.exports = {
             schema: {
               type: 'object',
               properties: {
-                status: {type: 'string', example: 'error'},
-                message: {type: 'string', example: 'invalid address: <address>'},
+                status: { type: 'string', example: 'error' },
+                message: { type: 'string', example: 'invalid address: <address>' },
               },
             },
           },
@@ -101,4 +101,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

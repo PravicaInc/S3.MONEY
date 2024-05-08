@@ -5,6 +5,6 @@ const config = {
     description: 'APIs that serve backend for S3 Money',
     version: '1.0.0',
   },
-}
+};
 
-export default config
+export default config;

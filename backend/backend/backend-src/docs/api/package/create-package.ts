@@ -117,12 +117,12 @@ export default module.exports = {
                 modules: {
                   type: 'string',
                   example:
-                    '[LgQICDIMCGw2eAgIOoAICAAUBBgELAQwAAAwBAAEBAQwBAAECAwQAAwICAAAKAAEBAAAHAgMBAAIJBQYAAwYLAQEJAAUHCAMBCwABCQABBgsAAQkAAQUAAQcIAwEIAgEJAAlDYXNoSW5DYXALVHJlYXN1cnlDYXAJVHhDb250ZXh0A1VJRAdhZGRyZXNzBWNhc2hfBGNvaW4LZ2V0X2FkZHJlc3MCaWQDbmV3Cm5ld19jYXNoaW4Gb2JqZWN0CnR4X2NvbnRleHQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAICCAgCBAUABwABAAAEB]',
+                    '[LgQICDIMCGw2eAgIOoAIAAHgEJAAlDYXNoSW5DYXALVHJlYXNCAgCBAUABwABAAAEB]',
                 },
                 dependencies: {
                   type: 'string',
                   example:
-                    '["0x0000000000000000000000000000000000000000000000000000000000000001","0x0000000000000000000000000000000000000000000000000000000000000002"]',
+                    '["0x0000000000000000000000000000001","0x0000000000000000000000000000000000000000000002"]',
                 },
                 error: {
                   type: 'string',
@@ -155,4 +155,4 @@ export default module.exports = {
       },
     },
   },
-}
+};

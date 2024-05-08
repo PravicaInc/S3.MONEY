@@ -6,15 +6,16 @@ export interface IRelatedItem {
     label: string
     address: string
   }
-  export interface IRelationCreate {
+
+export interface IRelationCreate {
     label: string
     address: string
   }
-  export interface IRelationDelete {
+
+export interface IRelationDelete {
     label: string
   }
-  
-  export interface IRelationRename {
+
+export interface IRelationRename {
     label: string
   }
-  

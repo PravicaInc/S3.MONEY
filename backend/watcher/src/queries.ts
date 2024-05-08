@@ -18,7 +18,7 @@ query($module: String!, $evType: String!) {
     }
   }
 }
-`
+`;
 
 export const queryForwardSubsequent = `
 query($module: String!, $evType: String!, $after: String!) {
@@ -40,7 +40,7 @@ query($module: String!, $evType: String!, $after: String!) {
     }
   }
 }
-`
+`;
 
 export const queryReverse = `
 query($module: String!, $evType: String!) {
@@ -61,7 +61,7 @@ query($module: String!, $evType: String!) {
     }
   }
 }
-`
+`;
 
 export const queryReverseSubsequent = `
 query($module: String!, $evType: String!, $before: String!) {
@@ -83,4 +83,4 @@ query($module: String!, $evType: String!, $before: String!) {
     }
   }
 }
-`
+`;

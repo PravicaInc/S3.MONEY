@@ -1,34 +1,34 @@
-import heartbeat from './enviroment/heartbeat'
-import deprecatedGetEventByAddress from './events/deprecated-get-address-event'
-import deprecatedGetAllocation from './events/deprecated-get-allocation'
-import deprecatedGetBalance from './events/deprecated-get-balance'
-import deprecatedGetEvent from './events/deprecated-get-package-event'
-import getAddressEvent from './events/get-address-event'
-import getAllocation from './events/get-allocation'
-import getBalance from './events/get-balance'
-import getPackageEvent from './events/get-package-event'
-import deprecatedGetHoldings from './holdings/deprecated-get-holdings'
-import getHoldings from './holdings/get-holdings'
-import cancelPackage from './package/cancel-package'
-import createPackage from './package/create-package'
-import deprecatedCancelPackage from './package/deprecated-cancel-package'
-import deprecatedCreatePackage from './package/deprecated-create-package'
-import deprecatedGenerateIcon from './package/deprecated-generate-icon'
-import deprecatedGetFilteredPackages from './package/deprecated-get-filtered-packages'
-import deprecatedGetPackage from './package/deprecated-get-package'
-import deprecatedPublishPackage from './package/deprecated-publish-package'
-import generateIcon from './package/generate-icon'
-import getFilteredPackages from './package/get-filtered-packages'
-import getPackage from './package/get-package'
-import publishPackage from './package/publish-package'
-import createRelation from './relations/create-relation'
-import deprecatedCreateRelation from './relations/deprecated-create-relation'
-import deprecatedGetRelations from './relations/deprecated-get-relations'
-import deprecatedRenameRelations from './relations/deprecated-rename-relations'
-import getRelations from './relations/get-relations'
-import renameRelations from './relations/rename-relations'
-import deprecatedGetTxVol from './txVol/deprecated-get-tx-vol'
-import getTxVol from './txVol/get-tx-vol'
+import deprecatedGetEventByAddress from './events/deprecated-get-address-event';
+import deprecatedGetAllocation from './events/deprecated-get-allocation';
+import deprecatedGetBalance from './events/deprecated-get-balance';
+import deprecatedGetEvent from './events/deprecated-get-package-event';
+import getAddressEvent from './events/get-address-event';
+import getAllocation from './events/get-allocation';
+import getBalance from './events/get-balance';
+import getPackageEvent from './events/get-package-event';
+import heartbeat from './enviroment/heartbeat';
+import deprecatedGetHoldings from './holdings/deprecated-get-holdings';
+import getHoldings from './holdings/get-holdings';
+import cancelPackage from './package/cancel-package';
+import createPackage from './package/create-package';
+import deprecatedCancelPackage from './package/deprecated-cancel-package';
+import deprecatedCreatePackage from './package/deprecated-create-package';
+import deprecatedGenerateIcon from './package/deprecated-generate-icon';
+import deprecatedGetFilteredPackages from './package/deprecated-get-filtered-packages';
+import deprecatedGetPackage from './package/deprecated-get-package';
+import deprecatedPublishPackage from './package/deprecated-publish-package';
+import generateIcon from './package/generate-icon';
+import getFilteredPackages from './package/get-filtered-packages';
+import getPackage from './package/get-package';
+import publishPackage from './package/publish-package';
+import createRelation from './relations/create-relation';
+import deprecatedCreateRelation from './relations/deprecated-create-relation';
+import deprecatedGetRelations from './relations/deprecated-get-relations';
+import deprecatedRenameRelations from './relations/deprecated-rename-relations';
+import getRelations from './relations/get-relations';
+import renameRelations from './relations/rename-relations';
+import deprecatedGetTxVol from './txVol/deprecated-get-tx-vol';
+import getTxVol from './txVol/get-tx-vol';
 
 export default module.exports = {
   paths: {
@@ -123,4 +123,4 @@ export default module.exports = {
       ...deprecatedGetHoldings,
     },
   },
-}
+};

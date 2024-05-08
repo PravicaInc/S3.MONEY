@@ -2,7 +2,20 @@
  * @file Package interfaces and types.
  */
 
-import {SuiSignAndExecuteTransactionBlockOutput} from '@mysten/wallet-standard'
+import { SuiSignAndExecuteTransactionBlockOutput } from '@mysten/wallet-standard';
+
+export enum PackageRoles {
+  BURN = 'burn',
+  MINT = 'mint', // should be same as burn
+  CASH_IN = 'cashIn',
+  CASH_OUT = 'cashOut',
+  FREEZE = 'freeze',
+  PAUSE = 'pause',
+}
+
+export type RoleMap = {
+  [key in PackageRoles]: string
+}
 
 export interface PackageCreateRequest {
   address: string // creator's address
@@ -18,6 +31,7 @@ export interface PackageCreateRequest {
   icon_url: string // substituted in the contract
   raw_icon_url?: string // saved in the db
 }
+
 export interface PackageCreateResponse {
   status: string // 'ok' or 'error'
   message?: string // error message, if any
@@ -51,19 +65,6 @@ export interface PackagePublishRequest {
 export interface PackagePublishResponse {
   status: string
   message: string
-}
-
-export enum PackageRoles {
-  BURN = 'burn',
-  MINT = 'mint', // should be same as burn
-  CASH_IN = 'cashIn',
-  CASH_OUT = 'cashOut',
-  FREEZE = 'freeze',
-  PAUSE = 'pause',
-}
-
-export type RoleMap = {
-  [key in PackageRoles]: string
 }
 
 export enum PackageFilterKeys {
@@ -125,7 +126,7 @@ export function reqToCreated(data: CreatePackageRequest, s3key: string | undefin
     packageRoles: data.roles,
     icon_url: data.raw_icon_url,
     package_zip: s3key ?? '',
-  }
+  };
 }
 
 export enum PackageStatus {
@@ -151,19 +152,13 @@ export interface IPackageSummary {
   cash_cap: string
 }
 
-export interface IPackageDeployed {
-  digest: string
-  events: IPackageEvent[]
-  objectChanges: IPackageObjectChange[]
-  confirmedLocalExecution: boolean
-}
-
 interface IPackageEvent {
   packageId: string
   sender: string
   type: string
   id: object
 }
+
 export interface IPackageObjectChange {
   type: string
   objectType: string
@@ -172,8 +167,15 @@ export interface IPackageObjectChange {
   sender?: string
 }
 
+export interface IPackageDeployed {
+  digest: string
+  events: IPackageEvent[]
+  objectChanges: IPackageObjectChange[]
+  confirmedLocalExecution: boolean
+}
+
 export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageSummary {
-  let data: IPackageSummary = {
+  const data: IPackageSummary = {
     packageId: '',
     token_policy: '',
     token_supply: '',
@@ -182,28 +184,32 @@ export function packageSummary(objectChanges: IPackageObjectChange[]): IPackageS
     pauser: '',
     deployer: '',
     cash_cap: '',
-  }
+  };
 
   for (const obj of objectChanges) {
     if (obj.type === 'published') {
-      data.packageId = obj.packageId!
-    } else {
-      if (obj.objectType.includes('0x2::token::TokenPolicy<')) {
-        data.token_policy = obj.objectId
-      } else if (obj.objectType.includes('token_supply::TokenSupply<')) {
-        data.token_supply = obj.objectId
-      } else if (obj.objectType.includes('0x2::coin::TreasuryCap<')) {
-        data.treasury_cap = obj.objectId
-        data.deployer = obj.sender!
-      } else if (obj.objectType.includes('0x2::token::TokenPolicyCap<')) {
-        data.token_policy_cap = obj.objectId
-      } else if (obj.objectType.includes('pauser_rule::Config>')) {
-        data.pauser = obj.objectId
-      } else if (obj.objectType.includes('cash_::CashInCap<')) {
-        data.cash_cap = obj.objectId
-      }
+      data.packageId = obj.packageId!;
+    }
+    else if (obj.objectType.includes('0x2::token::TokenPolicy<')) {
+      data.token_policy = obj.objectId;
+    }
+    else if (obj.objectType.includes('token_supply::TokenSupply<')) {
+      data.token_supply = obj.objectId;
+    }
+    else if (obj.objectType.includes('0x2::coin::TreasuryCap<')) {
+      data.treasury_cap = obj.objectId;
+      data.deployer = obj.sender!;
+    }
+    else if (obj.objectType.includes('0x2::token::TokenPolicyCap<')) {
+      data.token_policy_cap = obj.objectId;
+    }
+    else if (obj.objectType.includes('pauser_rule::Config>')) {
+      data.pauser = obj.objectId;
+    }
+    else if (obj.objectType.includes('cash_::CashInCap<')) {
+      data.cash_cap = obj.objectId;
     }
   }
 
-  return data
+  return data;
 }

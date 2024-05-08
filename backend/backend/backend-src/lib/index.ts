@@ -1,17 +1,15 @@
+import { handleGetAddressEvents, handleGetAllocations, handleGetBalances, handleGetPackageEvents } from './events';
+import { handleGetHoldings } from './holdings';
 import {
-  handleCreate,
   handleCancel,
-  handleIconUrlRequest,
-  handlePublished,
+  handleCreate,
   handleGetFilteredPackages,
   handleGetPackages,
-} from './packages'
-
-import {handleGetRelations, handleCreateRelation, handleRenameRelation, handleDeleteRelation} from './relations'
-
-import {handleGetPackageEvents, handleGetAddressEvents, handleGetBalances, handleGetAllocations} from './events'
-import {handleGetTxVol} from './txvol'
-import {handleGetHoldings} from './holdings'
+  handleIconUrlRequest,
+  handlePublished,
+} from './packages';
+import { handleCreateRelation, handleDeleteRelation, handleGetRelations, handleRenameRelation } from './relations';
+import { handleGetTxVol } from './txvol';
 
 export {
   //packages
@@ -35,4 +33,4 @@ export {
   handleGetTxVol,
   // holdings
   handleGetHoldings,
-}
+};
