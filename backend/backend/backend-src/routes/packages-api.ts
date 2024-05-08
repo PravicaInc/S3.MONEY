@@ -1,12 +1,16 @@
 import { Request, Router } from 'express';
 
+import {
+  handleCancel, handleCreate, handleGetFilteredPackages, handleGetPackages,
+  handleIconUrlRequest, handlePublished,
+} from '../lib';
+
 declare module 'express-serve-static-core' {
   export interface Request {
     tokenPath: string
     workDir: string
   }
 }
-import { handleCancel, handleCreate, handleGetFilteredPackages, handleGetPackages, handleIconUrlRequest, handlePublished } from '../lib';
 
 import { TOKEN_SUPPLY_PATH } from './../constants';
 

@@ -272,7 +272,8 @@ describe('validCreate function', () => {
     }
     catch (error) {
       const expectedErrorMessage = 'freeze and pause roles must be the same:'
-      + ' 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73, 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e';
+      + ' 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73,'
+       + ' 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e';
 
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');

@@ -9,8 +9,9 @@ export default module.exports = {
         required: true,
         schema: {
           type: 'string',
-          example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+          description: 'The address for which to get events',
         },
+        example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
     ],
     responses: {
@@ -27,13 +28,34 @@ export default module.exports = {
                   items: {
                     type: 'object',
                     properties: {
-                      address_package: 'string',
-                      ticker: 'string',
-                      amount: 'number',
-                      sender: 'string',
-                      package_address: 'string',
-                      recipient: 'string',
-                      event: 'string',
+                      address_package: {
+                        type: 'string',
+                        example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e::tc',
+                      },
+                      ticker:  {
+                        type: 'string',
+                        example: '$TC',
+                      },
+                      amount:  {
+                        type: 'number',
+                        example: 29999999990,
+                      },
+                      sender:  {
+                        type: 'string',
+                        example: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+                      },
+                      package_address:  {
+                        type: 'string',
+                        example: '0x5b4bb859db014ea8bb75c87f2cd03e4b90a3182f92ff1f13d1975204f34cb863::tc',
+                      },
+                      recipient:  {
+                        type: 'string',
+                        example: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+                      },
+                      event: {
+                        type: 'string',
+                        example: 'EventMint',
+                      },
                     },
                   },
                 },
