@@ -22,7 +22,6 @@
     "graphql-http": "^1.22.1"
   },
   "devDependencies": {
-    "@github/prettier-config": "^0.0.6",
     "@types/aws-lambda": "^8.10.137",
     "@types/node": "^20.12.7",
     "esbuild": "^0.20.2",
@@ -30,6 +29,5 @@
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
-  },
-  "prettier": "@github/prettier-config"
+  }
 }
