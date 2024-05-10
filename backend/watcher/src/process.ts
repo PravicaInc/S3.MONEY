@@ -202,9 +202,8 @@ async function getTokenEventsBackwards(
 async function saveEvents(
   address_package: string,
   package_address: string,
-  events: Record<string, any>[],
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  new_token: string
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  events: Record<string, any>[]
 ) {
   const ltimestamp = events[events.length - 1].timestamp;
 
@@ -669,7 +668,7 @@ export async function processEvent(contract: Record<string, string>) {
         packageEvents = packageEvents.filter(event => event['timestamp'] > ltime);
       }
       if (packageEvents.length > 0) {
-        await saveEvents(address_package, package_address, packageEvents, new_token);
+        await saveEvents(address_package, package_address, packageEvents);
       }
     }
     await sleep(C.API_FETCH_SLEEP);
