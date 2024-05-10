@@ -48,8 +48,9 @@ export async function getPackageModules(): Promise<Record<string, string>> {
 }
 
 // FIXME: could be better
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function toHoldings(items: Record<string, any>[]) {
-  const holdings: Record<string, any> = {};
+  const holdings: Record<string, number> = {};
 
   for (const bucket of Object.keys(C.HOLDINGS_BUCKETS)) {
     holdings[bucket] = 0;

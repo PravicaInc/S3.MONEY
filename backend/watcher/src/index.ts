@@ -1,17 +1,32 @@
-import { Callback, Context, Handler } from 'aws-lambda';
+import { Callback, Context, EventBridgeEvent, Handler, SQSEvent } from 'aws-lambda';
 
 import * as C from './constants';
 import { storeHoldings } from './holdings';
 import { processEvent, scheduleEvents } from './process';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const handler: Handler = async (event: any, context: Context, callback: Callback): Promise<void> => {
-  // if the message is from EventBridge, it is an object that looks like {action: 'the-event'}
-  const action: string | boolean = 'action' in event && event.action;
-  // if the message is from SQS, event has a Records array of objects, each with a body field that is a stringified object
-  const body: string | boolean = 'Records' in event && event.Records;
+type EventType = EventBridgeEvent<'action', string> | SQSEvent
 
-  if (action !== false) {
+function isEventBridgeEvent(event: EventType): event is EventBridgeEvent<'action', string> {
+  return 'action' in event;
+}
+
+function isSQSEvent(event: EventType): event is SQSEvent {
+  return 'Records' in event;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const handler: Handler = async (event: EventType, context: Context, callback: Callback): Promise<void> => {
+  // if the message is from EventBridge, it is an object that looks like {action: 'the-event'}
+  let action: string;
+
+  if (isEventBridgeEvent(event)) {
+    action = event['action'];
+  }
+  else {
+    action = '';
+  }
+
+  if (action !== '') {
     // console.log(`action ${action}`)
     switch (action) {
       case C.FETCH_EVENTS_ACTION:
@@ -24,7 +39,7 @@ export const handler: Handler = async (event: any, context: Context, callback: C
         console.error(`Unknown action ${action}`);
     }
   }
-  else if (body !== false) {
+  else if (isSQSEvent(event)) {
     console.log(`records count: ${event.Records.length}`);
 
     try {
