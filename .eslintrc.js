@@ -76,8 +76,9 @@ module.exports = {
       'error',
       {
         'vars': 'all',
-        'args': 'all',
+        'args': 'after-used',
         'argsIgnorePattern': '^_$',
+        'ignoreRestSiblings': true,
       },
     ],
     'no-use-before-define': [
@@ -105,6 +106,10 @@ module.exports = {
           'event',
           'Range',
           'MouseEvent',
+          'slug',
+          'Request',
+          'Response',
+          'module',
         ],
       },
     ],

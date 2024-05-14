@@ -1,0 +1,9 @@
+[package]
+name = "<%- packageName %>"
+version = "0.0.1"
+
+[dependencies]
+Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-framework/packages/sui-framework", rev = "framework/testnet" }
+
+[addresses]
+<%- packageName %> = "0x0"
