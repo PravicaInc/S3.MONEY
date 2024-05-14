@@ -165,7 +165,7 @@ async function createPackage(tokenPath: string, workDir: string, data: IFace.Cre
     zip.addFolder(packagePath, data.packageName!);
     await zip.archive(`/tmp/${packagePath}.zip`);
   }
-  catch (e: any) {
+  catch (e: unknown) {
     console.log(e);
 
     // fs.rmSync(packagePath, {recursive: true})
