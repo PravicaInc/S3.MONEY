@@ -1,0 +1,62 @@
+.container {
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 14rem 6.4rem 0;
+}
+.s3 {
+  color: var(--primary_100);
+}
+.pattern1 {
+  position: absolute;
+  bottom: -200%;
+  right: -188%;
+  width: 400%;
+  height: 400%;
+}
+.cards {
+  display: flex;
+  align-items: center;
+  gap: 1.4rem;
+  margin-bottom: 5.6rem;
+  width: 100%;
+}
+.card {
+  min-width: 23%;
+  padding: 2rem 1rem;
+  background: var(--base);
+  border: 1px solid var(--gray_40);
+  color: var(--gray_70);
+  position: relative;
+  border-radius: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.registerOnly {
+  padding: 0.4rem 1.4rem;
+  background: var(--primary_100);
+  position: absolute;
+  top: -1.2rem;
+  border-radius: 0.6rem;
+}
+.active {
+  border: 1px solid var(--primary_100);
+  background: var(--primary_10);
+  color: var(--primary_100);
+}
+.active:after {
+  content: '';
+  width: 80%;
+  height: 2px;
+  background: var(--primary_100);
+  position: absolute;
+  bottom: -1.4rem;
+}

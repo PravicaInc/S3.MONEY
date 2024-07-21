@@ -1,0 +1,13 @@
+.container {
+  align-items: flex-end;
+  display: flex;
+  gap: 2px;
+  text-decoration: none;
+  color: var(--base);
+}
+.text {
+  background: var(--primary_100);
+  padding: 0.2rem 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 0.6rem;
+}

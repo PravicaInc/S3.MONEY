@@ -1,0 +1,107 @@
+:root {
+  --base: #ffffff;
+  --contrast: #000000;
+  --primary_100: #FE6321;
+  --primary_90: #FE7337;
+  --primary_80: #FE824D;
+  --primary_70: #FE9264;
+  --primary_60: #FEA17A;
+  --primary_50: #FEB190;
+  --primary_40: #FFC1A6;
+  --primary_30: #FFD0BC;
+  --primary_20: #FFE0D3;
+  --primary_10: #FFEFE9;
+  --secondary_100: #8A43FE;
+  --secondary_90: #9656FE;
+  --secondary_80: #A169FE;
+  --secondary_70: #AD7BFE;
+  --secondary_60: #B98EFE;
+  --secondary_50: #C4A1FE;
+  --secondary_40: #D0B4FF;
+  --secondary_30: #DCC7FF;
+  --secondary_20: #E8D9FF;
+  --secondary_10: #F3ECFF;
+  --gray_100: #101828;
+  --gray_90: #1D2939;
+  --gray_80: #344054;
+  --gray_70: #475467;
+  --gray_60: #667085;
+  --gray_50: #98A2B3;
+  --gray_40: #D0D5DD;
+  --gray_30: #EAECF0;
+  --gray_20: #F2F4F7;
+  --gray_10: #F9FAFB;
+  --error_100: #F04438;
+  --error_90: #F1574C;
+  --error_80: #F36960;
+  --error_70: #F57C74;
+  --error_60: #F68F88;
+  --error_50: #F7A19B;
+  --error_40: #F9B4AF;
+  --error_30: #FBC7C3;
+  --error_20: #FCDAD7;
+  --error_10: #FEECEB;
+  --success_100: #12B76A;
+  --success_90: #2ABE79;
+  --success_80: #41C588;
+  --success_70: #59CD97;
+  --success_60: #71D4A6;
+  --success_50: #88DBB4;
+  --success_40: #A0E2C3;
+  --success_30: #B8E9D2;
+  --success_20: #D0F1E1;
+  --success_10: #E7F8F0;
+  --shadow-button: 0px 1px 2px 0px #1018280D;
+  --shadow-profile: 1px 2px 4px 0px #0D0D1214;
+  --shadow-card: 0px 5px 25px 0px #0000001A;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*::after,
+*::before {
+  box-sizing: inherit;
+  cursor: inherit;
+  line-height: normal;
+}
+
+html {
+  font-weight: 400;
+  font-family: "Inter", sans-serif;
+  font-size: 62.5%;
+  color: var(--primary_100);
+  box-sizing: border-box;
+  background-color: var(--base);
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+}
+
+/*@media only screen and (max-width: 87.5em) {*/
+/*  html {*/
+/*    font-size: 55%;*/
+/*  }*/
+/*}*/
+
+/*@media only screen and (max-width: 62em) {*/
+/*  html {*/
+/*    font-size: 50%;*/
+/*  }*/
+/*}*/
+
+/*@media only screen and (max-width: 48em) {*/
+/*  html {*/
+/*    font-size: 45%;*/
+/*  }*/
+/*}*/
+
+/*@media only screen and (max-width: 36em) {*/
+/*  html {*/
+/*    font-size: 40%;*/
+/*  }*/
+/*}*/

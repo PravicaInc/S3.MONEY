@@ -1,0 +1,21 @@
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  flex: 1;
+  flex-direction: column;
+}
+.loading {
+  border-radius: 0.3em;
+  margin-top: 2.4em;
+  height: 0.2em;
+  width: 11.6em;
+  display: flex;
+  background-color: var(--base);
+}
+.loadingInner {
+  background: var(--primary_100);
+  height: 100%;
+  display: flex;
+  border-radius: 0.3em;
+}

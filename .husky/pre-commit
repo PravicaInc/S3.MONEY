@@ -1,7 +1,7 @@
 cd frontend
-yarn run lint
+npm run lint
 cd ..
 
 cd docs
-yarn run lint
+npm run lint
 cd ..

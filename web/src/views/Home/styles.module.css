@@ -1,0 +1,11 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: red;
+  flex: 1;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  padding: 0 6.4rem;
+}
