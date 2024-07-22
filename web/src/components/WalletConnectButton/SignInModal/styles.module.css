@@ -1,0 +1,59 @@
+.counter {
+    width: 2.4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 2.4rem;
+    border-radius: 50%;
+    background: var(--primary_100);
+    position: relative;
+}
+.line {
+    position: absolute;
+    top: 1.2rem;
+    left: 3rem;
+    border: 1px dashed var(--gray_40);
+    width: 11.4rem;
+    height: 1px;
+}
+.steps {
+    display: flex;
+    width: 100%;
+    margin-bottom: 5rem;
+}
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.6rem;
+    flex: 1;
+}
+.cancel {
+    display: none;
+}
+.ok {
+    width: 100%;
+    background: var(--primary_100);
+    height: 5.6rem;
+    border: none;
+    box-shadow: none;
+    outline: none;
+    border-radius: 1.2rem;
+    margin: 0 !important;
+}
+.ok:hover {
+    background: var(--primary_70) !important;
+}
+.error {
+    width: 100%;
+    padding: 0.8rem 1.2rem;
+    border: 1px solid var(--error_100);
+    background: var(--error_10);
+    border-radius: 1rem;
+    display: flex;
+    gap: 0.6rem;
+    text-align: left;
+    > svg {
+        margin-top: -0.3rem;
+    }
+}

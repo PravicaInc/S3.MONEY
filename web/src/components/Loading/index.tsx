@@ -1,14 +1,17 @@
-import { FC, useEffect, useState } from "react";
-import styles from "./styles.module.css";
-import { AppLogo } from "../Logo";
+import { FC, useEffect, useState } from 'react';
+
+import { AppLogo } from '../Logo';
+
+import styles from './styles.module.css';
 
 const Loading: FC = () => {
   const [percent, setPercent] = useState(0);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setPercent((prevState) => prevState + 1);
+      setPercent(prevState => prevState + 1);
     }, 100);
+
     return () => clearInterval(interval);
   }, []);
 

@@ -4,6 +4,8 @@
   justify-content: center;
   flex: 1;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
 }
 .loading {
   border-radius: 0.3em;

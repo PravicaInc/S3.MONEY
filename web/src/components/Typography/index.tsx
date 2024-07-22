@@ -1,21 +1,21 @@
-import * as React from "react";
-import { CSSProperties, useMemo } from "react";
-import { findAll } from "highlight-words-core";
+import * as React from 'react';
+import { CSSProperties, useMemo } from 'react';
+import { findAll } from 'highlight-words-core';
 
 type StylesTypes =
-  | "d_2xl"
-  | "d_xl"
-  | "d_lg"
-  | "d_md"
-  | "d_sm"
-  | "d_xs"
-  | "t_xl"
-  | "t_lg"
-  | "t_md"
-  | "t_sm"
-  | "t_xs"
-  | "t_xss";
-type StylesWeights = "400" | "500" | "600" | "700";
+  | 'd_2xl'
+  | 'd_xl'
+  | 'd_lg'
+  | 'd_md'
+  | 'd_sm'
+  | 'd_xs'
+  | 't_xl'
+  | 't_lg'
+  | 't_md'
+  | 't_sm'
+  | 't_xs'
+  | 't_xss';
+type StylesWeights = '400' | '500' | '600' | '700';
 type TypeWithWeight = `${StylesTypes}-${StylesWeights}`;
 
 interface Chunk {
@@ -27,6 +27,7 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   type: TypeWithWeight;
   autoEscape?: boolean;
   highlightClassName?: string;
+  highlightStyle?: CSSProperties;
   highlightClick?: (val: string) => void;
   searchWords?: string[];
 }
@@ -36,6 +37,7 @@ export const Typography: React.FC<IProps> = ({
   autoEscape,
   highlightClassName,
   highlightClick,
+  highlightStyle,
   searchWords = [],
   ...props
 }) => {
@@ -91,14 +93,14 @@ export const Typography: React.FC<IProps> = ({
     searchWords,
     autoEscape,
   });
-  const [textType, textWeight] = type.split("-");
+  const [textType, textWeight] = type.split('-');
   const defaultStyle = stylesMap[textType as StylesTypes];
 
   return (
     <p
       {...props}
       style={{
-        color: "var(--gray_100)",
+        color: 'var(--gray_100)',
         ...defaultStyle,
         ...props.style,
         fontWeight: Number(textWeight),
@@ -107,17 +109,20 @@ export const Typography: React.FC<IProps> = ({
       {chunks.map((chunk: Chunk, index: number) => {
         const text = textToHighlight?.substr(chunk.start, chunk.end - chunk.start);
 
-        return !chunk.highlight ? (
-          text
-        ) : (
-          <span
-            onClick={() => highlightClick && highlightClick(text)}
-            key={index}
-            className={chunk.highlight && highlightClassName}
-          >
-            {text}
-          </span>
-        );
+        return !chunk.highlight
+          ? (
+            text
+          )
+          : (
+            <span
+              onClick={() => highlightClick && highlightClick(text)}
+              key={index}
+              className={chunk.highlight && highlightClassName}
+              style={chunk.highlight && highlightStyle}
+            >
+              {text}
+            </span>
+          );
       })}
     </p>
   );

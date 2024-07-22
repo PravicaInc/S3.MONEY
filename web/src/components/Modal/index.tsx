@@ -1,13 +1,18 @@
-import React, { PropsWithChildren, useState } from "react";
-import { ButtonProps, Modal as AntModal, ModalProps } from "antd";
+import React, { PropsWithChildren, useState } from 'react';
+import { Modal as AntModal, ModalProps } from 'antd';
+
+import CloseIcon from '../../assets/close.svg?react';
+
+import styles from './styles.module.css';
 
 interface IProps extends ModalProps {
   element: ((options: { showModal: () => void }) => React.ReactNode) | React.ReactNode;
-  onConfirm?: () => void | Promise<void>;
+  onConfirm?: () => Promise<void>;
   onCancel?: () => void;
 }
+
 export const Modal: React.FC<PropsWithChildren<IProps>> = ({ children, element, onConfirm, onCancel, ...props }) => {
-  const [open, setOpen] = useState(false);
+  const [isOpen, setOpen] = useState(false);
 
   const showModal = () => {
     setOpen(true);
@@ -15,9 +20,11 @@ export const Modal: React.FC<PropsWithChildren<IProps>> = ({ children, element, 
 
   const handleOk = async () => {
     if (onConfirm) {
-      await onConfirm();
+      await onConfirm().then(() => setOpen(false));
     }
-    setOpen(false);
+    else {
+      setOpen(false);
+    }
   };
 
   const handleCancel = () => {
@@ -27,12 +34,21 @@ export const Modal: React.FC<PropsWithChildren<IProps>> = ({ children, element, 
 
   return (
     <>
-      {typeof element === "function"
+      {typeof element === 'function'
         ? element({
-            showModal,
-          })
+          showModal,
+        })
         : element}
-      <AntModal open={open} onOk={handleOk} onCancel={handleCancel} {...props}>
+      <AntModal
+        open={isOpen}
+        onOk={handleOk}
+        onCancel={handleCancel}
+        className={styles.modal}
+        closeIcon={<CloseIcon />}
+        centered
+        width={'66rem'}
+        {...props}
+      >
         {children}
       </AntModal>
     </>

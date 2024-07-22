@@ -1,37 +1,51 @@
-import { ButtonHTMLAttributes, FC, useCallback } from "react";
-import { useConnectWallet, useWallets } from "@mysten/dapp-kit";
-import { WALLETS } from "../../utils/const.ts";
-import { Button } from "../Button";
+import { ButtonHTMLAttributes, FC, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAutoConnectWallet, useConnectWallet, useDisconnectWallet, useWallets } from '@mysten/dapp-kit';
 
-export interface WalletConnectButton extends ButtonHTMLAttributes<HTMLButtonElement> {
-  onConnectSuccess?: (walletName: string) => void;
-  onConnectError?: (error: unknown) => void;
-  isLoading: boolean;
-}
+import { PAGES_URLS, WALLETS } from '../../utils/const.ts';
+import { Button } from '../Button';
 
-export const WalletConnectButton: FC<WalletConnectButton> = ({ onConnectSuccess, onConnectError, ...props }) => {
+import { SignInModal } from './SignInModal';
+
+export const WalletConnectButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = props => {
+  const [error, setError] = useState<string>();
+  const navigate = useNavigate();
   const wallets = useWallets();
   const connectWallet = useConnectWallet();
+  const disconnectWallet = useDisconnectWallet();
+  const autoConnectionStatus = useAutoConnectWallet();
 
-  const onConnect = useCallback(async () => {
-    try {
-      const suiWallet = wallets.find(({ name }) => name === WALLETS.SuiWallet);
+  const isLoading = useMemo(() => autoConnectionStatus === 'idle', [autoConnectionStatus]);
 
-      if (suiWallet) {
-        await connectWallet.mutateAsync({
-          wallet: suiWallet,
-        });
+  const disconnect = async () => {
+    await disconnectWallet.mutateAsync();
+  };
 
-        if (onConnectSuccess) {
-          onConnectSuccess(suiWallet?.name);
-        }
+  const onConnect = async () => {
+    const suiWallet = wallets.find(({ name }) => name === WALLETS.SuiWallet);
+
+    if (suiWallet) {
+      const connectedAccounts = await connectWallet.mutateAsync({
+        wallet: suiWallet,
+      });
+
+      if (connectedAccounts.accounts.length > 1 || (connectedAccounts.accounts[0].label || '').length > 0) {
+        const errorMessage = 'Whoops! Looks like you\'re trying to connect with a ZK wallet.'
+            + ' S3.money currently works only with Passphrase wallets. Try Again!';
+
+        setError(errorMessage as string);
+        await disconnect();
+
+        throw errorMessage;
       }
-    } catch (err) {
-      if (onConnectError) {
-        onConnectError(err);
-      }
+      navigate(PAGES_URLS.home);
     }
-  }, [connectWallet, wallets, onConnectSuccess, onConnectError]);
+  };
 
-  return <Button onClick={onConnect} {...props} />;
+  return (
+    <SignInModal error={error} inProcess={isLoading} onProceed={onConnect}>
+      {({ showModal }) => (
+        <Button onClick={showModal} disabled={props.disabled || isLoading} {...props} />
+      )}
+    </SignInModal>);
 };
