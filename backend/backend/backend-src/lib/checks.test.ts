@@ -35,16 +35,23 @@ describe('validCreate function', () => {
       network: 'mainnet',
       name: 'Test Stablecoin',
       decimals: 8,
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       initialSupply: '1000',
       maxSupply: '1000000',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -66,12 +73,18 @@ describe('validCreate function', () => {
       initialSupply: '1000',
       maxSupply: '1000000',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -80,8 +93,7 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe('missing field: address');
@@ -102,14 +114,20 @@ describe('validCreate function', () => {
       decimals: 7,
       initialSupply: '1000',
       maxSupply: '1000000',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       roles: {
         [PackageRoles.MINT]: '0x1234567890123456789012345678901234567890',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -118,11 +136,12 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
-      expect((error as S3MoneyError).details).toBe('invalid role address: 0x1234567890123456789012345678901234567890');
+      expect((error as S3MoneyError).details).toBe(
+        'invalid role address: 0x1234567890123456789012345678901234567890'
+      );
       expect((error as S3MoneyError).errorCode).toBe(400);
     }
   });
@@ -131,18 +150,25 @@ describe('validCreate function', () => {
   it('should return an error for invalid ticker', async () => {
     const testData: Partial<IFace.ContractCreate> = {
       ticker: 'TC',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       name: 'Test Stablecoin',
       decimals: 7,
       initialSupply: '1000',
       maxSupply: '1000000',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -151,11 +177,12 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
-      expect((error as S3MoneyError).details).toBe('ticker must start with $: TC');
+      expect((error as S3MoneyError).details).toBe(
+        'ticker must start with $: TC'
+      );
       expect((error as S3MoneyError).errorCode).toBe(400);
     }
   });
@@ -173,14 +200,21 @@ describe('validCreate function', () => {
       decimals: 7,
       initialSupply: '1000',
       maxSupply: '1000000',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -189,8 +223,7 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe(
@@ -212,14 +245,21 @@ describe('validCreate function', () => {
       decimals: 7,
       initialSupply: '1000',
       maxSupply: '1000000',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -228,11 +268,11 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
-      const expectedErrorMessage = 'mint and burn roles must be the same: '
-  + '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e, '
-  + '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73';
+    } catch (error) {
+      const expectedErrorMessage =
+        'mint and burn roles must be the same: ' +
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e, ' +
+        '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73';
 
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
@@ -253,14 +293,21 @@ describe('validCreate function', () => {
       decimals: 7,
       initialSupply: '1000',
       maxSupply: '1000000',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -269,11 +316,11 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
-      const expectedErrorMessage = 'freeze and pause roles must be the same:'
-      + ' 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73,'
-       + ' 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e';
+    } catch (error) {
+      const expectedErrorMessage =
+        'freeze and pause roles must be the same:' +
+        ' 0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73,' +
+        ' 0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e';
 
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
@@ -290,14 +337,21 @@ describe('validCreate function', () => {
       decimals: 20,
       initialSupply: '1000',
       maxSupply: '1000000',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       roles: {
-        [PackageRoles.MINT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.BURN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.FREEZE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.PAUSE]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_IN]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
-        [PackageRoles.CASH_OUT]: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.MINT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.BURN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.FREEZE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.PAUSE]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_IN]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+        [PackageRoles.CASH_OUT]:
+          '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       },
       packageName: 'test-package',
       description: 'Test description',
@@ -306,11 +360,12 @@ describe('validCreate function', () => {
 
     try {
       await validCreate(testData as IFace.ContractCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
-      expect((error as S3MoneyError).details).toBe('wrong number of decimals: 20');
+      expect((error as S3MoneyError).details).toBe(
+        'wrong number of decimals: 20'
+      );
       expect((error as S3MoneyError).errorCode).toBe(400);
     }
   });
@@ -329,7 +384,8 @@ describe('validCancel function', () => {
     });
 
     const validInput: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       decimals: 8,
       created: false,
@@ -346,7 +402,8 @@ describe('validCancel function', () => {
   // Test case for missing fields
   it('should return an error for missing fields', async () => {
     const testData: Partial<IFace.IPackageCreated> = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       created: false,
       initialSupply: '1000',
       maxSupply: '1000000',
@@ -354,8 +411,7 @@ describe('validCancel function', () => {
 
     try {
       await validCancel(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe('missing field: ticker');
@@ -376,8 +432,7 @@ describe('validCancel function', () => {
 
     try {
       await validCancel(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toContain('invalid address');
@@ -388,7 +443,8 @@ describe('validCancel function', () => {
   // Test case for incorrect 'created' field
   it('should return an error for incorrect "created" field', async () => {
     const testData: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       decimals: 8,
       created: true,
@@ -398,8 +454,7 @@ describe('validCancel function', () => {
 
     try {
       await validCancel(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe('created should be false');
@@ -415,7 +470,8 @@ describe('validCancel function', () => {
     });
 
     const testData: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       decimals: 8,
       created: false,
@@ -425,11 +481,12 @@ describe('validCancel function', () => {
 
     try {
       await validCancel(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
-      expect((error as S3MoneyError).details).toContain('package already published');
+      expect((error as S3MoneyError).details).toContain(
+        'package already published'
+      );
       expect((error as S3MoneyError).errorCode).toBe(400);
     }
   });
@@ -448,7 +505,8 @@ describe('validPublish function', () => {
     });
 
     const validInput: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       created: true,
       initialSupply: '1000',
@@ -461,7 +519,8 @@ describe('validPublish function', () => {
         transaction: {
           data: {
             messageVersion: 'v1',
-            sender: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+            sender:
+              '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
           },
         },
       },
@@ -476,7 +535,8 @@ describe('validPublish function', () => {
   // Test case for missing fields
   it('should return an error for missing fields', async () => {
     const testData: Partial<IFace.IPackageCreated> = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       txid: '9kdu2wsxGzcf9iKU29y9VSqUDLud9n51SmA72Y6obh2j',
       data: {},
@@ -484,8 +544,7 @@ describe('validPublish function', () => {
 
     try {
       await validPublish(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe('missing field: created');
@@ -508,8 +567,7 @@ describe('validPublish function', () => {
 
     try {
       await validPublish(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toContain('invalid address');
@@ -520,7 +578,8 @@ describe('validPublish function', () => {
   // Test case for incorrect `created` field'
   it('should return an error for incorrect `created` field', async () => {
     const testData: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       txid: 'txid',
       data: {},
@@ -532,8 +591,7 @@ describe('validPublish function', () => {
 
     try {
       await validPublish(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe('created should be true');
@@ -547,7 +605,8 @@ describe('validPublish function', () => {
       deploy_status: PackageStatus.PUBLISHED,
     });
     const testData: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       created: true,
       initialSupply: '1000',
@@ -560,7 +619,8 @@ describe('validPublish function', () => {
         transaction: {
           data: {
             messageVersion: 'v1',
-            sender: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+            sender:
+              '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
           },
         },
       },
@@ -568,8 +628,7 @@ describe('validPublish function', () => {
 
     try {
       await validPublish(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe(
@@ -585,7 +644,8 @@ describe('validPublish function', () => {
     (packageOps.getPackage as jest.Mock).mockResolvedValue(null);
 
     const testData: IFace.IPackageCreated = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       ticker: '$TC',
       created: true,
       initialSupply: '1000',
@@ -598,7 +658,8 @@ describe('validPublish function', () => {
         transaction: {
           data: {
             messageVersion: 'v1',
-            sender: '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
+            sender:
+              '0x8bd6e484961f4d8cf16f5bdd6da78c7ad0d8739933ae36ca0e75a9d17ef79c73',
           },
         },
       },
@@ -606,8 +667,7 @@ describe('validPublish function', () => {
 
     try {
       await validPublish(testData as IFace.IPackageCreated);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe(
@@ -622,13 +682,13 @@ describe('validRelatedCreate function', () => {
   it('should return an error when required fields are missing', async () => {
     const testData: Partial<IRelationCreate> = {
       label: '', // Missing label field
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
     };
 
     try {
       await validRelatedCreate(testData as IRelationCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toBe('missing field: label');
@@ -644,8 +704,7 @@ describe('validRelatedCreate function', () => {
 
     try {
       await validRelatedCreate(testData as IRelationCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toContain('invalid address:');
@@ -656,7 +715,8 @@ describe('validRelatedCreate function', () => {
   it('should return no error when all fields are valid', async () => {
     const testData: Partial<IRelationCreate> = {
       label: 'Test Label',
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
     };
 
     const result = await validRelatedCreate(testData as IRelationCreate);
@@ -674,8 +734,7 @@ describe('validRelatedDelete function', () => {
 
     try {
       await validRelatedDelete(testData as IRelationCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toContain('missing field: label');
@@ -703,8 +762,7 @@ describe('validRelatedModify function', () => {
 
     try {
       await validRelatedModify(testData as IRelationCreate);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toContain('missing field: label');
@@ -732,27 +790,30 @@ describe('validIconRequest function', () => {
     };
 
     const testDataMissingFileName: Partial<IFace.IPackageIcon> = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       // Missing fileName field
     };
 
     try {
       validIconRequest(testDataMissingAddress as IFace.IPackageIcon);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
-      expect((error as S3MoneyError).details).toContain('missing field: address');
+      expect((error as S3MoneyError).details).toContain(
+        'missing field: address'
+      );
       expect((error as S3MoneyError).errorCode).toBe(400);
     }
 
     try {
       validIconRequest(testDataMissingFileName as IFace.IPackageIcon);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
-      expect((error as S3MoneyError).details).toContain('missing field: fileName');
+      expect((error as S3MoneyError).details).toContain(
+        'missing field: fileName'
+      );
       expect((error as S3MoneyError).errorCode).toBe(400);
     }
   });
@@ -765,8 +826,7 @@ describe('validIconRequest function', () => {
 
     try {
       validIconRequest(testDataInvalidAddress as IFace.IPackageIcon);
-    }
-    catch (error) {
+    } catch (error) {
       expect(error instanceof S3MoneyError).toBeTruthy();
       expect((error as S3MoneyError).errorMessage).toBe('Bad Request');
       expect((error as S3MoneyError).details).toContain('invalid address');
@@ -776,7 +836,8 @@ describe('validIconRequest function', () => {
 
   it('should return no error when all fields are valid', () => {
     const testDataValid: Partial<IFace.IPackageIcon> = {
-      address: '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
+      address:
+        '0x7b176b89ab5ed899d17b05ffb67b39eeda8aca3e7f41e40353937ed8c943725e',
       fileName: 'icon.png',
     };
 

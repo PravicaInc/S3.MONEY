@@ -5,7 +5,7 @@ export default module.exports = {
       description: 'localhost',
     },
     {
-      url: 'https://ts2rzma8y7.eu-central-1.awsapprunner.com',
+      url: 'https://p2qgik2bfh.eu-central-1.awsapprunner.com',
       description: 'production',
     },
   ],

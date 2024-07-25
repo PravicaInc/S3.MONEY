@@ -20,6 +20,7 @@ import {
   createPackagesRouter,
   createRelationsRouter,
   createTxVolRouter,
+  createUsersRouter,
 } from './routes';
 
 const PORT = process.env.PORT || 3000;
@@ -31,8 +32,8 @@ const WORK_DIR = process.env.WORK_DIR || `${CWD}/contracts`;
 
 declare module 'express-serve-static-core' {
   export interface Request {
-    tokenPath: string
-    workDir: string
+    tokenPath: string;
+    workDir: string;
   }
 }
 
@@ -62,7 +63,8 @@ app.use(
     router.use('/events', createEventsRouter());
     router.use('/txvol', createTxVolRouter());
     router.use('/holdings', createHoldingsRouter());
-
+    router.use('/allocations', createEventsRouter());
+    router.use('/users', createUsersRouter());
     return router;
   })()
 );
@@ -114,8 +116,7 @@ app.use(((error, req, res) => {
   if (error instanceof S3MoneyError) {
     res.status(error.errorCode);
     res.json({ error: error.errorMessage, detail: error.details }).end();
-  }
-  else {
+  } else {
     res.status(500);
     res.json({ error: error.toString(), stack: (error as Error).stack }).end();
   }

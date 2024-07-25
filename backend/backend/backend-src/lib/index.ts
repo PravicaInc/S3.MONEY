@@ -1,4 +1,9 @@
-import { handleGetAddressEvents, handleGetAllocations, handleGetBalances, handleGetPackageEvents } from './events';
+import {
+  handleGetAddressEvents,
+  handleGetAllocations,
+  handleGetBalances,
+  handleGetPackageEvents,
+} from './events';
 import { handleGetHoldings } from './holdings';
 import {
   handleCancel,
@@ -8,8 +13,14 @@ import {
   handleIconUrlRequest,
   handlePublished,
 } from './packages';
-import { handleCreateRelation, handleDeleteRelation, handleGetRelations, handleRenameRelation } from './relations';
+import {
+  handleCreateRelation,
+  handleDeleteRelation,
+  handleGetRelations,
+  handleRenameRelation,
+} from './relations';
 import { handleGetTxVol } from './txvol';
+import { handleGenerateNonce, handleVerifySignature } from './users';
 
 export {
   //packages
@@ -33,4 +44,7 @@ export {
   handleGetTxVol,
   // holdings
   handleGetHoldings,
+  // users
+  handleGenerateNonce,
+  handleVerifySignature,
 };

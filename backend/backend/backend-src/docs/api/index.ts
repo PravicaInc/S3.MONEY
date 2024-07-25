@@ -29,6 +29,8 @@ import getRelations from './relations/get-relations';
 import renameRelations from './relations/rename-relations';
 import deprecatedGetTxVol from './txVol/deprecated-get-tx-vol';
 import getTxVol from './txVol/get-tx-vol';
+import getNonce from './users/get-nonce';
+import authenticate from './users/authenticate';
 
 export default module.exports = {
   paths: {
@@ -121,6 +123,12 @@ export default module.exports = {
     },
     '/holdings/{address}/{ticker}': {
       ...deprecatedGetHoldings,
+    },
+    '/v2/users/getNonce/{address}': {
+      ...getNonce,
+    },
+    '/v2/users/authenticate': {
+      ...authenticate,
     },
   },
 };

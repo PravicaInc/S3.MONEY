@@ -18,5 +18,8 @@ export default module.exports = {
     {
       name: 'Environment',
     },
+    {
+      name: 'Users',
+    },
   ],
 };
