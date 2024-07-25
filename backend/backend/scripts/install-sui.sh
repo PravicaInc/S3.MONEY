@@ -23,9 +23,11 @@ set -x
 
 # curl -s -C - -L -O https://github.com/MystenLabs/sui/releases/download/$RELEASE/$RELEASE_ARCHIVE
 wget -q https://github.com/MystenLabs/sui/releases/download/$RELEASE/$RELEASE_ARCHIVE
-tar xzf $RELEASE_ARCHIVE ./target/release/sui-ubuntu-x86_64
-rm $RELEASE_ARCHIVE
-mv target/release/sui-ubuntu-x86_64 /usr/local/bin/sui
-rmdir target/release target
+mkdir tmp-sui
+cd tmp-sui
+tar xzf ../$RELEASE_ARCHIVE
+mv `find . -type f -name sui` /usr/local/bin/sui
+cd ..
+rm -fr tmp-sui $RELEASE_ARCHIVE
 
 exit 0
