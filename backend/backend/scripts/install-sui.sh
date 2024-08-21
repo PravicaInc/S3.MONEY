@@ -26,7 +26,7 @@ wget -q https://github.com/MystenLabs/sui/releases/download/$RELEASE/$RELEASE_AR
 mkdir tmp-sui
 cd tmp-sui
 tar xzf ../$RELEASE_ARCHIVE
-mv `find . -type f -name sui` /usr/local/bin/sui
+mv `find . -type f -name sui` /bin/sui
 cd ..
 rm -fr tmp-sui $RELEASE_ARCHIVE
 
