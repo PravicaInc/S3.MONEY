@@ -6,6 +6,7 @@
   height: 100%;
   padding-top: 3.4rem;
   border-right: 1px solid var(--gray_30);
+  background: var(--base);
   transition: all 295ms ease-in-out;
   overflow: hidden;
   .navigationItemWrapper {

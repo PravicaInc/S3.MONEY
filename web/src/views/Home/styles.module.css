@@ -1,11 +1,114 @@
 .container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  background: red;
+  flex-direction: column;
   flex: 1;
   width: 100%;
-  overflow: hidden;
+  padding: 2.2rem;
+  gap: 2.2rem;
+  overflow: auto;
+}
+
+.info {
+  width: fit-content;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--gray_10);
+  border-radius: 1rem;
+  margin: 1rem 0 2rem;
+}
+.cards {
+  display: flex;
+  align-items: center;
+  gap: 2.2rem;
+  overflow: auto;
+}
+.card {
+  min-width: 33.5rem;
+  height: 20rem;
+  padding: 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-radius: 1rem;
+}
+.inActive {
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  background: var(--gray_10);
+}
+.btn {
+  width: 24rem;
+  min-height: 3.6rem !important;
+  height: 3.6rem !important;
+  border-radius: 0.8rem;
+}
+.title {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.circularProgress {
+  --size: 64px;
+  --half-size: calc(var(--size) / 2);
+  --stroke-width: 6px;
+  --radius: calc((var(--size) - var(--stroke-width)) / 2);
+  --circumference: calc(var(--radius) * pi * 2);
+  --dash: calc((var(--progress) * var(--circumference)) / 100);
+  --progress-value: 0;
+  animation: progress-animation 2s linear 0s 1 forwards;
+}
+.progress {
   position: relative;
-  padding: 0 6.4rem;
+}
+.text {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 12;
+}
+
+.circularProgress circle {
+  cx: var(--half-size);
+  cy: var(--half-size);
+  r: var(--radius);
+  stroke-width: var(--stroke-width);
+  fill: none;
+  stroke-linecap: round;
+}
+
+.circularProgress circle.bg {
+  stroke: var(--gray_30);
+}
+
+.circularProgress circle.fg {
+  transform: rotate(-90deg);
+  transform-origin: var(--half-size) var(--half-size);
+  stroke-dasharray: var(--dash) calc(var(--circumference) - var(--dash));
+  transition: stroke-dasharray 0.3s linear 0s;
+  stroke: var(--primary_100);
+}
+
+@property --progress {
+  syntax: "<number>";
+  inherits: false;
+  initial-value: 0;
+}
+
+@keyframes progress-animation {
+  from {
+    --progress: 0;
+  }
+  to {
+    --progress: var(--progress-value);
+  }
 }

@@ -1,9 +1,11 @@
 .button {
-    border: 1px solid var(--gray_30);
+    border: 1px solid var(--gray_40);
     border-radius: 1rem;
+    background: var(--base);
     height: 4rem;
     padding: 0 1.6rem;
     display: flex;
+    cursor: pointer;
     align-items: center;
     justify-content: space-between;
     gap: 0.8rem;
@@ -12,6 +14,6 @@
     box-shadow: var(--shadow-profile);
 }
 .button:hover {
-    background: var(--primary_10);
-    border: 1px solid var(--primary_30);
+    background: var(--gray_10);
+    border: 1px solid var(--gray_50);
 }

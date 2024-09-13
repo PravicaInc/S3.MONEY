@@ -11,31 +11,6 @@
 .s3 {
   color: var(--primary_100);
 }
-.next {
-  width: 12.6rem !important;
-  position: absolute;
-  bottom: 2.8rem;
-  right: 2.8rem;
-  z-index: 10;
-}
-.previous {
-  width: 12.6rem !important;
-  position: absolute;
-  bottom: 2.8rem;
-  left: 2.8rem;
-  z-index: 10;
-}
-.swiperMain {
-  :global(.swiper-pagination-bullet){
-    background: var(--primary_100);
-    margin-bottom: 3.6rem !important;
-    background: var(--gray_30);
-    opacity: 1;
-  }
-  :global(.swiper-pagination-bullet-active){
-    background: var(--primary_100);
-  }
-}
 .pattern1 {
   position: absolute;
   top: 20%;
@@ -58,30 +33,4 @@
   height: 100%;
   display: flex;
   align-items: center;
-}
-.swiper {
-  position: relative;
-  width: 100%;
-  height: 90%;
-  border-radius: 2rem;
-  background: var(--base);
-  box-shadow: var(--shadow-card);
-  overflow: hidden;
-}
-.slideWrapper {
-  padding: 2.8rem 2.8rem 12rem !important;
-  display: flex !important;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box !important;
-  text-align: center;
-}
-.sliderImg {
-  width: 100%;
-  height: 70%;
-  margin-bottom: 6rem;
-  > svg {
-    width: 100%;
-    height: 100%;
-  }
 }

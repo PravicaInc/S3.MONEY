@@ -17,10 +17,6 @@ export const WalletConnectButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = 
 
   const isLoading = useMemo(() => autoConnectionStatus === 'idle', [autoConnectionStatus]);
 
-  const disconnect = async () => {
-    await disconnectWallet.mutateAsync();
-  };
-
   const onConnect = async () => {
     const suiWallet = wallets.find(({ name }) => name === WALLETS.SuiWallet);
 
@@ -34,7 +30,7 @@ export const WalletConnectButton: FC<ButtonHTMLAttributes<HTMLButtonElement>> = 
             + ' S3.money currently works only with Passphrase wallets. Try Again!';
 
         setError(errorMessage as string);
-        await disconnect();
+        await disconnectWallet.mutateAsync();
 
         throw errorMessage;
       }

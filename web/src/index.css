@@ -11,16 +11,6 @@
   --primary_30: #FFD0BC;
   --primary_20: #FFE0D3;
   --primary_10: #FFEFE9;
-  --secondary_100: #8A43FE;
-  --secondary_90: #9656FE;
-  --secondary_80: #A169FE;
-  --secondary_70: #AD7BFE;
-  --secondary_60: #B98EFE;
-  --secondary_50: #C4A1FE;
-  --secondary_40: #D0B4FF;
-  --secondary_30: #DCC7FF;
-  --secondary_20: #E8D9FF;
-  --secondary_10: #F3ECFF;
   --gray_100: #101828;
   --gray_90: #1D2939;
   --gray_80: #344054;
@@ -54,6 +44,7 @@
   --shadow-button: 0px 1px 2px 0px #1018280D;
   --shadow-profile: 1px 2px 4px 0px #0D0D1214;
   --shadow-card: 0px 5px 25px 0px #0000001A;
+  --shadow-input: 0px 0px 4.7px 0px var(--primary_80);
 }
 
 * {
@@ -68,6 +59,11 @@
   box-sizing: inherit;
   cursor: inherit;
   line-height: normal;
+  font-family: inherit;
+}
+
+input {
+  outline: none;
 }
 
 html {

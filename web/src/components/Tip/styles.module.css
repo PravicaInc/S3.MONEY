@@ -1,0 +1,14 @@
+.container {
+  box-shadow: var(--shadow-card);
+  display: flex;
+  flex-direction: column;
+  border-radius: 1.6rem;
+  background: var(--base);
+  padding: 3rem 1.6rem;
+}
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}

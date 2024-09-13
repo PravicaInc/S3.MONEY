@@ -1,8 +1,8 @@
-import { useCurrentAccount, useSuiClient } from '@mysten/dapp-kit';
+import { useSuiClient } from '@mysten/dapp-kit';
 import { GetOwnedObjectsParams, SuiClient } from '@mysten/sui.js/client';
 import { UndefinedInitialDataOptions, useQuery } from '@tanstack/react-query';
 
-import convertSuiBalanceStringToNumber from '@/utils/convertSuiBalanceStringToNumber';
+import convertSuiBalanceStringToNumber from '../utils/convertSuiBalanceStringToNumber';
 
 import { StableCoin } from './useStableCoinsList';
 
@@ -33,16 +33,16 @@ const getCurrentBalance = async (suiClient: SuiClient, accountAddress: string): 
 };
 
 export const useCurrentSuiBalance = (
+  address: string,
   queryOption?: Omit<UndefinedInitialDataOptions<number, Error, number>, 'queryKey'>
 ) => {
-  const account = useCurrentAccount();
   const suiClient = useSuiClient();
 
   return useQuery<number>({
     ...queryOption,
-    queryKey: ['current-sui-balance', account?.address],
-    queryFn: () => suiClient && account?.address
-      ? getCurrentBalance(suiClient, account?.address)
+    queryKey: ['current-sui-balance', address],
+    queryFn: () => suiClient && address
+      ? getCurrentBalance(suiClient, address)
       : Promise.resolve(0),
   });
 };

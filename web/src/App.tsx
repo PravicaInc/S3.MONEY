@@ -11,7 +11,9 @@ import { PAGES_URLS } from './utils/const.ts';
 import styles from './app.module.css';
 
 const SignIn = lazy(() => import('./views/SignIn'));
-const UserTypeSelection = lazy(() => import('./views/UserTypeSelection'));
+const UserTypeSelection = lazy(() => import('./views/Onboarding/UserTypeSelection'));
+const UserTypeSelectionForms = lazy(() => import('./views/Onboarding/UserTypeSelectionForms'));
+const UserTypeSubmitted = lazy(() => import('./views/Onboarding/UserTypeSubmitted'));
 const Home = lazy(() => import('./views/Home'));
 
 const App: FC = () => (
@@ -45,8 +47,6 @@ const AppMainRoutes: FC = () => {
   const { pathname } = useLocation();
   const sidebarEnabled = !pathname.includes('/onboarding') && isConnected;
 
-  console.log('isConnected', isConnected);
-
   useEffect(() => {
     if (!sidebarEnabled) {
       document.title = 'S3 - Onboarding';
@@ -71,6 +71,8 @@ const AppMainRoutes: FC = () => {
               <>
                 <Route path={PAGES_URLS.home} element={<Home />} />
                 <Route path={PAGES_URLS.userTypeSelection} element={<UserTypeSelection />} />
+                <Route path={PAGES_URLS.userTypeSelectionForms} element={<UserTypeSelectionForms />} />
+                <Route path={PAGES_URLS.UserTypeSubmitted} element={<UserTypeSubmitted />} />
               </>
             )}
           </Routes>

@@ -1,0 +1,60 @@
+.icon {
+  margin-right: 0.6rem;
+  > svg {
+    width: 3rem;
+    height: 3rem;
+    color: var(--primary_100);
+  }
+}
+.popup {
+  padding: 1rem;
+  border-radius: 1rem;
+  border: 1px solid var(--gray_40);
+}
+.select {
+  :global(.ant-select-selector) {
+    border-color: var(--gray_40) !important;
+    padding: 0 1.6rem !important;
+  }
+  :global(.ant-space) {
+    column-gap: 0;
+  }
+  :global(.ant-select-selection-item) {
+    line-height: 0 !important;
+  }
+}
+.selectError {
+  :global(.ant-select-selector) {
+    border-color: var(--error_100) !important;
+  }
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  position: relative;
+  width: 100%;
+  :global(.ant-select-open) {
+    box-shadow: var(--shadow-input) !important;
+    border-radius: 1rem;
+  }
+  :global(.ant-select-selection-placeholder) {
+    color: var(--gray_40) !important;
+  }
+}
+.error {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--error_100) !important;
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.8rem);
+}
+.errorIcon {
+  width: 1.6rem;
+  height: 1.6rem;
+}
+.option {
+  height: 4rem !important;
+}

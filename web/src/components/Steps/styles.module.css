@@ -1,0 +1,41 @@
+.progress {
+    height: 1.6rem;
+    background: linear-gradient(90deg, var(--primary_100) 0%, var(--gray_10) 100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.2s;
+}
+.container {
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    background: var(--base);
+    box-shadow: var(--shadow-card);
+    border-radius: 2rem;
+    padding: 5rem 3rem;
+    position: relative;
+}
+.dots {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    position: absolute;
+    bottom: 6.5rem;
+    left: 50%;
+    transform: translate(-50%, 0);
+}
+.dot {
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 50%;
+    background: var(--gray_30);
+    transition: all 0.2s;
+}
+.active {
+    background: var(--primary_100);
+}
+.body {
+    width: 100%;
+    height: 100%;
+}

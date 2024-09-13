@@ -6,7 +6,7 @@
   color: var(--base);
 }
 .text {
-  background: var(--primary_100);
+  background: #FE6321;
   padding: 0.2rem 1rem;
   border-radius: 0.5rem;
   margin-bottom: 0.6rem;

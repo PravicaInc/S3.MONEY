@@ -80,12 +80,6 @@ module.exports = {
         'argsIgnorePattern': '^_$',
       },
     ],
-    'no-use-before-define': [
-      'error',
-      {
-        'functions': false,
-      },
-    ],
     'wrap-iife': 'error',
     'yoda': ['error', 'never'],
     'strict': ['error', 'never'],

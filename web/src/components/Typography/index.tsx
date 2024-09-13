@@ -1,6 +1,10 @@
 import * as React from 'react';
-import { CSSProperties, useMemo } from 'react';
+import { CSSProperties, useEffect, useMemo } from 'react';
+import { Tooltip } from 'antd';
 import { findAll } from 'highlight-words-core';
+
+import CopyIcon from '../../assets/copy.svg?react';
+import { truncateString } from '../../utils/string_formats.ts';
 
 type StylesTypes =
   | 'd_2xl'
@@ -30,6 +34,8 @@ interface IProps extends React.HTMLAttributes<HTMLDivElement> {
   highlightStyle?: CSSProperties;
   highlightClick?: (val: string) => void;
   searchWords?: string[];
+  ellipses?: boolean;
+  copyable?: boolean;
 }
 
 export const Typography: React.FC<IProps> = ({
@@ -39,8 +45,11 @@ export const Typography: React.FC<IProps> = ({
   highlightClick,
   highlightStyle,
   searchWords = [],
+  ellipses,
+  copyable,
   ...props
 }) => {
+  const [copied, setCopied] = React.useState(false);
   const stylesMap: { [key in StylesTypes]: CSSProperties } = useMemo(
     () => ({
       d_2xl: {
@@ -87,7 +96,8 @@ export const Typography: React.FC<IProps> = ({
     }),
     []
   );
-  const textToHighlight = String(props.children);
+  const textToHighlight = ellipses ? truncateString(String(props.children), 11) : String(props.children);
+  const fullText = String(props.children);
   const chunks = findAll({
     textToHighlight,
     searchWords,
@@ -95,6 +105,24 @@ export const Typography: React.FC<IProps> = ({
   });
   const [textType, textWeight] = type.split('-');
   const defaultStyle = stylesMap[textType as StylesTypes];
+
+  useEffect(() => {
+    if (copied) {
+      const timer = setTimeout(() => {
+        setCopied(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [copied]);
+
+  const handleCopy = () => {
+    if (!copyable) {
+      return;
+    }
+    navigator.clipboard.writeText(fullText);
+    setCopied(true);
+  };
 
   return (
     <p
@@ -124,6 +152,17 @@ export const Typography: React.FC<IProps> = ({
             </span>
           );
       })}
+      {copyable && (
+        <Tooltip open={copied} title="Copied!">
+          <CopyIcon
+            onClick={handleCopy}
+            style={{
+              color: 'var(--primary_100)',
+              marginLeft: '0.5rem', cursor: 'pointer',
+            }}
+          />
+        </Tooltip>
+      )}
     </p>
   );
 };

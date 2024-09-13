@@ -1,14 +1,14 @@
 .initialsContainer {
   align-items: center;
   justify-content: center;
-  background: var(--grey-scale-20);
+  background: var(--gray_20);
   display: flex;
 }
 .counterContainer {
   justify-content: center;
   align-items: center;
-  background: var(--grey-scale-20);
-  border-radius: 0.5em;
+  background: var(--gray_20);
+  border-radius: 50%;
   min-width: 2em;
   min-height: 2em;
   position: absolute;
@@ -20,7 +20,7 @@
 }
 
 .initialsContainer.disabled {
-  background: var(--grey-scale-10);
+  background: var(--gray_10);
 }
 
 .avatar {
@@ -29,10 +29,10 @@
   flex-shrink: 0;
   justify-content: center;
   align-items: center;
-  background-color: var(--white-scale-100);
+  background-color: var(--base);
 }
 .avatar.bordered {
-  border: 1px solid var(--grey-scale-20);
+  border: 1px solid var(--gray_20);
 }
 .avatar.disabled {
   filter: grayscale(100%);
@@ -48,8 +48,8 @@
   cursor: pointer;
   width: 2em;
   height: 2em;
-  background: var(--grey-scale-95);
-  border-radius: 0.5em;
+  background: var(--gray_100);
+  border-radius: 50%;
 }
 .plus {
   width: 2.4rem;

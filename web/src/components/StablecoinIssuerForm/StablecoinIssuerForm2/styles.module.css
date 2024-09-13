@@ -1,0 +1,81 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  flex: 1 1 0;
+  padding: 2px;
+  overflow: auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0;
+}
+.next, .previous {
+  width: 12.6rem;
+}
+.cards {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin: 3rem 0;
+}
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1px solid var(--gray_40);
+  box-shadow: var(--shadow-card);
+  border-radius: 1rem;
+  position: relative;
+  color: var(--gray_70);
+  height: 6rem;
+  width: 13.5rem;
+}
+.active {
+  border: 1px solid var(--primary_100);
+  color: var(--primary_100);
+  background-color: var(--primary_10);
+}
+.soon {
+  position: absolute;
+  top: -1.415rem;
+  left: 2.55rem;
+  height: 1.83rem;
+  width: 8.4rem;
+  background: var(--primary_100);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.4rem;
+}
+.info {
+  width: 100%;
+  padding: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  background: var(--gray_10);
+  border-radius: 1rem;
+}

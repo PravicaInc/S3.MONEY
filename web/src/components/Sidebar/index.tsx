@@ -1,16 +1,14 @@
 import { FC, useEffect } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 
-import DistributorsIcon from '../../assets/distributors.svg?react';
+import DistributorsIcon from '../../assets/distributor.svg?react';
 
 import DocsIcon from '../../assets/docs.svg?react';
 import ExternalLinkIcon from '../../assets/external-link.svg?react';
 import HelpIcon from '../../assets/help.svg?react';
-import OperationsIcon from '../../assets/operations.svg?react';
 import OverviewIcon from '../../assets/overview.svg?react';
 import PlusIcon from '../../assets/plus.svg?react';
 import ProjectsIcon from '../../assets/projects.svg?react';
-import RequestsIcon from '../../assets/requests.svg?react';
 import ReservesIcon from '../../assets/reserves.svg?react';
 import SettingsIcon from '../../assets/settings.svg?react';
 import TreasuriesIcon from '../../assets/treasuries.svg?react';
@@ -25,8 +23,6 @@ import styles from './styles.module.css';
 const items: SidebarItem[] = [
   { url: PAGES_URLS.home, label: 'Overview', icon: <OverviewIcon /> },
   { url: PAGES_URLS.projects, label: 'Projects', icon: <ProjectsIcon /> },
-  { url: PAGES_URLS.operations, label: 'Operations', icon: <OperationsIcon /> },
-  { url: PAGES_URLS.requests, label: 'Requests', icon: <RequestsIcon /> },
   { url: PAGES_URLS.treasuries, label: 'Treasuries', icon: <TreasuriesIcon /> },
   { url: PAGES_URLS.reserves, label: 'Reserves', icon: <ReservesIcon /> },
   { url: PAGES_URLS.distributors, label: 'Distributors', icon: <DistributorsIcon /> },
@@ -36,10 +32,10 @@ const items: SidebarItem[] = [
 ];
 
 export const Sidebar: FC = () => {
-  const location = useLocation();
+  const currentLocation = useLocation();
 
   useEffect(() => {
-    const activeItem = items.find(item => item.url === location.pathname);
+    const activeItem = items.find(item => item.url === currentLocation.pathname);
 
     if (activeItem) {
       document.title = `S3 - ${activeItem.label}`;

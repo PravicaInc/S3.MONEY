@@ -1,5 +1,6 @@
 .primary {
   height: 4.8rem;
+  min-height: 4.8rem;
   color: var(--base);
   border-radius: 1.2rem;
   box-shadow: var(--shadow-button);
@@ -22,13 +23,9 @@
 .primary:hover {
   background: var(--primary_70);
 }
-.primary:disabled {
-  background: var(--primary_50);
-  box-shadow: none;
-  pointer-events: none;
-}
 .secondary {
   height: 4.8rem;
+  min-height: 4.8rem;
   color: var(--primary_100);
   border-radius: 1.2rem;
   box-shadow: var(--shadow-button);
@@ -52,9 +49,11 @@
     fill: var(--primary_10);
   }
 }
-.secondary:disabled {
-  background: var(--primary_50);
+.primary:disabled, .secondary:disabled {
+  background: var(--base);
+  border: 1px solid var(--gray_40);
   box-shadow: none;
   pointer-events: none;
+  color: var(--gray_40);
 }
 

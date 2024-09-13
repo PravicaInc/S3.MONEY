@@ -1,0 +1,39 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top: 3rem;
+  flex: 1 1 0;
+  padding: 2px;
+  overflow: auto;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+  position: sticky;
+  background: var(--base);
+  bottom: 0;
+  left: 0;
+}
+.next, .previous {
+  width: 12.6rem;
+}

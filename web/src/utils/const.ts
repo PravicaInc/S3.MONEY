@@ -2,6 +2,8 @@ export const PAGES_URLS = {
   home: '/',
   signIn: '/sign-in',
   userTypeSelection: '/onboarding/user-type-selection',
+  userTypeSelectionForms: '/onboarding/user-type-selection-forms',
+  UserTypeSubmitted: '/onboarding/user-type-selection-forms/success',
   projects: '/projects',
   operations: '/operations',
   requests: '/requests ',

@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top: 3rem;
+  height: 100%;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.next, .previous {
+  width: 12.6rem;
+}

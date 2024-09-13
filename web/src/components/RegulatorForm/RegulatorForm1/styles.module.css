@@ -1,0 +1,34 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+.text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  width: 80%;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  margin-top: 3rem;
+  height: 100%;
+}
+.formBody {
+  display: flex;
+  flex-direction: column;
+  gap: 4rem;
+  flex: 1 1 0;
+  overflow: auto;
+}
+.next {
+  margin-top: auto;
+  width: 100%;
+}
