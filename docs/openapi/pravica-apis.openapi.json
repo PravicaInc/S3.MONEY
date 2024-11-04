@@ -1,0 +1,2986 @@
+{
+  "openapi": "3.0.1",
+  "info": { "title": "Pravica APIs", "description": "", "version": "1.0.0" },
+  "tags": [
+    { "name": "Authentication" },
+    { "name": "Public" },
+    { "name": "Reserves" },
+    { "name": "Projects" },
+    { "name": "Requests" },
+    { "name": "Treasuries" },
+    { "name": "Operations" }
+  ],
+  "paths": {
+    "/v2/apiKey/authenticateWithApiKey": {
+      "get": {
+        "summary": "Auth With API Key",
+        "deprecated": false,
+        "description": "Fetch the auth token using provided API Key.",
+        "tags": ["Authentication"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "token": { "type": "string" }
+                  },
+                  "required": ["status", "token"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoiZDUyMjI2M2YtOTljZS00NmI4LWFiMzMtZTg0ZTg2OGEwMDZmIiwiZW1haWwiOm51bGwsImNvbXBhbnlOYW1lIjoiVGludGFzaCIsImFkZHJlc3MiOiIweGQxYWNjYTUxNGY3NzcwYzAxNDE0MzZhOGVmZjc1NmNkZTFjYThkNDI0OTU2YjBjNWEyODc5YjU3YjdiZDAxYzYiLCJtb3JlSW5mbyI6IklUIiwidHlwZSI6InN0YWJsZUNvaW5Jc3N1ZXIiLCJjcmVhdGVkQXQiOiIyMDI0LTA5LTI3VDA4OjE2OjQ0Ljc4M1oiLCJ1cGRhdGVkQXQiOiIyMDI0LTA5LTI3VDA4OjE2OjQ0Ljc4M1oifSwiaXNBcGlVc2VyIjp0cnVlLCJpYXQiOjE3Mjg5ODE1MzZ9.5yIL6WH8OiWXgHYGtqBCTvydavecNjo_XzdX1beXC3g"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/countries": {
+      "get": {
+        "summary": "All Countries",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Public"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "code": { "type": "string" },
+                      "currency": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "code": { "type": "string" },
+                          "name": { "type": "string" },
+                          "icon": { "type": "string" }
+                        },
+                        "required": ["id", "code", "name", "icon"]
+                      }
+                    },
+                    "required": ["id", "name", "code", "currency"]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "f7cddc53-67b1-4a67-bb63-0c40ee011439",
+                        "name": "United States Of America",
+                        "code": "US",
+                        "currency": {
+                          "id": "30715ddf-98cb-4962-9b7f-9ac2e994d2c4",
+                          "code": "USD",
+                          "name": "United States Dollar",
+                          "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/countries/us.png"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/currencies/list": {
+      "get": {
+        "summary": "All Currencies",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Public"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "code": { "type": "string" },
+                      "name": { "type": "string" },
+                      "icon": { "type": "string" }
+                    },
+                    "required": ["id", "code", "name", "icon"]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "370bf535-8d79-40f8-bc4e-76121bf6fb06",
+                        "code": "GBP",
+                        "name": "British Pound Sterling",
+                        "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/countries/gbp.png"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/banks/list": {
+      "get": {
+        "summary": "All Banks",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Public"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "name": { "type": "string" },
+                      "icon": { "type": "string" },
+                      "countries": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "name": { "type": "string" },
+                            "code": { "type": "string" }
+                          },
+                          "required": ["id", "name", "code"]
+                        }
+                      },
+                      "currencies": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "code": { "type": "string" },
+                            "name": { "type": "string" },
+                            "icon": { "type": "string" }
+                          },
+                          "required": ["id", "code", "name", "icon"]
+                        }
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "name",
+                      "icon",
+                      "countries",
+                      "currencies"
+                    ]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "01a4ab41-3d72-4a48-9b73-3f1c5bb3eadb",
+                        "name": "Standard Chartered Bank",
+                        "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/banks/horizon.png",
+                        "countries": [
+                          {
+                            "id": "2aa117bb-a7ba-4f99-bd30-d6ac27973b2a",
+                            "name": "Europe",
+                            "code": "EU"
+                          }
+                        ],
+                        "currencies": [
+                          {
+                            "id": "370bf535-8d79-40f8-bc4e-76121bf6fb06",
+                            "code": "GBP",
+                            "name": "British Pound Sterling",
+                            "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/countries/gbp.png"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/users/stablecoin_issuer": {
+      "get": {
+        "summary": "Issuers List",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Public"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "email": { "type": "null" },
+                      "companyName": { "type": "string" },
+                      "address": { "type": "string", "nullable": true },
+                      "moreInfo": { "type": "string" },
+                      "type": { "type": "string" },
+                      "created_at": { "type": "string" },
+                      "updated_at": { "type": "string" }
+                    },
+                    "required": [
+                      "id",
+                      "email",
+                      "companyName",
+                      "address",
+                      "moreInfo",
+                      "type",
+                      "created_at",
+                      "updated_at"
+                    ]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "0fd63d10-37ee-42d9-86cc-6b2dc1d5e835",
+                        "email": null,
+                        "companyName": "Tintash",
+                        "address": "0xe1ede855c1af805aaa519642e051851a58d5903183fd4ae1388f5f98ac950f8e",
+                        "moreInfo": "Finance and IT",
+                        "type": "stableCoinIssuer",
+                        "created_at": "2024-09-12T08:41:06.226Z",
+                        "updated_at": "2024-09-12T08:41:06.226Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/stablecoins/public/list/all": {
+      "get": {
+        "summary": "Projects by Issuer",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Public"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "1",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "10",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "issuerId",
+            "in": "query",
+            "description": "",
+            "required": true,
+            "example": "0fd63d10-37ee-42d9-86cc-6b2dc1d5e835",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": { "type": "integer" },
+                        "totalPages": { "type": "integer" },
+                        "totalItems": { "type": "integer" }
+                      },
+                      "required": ["currentPage", "totalPages", "totalItems"]
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "ticker": { "type": "string" },
+                          "name": { "type": "string" },
+                          "icon": { "type": "string" },
+                          "status": { "type": "string" },
+                          "contractStatus": { "type": "string" },
+                          "supplyType": { "type": "string" },
+                          "initialSupply": { "type": "integer" },
+                          "maxSupply": { "type": "integer" },
+                          "decimals": { "type": "integer" },
+                          "mainBalance": { "type": "integer" },
+                          "cashInBalance": { "type": "integer" },
+                          "cashOutBalance": { "type": "integer" },
+                          "minted": { "type": "integer" },
+                          "description": { "type": "null" },
+                          "burnt": { "type": "integer" },
+                          "balance": { "type": "integer" },
+                          "txId": { "type": "null" },
+                          "network": { "type": "string" },
+                          "contractMetaData": { "type": "null" },
+                          "createdAt": { "type": "string" },
+                          "updatedAt": { "type": "string" }
+                        },
+                        "required": [
+                          "id",
+                          "ticker",
+                          "name",
+                          "icon",
+                          "status",
+                          "contractStatus",
+                          "supplyType",
+                          "initialSupply",
+                          "maxSupply",
+                          "decimals",
+                          "mainBalance",
+                          "cashInBalance",
+                          "cashOutBalance",
+                          "minted",
+                          "description",
+                          "burnt",
+                          "balance",
+                          "txId",
+                          "network",
+                          "contractMetaData",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["pagination", "results"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "pagination": {
+                        "currentPage": 1,
+                        "totalPages": 1,
+                        "totalItems": 1
+                      },
+                      "results": [
+                        {
+                          "id": "ad7b6558-8b73-4f0b-8667-67dd6b1cf4a8",
+                          "ticker": "$TMP111",
+                          "name": "tintashtoken",
+                          "icon": "https://www.google.com/icon.png",
+                          "status": "active",
+                          "contractStatus": "created",
+                          "supplyType": "infinite",
+                          "initialSupply": 1000,
+                          "maxSupply": 0,
+                          "decimals": 10,
+                          "mainBalance": 500,
+                          "cashInBalance": 500,
+                          "cashOutBalance": 0,
+                          "minted": 1000,
+                          "description": null,
+                          "burnt": 0,
+                          "balance": 0,
+                          "txId": null,
+                          "network": "Testnet",
+                          "contractMetaData": null,
+                          "createdAt": "2024-09-18T14:45:32.545Z",
+                          "updatedAt": "2024-09-18T14:45:32.545Z"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/reserves/list": {
+      "get": {
+        "summary": "All Reserves",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Reserves"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "balance": { "type": "integer" },
+                      "created_at": { "type": "string" },
+                      "updated_at": { "type": "string" },
+                      "bank": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "icon": { "type": "string" }
+                        },
+                        "required": ["id", "name", "icon"]
+                      },
+                      "currency": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "code": { "type": "string" },
+                          "name": { "type": "string" }
+                        },
+                        "required": ["id", "code", "name"]
+                      }
+                    },
+                    "required": [
+                      "id",
+                      "balance",
+                      "created_at",
+                      "updated_at",
+                      "bank",
+                      "currency"
+                    ]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "be8b49be-efa6-496f-bfa7-a24ed6ad643a",
+                        "balance": 3,
+                        "created_at": "2024-09-12T08:41:05.009Z",
+                        "updated_at": "2024-09-12T08:41:05.009Z",
+                        "bank": {
+                          "id": "db7b6e9c-d8a2-4cb7-84f8-604ba60c0725",
+                          "name": "Standard Chartered Bank",
+                          "icon": "Icon of the banlk"
+                        },
+                        "currency": {
+                          "id": "4e443ddf-c90a-4d2e-9f37-637a5b35d606",
+                          "code": "EGP",
+                          "name": "Egyptian Pound"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/reserves": {
+      "post": {
+        "summary": "Create Reserve",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Reserves"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "balance": { "type": "integer" },
+                  "bankId": { "type": "string" },
+                  "currencyId": { "type": "string" }
+                },
+                "required": ["balance", "bankId", "currencyId"]
+              },
+              "example": {
+                "balance": 200000,
+                "bankId": "01a4ab41-3d72-4a48-9b73-3f1c5bb3eadb",
+                "currencyId": "370bf535-8d79-40f8-bc4e-76121bf6fb06"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "balance": { "type": "integer" },
+                    "users": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "email": { "type": "null" },
+                        "companyName": { "type": "string" },
+                        "address": { "type": "string" },
+                        "moreInfo": { "type": "string" },
+                        "type": { "type": "string" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "companyName",
+                        "address",
+                        "moreInfo",
+                        "type",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    "bank": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "name": { "type": "string" },
+                        "icon": { "type": "string" }
+                      },
+                      "required": ["id", "name", "icon"]
+                    },
+                    "currency": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "code": { "type": "string" },
+                        "name": { "type": "string" },
+                        "icon": { "type": "string" }
+                      },
+                      "required": ["id", "code", "name", "icon"]
+                    },
+                    "id": { "type": "string" },
+                    "connection": { "type": "string" },
+                    "lockedBalance": { "type": "integer" },
+                    "createdAt": { "type": "string" },
+                    "updatedAt": { "type": "string" }
+                  },
+                  "required": [
+                    "balance",
+                    "users",
+                    "bank",
+                    "currency",
+                    "id",
+                    "connection",
+                    "lockedBalance",
+                    "createdAt",
+                    "updatedAt"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "balance": 200000,
+                      "users": {
+                        "id": "5f9897cd-4ffb-4748-89ac-dae27c18cbb8",
+                        "email": null,
+                        "companyName": "kokoko",
+                        "address": "0x347bc14652906a825497fc0663ddec49df4ba27d2203149d7c973190a6f6b4da",
+                        "moreInfo": "q",
+                        "type": "stableCoinIssuer",
+                        "createdAt": "2024-10-15T14:11:03.547Z",
+                        "updatedAt": "2024-10-15T14:11:03.547Z"
+                      },
+                      "bank": {
+                        "id": "fbe753cd-ccb8-44f1-9f6c-15e36acb786a",
+                        "name": "Horizon Bank",
+                        "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/banks/horizon.png"
+                      },
+                      "currency": {
+                        "id": "370bf535-8d79-40f8-bc4e-76121bf6fb06",
+                        "code": "GBP",
+                        "name": "British Pound Sterling",
+                        "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/countries/gbp.png"
+                      },
+                      "id": "591be405-2f8f-41bb-ba10-430cbd4aaa8d",
+                      "connection": "manual",
+                      "lockedBalance": 0,
+                      "createdAt": "2024-10-17T04:12:36.443Z",
+                      "updatedAt": "2024-10-17T04:12:36.443Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/reserves/{reserve_id}": {
+      "put": {
+        "summary": "Update Reserve",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Reserves"],
+        "parameters": [
+          {
+            "name": "reserve_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "status": { "type": "integer" } }
+              },
+              "example": { "balance": 2048 }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "balance": { "type": "integer" },
+                    "connection": { "type": "string" },
+                    "lockedBalance": { "type": "integer" },
+                    "createdAt": { "type": "string" },
+                    "updatedAt": { "type": "string" }
+                  },
+                  "required": [
+                    "id",
+                    "balance",
+                    "connection",
+                    "lockedBalance",
+                    "createdAt",
+                    "updatedAt"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "be8b49be-efa6-496f-bfa7-a24ed6ad643a",
+                      "balance": 2048,
+                      "connection": "manual",
+                      "lockedBalance": 0,
+                      "createdAt": "2024-09-12T08:41:05.009Z",
+                      "updatedAt": "2024-10-18T04:51:02.971Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/reserves/list/{stablecoin_id}": {
+      "get": {
+        "summary": "Reserves Against a Project",
+        "deprecated": false,
+        "description": "**Issuer Only** This endpoint is only accessible to Issuers.",
+        "tags": ["Reserves"],
+        "parameters": [
+          {
+            "name": "stablecoin_id",
+            "in": "path",
+            "description": "The ID of owned project",
+            "required": true,
+            "example": "ad7b6558-8b73-4f0b-8667-67dd6b1cf4a8",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "balance": { "type": "integer" },
+                      "connection": { "type": "string" },
+                      "lockedBalance": { "type": "integer" },
+                      "createdAt": { "type": "string" },
+                      "updatedAt": { "type": "string" },
+                      "bank": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "icon": { "type": "string" }
+                        },
+                        "required": ["id", "name", "icon"]
+                      },
+                      "currency": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "code": { "type": "string" },
+                          "name": { "type": "string" },
+                          "icon": { "type": "string" }
+                        },
+                        "required": ["id", "code", "name", "icon"]
+                      },
+                      "stableCoin": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "ticker": { "type": "string" },
+                            "name": { "type": "string" },
+                            "icon": { "type": "string" },
+                            "status": { "type": "string" },
+                            "contractStatus": { "type": "string" },
+                            "supplyType": { "type": "string" },
+                            "initialSupply": { "type": "integer" },
+                            "maxSupply": { "type": "integer" },
+                            "decimals": { "type": "integer" },
+                            "mainBalance": { "type": "integer" },
+                            "cashInBalance": { "type": "integer" },
+                            "cashOutBalance": { "type": "integer" },
+                            "minted": { "type": "integer" },
+                            "description": { "type": "null" },
+                            "burnt": { "type": "integer" },
+                            "balance": { "type": "integer" },
+                            "txId": { "type": "null" },
+                            "network": { "type": "string" },
+                            "contractMetaData": { "type": "null" },
+                            "createdAt": { "type": "string" },
+                            "updatedAt": { "type": "string" }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "306b4569-42bc-4f0a-93b6-562ac19a3c69",
+                        "balance": 100000,
+                        "connection": "manual",
+                        "lockedBalance": 0,
+                        "createdAt": "2024-09-27T08:16:43.540Z",
+                        "updatedAt": "2024-09-27T08:16:43.540Z",
+                        "bank": {
+                          "id": "db7b6e9c-d8a2-4cb7-84f8-604ba60c0725",
+                          "name": "Standard Chartered Bank",
+                          "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/banks/horizon.png"
+                        },
+                        "currency": {
+                          "id": "4e443ddf-c90a-4d2e-9f37-637a5b35d606",
+                          "code": "EGP",
+                          "name": "Egyptian Pound",
+                          "icon": "https://s3-money-icon.s3.eu-central-1.amazonaws.com/countries/egp.png"
+                        },
+                        "stableCoin": [
+                          {
+                            "id": "6fdb796e-07c5-4fc2-a7f0-892645a64f87",
+                            "ticker": "$TNO",
+                            "name": "TinTokenO",
+                            "icon": "https://www.google.com/icon.png",
+                            "status": "active",
+                            "contractStatus": "created",
+                            "supplyType": "infinite",
+                            "initialSupply": 10000,
+                            "maxSupply": 0,
+                            "decimals": 8,
+                            "mainBalance": 10000,
+                            "cashInBalance": 0,
+                            "cashOutBalance": 0,
+                            "minted": 10000,
+                            "description": null,
+                            "burnt": 0,
+                            "balance": 0,
+                            "txId": null,
+                            "network": "Testnet",
+                            "contractMetaData": null,
+                            "createdAt": "2024-10-15T04:08:51.517Z",
+                            "updatedAt": "2024-10-15T04:08:51.517Z"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/stablecoins": {
+      "post": {
+        "summary": "Create StableCoin",
+        "deprecated": false,
+        "description": "**Issuer Only** This endpoint is only accessible to Issuers.",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "ticker": { "type": "string" },
+                  "name": { "type": "string" },
+                  "reserveId": { "type": "string" },
+                  "decimals": { "type": "integer" },
+                  "supplyType": { "type": "string" },
+                  "initialSupply": { "type": "integer" },
+                  "allocationAmountEnabled": { "type": "boolean" },
+                  "allocationAmount": { "type": "integer" },
+                  "description": { "type": "string" }
+                },
+                "required": [
+                  "ticker",
+                  "name",
+                  "reserveId",
+                  "decimals",
+                  "supplyType",
+                  "initialSupply",
+                  "allocationAmountEnabled",
+                  "allocationAmount",
+                  "description"
+                ]
+              },
+              "example": {
+                "ticker": "$TNS",
+                "icon": "https://www.google.com/icon.png",
+                "name": "TinToken",
+                "supplyType": "infinite",
+                "initialSupply": 10000,
+                "decimals": 8,
+                "cashInSupply": 500,
+                "reserveId": "306b4569-42bc-4f0a-93b6-562ac19a3c69",
+                "description": "token description"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "modules": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "dependencies": {
+                      "type": "array",
+                      "items": { "type": "string" }
+                    },
+                    "error": { "type": "string" }
+                  },
+                  "required": ["modules", "dependencies", "error"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "modules": [
+                        "oRzrCw...AAcA",
+                        "oRzrCw...AA==",
+                        "oRzrCw...AA==",
+                        "oRzrCw...CQAA",
+                        "oRzrCw...AQIA"
+                      ],
+                      "dependencies": ["0x000...001", "0x000...002"],
+                      "error": ""
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/distributors/{stablecoin_id}/list": {
+      "get": {
+        "summary": "All Distributors Against Project",
+        "deprecated": false,
+        "description": "**Issuer Only** This endpoint is only accessible to Issuers.",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "stablecoin_id",
+            "in": "path",
+            "description": "The ID of owned project",
+            "required": true,
+            "example": "ef6b1a52-a4fd-49cb-9fc8-0bf76c3d9f01",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "email": { "type": "string", "nullable": true },
+                      "companyName": { "type": "string" },
+                      "address": { "type": "string" },
+                      "moreInfo": { "type": "string", "nullable": true },
+                      "type": { "type": "string" },
+                      "createdAt": { "type": "string" },
+                      "updatedAt": { "type": "string" },
+                      "lastActivity": { "type": "string" }
+                    },
+                    "required": [
+                      "id",
+                      "email",
+                      "companyName",
+                      "address",
+                      "moreInfo",
+                      "type",
+                      "createdAt",
+                      "updatedAt",
+                      "lastActivity"
+                    ]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "372814eb-7ea1-4365-a55b-8e86bf3088fd",
+                        "email": null,
+                        "companyName": "John Doe Incop2",
+                        "address": "testAddress",
+                        "moreInfo": null,
+                        "type": "distributor",
+                        "createdAt": "2024-09-12T09:49:17.059Z",
+                        "updatedAt": "2024-09-12T09:49:17.059Z",
+                        "lastActivity": ""
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/stablecoins/list/": {
+      "get": {
+        "summary": "List stable coins",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Projects"],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "1",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "10",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": { "type": "integer" },
+                        "totalPages": { "type": "integer" },
+                        "totalItems": { "type": "integer" }
+                      },
+                      "required": ["currentPage", "totalPages", "totalItems"]
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "ticker": { "type": "string" },
+                          "icon": { "type": "string" },
+                          "name": { "type": "string" },
+                          "totalAccounts": { "type": "integer" }
+                        }
+                      }
+                    }
+                  },
+                  "required": ["pagination", "results"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "pagination": {
+                        "currentPage": 1,
+                        "totalPages": 1,
+                        "totalItems": 1
+                      },
+                      "results": [
+                        {
+                          "id": "14efd227-f0a2-42d6-97a7-07325ed0e7bf",
+                          "ticker": "$TAB",
+                          "icon": "https://www.google.com/icon.png",
+                          "name": "tabToken",
+                          "totalAccounts": 2
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/requests/{request_id}": {
+      "get": {
+        "summary": "Get Request",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "request_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "3c8cc232-11e4-4d0d-85a1-3b24cc5d6d34",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "request": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "type": { "type": "string" },
+                        "status": { "type": "string" },
+                        "amount": { "type": "integer" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" },
+                        "reserves": { "type": "null" },
+                        "reviewer": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "email": { "type": "null" },
+                            "companyName": { "type": "string" },
+                            "address": { "type": "string" },
+                            "moreInfo": { "type": "string" },
+                            "type": { "type": "string" },
+                            "createdAt": { "type": "string" },
+                            "updatedAt": { "type": "string" }
+                          },
+                          "required": [
+                            "id",
+                            "email",
+                            "companyName",
+                            "address",
+                            "moreInfo",
+                            "type",
+                            "createdAt",
+                            "updatedAt"
+                          ]
+                        },
+                        "initiatedByUser": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "email": { "type": "null" },
+                            "companyName": { "type": "string" },
+                            "address": { "type": "string" },
+                            "moreInfo": { "type": "null" },
+                            "type": { "type": "string" },
+                            "createdAt": { "type": "string" },
+                            "updatedAt": { "type": "string" }
+                          },
+                          "required": [
+                            "id",
+                            "email",
+                            "companyName",
+                            "address",
+                            "moreInfo",
+                            "type",
+                            "createdAt",
+                            "updatedAt"
+                          ]
+                        },
+                        "stableCoin": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "ticker": { "type": "string" },
+                            "name": { "type": "string" },
+                            "icon": { "type": "string" },
+                            "status": { "type": "string" },
+                            "contractStatus": { "type": "string" },
+                            "supplyType": { "type": "string" },
+                            "initialSupply": { "type": "integer" },
+                            "maxSupply": { "type": "integer" },
+                            "decimals": { "type": "integer" },
+                            "description": { "type": "null" },
+                            "txId": { "type": "null" },
+                            "network": { "type": "string" },
+                            "contractMetaData": { "type": "null" },
+                            "createdAt": { "type": "string" },
+                            "updatedAt": { "type": "string" }
+                          },
+                          "required": [
+                            "id",
+                            "ticker",
+                            "name",
+                            "icon",
+                            "status",
+                            "contractStatus",
+                            "supplyType",
+                            "initialSupply",
+                            "maxSupply",
+                            "decimals",
+                            "description",
+                            "txId",
+                            "network",
+                            "contractMetaData",
+                            "createdAt",
+                            "updatedAt"
+                          ]
+                        },
+                        "requestActivity": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "type": { "type": "string" },
+                              "description": { "type": "string" },
+                              "amount": { "type": "integer" },
+                              "createdAt": { "type": "string" },
+                              "updatedAt": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "description",
+                              "amount",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          }
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "type",
+                        "status",
+                        "amount",
+                        "createdAt",
+                        "updatedAt",
+                        "reserves",
+                        "reviewer",
+                        "initiatedByUser",
+                        "stableCoin",
+                        "requestActivity"
+                      ]
+                    },
+                    "treasuries": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "name": { "type": "string" },
+                          "balance": { "type": "integer" },
+                          "address": { "type": "string" },
+                          "type": { "type": "string" },
+                          "createdAt": { "type": "string" },
+                          "updatedAt": { "type": "string" }
+                        },
+                        "required": [
+                          "id",
+                          "name",
+                          "balance",
+                          "address",
+                          "type",
+                          "createdAt",
+                          "updatedAt"
+                        ]
+                      }
+                    }
+                  },
+                  "required": ["request", "treasuries"]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/requests": {
+      "get": {
+        "summary": "All Requests",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "year",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "2024",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "month",
+            "in": "query",
+            "description": "",
+            "required": false,
+            "example": "9",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": { "type": "integer" },
+                        "totalPages": { "type": "integer" },
+                        "totalItems": { "type": "integer" }
+                      },
+                      "required": ["currentPage", "totalPages", "totalItems"]
+                    },
+                    "request": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string" },
+                          "status": { "type": "string" },
+                          "amount": { "type": "integer" },
+                          "created_at": { "type": "string" },
+                          "updated_at": { "type": "string" },
+                          "reserves": { "type": "null" },
+                          "reviewer": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "email": { "type": "null" },
+                              "companyName": { "type": "string" },
+                              "address": { "type": "string" },
+                              "moreInfo": {
+                                "type": "string",
+                                "nullable": true
+                              },
+                              "type": { "type": "string" },
+                              "created_at": { "type": "string" },
+                              "updated_at": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "email",
+                              "companyName",
+                              "address",
+                              "moreInfo",
+                              "type",
+                              "created_at",
+                              "updated_at"
+                            ]
+                          },
+                          "initiatedByUser": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "email": { "type": "null" },
+                              "companyName": { "type": "string" },
+                              "address": { "type": "string" },
+                              "moreInfo": { "type": "null" },
+                              "type": { "type": "string" },
+                              "created_at": { "type": "string" },
+                              "updated_at": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "email",
+                              "companyName",
+                              "address",
+                              "moreInfo",
+                              "type",
+                              "created_at",
+                              "updated_at"
+                            ]
+                          },
+                          "stableCoin": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "ticker": { "type": "string" },
+                              "name": { "type": "string" },
+                              "icon": { "type": "string" },
+                              "status": { "type": "string" },
+                              "contractStatus": { "type": "string" },
+                              "supplyType": { "type": "string" },
+                              "intial_supply": { "type": "integer" },
+                              "max_supply": { "type": "integer" },
+                              "decimals": { "type": "integer" },
+                              "main_balance": { "type": "integer" },
+                              "cash_in_balance": { "type": "integer" },
+                              "cash_out_balance": { "type": "integer" },
+                              "minted": { "type": "integer" },
+                              "burnt": { "type": "integer" },
+                              "balance": { "type": "integer" },
+                              "txId": { "type": "null" },
+                              "network": { "type": "string" },
+                              "contractMetaData": { "type": "null" },
+                              "created_at": { "type": "string" },
+                              "updated_at": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "ticker",
+                              "name",
+                              "icon",
+                              "status",
+                              "contractStatus",
+                              "supplyType",
+                              "intial_supply",
+                              "max_supply",
+                              "decimals",
+                              "main_balance",
+                              "cash_in_balance",
+                              "cash_out_balance",
+                              "minted",
+                              "burnt",
+                              "balance",
+                              "txId",
+                              "network",
+                              "contractMetaData",
+                              "created_at",
+                              "updated_at"
+                            ]
+                          },
+                          "requestActivity": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "id": { "type": "string" },
+                                "type": { "type": "string" },
+                                "description": { "type": "string" },
+                                "amount": { "type": "integer" },
+                                "created_at": { "type": "string" },
+                                "updated_at": { "type": "string" }
+                              },
+                              "required": [
+                                "id",
+                                "type",
+                                "description",
+                                "amount",
+                                "created_at",
+                                "updated_at"
+                              ]
+                            }
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "status",
+                          "amount",
+                          "created_at",
+                          "updated_at",
+                          "reserves",
+                          "reviewer",
+                          "initiatedByUser",
+                          "stableCoin",
+                          "requestActivity"
+                        ]
+                      }
+                    },
+                    "months": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "year": { "type": "string" },
+                          "month": { "type": "string" },
+                          "month_name": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "required": ["pagination", "request", "months"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "pagination": {
+                        "currentPage": 1,
+                        "totalPages": 1,
+                        "totalItems": 1
+                      },
+                      "request": [
+                        {
+                          "id": "3c8cc232-11e4-4d0d-85a1-3b24cc5d6d34",
+                          "type": "connection",
+                          "status": "accepted",
+                          "amount": 0,
+                          "created_at": "2024-09-12T09:49:26.978Z",
+                          "updated_at": "2024-09-12T10:08:40.204Z",
+                          "reserves": null,
+                          "reviewer": {
+                            "id": "0fd63d10-37ee-42d9-86cc-6b2dc1d5e835",
+                            "email": null,
+                            "companyName": "Tintash",
+                            "address": "test2",
+                            "moreInfo": "Finance and IT",
+                            "type": "stableCoinIssuer",
+                            "created_at": "2024-09-12T08:41:06.226Z",
+                            "updated_at": "2024-09-12T08:41:06.226Z"
+                          },
+                          "initiatedByUser": {
+                            "id": "372814eb-7ea1-4365-a55b-8e86bf3088fd",
+                            "email": null,
+                            "companyName": "John Doe Incop2",
+                            "address": "testAddress",
+                            "moreInfo": null,
+                            "type": "distributor",
+                            "created_at": "2024-09-12T09:49:17.059Z",
+                            "updated_at": "2024-09-12T09:49:17.059Z"
+                          },
+                          "stableCoin": {
+                            "id": "ef6b1a52-a4fd-49cb-9fc8-0bf76c3d9f01",
+                            "ticker": "$TMP1",
+                            "name": "tintashtoken",
+                            "icon": "https://www.google.com/icon.png",
+                            "status": "active",
+                            "contractStatus": "created",
+                            "supplyType": "infinite",
+                            "intial_supply": 1000,
+                            "max_supply": 0,
+                            "decimals": 10,
+                            "main_balance": 500,
+                            "cash_in_balance": 500,
+                            "cash_out_balance": 0,
+                            "minted": 1000,
+                            "burnt": 0,
+                            "balance": 0,
+                            "txId": null,
+                            "network": "Testnet",
+                            "contractMetaData": null,
+                            "created_at": "2024-09-12T09:15:00.237Z",
+                            "updated_at": "2024-09-12T09:15:00.237Z"
+                          },
+                          "requestActivity": [
+                            {
+                              "id": "ac2b0d2f-a4e2-4160-af89-6ab07cfb4100",
+                              "type": "connection",
+                              "description": "",
+                              "amount": 0,
+                              "created_at": "2024-09-12T09:49:30.610Z",
+                              "updated_at": "2024-09-12T09:49:30.610Z"
+                            }
+                          ]
+                        }
+                      ],
+                      "months": [
+                        { "year": "2024", "month": "9", "month_name": "Sep" }
+                      ]
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      },
+      "post": {
+        "summary": "Create Request with Issuer",
+        "deprecated": false,
+        "description": "**Distributor Only** This endpoint is only accessible to Distributors.",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "type": "string",
+                    "description": "Can be 'connection', 'allocation', 'deallocation'"
+                  },
+                  "amount": {
+                    "type": "integer",
+                    "description": "Not required for 'connection' request"
+                  },
+                  "reserveId": {
+                    "type": "string",
+                    "description": "Not required for 'connection' request"
+                  },
+                  "reviewerId": {
+                    "type": "string",
+                    "description": "ID of Issuer"
+                  },
+                  "stablecoinId": {
+                    "type": "string",
+                    "description": "ID of project belonging to that Issuer"
+                  }
+                },
+                "required": [
+                  "type",
+                  "amount",
+                  "reserveId",
+                  "reviewerId",
+                  "stablecoinId"
+                ]
+              },
+              "example": {
+                "type": "connection",
+                "reviewerId": "5f9897cd-4ffb-4748-89ac-dae27c18cbb8",
+                "stablecoinId": "a8617d6b-6b57-4258-932e-ae5d5e69e9b9"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "amount": { "type": "integer" },
+                    "reserves": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "balance": { "type": "integer" },
+                        "connection": { "type": "string" },
+                        "lockedBalance": { "type": "integer" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "balance",
+                        "connection",
+                        "lockedBalance",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    "type": { "type": "string" },
+                    "stableCoin": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "ticker": { "type": "string" },
+                        "name": { "type": "string" },
+                        "icon": { "type": "string" },
+                        "status": { "type": "string" },
+                        "contractStatus": { "type": "string" },
+                        "supplyType": { "type": "string" },
+                        "initialSupply": { "type": "integer" },
+                        "maxSupply": { "type": "integer" },
+                        "decimals": { "type": "integer" },
+                        "mainBalance": { "type": "integer" },
+                        "cashInBalance": { "type": "integer" },
+                        "cashOutBalance": { "type": "integer" },
+                        "minted": { "type": "integer" },
+                        "description": { "type": "string" },
+                        "burnt": { "type": "integer" },
+                        "balance": { "type": "integer" },
+                        "txId": { "type": "null" },
+                        "network": { "type": "string" },
+                        "contractMetaData": { "type": "null" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" },
+                        "user": {
+                          "type": "object",
+                          "properties": {
+                            "id": { "type": "string" },
+                            "email": { "type": "null" },
+                            "companyName": { "type": "string" },
+                            "address": { "type": "string" },
+                            "moreInfo": { "type": "string" },
+                            "type": { "type": "string" },
+                            "createdAt": { "type": "string" },
+                            "updatedAt": { "type": "string" }
+                          },
+                          "required": [
+                            "id",
+                            "email",
+                            "companyName",
+                            "address",
+                            "moreInfo",
+                            "type",
+                            "createdAt",
+                            "updatedAt"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "id",
+                        "ticker",
+                        "name",
+                        "icon",
+                        "status",
+                        "contractStatus",
+                        "supplyType",
+                        "initialSupply",
+                        "maxSupply",
+                        "decimals",
+                        "mainBalance",
+                        "cashInBalance",
+                        "cashOutBalance",
+                        "minted",
+                        "description",
+                        "burnt",
+                        "balance",
+                        "txId",
+                        "network",
+                        "contractMetaData",
+                        "createdAt",
+                        "updatedAt",
+                        "user"
+                      ]
+                    },
+                    "reviewer": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "email": { "type": "null" },
+                        "companyName": { "type": "string" },
+                        "address": { "type": "string" },
+                        "moreInfo": { "type": "string" },
+                        "type": { "type": "string" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "companyName",
+                        "address",
+                        "moreInfo",
+                        "type",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    "initiatedByUser": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "email": { "type": "null" },
+                        "companyName": { "type": "string" },
+                        "address": { "type": "string" },
+                        "moreInfo": { "type": "null" },
+                        "type": { "type": "string" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "companyName",
+                        "address",
+                        "moreInfo",
+                        "type",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    "id": { "type": "string" },
+                    "status": { "type": "string" },
+                    "createdAt": { "type": "string" },
+                    "updatedAt": { "type": "string" }
+                  },
+                  "required": [
+                    "amount",
+                    "reserves",
+                    "type",
+                    "stableCoin",
+                    "reviewer",
+                    "initiatedByUser",
+                    "id",
+                    "status",
+                    "createdAt",
+                    "updatedAt"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "type": "connection",
+                      "stableCoin": {
+                        "id": "625ef4d6-af13-4155-a38a-36cdeec95624",
+                        "ticker": "$W",
+                        "name": "weew",
+                        "icon": "",
+                        "status": "active",
+                        "contractStatus": "created",
+                        "supplyType": "infinite",
+                        "initialSupply": 2000,
+                        "maxSupply": 0,
+                        "decimals": 2,
+                        "mainBalance": 2000,
+                        "cashInBalance": 0,
+                        "cashOutBalance": 0,
+                        "minted": 2000,
+                        "description": "Test",
+                        "burnt": 0,
+                        "balance": 0,
+                        "txId": null,
+                        "network": "Testnet",
+                        "contractMetaData": null,
+                        "createdAt": "2024-10-19T15:17:35.894Z",
+                        "updatedAt": "2024-10-19T15:17:35.894Z",
+                        "user": {
+                          "id": "ae0fbb9a-7c63-4a92-be96-ba82c9ccb209",
+                          "email": null,
+                          "companyName": "Test",
+                          "address": "0x225493fcb000101f8dc868817449eee829086e77418952dcc30d3dc86ee1a577",
+                          "moreInfo": "DeFi",
+                          "type": "stableCoinIssuer",
+                          "createdAt": "2024-10-14T09:30:58.277Z",
+                          "updatedAt": "2024-10-14T09:30:58.277Z"
+                        }
+                      },
+                      "reviewer": {
+                        "id": "ae0fbb9a-7c63-4a92-be96-ba82c9ccb209",
+                        "email": null,
+                        "companyName": "Test",
+                        "address": "0x225493fcb000101f8dc868817449eee829086e77418952dcc30d3dc86ee1a577",
+                        "moreInfo": "DeFi",
+                        "type": "stableCoinIssuer",
+                        "createdAt": "2024-10-14T09:30:58.277Z",
+                        "updatedAt": "2024-10-14T09:30:58.277Z"
+                      },
+                      "initiatedByUser": {
+                        "id": "47205dd2-4fc4-4038-b1b9-e0d729c5091c",
+                        "email": null,
+                        "companyName": "Tintash",
+                        "address": "0x9a7105de024195cf3d91365fedc48429bdb4f278dfc70466475227c818370d32",
+                        "moreInfo": null,
+                        "type": "distributor",
+                        "createdAt": "2024-10-15T04:04:53.313Z",
+                        "updatedAt": "2024-10-15T04:04:53.313Z"
+                      },
+                      "id": "57980fa7-f595-4a03-8435-6d1cb3df4db0",
+                      "status": "pending",
+                      "amount": 0,
+                      "createdAt": "2024-10-20T23:46:07.464Z",
+                      "updatedAt": "2024-10-20T23:46:07.464Z"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/requests/{id}": {
+      "put": {
+        "summary": "Update Request",
+        "deprecated": false,
+        "description": "This endpoint facilitates the reviewer to update the request he has received.",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "29a8831a-f8f8-4296-a8ca-7b8a3b79d433",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": ["accepted", "declined", "cancelled"]
+                  }
+                },
+                "required": ["status"]
+              },
+              "example": { "status": "accepted" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": { "type": "string" },
+                    "type": { "type": "string" },
+                    "status": { "type": "string" },
+                    "amount": { "type": "integer" },
+                    "createdAt": { "type": "string" },
+                    "updatedAt": { "type": "string" },
+                    "stableCoin": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "ticker": { "type": "string" },
+                        "name": { "type": "string" },
+                        "icon": { "type": "string" },
+                        "status": { "type": "string" },
+                        "contractStatus": { "type": "string" },
+                        "supplyType": { "type": "string" },
+                        "initialSupply": { "type": "integer" },
+                        "maxSupply": { "type": "integer" },
+                        "decimals": { "type": "integer" },
+                        "mainBalance": { "type": "integer" },
+                        "cashInBalance": { "type": "integer" },
+                        "cashOutBalance": { "type": "integer" },
+                        "minted": { "type": "integer" },
+                        "description": { "type": "null" },
+                        "burnt": { "type": "integer" },
+                        "balance": { "type": "integer" },
+                        "txId": { "type": "null" },
+                        "network": { "type": "string" },
+                        "contractMetaData": { "type": "null" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "ticker",
+                        "name",
+                        "icon",
+                        "status",
+                        "contractStatus",
+                        "supplyType",
+                        "initialSupply",
+                        "maxSupply",
+                        "decimals",
+                        "mainBalance",
+                        "cashInBalance",
+                        "cashOutBalance",
+                        "minted",
+                        "description",
+                        "burnt",
+                        "balance",
+                        "txId",
+                        "network",
+                        "contractMetaData",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    "reserves": { "type": "null" },
+                    "initiatedByUser": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "email": { "type": "null" },
+                        "companyName": { "type": "string" },
+                        "address": { "type": "string" },
+                        "moreInfo": { "type": "null" },
+                        "type": { "type": "string" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "companyName",
+                        "address",
+                        "moreInfo",
+                        "type",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    },
+                    "reviewer": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "email": { "type": "null" },
+                        "companyName": { "type": "string" },
+                        "address": { "type": "string" },
+                        "moreInfo": { "type": "string" },
+                        "type": { "type": "string" },
+                        "createdAt": { "type": "string" },
+                        "updatedAt": { "type": "string" }
+                      },
+                      "required": [
+                        "id",
+                        "email",
+                        "companyName",
+                        "address",
+                        "moreInfo",
+                        "type",
+                        "createdAt",
+                        "updatedAt"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "id",
+                    "type",
+                    "status",
+                    "amount",
+                    "createdAt",
+                    "updatedAt",
+                    "stableCoin",
+                    "reserves",
+                    "initiatedByUser",
+                    "reviewer"
+                  ]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "id": "29a8831a-f8f8-4296-a8ca-7b8a3b79d433",
+                      "type": "connection",
+                      "status": "accepted",
+                      "amount": 0,
+                      "createdAt": "2024-10-03T15:03:12.158Z",
+                      "updatedAt": "2024-10-18T06:05:09.767Z",
+                      "stableCoin": {
+                        "id": "ef6b1a52-a4fd-49cb-9fc8-0bf76c3d9f01",
+                        "ticker": "$TMP1",
+                        "name": "tintashtoken",
+                        "icon": "https://www.google.com/icon.png",
+                        "status": "active",
+                        "contractStatus": "created",
+                        "supplyType": "infinite",
+                        "initialSupply": 1000,
+                        "maxSupply": 0,
+                        "decimals": 10,
+                        "mainBalance": 500,
+                        "cashInBalance": 500,
+                        "cashOutBalance": 0,
+                        "minted": 1000,
+                        "description": null,
+                        "burnt": 0,
+                        "balance": 0,
+                        "txId": null,
+                        "network": "Testnet",
+                        "contractMetaData": null,
+                        "createdAt": "2024-09-12T09:15:00.237Z",
+                        "updatedAt": "2024-09-12T09:15:00.237Z"
+                      },
+                      "reserves": null,
+                      "initiatedByUser": {
+                        "id": "742c08d8-f712-4cf7-9b95-a23b9ce67c6d",
+                        "email": null,
+                        "companyName": "Tintash",
+                        "address": "0x9a7105de024195cf3d91365fedc48429bdb4f278dfc70466475227c818370d32",
+                        "moreInfo": null,
+                        "type": "distributor",
+                        "createdAt": "2024-09-27T10:33:26.518Z",
+                        "updatedAt": "2024-09-27T10:33:26.518Z"
+                      },
+                      "reviewer": {
+                        "id": "0fd63d10-37ee-42d9-86cc-6b2dc1d5e835",
+                        "email": null,
+                        "companyName": "Tintash",
+                        "address": "test2",
+                        "moreInfo": "Finance and IT",
+                        "type": "stableCoinIssuer",
+                        "createdAt": "2024-09-12T08:41:06.226Z",
+                        "updatedAt": "2024-09-12T08:41:06.226Z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/requests/{stablecoin_id}/{retailer_id}/activities": {
+      "get": {
+        "summary": "Request Activities Against Stablecoin & Retailer",
+        "deprecated": false,
+        "description": "**Distributor Only** This endpoint is only accessible to Distributors.",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "stablecoin_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "14efd227-f0a2-42d6-97a7-07325ed0e7bf",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "retailer_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "8fb7f371-735d-4475-a1ca-2f2f868599b8",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "pagination": {
+                      "type": "object",
+                      "properties": {
+                        "currentPage": { "type": "integer" },
+                        "totalPages": { "type": "integer" },
+                        "totalItems": { "type": "integer" }
+                      },
+                      "required": ["currentPage", "totalPages", "totalItems"]
+                    },
+                    "results": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string" },
+                          "description": { "type": "string" },
+                          "amount": { "type": "integer" },
+                          "createdAt": { "type": "string" },
+                          "updatedAt": { "type": "string" },
+                          "users": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "email": { "type": "null" },
+                              "companyName": { "type": "string" },
+                              "address": { "type": "string" },
+                              "moreInfo": { "type": "null" },
+                              "type": { "type": "string" },
+                              "createdAt": { "type": "string" },
+                              "updatedAt": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "email",
+                              "companyName",
+                              "address",
+                              "moreInfo",
+                              "type",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          },
+                          "reserves": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "balance": { "type": "integer" },
+                              "connection": { "type": "string" },
+                              "lockedBalance": { "type": "integer" },
+                              "createdAt": { "type": "string" },
+                              "updatedAt": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "balance",
+                              "connection",
+                              "lockedBalance",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          },
+                          "requests": {
+                            "type": "object",
+                            "properties": {
+                              "id": { "type": "string" },
+                              "type": { "type": "string" },
+                              "status": { "type": "string" },
+                              "amount": { "type": "integer" },
+                              "createdAt": { "type": "string" },
+                              "updatedAt": { "type": "string" }
+                            },
+                            "required": [
+                              "id",
+                              "type",
+                              "status",
+                              "amount",
+                              "createdAt",
+                              "updatedAt"
+                            ]
+                          }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "description",
+                          "amount",
+                          "createdAt",
+                          "updatedAt",
+                          "users",
+                          "reserves",
+                          "requests"
+                        ]
+                      }
+                    },
+                    "months": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "year": { "type": "string" },
+                          "month": { "type": "string" },
+                          "monthname": { "type": "string" }
+                        }
+                      }
+                    }
+                  },
+                  "required": ["pagination", "results", "months"]
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/requests/{stablecoin_id}/activities": {
+      "get": {
+        "summary": "Request Activities Against Stablecoin",
+        "deprecated": false,
+        "description": "**Issuer Only** This endpoint is only accessible to Issuers.",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "stablecoin_id",
+            "in": "path",
+            "description": "",
+            "required": true,
+            "example": "14efd227-f0a2-42d6-97a7-07325ed0e7bf",
+            "schema": { "type": "string" }
+          },
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": { "type": "string" },
+                      "type": { "type": "string" },
+                      "description": { "type": "string" },
+                      "amount": { "type": "integer" },
+                      "created_at": { "type": "string" },
+                      "updated_at": { "type": "string" },
+                      "users": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "email": { "type": "null" },
+                          "companyName": { "type": "string" },
+                          "address": { "type": "string" },
+                          "moreInfo": { "type": "null" },
+                          "type": { "type": "string" },
+                          "created_at": { "type": "string" },
+                          "updated_at": { "type": "string" }
+                        },
+                        "required": [
+                          "id",
+                          "email",
+                          "companyName",
+                          "address",
+                          "moreInfo",
+                          "type",
+                          "created_at",
+                          "updated_at"
+                        ]
+                      },
+                      "reserves": { "type": "null" },
+                      "requests": {
+                        "type": "object",
+                        "properties": {
+                          "id": { "type": "string" },
+                          "type": { "type": "string" },
+                          "status": { "type": "string" },
+                          "amount": { "type": "integer" },
+                          "created_at": { "type": "string" },
+                          "updated_at": { "type": "string" }
+                        },
+                        "required": [
+                          "id",
+                          "type",
+                          "status",
+                          "amount",
+                          "created_at",
+                          "updated_at"
+                        ]
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "id": "ac2b0d2f-a4e2-4160-af89-6ab07cfb4100",
+                        "type": "connection",
+                        "description": "",
+                        "amount": 0,
+                        "created_at": "2024-09-12T09:49:30.610Z",
+                        "updated_at": "2024-09-12T09:49:30.610Z",
+                        "users": {
+                          "id": "372814eb-7ea1-4365-a55b-8e86bf3088fd",
+                          "email": null,
+                          "companyName": "John Doe Incop2",
+                          "address": "testAddress",
+                          "moreInfo": null,
+                          "type": "distributor",
+                          "created_at": "2024-09-12T09:49:17.059Z",
+                          "updated_at": "2024-09-12T09:49:17.059Z"
+                        },
+                        "reserves": null,
+                        "requests": {
+                          "id": "3c8cc232-11e4-4d0d-85a1-3b24cc5d6d34",
+                          "type": "connection",
+                          "status": "accepted",
+                          "amount": 0,
+                          "created_at": "2024-09-12T09:49:26.978Z",
+                          "updated_at": "2024-09-12T10:08:40.204Z"
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/treasuries/all": {
+      "get": {
+        "summary": "User Treasuries",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Treasuries"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "name": { "type": "string" },
+                      "address": { "type": "string" },
+                      "type": { "type": "string" }
+                    },
+                    "required": ["name", "address", "type"]
+                  }
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": [
+                      {
+                        "name": "Main Treasury",
+                        "address": "0x9a7105de024195cf3d91365fedc48429bdb4f278dfc70466475227c818370d32",
+                        "type": "main"
+                      },
+                      {
+                        "name": "CashOut Treasury",
+                        "address": "0x8da5e68ea69f4dd9a13da421c5630d18b69f34102e35b4776e6a86337912fe3a",
+                        "type": "cash_out"
+                      },
+                      {
+                        "name": "CashIn Treasury",
+                        "address": "0xfed267858b680fb790f03a3337b4a9dcc440d84258ff07cd3811caf8c27eb2a3",
+                        "type": "cash_in"
+                      }
+                    ]
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": []
+      }
+    },
+    "/v2/operations/mint": {
+      "post": {
+        "summary": "Mint",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Operations"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stablecoinId": { "type": "string" },
+                  "amount": { "type": "integer" }
+                },
+                "required": ["stablecoinId", "amount"]
+              },
+              "example": {
+                "stablecoinId": "f23921f3-4e48-4760-8cd9-ab6c3f5471a7",
+                "amount": 20
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "transaction": { "type": "string" }
+                  },
+                  "required": ["status", "transaction"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "transaction": "{\"version\":1,\"gasConfig\":{},\"inputs\":[{\"kind\":\"Input\",\"value\":\"0xdfa163d50934df8936129cde0e6f1031ffbd50ff8d43d8063c6a4f94d11f8562\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":1,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x1e35a15defdd380a5bb4843095fe8449412bf17c65b8719a3d77e12e5913dee5\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":20,\"index\":3,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xd1acca514f7770c0141436a8eff756cde1ca8d424956b0c5a2879b57b7bd01c6\",\"index\":4,\"type\":\"pure\"}],\"transactions\":[{\"kind\":\"MoveCall\",\"target\":\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::mint\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0xdfa163d50934df8936129cde0e6f1031ffbd50ff8d43d8063c6a4f94d11f8562\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":1,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x1e35a15defdd380a5bb4843095fe8449412bf17c65b8719a3d77e12e5913dee5\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":20,\"index\":3,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xd1acca514f7770c0141436a8eff756cde1ca8d424956b0c5a2879b57b7bd01c6\",\"index\":4,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]}]}"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/v2/oeprations/burn": {
+      "post": {
+        "summary": "Burn",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Operations"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stablecoinId": { "type": "string" },
+                  "amount": { "type": "integer" }
+                },
+                "required": ["stablecoinId", "amount"]
+              },
+              "example": {
+                "stablecoinId": "f23921f3-4e48-4760-8cd9-ab6c3f5471a7",
+                "amount": 10
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "transaction": { "type": "string" }
+                  },
+                  "required": ["status", "transaction"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "transaction": "{\"version\":1,\"gasConfig\":{},\"inputs\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xdfa163d50934df8936129cde0e6f1031ffbd50ff8d43d8063c6a4f94d11f8562\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"}],\"transactions\":[{\"kind\":\"MoveCall\",\"target\":\"0x2::token::split\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]},{\"kind\":\"MoveCall\",\"target\":\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::burn\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0xdfa163d50934df8936129cde0e6f1031ffbd50ff8d43d8063c6a4f94d11f8562\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Result\",\"index\":0}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]}]}"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/v2/operations/allocate": {
+      "post": {
+        "summary": "Allocate",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Operations"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stablecoinId": { "type": "string" },
+                  "amount": { "type": "integer" },
+                  "recipientAddress": { "type": "string" }
+                },
+                "required": ["stablecoinId", "amount", "recipientAddress"]
+              },
+              "example": {
+                "stablecoinId": "f23921f3-4e48-4760-8cd9-ab6c3f5471a7",
+                "amount": 10,
+                "recipientAddress": "0x2243f7ea0bba878a3842374e8e20e11de8c8b6a97b361aef3f4f35fbf7577cf1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "transaction": { "type": "string" }
+                  },
+                  "required": ["status", "transaction"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "transaction": "{\"version\":1,\"gasConfig\":{},\"inputs\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"transactions\":[{\"kind\":\"MoveCall\",\"target\":\"0x2::token::split\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]},{\"kind\":\"MoveCall\",\"target\":\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::allocate\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Result\",\"index\":0},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]}]}"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/v2/operations/freeze": {
+      "post": {
+        "summary": "Freeze Address",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Operations"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "stablecoinId": { "type": "string" },
+                  "address": { "type": "string" }
+                },
+                "required": ["stablecoinId", "address"]
+              },
+              "example": {
+                "stablecoinId": "f23921f3-4e48-4760-8cd9-ab6c3f5471a7",
+                "amount": 10,
+                "recipientAddress": "0x2243f7ea0bba878a3842374e8e20e11de8c8b6a97b361aef3f4f35fbf7577cf1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "transaction": { "type": "string" }
+                  },
+                  "required": ["status", "transaction"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "transaction": "{\"version\":1,\"gasConfig\":{},\"inputs\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"transactions\":[{\"kind\":\"MoveCall\",\"target\":\"0x2::token::split\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]},{\"kind\":\"MoveCall\",\"target\":\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::allocate\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Result\",\"index\":0},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]}]}"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/v2/operations/pause": {
+      "post": {
+        "summary": "Pause",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Operations"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "stablecoinId": { "type": "string" } },
+                "required": ["stablecoinId"]
+              },
+              "example": {
+                "stablecoinId": "f23921f3-4e48-4760-8cd9-ab6c3f5471a7",
+                "amount": 10,
+                "recipientAddress": "0x2243f7ea0bba878a3842374e8e20e11de8c8b6a97b361aef3f4f35fbf7577cf1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "transaction": { "type": "string" }
+                  },
+                  "required": ["status", "transaction"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "transaction": "{\"version\":1,\"gasConfig\":{},\"inputs\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"transactions\":[{\"kind\":\"MoveCall\",\"target\":\"0x2::token::split\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]},{\"kind\":\"MoveCall\",\"target\":\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::allocate\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Result\",\"index\":0},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]}]}"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [{ "bearer": [] }]
+      }
+    },
+    "/v2/operations/unpause": {
+      "post": {
+        "summary": "Unpause",
+        "deprecated": false,
+        "description": "",
+        "tags": ["Operations"],
+        "parameters": [
+          {
+            "name": "api-key",
+            "in": "header",
+            "description": "",
+            "required": false,
+            "example": "16ae22d2-203c-442a-b204-a8d5992815a5",
+            "schema": { "type": "string" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": { "stablecoinId": { "type": "string" } },
+                "required": ["stablecoinId"]
+              },
+              "example": {
+                "stablecoinId": "f23921f3-4e48-4760-8cd9-ab6c3f5471a7",
+                "amount": 10,
+                "recipientAddress": "0x2243f7ea0bba878a3842374e8e20e11de8c8b6a97b361aef3f4f35fbf7577cf1"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "string" },
+                    "transaction": { "type": "string" }
+                  },
+                  "required": ["status", "transaction"]
+                },
+                "examples": {
+                  "1": {
+                    "summary": "Success",
+                    "value": {
+                      "status": "ok",
+                      "transaction": "{\"version\":1,\"gasConfig\":{},\"inputs\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"},{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"transactions\":[{\"kind\":\"MoveCall\",\"target\":\"0x2::token::split\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0x0031a45a63b5b717192b3fecadca558ba3883c3eeffb199d5a1f1f8cf6788191\",\"index\":0,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":{\"Pure\":[10,0,0,0,0,0,0,0]},\"index\":1,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]},{\"kind\":\"MoveCall\",\"target\":\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::allocate\",\"arguments\":[{\"kind\":\"Input\",\"value\":\"0xd48ebb15188518a6161eb53f8582d6ffd8b2b01f8e3bec36a6065320109b7198\",\"index\":2,\"type\":\"object\"},{\"kind\":\"Input\",\"value\":\"0x9940b16d9d3866ea37d68dfaf252bca42f91d94ba3c78c171b46ce3aa83ca0cb\",\"index\":3,\"type\":\"object\"},{\"kind\":\"Result\",\"index\":0},{\"kind\":\"Input\",\"value\":{\"Pure\":[34,67,247,234,11,186,135,138,56,66,55,78,142,32,225,29,232,200,182,169,123,54,26,239,63,79,53,251,247,87,124,241]},\"index\":4,\"type\":\"pure\"}],\"typeArguments\":[\"0x646924424f3f730a9296e4ae3d4044bc4c0c4d77a549142cbf8129613eec28ee::tns::TNS\"]}]}"
+                    }
+                  }
+                }
+              }
+            },
+            "headers": {}
+          }
+        },
+        "security": [{ "bearer": [] }]
+      }
+    }
+  },
+  "components": {
+    "schemas": {},
+    "securitySchemes": { "bearer": { "type": "http", "scheme": "bearer" } }
+  },
+  "servers": []
+}
