@@ -48,4 +48,4 @@ curl --location '<BASE_URL>/v2/stablecoins/list/' \
 --header 'api-key: <YOUR_API_KEY_HERE>'
 ```
 
-For a comprehensive list of available API endpoints and detailed documentation, please refer to our [Swagger page](http://localhost:3000/api).
+For a comprehensive list of available API endpoints and detailed documentation, please refer to our [Exposed APIs](/api).
