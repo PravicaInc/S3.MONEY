@@ -1,0 +1,8 @@
+{
+  "label": "Project Management",
+  "position": 1,
+  "link": {
+    "type": "generated-index",
+    "description": "The Projects section is where you oversee key operations for your tokens, including minting new tokens, burning excess supply, freezing or unfreezing distributors, and pausing project operations. This section ensures complete control over token flow and project status." 
+  }
+}
