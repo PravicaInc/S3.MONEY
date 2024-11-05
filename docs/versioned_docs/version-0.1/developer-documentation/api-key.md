@@ -8,7 +8,7 @@ As a developer integrating with S3.money, it's crucial to understand how to secu
 
 ## Step 1: Obtain Your API Key
 
-Before you can authenticate, ensure you have your API key from the S3.money platform. Refer to the [documentation](../../s3.money/apiKeySharing) on how to securely share and retrieve your API key.
+Before you can authenticate, ensure you have your API key from the S3.money platform. Refer to the [documentation](./api-key-sharing.md) on how to securely share and retrieve your API key.
 
 ## Step 2: Authenticate with the API Key
 
