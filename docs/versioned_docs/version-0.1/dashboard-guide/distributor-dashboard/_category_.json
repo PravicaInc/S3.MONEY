@@ -1,0 +1,8 @@
+{
+  "label": "Distributor Dashboard",
+  "position": 1,
+  "link": {
+    "type": "generated-index"  ,  
+    "description": "The Distributor Dashboard is designed to help distributors manage their interactions with connected projects, bank accounts, treasuries, and end-user wallets. This dashboard includes all the tools necessary for monitoring distribution performance, managing fiat reserves, and handling transactions."
+    }
+}
