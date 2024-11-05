@@ -1,0 +1,30 @@
+FROM node:20-bookworm-slim
+
+ENV RELEASE="testnet-v1.30.3"
+ENV RELEASE_ARCHIVE="sui-testnet-v1.30.3-ubuntu-x86_64.tgz"
+ENV WORK_DIR="/contracts"
+ENV HOME="/home/s3"
+
+# for contracts we create
+VOLUME $WORK_DIR
+# for dependencies
+VOLUME $HOME/.move
+
+RUN apt-get update && apt-get -y install wget git
+RUN mkdir -p $HOME/app/node_modules $HOME/.move $WORK_DIR
+WORKDIR $HOME/app
+COPY --chown=node:node backend/ ./
+
+RUN scripts/install-sui.sh && chown -R node:node $HOME $WORK_DIR
+
+USER node
+RUN npm install && npm run build && sh scripts/install-deps.sh
+
+ENV PORT=3000
+EXPOSE 3000/tcp
+
+ENV NODE_ENV="production"
+
+CMD ["npm", "start"]
+
+
