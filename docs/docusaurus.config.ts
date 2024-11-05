@@ -61,7 +61,7 @@ const config: Config = {
         {
           label: 'Docs',
           position: 'left',
-          to: '/docs/category/introduction',
+          to: '/docs/category/overview',
           activeBasePath: '/docs',
         },
         {
