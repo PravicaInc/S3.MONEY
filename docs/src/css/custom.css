@@ -28,3 +28,9 @@
   --ifm-color-primary-lightest: #FFAA71;
   --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
 }
+
+.inline-img {
+  width: 6em; /* Makes the image just slightly larger than the text */
+  height: auto; /* Maintains aspect ratio */
+  vertical-align: middle; /* Aligns the image vertically with the text */
+}
