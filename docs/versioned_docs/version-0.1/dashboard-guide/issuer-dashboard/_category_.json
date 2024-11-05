@@ -1,0 +1,8 @@
+{
+  "label": "Issuer Dashboard",
+  "position": 0,
+  "link": {
+    "type": "generated-index"  ,  
+    "description": "The S3.Money dashboard is your command center for managing tokenized money, treasury operations, and user interactions. With an intuitive design, it provides real-time insights into token flows, account balances, transaction history, and pending requests, ensuring you stay on top of every critical operation."
+    }
+}
